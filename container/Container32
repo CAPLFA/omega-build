@@ -1,0 +1,27 @@
+FROM almalinux:8.10
+
+# Définir les variables d'environnement
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/home/devuser/PodLFA/script:/opt/NSL/XFM5.3/bin"
+ENV NSLHOME="/opt/NSL/XFM5.3"
+ENV LD_LIBRARY_PATH="/opt/NSL/XFM5.3/lib:/omega/liv/linux/emma/emma_3_7_0_1/lib:/opt/TAO_2.1.0/lib:/opt/log4cpp32/lib"
+ENV XFM_LICENSE_NAME="xfm5"
+ENV XBMLANGPATH="/opt/NSL/XFM5.3/lib/xfm/bitmaps/%B:/opt/NSL/XFM5.3/lib/xnsl/bitmaps/%B"
+
+COPY ./imake-1.0.7-11.el8.x86_64.rpm /tmp/
+
+# Outils de build + support 32 bits (multilib)
+RUN dnf -y update && \
+    dnf -y install \
+      gcc gcc-c++ make \
+      glibc-devel libstdc++-devel glibc-headers kernel-headers \
+      glibc-devel.i686 libgcc.i686 libstdc++-devel.i686 \
+      libX11.i686 libXext.i686 libXt.i686 libSM.i686 libICE.i686 \
+      libX11-devel.i686 libXext-devel.i686 libICE-devel.i686 libSM-devel.i686 \
+      motif-2.3.4-20.el8.i686 motif-devel-2.3.4-20.el8.i686 \
+      xorg-x11-xauth xorg-x11-utils binutils \
+      perl perl-Getopt-Long perl-PathTools which dos2unix vim \
+      /tmp/imake-1.0.7-11.el8.x86_64.rpm && \
+    rm -f /tmp/imake-1.0.7-11.el8.x86_64.rpm && \
+    dnf clean all
+
+WORKDIR /home/devuser/PodLFA
