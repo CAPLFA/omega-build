@@ -1,0 +1,700 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = modified
+        type = Int
+        automatic = TRUE
+        usage = face
+        default_type = String
+        default_value = 0
+    }
+    activevalue {
+        name = todo_filename
+        get = if(!@ || equal(@, "")){
+	@ = "unnamed";\
+}
+        set = if(!@ || equal(@, "")){
+	self:title = "Edit: unnamed";
+	return();\
+}\
+String buf = XtMalloc(512);\
+sprintf(buf, "Edit: %s", @);\
+self:title = buf;\
+/*self:titleEncoding = XA_STRING;*/
+        type = String
+        automatic = TRUE
+    }
+    createproc {
+        struct Page {\
+  String page;\
+  String majorTab;\
+  String minorTab;\
+  String label;\
+  Widget minorPB;\
+  Widget majorPB;\
+  Int 	lasttoppos;\
+  Int   lastcursorpos;\
+};\
+\
+Boolean bopenOrSave = false;\
+function None getFileName(Widget w);\
+function None XnslReadDB(String str);\
+function None XnslSaveDB(String str);\
+function Page getPageCurrent(Widget w);\
+getFileName(self);\
+XnslReadDB(self:@todo_filename);\
+self.mainw.notebook:@ModifPage = 0;
+    }
+    resources {
+        x = 395
+        y = 249
+        width = 447
+        height = 333
+    }
+    children {
+        widget XmMainWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 447
+                height = 333
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    createproc {
+                        /* DO NOT EDIT THIS LINE */ self:menuHelpWidget = self.help;
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 447
+                        height = 31
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Properties
+                                        accelerator = Ctrl<Key>I
+                                        acceleratorText = Ctrl+I
+                                        mnemonic = s
+                                        activateCallback = /*extern function None EditPage();\
+EditPage();*/\
+Page page_cur = getPageCurrent(parent.parent.parent.notebook);\
+if(page_cur)\
+{\
+  if (page_cur-> label)\
+/*    XmTextFieldSetString(parent.parent.parent.parent.xmDialogShell1.editPage.rc.rc2.editTF, page_cur->label);*/
+	parent.parent.parent.parent.xmDialogShell0_2.EditPage.rc.rc2.editTF:value = page_cur->label;\
+  else\
+    /*XmTextFieldSetString(parent.parent.parent.parent.xmDialogShell1.editPage.rc.rc2.editTF, "");*/
+	parent.parent.parent.parent.xmDialogShell0_2.EditPage.rc.rc2.editTF:value = "";\
+\
+  if (page_cur -> majorTab)\
+/*    XmTextSetString(parent.parent.parent.parent.xmDialogShell1.editPage.rc.rc2_2.majorTF, page_cur -> majorTab);*/
+	parent.parent.parent.parent.xmDialogShell0_2.EditPage.rc.rc2_2.majorTF:value = page_cur -> majorTab;\
+  else\
+/*    XmTextSetString(parent.parent.parent.parent.xmDialogShell1.editPage.rc.rc2_2.majorTF, "");*/
+	parent.parent.parent.parent.xmDialogShell0_2.EditPage.rc.rc2_2.majorTF:value = "";\
+  if (page_cur -> minorTab)\
+/*    XmTextSetString(parent.parent.parent.parent.xmDialogShell1.editPage.rc.rc2_3.minorTF,page_cur-> minorTab);*/\
+parent.parent.parent.parent.xmDialogShell0_2.EditPage.rc.rc2_3.minorTF:value = page_cur-> minorTab;\
+  else\
+/*    XmTextSetString(parent.parent.parent.parent.xmDialogShell1.editPage.rc.rc2_3.minorTF, "");*/\
+parent.parent.parent.parent.xmDialogShell0_2.EditPage.rc.rc2_3.minorTF:value = "";\
+ show(parent.parent.parent.parent.xmDialogShell0_2.EditPage);\
+ \
+}
+                                    }
+                                } properties
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = New
+                                        mnemonic = N
+                                        activateCallback = extern function None NewPage();\
+NewPage();\
+\
+parent.parent.parent.notebook:currentPageNumber = parent.parent.parent.notebook:@currentPage + 1;\
+parent.parent.parent.notebook:lastPageNumber=  parent.parent.parent.notebook:@maxpages + 1;\
+modifPage = parent.parent.parent.notebook:@currentPage;
+                                    }
+                                } new
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Open
+                                        mnemonic = O
+                                    }
+                                } open
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                    }
+                                } separator1
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                    }
+                                } separator2
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        labelString = Delete To Trash
+                                        accelerator = <Key>osfDelete
+                                        acceleratorText = Delete
+                                        mnemonic = D
+                                        activateCallback = /*extern function None DeletePage();\
+DeletePage();*/\
+\
+show(parent.parent.parent.parent.xmDialogShell2.deletePage);
+                                        x = 2
+                                        y = 69
+                                        width = 149
+                                        height = 21
+                                    }
+                                } setected_delete
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Exit
+                                        mnemonic = x
+                                        activateCallback = exit(0);
+                                    }
+                                } exit1
+                            }
+                        } selectedPulldown
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = New
+                                        accelerator = Ctrl<Key>N
+                                        acceleratorText = Ctrl+N
+                                        mnemonic = N
+                                        activateCallback = /*extern function None todo_new();\
+todo_new();*/\
+XnslReadDB( "untitled.todo");\
+parent.parent.parent.parent:@todo_filename = "untitled.todo";\
+parent.parent.parent.notebook:@modifPage =0;
+                                    }
+                                } new_selected
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Open
+                                        mnemonic = O
+                                        accelerator = Ctrl<Key>O
+                                        acceleratorText = Ctrl+O
+                                        activateCallback = /*extern function None PresentFDialog(XtPointer p);\
+function None todo_Open();\
+PresentFDialog(XtPointer (todo_Open));*/\
+String filename = root*fsbox:GetFileName(root:@todo_filename, "*");\
+if(!filename)
+	return();\
+XnslReadDB(filename);
+                                    }
+                                } open_selected
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Save
+                                        mnemonic = S
+                                        accelerator = Ctrl<Key>S
+                                        acceleratorText = Ctrl+S
+                                        activateCallback = /*extern function None SaveIt();\
+SaveIt();*/\
+\
+XnslSaveDB(parent.parent.parent.parent:@todo_filename);
+                                    }
+                                } save
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Save As...
+                                        mnemonic = A
+                                        activateCallback = /*extern function None PresentFDialog(XtPointer p);\
+function None todo_Save();\
+ PresentFDialog(XtPointer(todo_Save));*/\
+String filename = root:@todo_filename;\
+\
+if(!filename)
+	return();\
+\
+XnslSaveDB(filename);
+                                    }
+                                } saveas
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                    }
+                                } separator1
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Print...
+                                        mnemonic = P
+                                        accelerator = Ctrl<Key>P
+                                        acceleratorText = Ctrl+P
+                                    }
+                                } print
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                    }
+                                } seperator2
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Exit
+                                        mnemonic = x
+                                        activateCallback = exit(0);
+                                    }
+                                } exit2
+                            }
+                        } FilePulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = File
+                                mnemonic = F
+                                subMenuId = parent.FilePulldown
+                            }
+                        } File
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Selected
+                                mnemonic = S
+                                subMenuId = parent.selectedPulldown
+                            }
+                        } selected
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Overview
+                                        mnemonic = O
+                                        activateCallback = extern function None help_cb();\
+help_cb();
+                                    }
+                                } overview
+                            }
+                        } helpPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Help
+                                mnemonic = H
+                                subMenuId = parent.helpPulldown
+                            }
+                        } help
+                    }
+                } menub
+                widget XmNotebook {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = ModifPage
+                        set = self:@currentPage = @;\
+XmString xmstrtmp;\
+String buf;\
+Int cur = self:@currentPage;\
+Page page_current = getPageCurrent(self);\
+Int cur1 = cur + 1;\
+if(cur <= self:@maxpages)\
+ self.scrolltext:pageNumber = cur1;\
+\
+if(page_current)\
+{\
+ if(page_current->page)
+	self.scrolltext.text:value = page_current->page;\
+  else\
+        self.scrolltext.text:value = "";\
+  if(page_current->label)
+	buf = page_current->label;\
+   else\
+   {
+	buf = XtMalloc(80);
+	sprintf(buf, "Page %d (Bad Page)", cur1);\
+   }\
+}\
+else\
+{\
+  self.scrolltext.text:value = "";\
+  sprintf(buf, "Page %d (Bad Page)", cur1);\
+}\
+ xmstrtmp = XmStringCreateLocalized(buf);\
+self.scrolltext.text:topCharacter = page_current->lasttoppos;\
+self.scrolltext.text:cursorPosition = page_current->lastcursorpos;\
+self.label:pageNumber = self:@currentPage + 1;\
+self.label:labelString = xmstrtmp;\
+XmStringFree(xmstrtmp);
+                        type = Int
+                        usage = face
+                    }
+                    activevalue {
+                        name = currentPage
+                        type = Int
+                        usage = face
+                    }
+                    activevalue {
+                        name = maxpages
+                        type = Int
+                        usage = face
+                    }
+                    resources {
+                        x = 0
+                        y = 31
+                        width = 447
+                        height = 302
+                        lastPageNumber = 100
+                    }
+                    children {
+                        widget XmScrolledWindow {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 40
+                                y = 3
+                                width = 397
+                                height = 264
+                            }
+                            children {
+                                widget XmText {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        width = 378
+                                        height = 245
+                                        editMode = multi_line_edit
+                                        valueChangedCallback = @modified = 1;
+                                    }
+                                } text
+                            }
+                        } scrolltext
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 40
+                                y = 267
+                                width = 307
+                                height = 25
+                            }
+                        } label
+                    }
+                } notebook
+            }
+        } mainw
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 653
+                y = 438
+                width = 382
+                height = 197
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 382
+                        height = 197
+                        dialogTitle = Page Delete Dialog
+                        dialogStyle = dialog_primary_application_modal
+                        okLabelString = Delete
+                        messageString = Really delete this page?
+                        okCallback = extern function None DoDeletePage();\
+DoDeletePage();\
+\
+parent.parent.mainw.notebook:currentPageNumber = parent.parent.mainw.notebook:@currentPage;\
+parent.parent.mainw.notebook:lastPageNumber = parent.parent.mainw.notebook:@maxpages + 1;\
+ModifPage = parent.parent.mainw.notebook:@currentPage;
+                    }
+                } deletePage
+            }
+        } xmDialogShell2
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 723
+                y = 419
+                width = 242
+                height = 234
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 242
+                        height = 234
+                        dialogType = dialog_template
+                        okLabelString = Ok
+                        cancelLabelString = Cancel
+                        dialogTitle = Page Edit Dialog
+                        okCallback = extern function None DoEditPage();\
+DoEditPage();\
+modifPage = parent.parent.mainw.notebook:@currentPage;
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 11
+                                y = 11
+                                width = 220
+                                height = 149
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 214
+                                        height = 37
+                                        orientation = horizontal
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                gadget
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 100
+                                                height = 10
+                                                labelString = Label:
+                                            }
+                                        } label1
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 46
+                                                y = 3
+                                                width = 138
+                                                height = 31
+                                            }
+                                        } editTF
+                                    }
+                                } rc2
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 43
+                                        width = 214
+                                        height = 37
+                                        orientation = horizontal
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                gadget
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 100
+                                                height = 10
+                                                labelString = Major Tab:
+                                            }
+                                        } label2
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 70
+                                                y = 3
+                                                width = 138
+                                                height = 31
+                                            }
+                                        } majorTF
+                                    }
+                                } rc2_2
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 83
+                                        width = 214
+                                        height = 37
+                                        orientation = horizontal
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                gadget
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 100
+                                                height = 10
+                                                labelString = Minor Tab:
+                                            }
+                                        } label3
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 70
+                                                y = 3
+                                                width = 138
+                                                height = 31
+                                            }
+                                        } minorTF
+                                    }
+                                } rc2_3
+                            }
+                        } rc
+                    }
+                } EditPage
+            }
+        } xmDialogShell0_2
+    }
+} sessionShell0

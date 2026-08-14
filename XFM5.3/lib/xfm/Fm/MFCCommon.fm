@@ -1,0 +1,838 @@
+widget XmDrawingArea {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_FUNCTIONS
+        get = script get_MFCCommon_MFC_FUNCTIONS:
+		FacePragma("ignore");
+		function String _FmWinQuoteString(String s)
+		{
+			String buf = XtMalloc(strlen(s) + 3);
+			sprintf(buf, '"%s"', s);
+			return(buf);
+		}
+		
+		function String _FmWinWarning(String s)
+		{
+			printf("XFM/Win warning: in widget %s:\n\t%s\n",
+				XtName(self), s);
+		}
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUBARHEIGHT
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_X
+        get = script get_MFCCommon_MFC_X:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(self, "Shell") && _FmIsOfSubClass(parent, "Shell"))
+			@ = 0;
+		else
+			@ = atoi(_FmGetWidgetResourceValue(self, "x"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_Y
+        get = script get_MFCCommon_MFC_Y:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(self, "Shell") && _FmIsOfSubClass(parent, "Shell"))
+			@ = 0;
+		else
+			@ = atoi(_FmGetWidgetResourceValue(self, "y"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_W
+        get = script get_MFCCommon_MFC_W:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self, "width"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCCommon_MFC_H:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TITLE
+        get = script get_MFCCommon_MFC_TITLE:
+		FacePragma("ignore");
+		if(XtParent(self) == 0)
+			@ = self:title;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MIN_WIDTH
+        get = script get_MFCCommon_MFC_MIN_WIDTH:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell") && (self:minWidth != -1))
+			@ = atoi(_FmGetWidgetResourceValue(self, "minWidth"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MIN_HEIGHT
+        get = script get_MFCCommon_MFC_MIN_HEIGHT:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell") && (self:minHeight != -1))
+			@ = atoi(_FmGetWidgetResourceValue(self, "minHeight"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MAX_WIDTH
+        get = script get_MFCCommon_MFC_MAX_WIDTH:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell") && (self:maxWidth != -1))
+			@ = atoi(_FmGetWidgetResourceValue(self, "maxWidth"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MAX_HEIGHT
+        get = script get_MFCCommon_MFC_MAX_HEIGHT:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell") && (self:maxHeight != -1))
+			@ = atoi(_FmGetWidgetResourceValue(self, "maxHeight"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_DISABLED
+        get = script get_MFCCommon_MFC_S_WS_DISABLED:
+		FacePragma("ignore");
+		if(!self:sensitive)
+			@ = "true";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_BORDER
+        get = script get_MFCCommon_MFC_S_WS_BORDER:
+		FacePragma("ignore");
+		if(self:borderWidth > 0)
+			@ = "true";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_topAttachment
+        get = script get_MFCCommon_MFC_A_topAttachment:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		a = self:topAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_bottomAttachment
+        get = script get_MFCCommon_MFC_A_bottomAttachment:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		a = self:bottomAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_leftAttachment
+        get = script get_MFCCommon_MFC_A_leftAttachment:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		a = self:leftAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_rightAttachment
+        get = script get_MFCCommon_MFC_A_rightAttachment:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		a = self:rightAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_topOffset
+        get = script get_MFCCommon_MFC_A_topOffset:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:topOffset;
+		if(i)
+			@ = itoa(i);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_bottomOffset
+        get = script get_MFCCommon_MFC_A_bottomOffset:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:bottomOffset;
+		if(i)
+			@ = itoa(i);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_leftOffset
+        get = script get_MFCCommon_MFC_A_leftOffset:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:leftOffset;
+		if(i)
+			@ = itoa(i);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_rightOffset
+        get = script get_MFCCommon_MFC_A_rightOffset:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:rightOffset;
+		if(i)
+			@ = itoa(i);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_topPosition
+        get = script get_MFCCommon_MFC_A_topPosition:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:topPosition;
+		if(i)
+			@ = itoa(i);
+		else
+		if(self:topAttachment == XmATTACH_SELF){
+			i = (self:y * parent:fractionBase) / parent:height;
+			@ = itoa(i);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_bottomPosition
+        get = script get_MFCCommon_MFC_A_bottomPosition:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:bottomPosition;
+		if(i)
+			@ = itoa(i);
+		else
+		if(self:bottomAttachment == XmATTACH_SELF){
+			i = ((self:y + self:height) * parent:fractionBase) / parent:height;
+			@ = itoa(i);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_leftPosition
+        get = script get_MFCCommon_MFC_A_leftPosition:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:leftPosition;
+		if(i)
+			@ = itoa(i);
+		else
+		if(self:leftAttachment == XmATTACH_SELF){
+			i = (self:x * parent:fractionBase) / parent:width;
+			@ = itoa(i);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_rightPosition
+        get = script get_MFCCommon_MFC_A_rightPosition:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Int i = self:rightPosition;
+		if(i)
+			@ = itoa(i);
+		else
+		if(self:rightAttachment == XmATTACH_SELF){
+			i = ((self:x + self:width) * parent:fractionBase) / parent:width;
+			@ = itoa(i);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_topWidget
+        get = script get_MFCCommon_MFC_A_topWidget:
+		FacePragma("ignore");
+		/*
+		if(_FmIsOfSubClass(parent, "XmPanedWindow")
+		&& self:positionIndex > 0){
+			Int n = parent:numChildren;
+			Widget children[Int] = new_c_array(Pointer(parent:children), n);
+			@ = XtName(children[self:positionIndex - 1]);
+			destroy(children);
+			return();
+		}
+		 */
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Widget w = self:topWidget;
+		if(w)
+			@ = XtName(w);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_bottomWidget
+        get = script get_MFCCommon_MFC_A_bottomWidget:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Widget w = self:bottomWidget;
+		if(w)
+			@ = XtName(w);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_leftWidget
+        get = script get_MFCCommon_MFC_A_leftWidget:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Widget w = self:leftWidget;
+		if(w)
+			@ = XtName(w);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_rightWidget
+        get = script get_MFCCommon_MFC_A_rightWidget:
+		FacePragma("ignore");
+		if(!_FmIsOfSubClass(parent, "XmForm")
+		|| _FmIsOfSubClass(XtParent(self), "XmMenuShell")){
+			return();
+		}
+		Widget w = self:rightWidget;
+		if(w)
+			@ = XtName(w);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_fractionBase
+        get = script get_MFCCommon_MFC_R_fractionBase:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmForm")
+		&& self:fractionBase != 100){
+			@ = itoa(self:fractionBase);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_SPLITTER_ROW
+        get = script get_MFCCommon_MFC_SPLITTER_ROW:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmPanedWindow")
+		&& !(_FmIsOfSubClass(self, "XmRowColumn")
+		  && self:rowColumnType == XmMENU_BAR)){
+		  	@ = itoa(parent:@MFC_SPLITTER_ROWS);
+			parent:@MFC_SPLITTER_ROWS = parent:@MFC_SPLITTER_ROWS+1;
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_SCROLLED_CHILD
+        get = script get_MFCCommon_MFC_SCROLLED_CHILD:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmScrolledWindow")
+		&& parent:scrollingPolicy == XmAUTOMATIC){
+			@ = "True";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_foreground
+        get = script get_MFCCommon_MFC_R_foreground:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell"))
+			return();
+		String colorname = _FmGetNonDefaultResourceValue(self, "foreground");
+		if(colorname && strcmp(colorname, "")){
+			@ = _FmWinQuoteString(colorname);
+			if(_FmIsOfSubClass(parent, "Shell")){
+				parent:@MFC_R_foreground = _FmWinQuoteString(colorname);
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_background
+        get = script get_MFCCommon_MFC_R_background:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell"))
+			return();
+		String colorname = _FmGetNonDefaultResourceValue(self, "background");
+		if(colorname && strcmp(colorname, "")){
+			@ = _FmWinQuoteString(colorname);
+			if(_FmIsOfSubClass(parent, "Shell")){
+				parent:@MFC_R_background = _FmWinQuoteString(colorname);
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_borderColor
+        get = script get_MFCCommon_MFC_R_borderColor:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "Shell"))
+			return();
+		String colorname = _FmGetNonDefaultResourceValue(self, "borderColor");
+		if(colorname && strcmp(colorname, "")){
+			@ = _FmWinQuoteString(colorname);
+			if(_FmIsOfSubClass(parent, "Shell")){
+				parent:@MFC_R_borderColor = _FmWinQuoteString(colorname);
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_borderWidth
+        get = script get_MFCCommon_MFC_R_borderWidth:
+		FacePragma("ignore");
+		if(self:borderWidth > 0)
+			@ = itoa(self:borderWidth);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TRANSLATIONS
+        get = script get_MFCCommon_MFC_TRANSLATIONS:
+		FacePragma("ignore");
+		function String _FmWinTranslation(String ev1, String ev2, String ev2detail, String msg, Int augment)
+		{
+			String value = String(0);
+			String modifiers = XtMalloc(20);
+			String detail = XtMalloc(10);
+			Int lasti = -1;
+			Int break = 0;
+			while(!break){
+				Int i = _FmHasEvalAction(self, lasti, ev1, modifiers, detail);
+				if(i < 0 && ev2){
+					i = _FmHasEvalAction(self, lasti, ev2, modifiers, detail);
+					if(i >= 0 && strcmp(detail, ev2detail) != 0)
+						i = -1;
+				}
+				if(i >= 0){
+					String buf = XtMalloc(200);
+					sprintf(buf, '%s,"%s","%s",Action_%d,%d', msg, modifiers, detail, i, augment);
+					@ = _FmConcatString(@, buf, "|");
+					XtFree(buf);
+					lasti = i;
+				} else {
+					break = 1;
+				}
+			}
+			XtFree(modifiers);
+			XtFree(detail);
+			return(value);
+		}
+		String t = _FmGetNonDefaultResourceValue(self, "translations");
+		if(t){
+			if(strncmp(t, "#augment", 8) == 0)
+				augment = 1;
+			else
+				augment = 0;
+			_FmWinTranslation("<Btn1Down>", "<ButtonPress>", "Button1", WM_LBUTTONDOWN, augment);
+			_FmWinTranslation("<Btn2Down>", "<ButtonPress>", "Button2", WM_MBUTTONDOWN, augment);
+			_FmWinTranslation("<Btn3Down>", "<ButtonPress>", "Button3", WM_RBUTTONDOWN, augment);
+			_FmWinTranslation("<Btn1Up>", "<ButtonRelease>", "Button1", WM_LBUTTONUP, augment);
+			_FmWinTranslation("<Btn2Up>", "<ButtonRelease>", "Button2", WM_MBUTTONUP, augment);
+			_FmWinTranslation("<Btn3Up>", "<ButtonRelease>", "Button3", WM_RBUTTONUP, augment);
+			_FmWinTranslation("<MotionNotify>", String(0), String(0), WM_MOUSEMOVE, augment);
+			_FmWinTranslation("<Btn1Motion>", "<MotionNotify>", "Button1", WM_MOUSEMOVE, augment);
+			_FmWinTranslation("<Btn2Motion>", "<MotionNotify>", "Button2", WM_MOUSEMOVE, augment);
+			_FmWinTranslation("<Btn3Motion>", "<MotionNotify>", "Button3", WM_MOUSEMOVE, augment);
+			_FmWinTranslation("<KeyPress>", String(0), String(0), WM_KEYDOWN, augment);
+			_FmWinTranslation("<KeyRelease>", String(0), String(0), WM_KEYUP, augment);
+			
+			_FmWinTranslation("<ConfigureNotify>", String(0), String(0), WM_MOVE, augment);
+			_FmWinTranslation("<ConfigureNotify>", String(0), String(0), WM_SIZE, augment);
+			
+			XtFree(t);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ON_DESTROY
+        get = script get_MFCCommon_MFC_ON_DESTROY:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "destroyCallback")){
+			@ = "#void ::PostNcDestroy()#destroyCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_destroyCallback
+        get = script get_MFCCommon_MFC_R_destroyCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "destroyCallback")){
+			@ = "destroyCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_SHOWWINDOW
+        get = script get_MFCCommon_MFC_N_WM_SHOWWINDOW:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmDialogShell")){
+			if(_FmHasCallback(self, "mapCallback")){
+				if(!@) @ = "#void ::OnShowWindow(BOOL show, UINT status)#";
+				@ = _FmConcatString(@, "show == TRUE?$XmAnyCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_MAP); call_data = (XtPointer)&cbs;$mapCallback", "|");
+			}
+			if(_FmHasCallback(self, "unmapCallback")){
+				if(!@) @ = "#void ::OnShowWindow(BOOL show, UINT status)#";
+				@ = _FmConcatString(@, "show == FALSE?$XmAnyCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_UNMAP); call_data = (XtPointer)&cbs;$unmapCallback", "|");
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_mapCallback
+        get = script get_MFCCommon_MFC_R_mapCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "mapCallback")){
+			@ = "mapCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_unmapCallback
+        get = script get_MFCCommon_MFC_R_unmapCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "unmapCallback")){
+			@ = "unmapCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ICON_PIXMAP
+        get = script get_MFCCommon_MFC_ICON_PIXMAP:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "Shell")){
+			@ = _FmGetNonDefaultResourceValue(self, "iconPixmap");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_userData
+        get = script get_MFCCommon_MFC_R_userData:
+		FacePragma("ignore");
+		String ud = _FmGetNonDefaultResourceValue(self, "userData");
+		if(ud)
+			@ = _FmWinQuoteString(ud);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_defaultPosition
+        get = script get_MFCCommon_MFC_R_defaultPosition:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmBulletinBoard")
+		&& _FmIsOfSubClass(parent, "XmDialogShell")
+		&& self:defaultPosition == True){
+			@ = "True";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_PR_defaultButton
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+    }
+    resources {
+    }
+} common

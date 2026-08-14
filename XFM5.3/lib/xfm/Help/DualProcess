@@ -1,0 +1,119 @@
+Why Two Processes ?
+	XFaceMaker uses an innovative dual-process architecture consisting of 
+	two processes communicating via a network protocol - XFaceMaker's 
+	main process (to which we shall refer simply as the XFaceMaker process) 
+	and the Design process. 
+	
+	The XFaceMaker process manages and displays XFaceMaker's own 
+	graphic interface, while the Design process manages the GUI being 
+	designed by the user.
+	
+	This architecture provides unusual advantages:
+	
+	-- Automatic fault tolerance. In case of a design error, for example an in
+	consistent assignment of resources or an error in a FACE script, only 
+	the Design process will crash and it will inform the XFaceMaker 
+	process of the cause of the crash. The XFaceMaker process can then 
+	restart the Design process in a trusted state.
+		
+	This solves a problem inherent to all interface building tools up to 
+	now in which an inconsistent resource assignment or a fault in a 
+	script (for the few UIMS's that provided a script interpreter) led to a 
+	crash of the whole tool. With the new dual-process architecture, 
+	XFaceMaker's own interface always stays up and only the Design 
+	process needs to be restarted. The robustness of the tool is thereby 
+	increased since the fault gets automatically reported to the main 
+	process, thus avoiding lengthy tests.
+	
+	-- Dynamic extension. Thanks to the dual-process architecture, 
+	XFaceMaker can be easily augmented with application functions or third 
+	party widget classes. Instead of doing this by re-linking all of 
+	XFaceMaker with the new functions or classes, one only has to do it for the 
+	design process and avoid the need to rebuild the main process. Since 
+	in many cases rebuilding the Design process only takes a few seconds, 
+	it appears to the user as if the new objects had been loaded dynamically
+	into the tool. This feature in particular allows the editing of the 
+	interface while the application is running.
+	
+Error Protection
+	
+	Thanks to XFaceMaker's dual-process mode, when a fatal error occurs the Design 
+	process terminates, but the XFaceMaker process stays alive.
+	
+	A fatal error can result from:
+	
+	-- a call to XtError, usually caused by a widget used in an abnormal 
+	way, or an X Toolkit or Motif function called with wrong arguments.
+	
+	-- a fatal UNIX signal, typically `Bus error', `Segmentation violation', or 
+	`Illegal instruction', which has usually the same origin as an XtError 
+	but has not been checked by the toolkit programmer. 
+	
+	-- an error occurring during the execution of a FACE script, if the option 
+	"Restart on FACE Errors" was set.
+	
+	When the Design process terminates, an alert box pops up to inform you 
+	and the nature of the error is displayed in the XFaceMaker message area.
+	
+	Then, the Design Process can be restarted and the state before the
+	crash can be restored: see `Restarting the Design Process'.
+	
+Restarting the Design Process
+	
+	The XFaceMaker Design Process can terminate in response to a user command
+	(File/Design Process/Restart, for example), or because of a user
+	error. In the last case, an alert box is displayed.
+	
+	Once the alert box is acknowledged, the Restart Design Process dialog box pops up, 
+	displaying the default command line. The default command line launches the
+	Design process that just terminated, usually xfm (or a new 
+	user-built instance of XFaceMaker), with all the command-line options 
+	specified initially, plus the -client option and the -restore option. In most 
+	cases, you  just need to click "OK" to restart the Design process. 
+	
+	-- The "Command..."  button pops the File Selector to choose a different 
+	XFaceMaker executable. 
+	
+	-- The "Restore state" and "Trusted state" buttons toggle the -restore 
+	and -trusted options respectively in the command line. You can
+	clear the "Restore state" button if you do not want to go back
+	to the state just before the termination of the Design Process, but
+	restart a "blank" process. You can also use the "Trusted state" toggle
+	to go back to the last state saved periodically by XFaceMaker.
+	
+	-- The "OK" button launches the specified command line. XFaceMaker 
+	waits until the new Design process connects to it. 
+	
+	-- "Cancel" will not launch any Design process. An alert box pops up to 
+	warn you that XFaceMaker is running in mono-process mode. Clicking 
+	No in the alert box returns to the Restart Design Process dialog box.
+	
+	-- The "Wait" button does not launch any Design process, but XFaceMaker 
+	will still wait for a connection. The interface is disabled until the 
+	connection occurs. This is useful for launching the Design process manually 
+	from a shell, or by any other external means. Don't forget to set 
+	the -client option when launching the Design process.
+	
+Extending XFaceMaker Dynamically
+	
+	You can start a new and different Design process by selecting the "Restart 
+	Design Process" command in the File menu. Launching this command 
+	terminates the current Design process (with an alert if the current 
+	interface was modified). The Command Prompt dialog box appears, enabling 
+	you to choose a different Design process and its options.
+		
+	When XFaceMaker is running in mono-process mode (without any Design 
+	process connected), the "Restart Design Process" command switches 
+	back to dual-process mode by launching a new Design process.
+	
+	The "Restart Design Process" command also gives you access to 
+	XFaceMaker's `Dynamic Extension' functionality. For example, suppose you 
+	want to define a new C function and add it to XFaceMaker so that it can 
+	be called in a callback. You will write your function, compile it, 
+	and link it with a main program containing calls to FmInitialize, 
+	FmAttachFunction and FmCallEditor. 
+	You don't have to exit your current XFaceMaker and start 
+	the new one from the beginning. Instead, just call the Restart Design 
+	Process command and specify the new program as the Design process. 
+	Your new function is now available.
+	

@@ -1,0 +1,294 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 166
+        y = 54
+        width = 587
+        height = 457
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+            }
+            resources {
+                backgroundPixmap = /usr/include/X11/bitmaps/gray
+                x = 0
+                y = 0
+                width = 587
+                height = 457
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        labelString = quit
+                        recomputeSize = false
+                        activateCallback = 
+				Quit(0);
+                        x = 480
+                        y = 405
+                        width = 96
+                        height = 32
+                    }
+                } Quit
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        recomputeSize = false
+                        x = 224
+                        y = 384
+                        width = 134
+                        height = 22
+                    }
+                } interval
+                widget XmScrollBar {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = interval
+                        get = /*String buf = '                 ';*/\
+String buf = XtMalloc(20);\
+sprintf(buf, 'interval = %d', self:value);\
+parent.interval:labelString = buf;\
+XtFree(buf);\
+@ = self:value;\
+printf("get interval=%d\n",@);
+                        set = self:value = @;\
+printf("set interval=%d\n",@);\
+/*String buf = '                 ';*/\
+String buf = XtMalloc(20);\
+sprintf(buf, 'interval = %d', self:value);\
+parent.interval:labelString = buf;\
+XtFree(buf);
+                        type = Int
+                        usage = face
+                    }
+                    resources {
+                        orientation = horizontal
+                        valueChangedCallback = \
+	GetActiveValue(self,String(0));\
+
+                        dragCallback = \
+	GetActiveValue(self,String(0));\
+
+                        x = 224
+                        y = 344
+                        width = 134
+                        height = 22
+                        maximum = 200
+                    }
+                } si
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        recomputeSize = false
+                        x = 56
+                        y = 416
+                        width = 54
+                        height = 22
+                    }
+                } dy
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        recomputeSize = false
+                        x = 56
+                        y = 384
+                        width = 54
+                        height = 22
+                    }
+                } dx
+                widget XmScrollBar {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = dy
+                        get = /*String buf = '        ';*/\
+String buf = XtMalloc(10);\
+sprintf(buf, 'dy = %d', self:value);\
+parent.dy:labelString = buf;\
+XtFree(buf);\
+@ = self:value;\
+printf("get dy=%d\n",@);
+                        set = self:value = @;\
+printf("set dy=%d\n",@);\
+/*String buf = '        ';*/\
+String buf = XtMalloc(10);\
+sprintf(buf, 'dy = %d', self:value);\
+parent.dy:labelString = buf;\
+XtFree(buf);
+                        type = Int
+                        usage = face
+                    }
+                    resources {
+                        orientation = vertical
+                        dragCallback = \
+	GetActiveValue(self,String(0));\
+
+                        valueChangedCallback = \
+	GetActiveValue(self,String(0));\
+
+                        x = 16
+                        y = 376
+                        width = 22
+                        height = 70
+                    }
+                } sdy
+                widget XmScrollBar {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = dx
+                        get = /*String buf = '        ';*/\
+String buf = XtMalloc(10);\
+sprintf(buf, 'dx = %d', self:value);\
+parent.dx:labelString = buf;\
+XtFree(buf);\
+@ = self:value;\
+printf("get dx=%d\n",@);
+                        set = self:value = @;\
+printf("set dx=%d\n",@);\
+/*String buf = '        ';*/\
+String buf = XtMalloc(10);\
+sprintf(buf, 'dx = %d', self:value);\
+parent.dx:labelString = buf;\
+XtFree(buf);
+                        type = Int
+                        usage = face
+                    }
+                    resources {
+                        orientation = horizontal
+                        valueChangedCallback = \
+	GetActiveValue(self,String(0));\
+
+                        dragCallback = \
+	GetActiveValue(self,String(0));\
+
+                        x = 48
+                        y = 344
+                        width = 70
+                        height = 22
+                    }
+                } sdx
+                widget XmDrawingArea {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = height
+                        get = @ = self:height;
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                    }
+                    activevalue {
+                        name = width
+                        get = @ = self:width;
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                    }
+                    resources {
+                        backgroundPixmap = /usr/include/X11/bitmaps/gray3
+                        x = 16
+                        y = 16
+                        width = 558
+                        height = 286
+                    }
+                } ws
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = Help
+                        set = printf("This button starts a ball in the window above\
+");
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                    }
+                    resources {
+                        labelString = start
+                        recomputeSize = false
+                        activateCallback = function None MoveBall(Widget w);
+	function None StopBall();
+	Int first;
+	if (first == 0) {
+	first = 1;
+	FmSetActiveValue(parent.si,"interval");
+	FmSetActiveValue(parent.sdx,"dx");
+	FmSetActiveValue(parent.sdy,"dy");
+	}
+	Boolean started;
+	if(started){
+		StopBall();
+		self:labelString = 'start';
+		started = false;
+	} else {
+		GetActiveValue(parent.ws,String(0));
+		MoveBall(parent.ws);
+		self:labelString = 'stop';
+		started = true;
+	}
+                        x = 480
+                        y = 355
+                        width = 96
+                        height = 32
+                    }
+                } StopStart
+                widget XmScrollBar {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = size
+                        get = @ = self:sliderSize;
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                        default_type = String
+                        default_value = 100
+                    }
+                    activevalue {
+                        name = origin
+                        get = @ = self:value;
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                        default_type = String
+                        default_value = 0
+                    }
+                    resources {
+                        minimum = 0
+                        maximum = 558
+                        value = 0
+                        sliderSize = 100
+                        orientation = horizontal
+                        valueChangedCallback = GetActiveValue(self,String(0));
+                        dragCallback = GetActiveValue(self,String(0));
+                        x = 16
+                        y = 305
+                        width = 558
+                        height = 30
+                        showArrows = each_side
+                    }
+                } Valuator
+            }
+        } F
+    }
+} AS

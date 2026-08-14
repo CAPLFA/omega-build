@@ -1,0 +1,149 @@
+widget XmToggleButton {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_S_BS_RADIOBUTTON
+        get = script get_MFCCheckBox_MFC_S_BS_RADIOBUTTON:
+		FacePragma("ignore");
+		if((_FmIsOfSubClass(parent, "XmRowColumn")
+		  && parent:radioBehavior == True)
+		|| self:indicatorType == XmONE_OF_MANY)
+		  	@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_AUTOCHECKBOX
+        get = script get_MFCCheckBox_MFC_S_BS_AUTOCHECKBOX:
+		FacePragma("ignore");
+		if(!self:@MFC_S_BS_RADIOBUTTON){
+			if(!self:@MFC_ISMENUITEM){
+				@ = True;
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_CHECKBOX
+        get = script get_MFCCheckBox_MFC_S_BS_CHECKBOX:
+		FacePragma("ignore");
+		if(!self:@MFC_S_BS_RADIOBUTTON){
+			if(self:@MFC_ISMENUITEM){
+				@ = True;
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_BN_CLICKED
+        get = script get_MFCCheckBox_MFC_N_BN_CLICKED:
+		FacePragma("ignore");
+		if(self:@MFC_S_BS_RADIOBUTTON
+		&& !self:@MFC_ISMENUITEM)
+			@ = "$FmWAutoCheck(%self, XFM_AUTO_CHECK_RADIO);$";
+		else
+		if(!MFC_S_BS_AUTOCHECKBOX
+		|| self:@MFC_ISMENUITEM)
+			@ = "$FmWAutoCheck(%self, XFM_AUTO_CHECK_BOX);$";
+		else
+			@ = "";
+		if(_FmHasCallback(self, "valueChangedCallback")){
+			@ = _FmConcatString(@, "$XmToggleButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_VALUE_CHANGED); call_data = (XtPointer)&cbs;$valueChangedCallback", "");
+		} else {
+			@ = _FmConcatString(@, "none", "");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_BN_DOUBLECLICKED
+        get = script get_MFCCheckBox_MFC_N_BN_CLICKED;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_valueChangedCallback
+        get = script get_MFCCheckBox_MFC_R_valueChangedCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "valueChangedCallback")){
+			@ = "valueChangedCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_set
+        get = script get_MFCCheckBox_MFC_R_set:
+		FacePragma("ignore");
+		if(self:set)
+			@ = "1";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CHECKED
+        get = script get_MFCCheckBox_MFC_CHECKED:
+		FacePragma("ignore");
+		@ = self:set;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xfmVerticalTextMargin
+        get = script get_MFCCheckBox_MFC_R_xfmVerticalTextMargin:
+		FacePragma("ignore");
+		if(!self:@MFC_ISBITMAPBUTTON
+		&& !self:@MFC_ISMENUITEM)
+			@ = "0";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xfmPaintBackground
+        get = script get_MFCCheckBox_MFC_R_xfmPaintBackground:
+		FacePragma("ignore");
+		if(!self:@MFC_ISBITMAPBUTTON
+		&& !self:@MFC_ISMENUITEM)
+			@ = "True";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCButton = Fm/MFCButton.fm
+    }
+} toggle

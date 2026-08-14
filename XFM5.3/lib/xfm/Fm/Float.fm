@@ -1,0 +1,537 @@
+widget XmForm {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = s = text:value;\
+strcpy ($,s);\
+free (s);
+    }
+    activevalue {
+        name = Float
+        set = 
+	Float v; v = @;
+	
+	String s; s = XtMalloc(200);
+	sprintf(s, "%.2g", v);
+	text:value = s;
+	XtFree(s);
+	
+	Float min; Float max;	
+	
+	if(v >= 0.0 && v <= 1.0){
+		min = 0.0;
+		max = 1.0;
+	} else
+	if(v >= -1.0 && v < 0.0){
+		min = -1.0;
+		max = 0.0;
+	} else
+	if(v > 1.0){
+		max = 1.0;
+		while(max < v) max = max * 10.0;
+		min = max / 10.0;
+	} else {
+		min = -1.0;
+		while(min > v) min = min * 10.0;
+		max = min / 10.0;
+	}
+	
+	s = XtMalloc(200);
+	sprintf(s, "%.2g", min);
+	min_stepper.text:value = s;
+	XtFree(s);
+	
+	s = XtMalloc(200);
+	sprintf(s, "%.2g", max);
+	max_stepper.text:value = s;
+	XtFree(s);
+	
+	SetValues(self.scale, 3,
+			"minimum", cftoi(min * 100.0),
+			"maximum", cftoi(max * 100.0),
+			"value", cftoi(v * 100.0));
+    }
+    resources {
+        verticalSpacing = 10
+        horizontalSpacing = 10
+    }
+    children {
+        widget XmScale {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            createproc {
+                Widget sb;
+			sb = XtNameToWidget(self, "Scrollbar");
+			if(sb){
+				sb:showArrows = True;
+				return();
+			} else {
+				sb = XtNameToWidget(self, "scale_scrollbar");
+				if(sb){
+					sb:showArrows = True;
+				}
+			}
+            }
+            resources {
+                orientation = horizontal
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                topAttachment = attach_form
+                showValue = true
+                decimalPoints = 2
+                valueChangedCallback = 
+	script _fm_float_scale_value_changed:
+	String s; s = XtMalloc(200);
+	Float v; v = citof(self:value) / 100.0;
+	sprintf(s, "%.2g", v);
+	parent.text:value = s;
+	XtFree(s);
+                dragCallback = 
+	script _fm_float_scale_value_changed;
+                minimum = 0
+                maximum = 10000
+            }
+        } scale
+        widget XmForm {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                leftAttachment = attach_form
+                topAttachment = attach_widget
+                topWidget = parent.scale
+                height = 44
+                width = 130
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    createproc {
+                        self:leftOffset = -self:width/2;
+                    }
+                    resources {
+                        x = 39
+                        y = 0
+                        topAttachment = attach_form
+                        leftAttachment = attach_position
+                        leftPosition = 50
+                        labelString = %MSG%150%926 minimum:
+                    }
+                } label
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        bottomAttachment = attach_form
+                        arrowDirection = arrow_left
+                        topWidget = parent.label
+                        armCallback = 
+	
+	function None _FmStepperArrowArm(ArrowDirection direction)
+	{
+		Float v;
+		String s; s = parent.text:value;
+		v = Float(ConvertString(self, s, "Float"));
+		XtFree(s);
+		if(direction == XmARROW_RIGHT
+		|| direction == XmARROW_UP){
+			if(v == 0.0)
+				v = 1.0;
+			else if(v > 0.0){
+				if(v < 1.0)
+					v = 1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v < -1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		} else {
+			if(v == 0.0)
+				v = -1.0;
+			else if(v <= 0.0){
+				if(v > -1.0)
+					v = -1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v > 1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		}
+		s = XtMalloc(200);
+		sprintf(s, "%.2g", v);
+		parent.text:value = s;
+		XtFree(s);
+	}
+	
+	_FmStepperArrowArm(self:arrowDirection);
+	
+	self:<timeout> = CallCallbacksTimeOut(self, "armCallback", 200);
+	
+                        disarmCallback = 
+	
+	if(self:<timeout>){
+		StopTimeOut(self:<timeout>);
+		type TimeOutClosure;
+		self:<timeout> = TimeOutClosure(0);
+	}
+	
+	XtCallCallbacks(parent.text, "activateCallback", $);
+                    }
+                } left_arrow
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        bottomAttachment = attach_form
+                        arrowDirection = arrow_right
+                        topWidget = parent.label
+                        armCallback = 
+	
+	function None _FmStepperArrowArm(ArrowDirection direction)
+	{
+		Float v;
+		String s; s = parent.text:value;
+		v = Float(ConvertString(self, s, "Float"));
+		XtFree(s);
+		if(direction == XmARROW_RIGHT
+		|| direction == XmARROW_UP){
+			if(v == 0.0)
+				v = 1.0;
+			else if(v > 0.0){
+				if(v < 1.0)
+					v = 1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v < -1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		} else {
+			if(v == 0.0)
+				v = -1.0;
+			else if(v <= 0.0){
+				if(v > -1.0)
+					v = -1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v > 1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		}
+		s = XtMalloc(200);
+		sprintf(s, "%.2g", v);
+		parent.text:value = s;
+		XtFree(s);
+	}
+	
+	_FmStepperArrowArm(self:arrowDirection);
+	
+	self:<timeout> = CallCallbacksTimeOut(self, "armCallback", 200);
+	
+                        disarmCallback = 
+	
+	if(self:<timeout>){
+		StopTimeOut(self:<timeout>);
+		type TimeOutClosure;
+		self:<timeout> = TimeOutClosure(0);
+	}
+	
+	XtCallCallbacks(parent.text, "activateCallback", $);
+                    }
+                } right_arrow
+                widget XmText {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        bottomAttachment = attach_form
+                        leftAttachment = attach_widget
+                        leftWidget = parent.left_arrow
+                        rightAttachment = attach_widget
+                        rightWidget = parent.right_arrow
+                        topAttachment = attach_widget
+                        topWidget = parent.label
+                        marginHeight = 2
+                        marginWidth = 2
+                        value = 0.00
+                        activateCallback = 
+	Float v; v = ConvertString(self, self:value, "Float");
+	m = cftoi(v * 100.0);
+	if(m >= parent.parent.scale:maximum){
+		Beep();
+		String s; s = XtMalloc(20);
+		sprintf(s, "%d.0", parent.parent.scale:maximum / 100);
+		self:value = s;
+		XtFree(s);
+		_FmStepperArrowArm(parent.left_arrow:arrowDirection);
+		return();
+	}
+	if(parent.parent.scale:value < m)
+		parent.parent.scale:value = m;
+	parent.parent.scale:minimum = m;
+                    }
+                } text
+            }
+        } min_stepper
+        widget XmText {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                width = 440
+                height = 31
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                marginHeight = 2
+                marginWidth = 2
+                topWidget = parent.min_stepper
+                topAttachment = attach_widget
+            }
+        } text
+        widget XmForm {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                rightAttachment = attach_form
+                topAttachment = attach_widget
+                topWidget = parent.scale
+                topAttachment = attach_widget
+                topWidget = parent.scale
+                height = 44
+                width = 130
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    createproc {
+                        self:leftOffset = -self:width/2;
+                    }
+                    resources {
+                        x = 39
+                        y = 0
+                        topAttachment = attach_form
+                        leftAttachment = attach_position
+                        leftPosition = 50
+                        labelString = %MSG%150%927 maximum:
+                    }
+                } label
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        bottomAttachment = attach_form
+                        arrowDirection = arrow_left
+                        topWidget = parent.label
+                        armCallback = 
+	
+	function None _FmStepperArrowArm(ArrowDirection direction)
+	{
+		Float v;
+		String s; s = parent.text:value;
+		v = Float(ConvertString(self, s, "Float"));
+		XtFree(s);
+		if(direction == XmARROW_RIGHT
+		|| direction == XmARROW_UP){
+			if(v == 0.0)
+				v = 1.0;
+			else if(v > 0.0){
+				if(v < 1.0)
+					v = 1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v < -1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		} else {
+			if(v == 0.0)
+				v = -1.0;
+			else if(v <= 0.0){
+				if(v > -1.0)
+					v = -1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v > 1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		}
+		s = XtMalloc(200);
+		sprintf(s, "%.2g", v);
+		parent.text:value = s;
+		XtFree(s);
+	}
+	
+	_FmStepperArrowArm(self:arrowDirection);
+	
+	self:<timeout> = CallCallbacksTimeOut(self, "armCallback", 200);
+	
+                        disarmCallback = 
+	
+	if(self:<timeout>){
+		StopTimeOut(self:<timeout>);
+		type TimeOutClosure;
+		self:<timeout> = TimeOutClosure(0);
+	}
+	
+	XtCallCallbacks(parent.text, "activateCallback", $);
+                    }
+                } left_arrow
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        bottomAttachment = attach_form
+                        arrowDirection = arrow_right
+                        topWidget = parent.label
+                        armCallback = 
+	
+	function None _FmStepperArrowArm(ArrowDirection direction)
+	{
+		Float v;
+		String s; s = parent.text:value;
+		v = Float(ConvertString(self, s, "Float"));
+		XtFree(s);
+		if(direction == XmARROW_RIGHT
+		|| direction == XmARROW_UP){
+			if(v == 0.0)
+				v = 1.0;
+			else if(v > 0.0){
+				if(v < 1.0)
+					v = 1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v < -1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		} else {
+			if(v == 0.0)
+				v = -1.0;
+			else if(v <= 0.0){
+				if(v > -1.0)
+					v = -1.0;
+				else
+					v = v * 10.0;
+			} else {
+				if(v > 1.0)
+					v = v / 10.0;
+				else
+					v = 0.0;
+			}
+		}
+		s = XtMalloc(200);
+		sprintf(s, "%.2g", v);
+		parent.text:value = s;
+		XtFree(s);
+	}
+	
+	_FmStepperArrowArm(self:arrowDirection);
+	
+	self:<timeout> = CallCallbacksTimeOut(self, "armCallback", 200);
+	
+                        disarmCallback = 
+	
+	if(self:<timeout>){
+		StopTimeOut(self:<timeout>);
+		type TimeOutClosure;
+		self:<timeout> = TimeOutClosure(0);
+	}
+	
+	XtCallCallbacks(parent.text, "activateCallback", $);
+                    }
+                } right_arrow
+                widget XmText {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        bottomAttachment = attach_form
+                        leftAttachment = attach_widget
+                        leftWidget = parent.left_arrow
+                        rightAttachment = attach_widget
+                        rightWidget = parent.right_arrow
+                        topAttachment = attach_widget
+                        topWidget = parent.label
+                        marginHeight = 2
+                        marginWidth = 2
+                        activateCallback = 
+	Float v; v = ConvertString(self, self:value, "Float");
+	m = cftoi(v * 100.0);
+	if(m <= parent.parent.scale:minimum){
+		Beep();
+		String s; s = XtMalloc(20);
+		sprintf(s, "%d.0", parent.parent.scale:minimum / 100);
+		self:value = s;
+		XtFree(s);
+		_FmStepperArrowArm(parent.right_arrow:arrowDirection);
+		return();
+	}
+	if(parent.parent.scale:value > m)
+		parent.parent.scale:value = m;
+	parent.parent.scale:maximum = m;
+                        value = 100.00
+                    }
+                } text
+            }
+        } max_stepper
+    }
+} form

@@ -1,0 +1,174 @@
+#!/bin/sh
+#
+# This script makes an extended XFaceMaker, given an
+# extension description in FACE. If necessary, the
+# extension library is built first.
+#
+
+SHELL=/bin/sh; export SHELL
+
+get_ext_info()
+#-------------------------------------------------------------------------------
+{
+	if [ ! -f $f ] && [ ! -L $f ]
+	then
+		if   [ -f $NSLHOME/lib/xfm/Extensions/Fm/$f ] ||
+		     [ -L $NSLHOME/lib/xfm/Extensions/Fm/$f ] 
+		then
+			f=$NSLHOME/lib/xfm/Extensions/Fm/$f
+		elif [ -f $NSLHOME/lib/xfm/Extensions/Fm/$f.face ] ||
+                     [ -L $NSLHOME/lib/xfm/Extensions/Fm/$f.face ]
+		then
+			f=$NSLHOME/lib/xfm/Extensions/Fm/$f.face
+		else
+			echo "Error: cannot find FACE file for $f"
+			exit 2
+		fi
+	fi
+	extdir=`dirname $f`
+	extname=`basename $f .face`
+
+	clibname=`sed -n -e 's/[ 	]*define[ 	]*_XFM_EXT_C_LIBRARY_[a-zA-Z0-9]*[ 	]*[^a-zA-Z0-9]*\([a-zA-Z0-9]*\)[^a-zA-Z0-9]*/\1/p' $f`
+	elibname=`sed -n -e 's/[ 	]*define[ 	]*_XFM_EXT_E_LIBRARY_[a-zA-Z0-9]*[ 	]*[^a-zA-Z0-9]*\([a-zA-Z0-9]*\)[^a-zA-Z0-9]*/\1/p' $f`
+	included_ext=`sed -n -e 's/[ 	]*include[ 	]*[\"]\([a-zA-Z0-9]*\)[\.]face[\"].*/\1/p' $f`
+}
+#-------------------------------------------------------------------------------
+
+
+
+if [ "$1" = "-h" ]
+then
+	echo "Usage: xfmextend -h -l -f [new name] extension ..."
+	echo "	-h : give this message."
+	echo "	-l : list available extensions."
+	echo "	-f : specifies that xfmextend must rebuild the extension."
+	echo "	     libraries even if they are already installed."
+	echo "	new name : is the name of the new XFaceMaker that will be produced."
+	echo "	extension : specifies either an extension name or an extension file."
+	echo
+	echo "The NSLHOME environement variable must be set. If the new XFaceMaker"
+	echo "is build with XRT products, the XRTHOME environement variable must be set."
+	exit 0
+fi
+
+if [ x$NSLHOME = x ]
+then
+	echo "The NSLHOME envitonment variable must be set"
+	exit 2
+fi
+
+if [ "$1" = "-l" ]
+then
+	listext=true
+	shift
+else
+	listext=false
+fi
+
+if [ "$1" = "-f" ]
+then
+	forcelibs=true
+	shift
+else
+	forcelibs=false
+fi
+
+if [ "$1" != "" ]
+then
+	xfmname=$1
+	shift
+else
+	xfmname=myxfm
+fi
+
+allexts=""
+extpath=""
+
+extensions="$*"
+if [ "$extensions" = "" ]
+then
+	extensions=`cd $NSLHOME/lib/xfm/Extensions/Fm ; for f in *.face ; do basename $f .face ; done`
+	extensions=`echo $extensions |sed -e 's|\n||g'`
+fi
+
+if $listext
+then
+	for f in $extensions
+	
+	do
+		echo $f;
+	done
+	exit 0;
+fi;
+
+#
+# Augment extension list with all extensions included by specified ones
+#
+old_sub_ext=""
+sub_ext_found="$extensions"
+while [ ! "$old_sub_ext" = "$sub_ext_found" ]
+do
+	old_sub_ext=$sub_ext_found
+	for f in $sub_ext_found
+	do
+		get_ext_info
+		if [ ! -z "$included_ext" ]
+		then
+			if [ -z "`echo $sub_ext_found | grep $included_ext`" ]
+			then
+				sub_ext_found="$sub_ext_found $included_ext"
+			fi
+		fi
+	done
+done
+echo "needed extensions: $sub_ext_found ..."
+extensions=$sub_ext_found
+
+for f in $extensions
+do
+	get_ext_info
+
+	allexts="$allexts $extname"
+        if [ "$extpath" = "" ]
+        then
+        extpath="$extdir/%F"
+        else
+        extpath="$extpath:$extdir/%F"
+        fi
+        
+	if $forcelibs
+	then
+		dolibs=true
+	else
+		dolibs=false
+		if [ "$elibname" != "" ]
+		then
+			if [ ! -f lib${elibname}.a -a ! -f $NSLHOME/lib/lib${elibname}.a ]
+			then
+				echo "No lib${elibname}.a or $NSLHOME/lib/lib${elibname}.a:"
+				dolibs=true
+			fi
+		fi
+		if [ "$clibname" != "" ]
+		then
+			if [ ! -f lib${clibname}.a -a ! -f $NSLHOME/lib/lib${clibname}.a ]
+			then
+				echo "No lib${clibname}.a or $NSLHOME/lib/lib${clibname}.a:"
+				dolibs=true
+			fi
+		fi
+	fi
+	if $dolibs
+	then
+		echo "Making extension libraries for $extname ..."
+		xfm -extension $extname -extlib $extname -extpath "$extpath" -gen
+		make -f ${extname}LibMake
+	fi
+done
+
+echo "Making $xfmname with extensions: $allexts ..."
+xfm -extensions "$allexts" -newxfm $xfmname -extpath "$extpath" -gen
+make -f ${xfmname}XfmMake
+
+
+

@@ -1,0 +1,176 @@
+widget XmDrawnButton {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmToolkitIconPixmap
+        set = 
+		if(equal($, "unspecified_tmpl_pixmap"))
+			self:labelPixmap = DynamicPixmap(_FmGetDefaultIconPixmap(self, "default_tmpl", "5x8", XtName(self)));
+		else
+			self:labelPixmap = String ($);
+    }
+    createproc {
+        global XmString _FmBlankLabel;\
+if (_FmBlankLabel == XmString(0))
+	_FmBlankLabel = FmCreateXmString (" ");\
+self:userData = Pointer (FmCreateXmString (XtName (self)));
+    }
+    resources {
+        labelType = pixmap
+        pushButtonEnabled = true
+        translations = #override\
+<Enter>: eval("script _FmTkIconEnter: parent.parent.parent.parent.widgetLabel:labelString = XmString (self:userData);")\
+<Leave>: eval("script _FmTkIconLeave: global XmString _FmBlankLabel; parent.parent.parent.parent.widgetLabel:labelString = _FmBlankLabel;")\
+<Btn3Down>: eval("script _FmPopupTmplIconMenu: popup=NameToWidget(self, '*tmpl_menu');MenuPosition(popup, $);ManageChild(popup);")
+        activateCallback = _FmNewToolkitItem (XtName(self),_FmToolkitIconType(self));
+    }
+    children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+                menu_popup
+            }
+            resources {
+                mapCallback =
+			if(_FmIsCompositeTemplate(XtName(parent))){
+				parent.apply_menu.subtree:sensitive = false;
+				parent.apply_menu.sameclass:sensitive = false;
+				parent.unapply_menu.subtree:sensitive = false;
+				parent.unapply_menu.sameclass:sensitive = false;
+			}
+            }
+            children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+                menu_pulldown
+            }
+            resources {
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1119 To Selected Object
+                        activateCallback = 
+				_FmApplyTemplateToSelection(XtName(parent.parent.parent), False, False, False, 2);
+                    }
+                } object
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1120 To Whole Subtree
+                        activateCallback = 
+				_FmApplyTemplateToSelection(XtName(parent.parent.parent), True, False, False, 2);
+                    }
+                } subtree
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1121 To Widgets Of Same Class
+                        activateCallback =
+				_FmApplyTemplateToSelection(XtName(parent.parent.parent), True, True, False, 2);
+                    }
+                } sameclass
+            }
+        } apply_menu 
+        widget XmCascadeButton {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%1122 Apply
+                subMenuId = parent.parent.apply_menu
+            }
+        } apply
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+                menu_pulldown
+            }
+            resources {
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1123 To Selected Object
+                        activateCallback = 
+				_FmApplyTemplateToSelection(XtName(parent.parent.parent), False, False, True, False);
+                    }
+                } object
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1124 To Whole Subtree
+                        activateCallback = 
+				_FmApplyTemplateToSelection(XtName(parent.parent.parent), True, False, True, False);
+                    }
+                } subtree
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1125 To Widgets Of Same Class
+                        activateCallback =
+				_FmApplyTemplateToSelection(XtName(parent.parent.parent), True, True, True, False);
+                    }
+                } sameclass
+            }
+        } unapply_menu
+        widget XmCascadeButton {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%1126 Un-Apply
+                subMenuId = parent.parent.unapply_menu
+            }
+        } unapply
+	}
+        } tmpl_menu
+    }
+} tmplicon

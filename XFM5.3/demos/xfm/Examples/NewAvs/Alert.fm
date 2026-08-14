@@ -1,0 +1,102 @@
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    resources {
+        x = 481
+        y = 162
+    }
+    children {
+        widget XmMessageBox {
+            flag {
+                autosize
+            }
+            activevalue {
+                name = alertType
+                set = self:dialogType = String(@);
+                type = String
+                storage = object
+                automatic = TRUE
+            }
+            activevalue {
+                name = alertTitle
+                set = self:dialogTitle = String(@);
+                type = String
+                storage = object
+                automatic = TRUE
+            }
+            activevalue {
+                name = alertMessage
+                set = self:messageString = String(@);
+                type = String
+                storage = object
+                automatic = TRUE
+            }
+            activevalue {
+                name = alertAnswer
+                get = 
+	XtManageChild(self);
+	@ = -1;
+	while(@ == -1){
+		FmDoEvent();
+	}
+                type = Int
+                storage = object
+                automatic = TRUE
+            }
+            activevalue {
+                name = Question
+                set = struct AlertArgs {
+	Int ret;
+	String message;\
+};\
+AlertArgs a = @;\
+self:@alertType = "dialog_question";\
+self:@alertTitle = "Question";\
+self:@alertMessage = a->message;\
+a->ret = self:@alertAnswer;
+                type = AlertArgs
+                storage = none
+                automatic = TRUE
+            }
+            activevalue {
+                name = Warning
+                set = struct AlertArgs {
+	Int ret;
+	String message;\
+};\
+AlertArgs a = @;\
+self:@alertType = "dialog_warning";\
+self:@alertTitle = "Warning";\
+self:@alertMessage = a->message;\
+a->ret = self:@alertAnswer;
+                type = AlertArgs
+                storage = none
+                automatic = TRUE
+            }
+            activevalue {
+                name = Error
+                set = struct AlertArgs {
+	Int ret;
+	String message;\
+};\
+AlertArgs a = @;\
+self:@alertType = "dialog_error";\
+self:@alertTitle = "Error";\
+self:@alertMessage = a->message;\
+a->ret = self:@alertAnswer;
+                type = AlertArgs
+                storage = none
+                automatic = TRUE
+            }
+            resources {
+                dialogStyle = dialog_full_application_modal
+                okCallback = self:@alertAnswer = 1;
+                cancelCallback = self:@alertAnswer = 0;
+                x = 0
+                y = 0
+            }
+        } alert_box
+    }
+} alert_shell

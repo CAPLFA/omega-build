@@ -1,0 +1,35 @@
+widget XmPanedWindow {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_CLASS
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+        default_type = String
+        default_value = CSplitterWnd
+    }
+    activevalue {
+        name = MFC_SPLITTER_ROWS
+        type = Int
+        storage = object
+        automatic = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_SPLITTER_COLUMNS
+        type = Int
+        storage = object
+        automatic = true
+        genvalue = true
+        default_type = String
+        default_value = 1
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} splitter

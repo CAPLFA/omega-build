@@ -1,0 +1,16 @@
+*bform.width: 1100
+*bform.height: 600
+*background: grey
+*iconBox*background: white
+*fontList: -*-helvetica-medium-r-*-*-*-140-*-*-*-*-*-*
+*infolabel*fontList: -*-helvetica-bold-r-*-*-*-140-*-*-*-*-*-*
+*infolabel.marginWidth: 10
+*infolabel.marginHeight: 10
+*placeLabel.labelString: XmNiconPlacement
+*xLabel.labelString: XmNcellX
+*yLabel.labelString: XmNcellY
+*quitPB.labelString: Quit
+*pushButton.labelString: Explain
+*pushButton1.labelString: Explain
+*pushButton2.labelString: Explain
+*resform*XmPushButton.labelString: Explain...

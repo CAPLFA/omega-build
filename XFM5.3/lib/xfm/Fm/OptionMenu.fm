@@ -1,0 +1,66 @@
+widget XmRowColumn {
+    flag {
+        autosize
+    }
+    resources {
+        borderWidth = 1
+        x = 116
+        y = 103
+        marginWidth = 0
+        marginHeight = 0
+    }
+    children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_pulldown
+            }
+            resources {
+                x = 90
+                y = 10
+                width = 66
+                height = 52
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 56
+                        height = 21
+                        labelString = Option 1
+                    }
+                } PButton
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 26
+                        width = 56
+                        height = 21
+                        labelString = Option 2
+                    }
+                } PButton_2
+            }
+        } PDMenu
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_option
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 147
+                height = 27
+                subMenuId = parent.PDMenu
+                labelString = The Options: 
+            }
+        } OMenu
+    }
+} MyOptionMenu

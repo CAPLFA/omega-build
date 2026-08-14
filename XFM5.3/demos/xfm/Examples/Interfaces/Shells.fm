@@ -1,0 +1,143 @@
+widget ApplicationShell {
+    flag {
+        mapped
+        popup
+    }
+    resources {
+        x = 679
+        y = 429
+        width = 109
+        height = 137
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 109
+                height = 137
+                backgroundPixmap = 50_foreground
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        labelString = Shells
+                        recomputeSize = FALSE
+                        x = 5
+                        y = 5
+                        width = 96
+                        height = 18
+                        fontList = *helvetica-bold-r-*-12-*
+                        borderWidth = 1
+                    }
+                } name
+                widget XmBulletinBoard {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 5
+                        y = 30
+                        borderWidth = 1
+                        translations = #override\
+<LeaveNotify> : eval("parent.name:labelString = Shells;")\
+
+                    }
+                    children {
+                        widget XmDrawnButton {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                activateCallback = \
+	printf("\
+TransientShell");\
+
+                                translations = #override\
+		<Enter>: eval("parent.parent.name:labelString = TransientShell;")\
+
+                                x = 10
+                                y = 50
+                                borderWidth = 0
+                                labelType = pixmap
+                                labelPixmap = TrShell.xpm
+                                shadowThickness = 0
+                            }
+                        } XmDrawnButton
+                        widget XmDrawnButton {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                activateCallback = \
+	printf("\
+ApplicationShell");\
+
+                                translations = #override\
+		<Enter>: eval("parent.parent.name:labelString = ApplicationShell;")\
+
+                                borderWidth = 0
+                                x = 10
+                                y = 10
+                                labelType = pixmap
+                                labelPixmap = AppShell.xpm
+                                shadowThickness = 0
+                            }
+                        } XmDrawnButton_2
+                        widget XmDrawnButton {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                activateCallback = \
+	printf("\
+OverrideShell");\
+
+                                translations = #override\
+		<Enter>: eval("parent.parent.name:labelString = OverrideShell;")\
+
+                                x = 50
+                                y = 10
+                                borderWidth = 0
+                                labelType = pixmap
+                                labelPixmap = OvrdShell.xpm
+                                shadowThickness = 0
+                            }
+                        } XmDrawnButton_3
+                        widget XmDrawnButton {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                activateCallback = \
+	printf("\
+XmDialogShell");\
+
+                                translations = #override\
+		<Enter>: eval("parent.parent.name:labelString = XmDialogShell;")\
+
+                                x = 50
+                                y = 50
+                                borderWidth = 0
+                                labelType = pixmap
+                                labelPixmap = DShell.xpm
+                                shadowThickness = 0
+                            }
+                        } XmDrawnButton_4
+                    }
+                } XmBulletinBoard21
+            }
+        } XmForm0
+    }
+} Shells

@@ -1,0 +1,165 @@
+widget XmPushButton {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_N_BN_CLICKED
+        get = script get_MFCArrowButton_MFC_N_BN_CLICKED:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "activateCallback")){
+			@ = "$XmArrowButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ACTIVATE); call_data = (XtPointer)&cbs;$activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_BN_DOUBLECLICKED
+        get = script get_MFCArrowButton_MFC_N_BN_DOUBLECLICKED:
+		FacePragma("ignore");
+		if(self:multiClick == XmMULTICLICK_DISCARD)
+			return();
+		if(_FmHasCallback(self, "activateCallback")){
+			@ = "$XmArrowButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ACTIVATE); call_data = (XtPointer)&cbs;$activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_activateCallback
+        get = script get_MFCArrowButton_MFC_R_activateCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "activateCallback")){
+			@ = "activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_arrowDirection
+        get = script get_MFCArrowButton_MFC_R_arrowDirection:
+		FacePragma("ignore");
+		ArrowDirection dir = self:arrowDirection;
+		@ = "XmARROW_UP";
+		if (dir == XmARROW_DOWN)
+			@ = "XmARROW_DOWN";
+		if (dir == XmARROW_LEFT)
+			@ = "XmARROW_LEFT";
+		if (dir == XmARROW_RIGHT)
+			@ = "XmARROW_RIGHT";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TRANS_WM_ARM
+        get = script get_MFCArrowButton_MFC_TRANS_WM_ARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "armCallback")){
+			@ = "#void ::Arm(Widget w, XtPointer)#w == %self?$XmArrowButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ARM); call_data = (XtPointer)&cbs;$armCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ARM
+        get = script get_MFCArrowButton_MFC_ARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "armCallback")){
+			self:@MFC_TRANSLATIONS = _FmConcatString(
+				self:@MFC_TRANSLATIONS,
+				'WM_LBUTTONDOWN,"",0,::Arm,1',
+				"|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_armCallback
+        get = script get_MFCArrowButton_MFC_R_armCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "armCallback")){
+			@ = "armCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TRANS_WM_DISARM
+        get = script get_MFCArrowButton_MFC_TRANS_WM_DISARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "disarmCallback")){
+			@ = "#void ::Disarm(Widget w, XtPointer)#w == %self?$XmArrowButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DISARM); call_data = (XtPointer)&cbs;$disarmCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_DISARM
+        get = script get_MFCArrowButton_MFC_DISARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "disarmCallback")){
+			self:@MFC_TRANSLATIONS = _FmConcatString(
+				self:@MFC_TRANSLATIONS,
+				'WM_LBUTTONUP,"",0,::Disarm,1',
+				"|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_disarmCallback
+        get = script get_MFCArrowButton_MFC_R_disarmCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "disarmCallback")){
+			@ = "disarmCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCArrowButton_MFC_CLASS:
+		FacePragma("ignore");
+		@ = "CArrowButton";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+        MFCTraversal = Fm/MFCTraversal.fm
+    }
+} button

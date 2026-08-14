@@ -1,0 +1,3 @@
+#!/bin/sh
+#
+export XBMLANGPATH=`pwd`/%B

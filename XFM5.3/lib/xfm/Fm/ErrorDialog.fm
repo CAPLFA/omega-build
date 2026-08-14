@@ -1,0 +1,34 @@
+widget XmDialogShell {
+    flag {
+        mapped
+        popup
+    }
+    resources {
+        x = 816
+        y = 79
+        width = 179
+        height = 97
+        allowShellResize = true
+    }
+    children {
+        widget XmMessageBox {
+            flag {
+                mapped
+            }
+            createproc {
+                UnmanageChild (MessageBoxGetChild (self, XmDIALOG_HELP_BUTTON));
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 179
+                height = 97
+                dialogType = dialog_error
+                messageString = Error Message Here
+                textFontList = *helvetica-bold-r-*-12-*
+                dialogStyle = dialog_application_modal
+                defaultPosition = true
+            }
+        } ErrorDialog
+    }
+} MyErrorDialog

@@ -1,0 +1,70 @@
+Xfm*background:		magenta
+Xfm*foreground:		black
+Xfm*selectColor:	blue
+
+Xfm*xfmVersionBB.labelXFM.foreground:	blue
+
+Xfm.XmDialogShell*XmText.background:		white
+Xfm.TopLevelShell*XmText.background:		white
+Xfm.XmDialogShell*XmTextField.background:	white
+Xfm.TopLevelShell*XmTextField.background:	white
+
+
+Xfm*XmMainWindow.XmRowColumn*background:		purple
+Xfm*XmMainWindow.XmRowColumn*selectColor:		yellow
+Xfm*XmMainWindow*try.selectColor:			green
+Xfm*XmMainWindow*listform.scroller.XmList*background:	cyan
+Xfm*XmMainWindow*listform.XmTextField*background:	white
+Xfm*XmMainWindow*treescroller.Tree*background:		green
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	white
+Xfm*XmMainWindow*treescroller.ClipWindow*background: green
+
+Xfm.Alert*background:		red
+Xfm.Alert*foreground:		black
+
+Xfm.TopLevelShell*background:			cyan
+Xfm.TopLevelShell*parentName.background:	cyan
+Xfm.TopLevelShell*bb*background:		magenta
+Xfm.TopLevelShell*bb.XmTextField.background:	white
+Xfm.TopLevelShell*listScroller.ClipWindow*background: magenta
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: white
+Xfm.TopLevelShell*fastListScroller*background: magenta
+Xfm.TopLevelShell*selection.background:		yellow
+Xfm.TopLevelShell*selectColor:			red
+Xfm.TopLevelShell*current.selectColor:		magenta
+Xfm.TopLevelShell*curline.topShadowColor:	magenta
+Xfm.TopLevelShell*curline.bottomShadowColor:	magenta4
+
+Xfm.activevalue*background:		orange
+Xfm.activevalue*XmText.background:	white
+Xfm.activevalue*XmTextField.background:	white
+
+Xfm.MenuEditor.form.name.background:	purple
+Xfm.MenuEditor*background:		purple
+Xfm.MenuEditor*XmText.background:	white
+Xfm.MenuEditor*XmTextField.background:	white
+Xfm.MenuEditor*selectColor:		yellow
+
+Xfm.Environment*background:		green
+Xfm.Environment*XmText.background:	white
+Xfm.Environment*XmTextField.background:	white
+
+Xfm.FaceDebugger*message_text.background:	magenta
+Xfm.FaceDebugger*widget_text.background:	magenta
+Xfm.FaceDebugger*script_text.background:	magenta
+Xfm.FaceDebugger*source_text.background:	magenta
+Xfm.FaceDebugger*output_text.background:	magenta
+
+Xfm.Fileselector*background:			blue
+Xfm.Fileselector*XmText.background:		white
+Xfm.Fileselector*XmTextField.background:	white
+
+Xfm.Help*background:		yellow
+Xfm.Functions*background:	yellow
+Xfm.iconhelp*background:	yellow
+
+Xfm.coptions*command.background:	magenta
+Xfm.rdboptions*command.background:	magenta
+Xfm.msgoptions*command.background:	magenta
+Xfm.uiloptions*command.background:	magenta
+Xfm.printoptions*command.background:	magenta

@@ -1,0 +1,117 @@
+widget ApplicationShell {
+    flag {
+        mapped
+        popup
+        autosize
+        autopos
+    }
+    resources {
+        title = Adder
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                width = 380
+                height = 248
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 260
+                        y = 160
+                        width = 60
+                        height = 60
+                        activateCallback = function Int PAdd(Int num);\
+str = parent.Number:value;\
+sum =  PAdd(atoi(str));\
+parent.Sum:labelString = itoa(sum);\
+free(str);
+                    }
+                } Add
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 150
+                        y = 160
+                        width = 60
+                        height = 60
+                        activateCallback = \
+	function None PStart();\
+	PStart();\
+parent.Sum:labelString = "0";\
+parent.Number:value = "0";\
+
+                    }
+                } Start
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 40
+                        y = 40
+                        width = 52
+                        height = 17
+                        labelString = Sum
+                    }
+                } Label_Sum
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 40
+                        y = 90
+                        width = 52
+                        height = 17
+                        labelString = Number
+                    }
+                } Label_Number
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 150
+                        y = 40
+                        width = 170
+                        height = 20
+                        labelString = 0
+                    }
+                } Sum
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 40
+                        y = 160
+                        width = 60
+                        height = 60
+                        activateCallback = Quit(0);
+                    }
+                } Quit
+                widget XmTextField {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 150
+                        y = 90
+                        width = 170
+                        height = 30
+                    }
+                } Number
+            }
+        } BB
+    }
+} AS

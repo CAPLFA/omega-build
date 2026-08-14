@@ -1,0 +1,46 @@
+The demos provided in theses directories illustrate how to do 
+things with the NSL tools and components. The source code for
+the demos is always provided. Users are invited to use the
+source code to gather ideas and see how they could do things
+for their own applications.
+
+The demos are organized in various directories depending on
+which products were used to build them.
+
+drawlib: 
+	Applications in this directory use only the Draw
+	library. They illustrate how to program Draw library
+	applications with Draw library, Motif and X function 
+	calls exclusively. 
+
+drawmaker:
+	This directory contains drawfiles and images that you
+	can load into XDrawMaker and experiment with. All the 
+	drawfiles have been created with XDrawMaker. Some of
+	them are animated, others are static. There are README
+	files in each of the directories: drawfiles and images.
+
+
+drawmaker_and_xfm:
+	This directory contains examples of how XFaceMaker can
+	be used as a complement to XDrawMaker. Examples cover
+	the generation of C code for draw files built with
+	XDrawMaker, and the use of XFaceMaker to build the interface 
+	for applications using the XnslDraw widget. In some examples,
+	the drawing's animation is programmed within XDrawMaker, while
+	in others it is programmed directly in C code, with direct
+	calls to the Draw Library functions.
+
+xfm:
+	This directory contains examples of how to do things with 
+	XFaceMaker on its own.
+
+xfm_and_drawmaker:
+	This directory contains examples of widgets built with XFaceMaker
+	from drawings made with XDrawMaker.
+
+
+xnsltree:
+	This directory contains examples of applications using the XTree
+	widget, with or without using XFaceMaker.
+

@@ -1,0 +1,405 @@
+widget XmRowColumn {
+    flag {
+        mapped
+        autosize
+    }
+    activevalue {
+        name = _XrtTblContext
+        set = function None _XnslSetXrtTblContext(Int a);\
+_XnslSetXrtTblContext(@);
+        usage = face
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = function String _XnslGetXrtTblContext();\
+String s = _XnslGetXrtTblContext();\
+strcpy ($,s);\
+/*free (s);*/
+
+        automatic = TRUE
+        usage = face
+    }
+    createproc {
+        remote Int @_XrtTblContext;\
+remote None _XnslAttachXrtTblAvs;\
+remote None _XnslSetXrtTblContext;\
+remote String _XnslGetXrtTblContext;\
+remote Int @_XrtTblContextRow;\
+remote Int @_XrtTblContextColumn;\
+function None _XnslAttachXrtTblAvs();\
+\
+_XnslAttachXrtTblAvs();
+
+    }
+    resources {
+        x = 0
+        y = 0
+        orientation = horizontal
+    }
+    children {
+        widget XmFrame {
+            flag {
+                mapped
+            }
+            resources {
+                x = 3
+                y = 3
+                height = 163
+                width = 173
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 12
+                        y = 0
+                        width = 22
+                        height = 17
+                        childType = frame_title_child
+                    }
+                } Row
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 2
+                        y = 17
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_form
+                                topAttachment = attach_form
+                                leftAttachment = attach_form
+                                radioBehavior = true
+                                marginHeight = 0
+                                marginWidth = 0
+                                packing = pack_tight
+                                spacing = 0
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextRow
+                                        get = if(Boolean(self:set))\
+ @=XRTTBL_ALL;
+                                        set = XmToggleButtonSetState(self,(@ == XRTTBL_ALL),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"ALL");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        labelString = ALL
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,false);\
+}
+                                    }
+                                } TBL_ALL
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextRow
+                                        get = if(Boolean(self:set))\
+ @=XRTTBL_LABEL;
+                                        set = XmToggleButtonSetState(self,(@ == XRTTBL_LABEL),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"LABEL");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 25
+                                        labelString = LABEL
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,false);\
+}
+                                    }
+                                } TBL_LABEL
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextRow
+                                        get = if(Boolean(self:set))\
+ @=XRTTBL_ALLCELLS;
+                                        set = XmToggleButtonSetState(self,(@ == XRTTBL_ALLCELLS),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"ALLCELLS");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 50
+                                        labelString = ALL CELLS
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,false);\
+}
+                                    }
+                                } TBL_ALLCELLS
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextRow
+                                        set = XmToggleButtonSetState(self,((@ != XRTTBL_ALLCELLS)&&(@ != XRTTBL_ALL)&&(@ != XRTTBL_LABEL)),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"CELL");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 75
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,true);\
+}
+                                    }
+                                } Cell
+                                widget XmSimpleSpinBox {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextRow
+                                        get = Widget text = self:textField;\
+if(Boolean(parent.Cell:set))\
+ @=atoi(text:value);
+                                        set = Int a = @;\
+Widget text = self:textField;\
+if((@ != XRTTBL_ALLCELLS)&&(@ != XRTTBL_ALL)&&(@ != XRTTBL_LABEL))\
+{\
+  text:value = itoa(a);\
+  text:position= PositionValue(a);\
+}
+                                        usage = face
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 100
+                                        spinBoxChildType = numeric
+                                        maximumValue = 1000
+                                    }
+                                } SSBnulbercell
+                            }
+                        } xmRowColumn1
+                    }
+                } xmForm1
+            }
+        } xmFrame0
+        widget XmFrame {
+            flag {
+                mapped
+            }
+            resources {
+                x = 179
+                y = 3
+                height = 163
+                width = 173
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 12
+                        y = 0
+                        width = 40
+                        height = 17
+                        childType = frame_title_child
+                    }
+                } Colunm
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 2
+                        y = 17
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_form
+                                topAttachment = attach_form
+                                leftAttachment = attach_form
+                                radioBehavior = true
+                                packing = pack_tight
+                                marginHeight = 0
+                                marginWidth = 0
+                                spacing = 0
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextColumn
+                                        get = if(Boolean(self:set))\
+ @=XRTTBL_ALL;
+                                        set = XmToggleButtonSetState(self,(@ == XRTTBL_ALL),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"ALL");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        width = 169
+                                        height = 25
+                                        labelString = ALL
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,false);\
+}
+                                    }
+                                } TBL_ALL
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextColumn
+                                        get = if(Boolean(self:set))\
+ @=XRTTBL_LABEL;
+                                        set = XmToggleButtonSetState(self,(@ == XRTTBL_LABEL),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"LABEL");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 25
+                                        width = 169
+                                        height = 25
+                                        labelString = LABEL
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,false);\
+}
+                                    }
+                                } TBL_LABEL
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextColumn
+                                        get = if(Boolean(self:set))\
+ @=XRTTBL_ALLCELLS;
+                                        set = XmToggleButtonSetState(self,(@ == XRTTBL_ALLCELLS),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"ALLCELLS");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 50
+                                        width = 169
+                                        height = 25
+                                        labelString = ALL CELLS
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,false);\
+}
+                                    }
+                                } TBL_ALLCELLS
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextColumn
+                                        set = XmToggleButtonSetState(self,((@ != XRTTBL_ALLCELLS)&&(@ != XRTTBL_ALL)&&(@ != XRTTBL_LABEL)),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,"CELL");
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 75
+                                        width = 169
+                                        height = 25
+                                        valueChangedCallback = if(Boolean(self:set)) \
+{\
+  XtSetSensitive(parent.SSBnulbercell,true);\
+}
+                                    }
+                                } Cell
+                                widget XmSimpleSpinBox {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    activevalue {
+                                        name = _XrtTblContextColumn
+                                        get = Widget text = self:textField;\
+if(Boolean(parent.Cell:set))\
+ @=atoi(text:value);
+                                        set = Widget text = self:textField;\
+if((@ != XRTTBL_ALLCELLS)&&(@ != XRTTBL_ALL)&&(@ != XRTTBL_LABEL))\
+{\
+  text:value = itoa(@);\
+  text:position = PositionValue(@);\
+}
+                                        usage = face
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 100
+                                        spinBoxChildType = numeric
+                                        maximumValue = 1000
+                                    }
+                                } SSBnulbercell
+                            }
+                        } xmRowColumn1
+                    }
+                } xmForm1
+            }
+        } xmFrame0_2
+    }
+} XrtTblContext

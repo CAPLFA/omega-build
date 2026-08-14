@@ -1,0 +1,193 @@
+widget XmScrolledWindow {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmDefaultString
+        set = self.text:setText($, False);
+    }
+    activevalue {
+        name = _FmSelectedName
+        set = text = self.text;\
+len = strlen ($);\
+pos = XmTextGetInsertionPosition (text);\
+XmTextInsert (text,pos,$);\
+XmTextSetInsertionPosition (text,pos + len);
+	s = text:value;
+	text:setText(s, True);
+	XtFree(s);
+    }
+    activevalue {
+        name = Script
+        set = self.text:setText($, False);\
+if(XtNameToWidget(parent, "select")) show (parent.select);
+    }
+    activevalue {
+        name = Callback
+        set = self.text:setText($, False);\
+if(XtNameToWidget(parent, "select")) show (parent.select);
+    }
+    activevalue {
+        name = String
+        set = self.text:setText($, False);\
+if(XtNameToWidget(parent, "gls")) show (parent.gls);
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set =
+		XmProcessTraversal (self.text,XmTRAVERSE_CURRENT);
+		Widget cb = XtNameToWidget(parent, custombutton);
+		if(cb)
+			show(cb);
+		if(self.text:userData){
+			_FmCEOpen(self.text:userData, "");
+		}
+    }
+    activevalue {
+        name = _FmResourceEditUnmanage
+        set =
+		Widget cb = XtNameToWidget(parent, custombutton);
+		if(cb)
+			hide(cb);
+		if(self.text:userData){
+			_FmCEClose(self.text:userData, "");
+		}
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = s = self.text:value;\
+strcpy ($,s);\
+free (s);
+    }
+    resources {
+    }
+    children {
+        widget XmText {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            activevalue {
+                name = _FmExiting
+                set =
+	if(self:userData){
+		_FmCEDestroyConnection(self:userData);
+		self:userData = Pointer(0);
+	}
+            }
+            activevalue {
+                name = CONNECT
+                type = String
+                storage = object
+                automatic = true
+                set = 
+	function None _FmLoadCustomEditString(String s)
+	{
+		_FmCELoadString(self:userData, s);
+		String buf = XtMalloc(512);
+		Widget reslabel = XtNameToWidget(parent.parent, "resource");
+		Widget widgettext = XtNameToWidget(toplevel, "xfmResourceDialog.form.name");
+		if(reslabel)
+			resname = FmGetString(reslabel:labelString);
+		else
+			resname = XtNewString(Internationalize("%MSG%150%949 string resource") );
+		if(widgettext)
+			widgetname = widgettext:value;
+		else
+			widgetname = XtNewString(Internationalize("%MSG%150%950 <none>") );
+		if(equal(widgetname, "")){
+			XtFree(widgetname);
+			widgetname = XtNewString(Internationalize("%MSG%150%951 <none>") );
+		}
+		sprintf(buf, Internationalize("%MSG%150%952 XFM: %s of widget %s"), resname, widgetname);
+		XtFree(resname);
+		XtFree(widgetname);
+		_FmCETitle(self:userData, buf);
+		XtFree(buf);
+	}
+	s = self:value;
+	_FmLoadCustomEditString(s);
+	XtFree(s);
+	self:editable = False;
+            }
+            activevalue {
+                name = DISCONNECT
+                type = String
+                storage = object
+                automatic = true
+                set = 
+	Widget cb = XtNameToWidget(parent.parent, custombutton);
+	if(cb)
+		cb:sensitive = True;
+	self:userData = Pointer(0);
+	self:editable = True;
+            }
+            activevalue {
+                name = LOAD
+                type = String
+                storage = object
+                automatic = true
+                set = 
+	s = _FmCEReadFile(@);
+	if(s){
+		self:setText(s, True);
+		XtFree(s);
+	}
+            }
+            activevalue {
+                name = MODIFIED
+                type = String
+                storage = object
+                automatic = true
+                set = 
+	_FmResourceWindowSetModified (toplevel);
+             }
+             activevalue {
+                name = CLEAR
+                type = String
+                storage = object
+                automatic = true
+                set = 
+	self:setText("", False);
+            }
+            activevalue {
+                name = setText
+                type = _FmSetStringTextArgs
+                storage = none
+                set = 
+	struct _FmSetStringTextArgs {
+		None ret;
+		String text;
+		Int setmod;
+	};
+	_FmSetStringTextArgs a = @;
+	Int old_setmod = self:@setModified;
+	self:@setModified = a->setmod;
+	self:value = a->text;
+	self:@setModified = old_setmod;
+	if(self:userData){
+		_FmLoadCustomEditString(String(a->text));
+	}
+            }
+            activevalue {
+                name = setModified
+                type = Int
+                storage = object
+                automatic = true
+                default_type = String
+                default_value = 1
+            }
+            resources {
+                editMode = multi_line_edit
+                marginHeight = 2
+                marginWidth = 2
+                valueChangedCallback = 
+	if(self:@setModified)
+		_FmResourceWindowSetModified (toplevel);
+            }
+        } text
+    }
+} String

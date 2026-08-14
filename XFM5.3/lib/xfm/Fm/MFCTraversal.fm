@@ -1,0 +1,54 @@
+widget XmPushButton {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_S_WS_TABSTOP
+        get = script get_MFCTraversal_MFC_S_WS_TABSTOP:
+		FacePragma("ignore");
+		if((_FmIsOfSubClass(self, "XmPrimitive")
+		 || _FmIsOfSubClass(self, "XmGadget"))
+		&& self:navigationType != XmNONE){
+			@ = True;
+		}
+		else
+		if(_FmIsOfSubClass(parent, "XmManager")
+		&& parent:navigationType != XmNONE){
+			Int n = parent:numChildren;
+			if(n > 0){
+				Widget children[Int] = new_c_array(Pointer(parent:children), n);
+				for(Int i = 0; i < n; i = i+1){
+					Widget b = children[i];
+					if(b == self){
+						@ = True;
+						i = n;	/* break */
+					}
+					else
+					if(!_FmIsOfSubClass(b, "XmManager")
+					&& b:traversalOn == True){
+						i = n;	/* break; */
+					}
+				}
+				destroy(children);
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_GROUP
+        get = script get_MFCTraversal_MFC_S_WS_GROUP:
+		FacePragma("ignore");
+		@ = self:@MFC_S_WS_TABSTOP;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+} traverse

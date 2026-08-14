@@ -1,0 +1,35 @@
+widget XmToggleButton {
+    flag {
+        mapped
+        autosize
+        autopos
+        gadget
+    }
+    activevalue {
+        name = _FmToolkitToggleSet
+        set = self:set = Set(@);
+        get = @ = Boolean(self:set);
+    }
+    activevalue {
+        name = _FmStartupFile
+        set =
+	if(Boolean(self:set))
+		fprintf(@,
+		   "w = XtNameToWidget(root.main*classesPulldown, '%s'); if(w) XmToggleButtonSetState(w, True, True);\n",
+		    XtName(self));
+    }
+    activevalue {
+        name = _FmToolkitSingleClass
+        set = if (@) {
+	self:indicatorType = IndicatorType (XmONE_OF_MANY);
+	if (Boolean(self:set)) {
+		self:set = Set(False);
+		XmToggleButtonGadgetSetState (self,True,True);
+	}\
+} else
+	self:indicatorType = IndicatorType (XmN_OF_MANY);
+    }
+    resources {
+        valueChangedCallback = _FmShowToolkitIcons();
+    }
+} tktoggle

@@ -1,0 +1,2032 @@
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    resources {
+        x = 356
+        y = 339
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                dialogStyle = dialog_full_application_modal
+                mapCallback = global resource_name;\
+if (resource_name != 0) {
+	xms = CreateXmString (String (resource_name));
+	self.resourceName:labelString = xms;
+	StringFree (xms);\
+}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)
+	Return (self,String (0));\
+else
+	resource_returning = False;
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        marginWidth = 5
+                        labelString = %MSG%1% OK
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                        activateCallback = global resource_returning;\
+global _XrtAnchorValue;\
+resource_returning = True;\
+hide (parent);\
+Return (self,String (_XrtAnchorValue));
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        marginWidth = 5
+                        labelString = %MSG%1% Cancel
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+hide (parent);\
+Return (self,String(0));
+                    }
+                } cancel
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 10
+                        bottomWidget = ok
+                    }
+                } sep
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        labelString = \ 
+                        topAttachment = attach_form
+                        topOffset = 8
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } resourceName
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = resourceName
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                        bottomAttachment = attach_widget
+                        bottomOffset = 8
+                        bottomWidget = sep
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                marginHeight = 0
+                                marginWidth = 0
+                                packing = pack_column
+                                numColumns = 3
+                                radioBehavior = true
+                                isHomogeneous = false
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue:\
+if (@ == self:userData)
+	ToggleButtonGadgetSetState (self,True,True);
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_NORTHWEST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Northwest
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName:\
+if (self:set) {
+	global _XrtAnchorValue;
+	_XrtAnchorValue = Name(self);\
+}
+                                    }
+                                } AnchorNorthWest
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_WEST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% West
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorWest
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_SOUTHWEST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Southwest
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorSouthWest
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_NORTH);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% North
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorNorth
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        visibleWhenOff = false
+                                        labelString = \ 
+                                        sensitive = false
+                                        fontList = *helvetica-bold-r-*-12-*
+                                    }
+                                } dummy
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_SOUTH);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% South
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorSouth
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_NORTHEAST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Northeast
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorNorthEast
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_EAST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% East
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorEast
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _XrtAnchor
+                                        set = script XrtAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT_ANCHOR_SOUTHEAST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Southeast
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _XrtSetAnchorName;
+                                    }
+                                } AnchorSouthEast
+                            }
+                        } rc
+                    }
+                } frame
+            }
+        } form
+    }
+} XrtAnchor
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    createproc {
+        remote Int @_XrtDataStyle;
+	remote None _XnslAttachXrtRemoteAvs;
+	remote None _XnslSetXrtDataStyle;
+	remote String _XnslGetXrtDataStyle;
+	remote Int @_XrtDataStyleLinePattern;
+	remote Int @_XrtDataStyleFillPattern;
+	remote Int @_XrtDataStylePointStyle;
+	remote Pixel @_XrtDataStyleColor;
+	remote Int @_XrtDataStyleLineWidth;
+	remote Pixel @_XrtDataStylePointColor;
+	remote Int @_XrtDataStylePointSize;
+	remote String @_XrtDataStyleLinePatternName;
+	remote String @_XrtDataStyleFillPatternName;
+	remote String @_XrtDataStylePointStyleName;
+	remote String @_XrtDataStyleColorName;
+	remote String @_XrtDataStylePointColorName;
+    }
+    resources {
+        x = 102
+        y = 71
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            activevalue {
+                name = _XrtDataStyle
+                set = _XnslSetXrtDataStyle (@);
+            }
+            createproc {
+                _XnslAttachXrtAvs();
+		_XnslAttachXrtRemoteAvs();
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                buttonFontList = *helvetica-bold-r-*-12-*
+                labelFontList = *helvetica-bold-r-*-12-*
+                textFontList = *courier-medium-r-*-12-*
+                dialogStyle = dialog_full_application_modal
+                mapCallback = local setmins;
+	global resource_name;
+	if (!setmins) {
+	}
+	if (resource_name != 0) {
+		xms = CreateXmString (String (resource_name));
+		self.resource:labelString = xms;
+		StringFree (xms);
+	}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)
+	Return (self,String (0));\
+else
+	resource_returning = False;
+                horizontalSpacing = 5
+                verticalSpacing = 5
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        cancel = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);
+	if (cancel)
+		XtUnmanageChild(cancel);
+                    }
+                    resources {
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                        marginHeight = 0
+                        marginWidth = 0
+                        helpLabelString = %MSG%1% Cancel
+                        okLabelString = %MSG%1% OK
+                        helpCallback = global resource_returning;
+	resource_returning = True;
+	hide (parent);
+	Return (self,String (0));
+                        okCallback = global resource_returning;
+	resource_returning = True;
+	hide (parent);
+	Return (self,_XnslGetXrtDataStyle());
+                    }
+                } styleBtn
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = \ 
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_form
+                        leftAttachment = attach_form
+                    }
+                } resource
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = resource
+                        leftAttachment = attach_form
+                        horizontalSpacing = 5
+                        verticalSpacing = 5
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%1% Line Pattern
+                                marginHeight = 0
+                                marginWidth = 0
+                                topAttachment = attach_form
+                                leftAttachment = attach_form
+                            }
+                        } lineLabel
+                        widget XmFrame {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                topAttachment = attach_widget
+                                topWidget = lineLabel
+                                leftAttachment = attach_form
+                                bottomAttachment = attach_form
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        radioBehavior = true
+                                        spacing = 0
+                                        adjustMargin = false
+                                    }
+                                    children {
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if (self:set)
+	_FmSysAvSetString ("_XrtDataStyleLinePatternName",XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_SOLID);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtlnsolid.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } LpatSolid
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleLinePatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_LONG_DASH);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtlnlong.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } LpatLongDash
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleLinePatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_DOTTED);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtlndots.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } LpatDotted
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleLinePatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_SHORT_DASH);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtlnshort.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } LpatShortDash
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleLinePatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_LSL_DASH);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtlnlsl.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } LpatLslDash
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleLinePatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_DASH_DOT);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtlndd.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } LpatDashDot
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleLinePatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleLinePatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_LPAT_NONE);\
+parent.LpatSolid:indicatorSize = self:indicatorSize;\
+parent.LpatLongDash:indicatorSize = self:indicatorSize;\
+parent.LpatDotted:indicatorSize = self:indicatorSize;\
+parent.LpatShortDash:indicatorSize = self:indicatorSize;\
+parent.LpatLslDash:indicatorSize = self:indicatorSize;\
+parent.LpatDashDot:indicatorSize = self:indicatorSize;
+                                            }
+                                            resources {
+                                                labelString = %MSG%1% none
+                                                marginHeight = 0
+                                            }
+                                        } LpatNone
+                                    }
+                                } rc
+                            }
+                        } lineBox
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%1% Fill Pattern
+                                marginHeight = 0
+                                leftAttachment = attach_widget
+                                leftWidget = lineBox
+                                topAttachment = attach_form
+                            }
+                        } fillLabel
+                        widget XmFrame {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                topWidget = fillLabel
+                                leftAttachment = attach_widget
+                                leftWidget = lineBox
+                                topAttachment = attach_widget
+                                rightAttachment = attach_form
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        numColumns = 6
+                                        radioBehavior = true
+                                        spacing = 0
+                                        adjustMargin = false
+                                    }
+                                    children {
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_SOLID);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfisolid.bm
+                                                labelType = pixmap
+                                            }
+                                        } FpatSolid
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_50_PERCENT);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfi50.bm
+                                                labelType = pixmap
+                                            }
+                                        } Fpat50Percent
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_25_PERCENT);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfi25.bm
+                                                labelType = pixmap
+                                            }
+                                        } Fpat25Percent
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_75_PERCENT);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfi75.bm
+                                                labelType = pixmap
+                                            }
+                                        } Fpat75Percent
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_HORIZ_STRIPE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfihoriz.bm
+                                                labelType = pixmap
+                                            }
+                                        } FpatHorizStripe
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_VERT_STRIPE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfivert.bm
+                                                labelType = pixmap
+                                            }
+                                        } FpatVertStripe
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_45_STRIPE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfi45.bm
+                                                labelType = pixmap
+                                            }
+                                        } Fpat45Stripe
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_135_STRIPE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfi135.bm
+                                                labelType = pixmap
+                                            }
+                                        } Fpat135Stripe
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_DIAG_HATCHED);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtfidiag.bm
+                                                labelType = pixmap
+                                            }
+                                        } FpatDiagHatched
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_CROSS_HATCHED);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtficross.bm
+                                                labelType = pixmap
+                                            }
+                                        } FpatCrossHatched
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPattern
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStyleFillPatternName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStyleFillPatternName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_FPAT_NONE);\
+parent.FpatSolid:indicatorSize = self:indicatorSize;\
+parent.Fpat25Percent:indicatorSize = self:indicatorSize;\
+parent.Fpat50Percent:indicatorSize = self:indicatorSize;\
+parent.Fpat75Percent:indicatorSize = self:indicatorSize;\
+parent.FpatHorizStripe:indicatorSize = self:indicatorSize;\
+parent.FpatVertStripe:indicatorSize = self:indicatorSize;\
+parent.Fpat45Stripe:indicatorSize = self:indicatorSize;\
+parent.Fpat135Stripe:indicatorSize = self:indicatorSize;\
+parent.FpatDiagHatched:indicatorSize = self:indicatorSize;\
+parent.FpatCrossHatched:indicatorSize = self:indicatorSize;
+                                            }
+                                            resources {
+                                                labelString = %MSG%1% none
+                                            }
+                                        } FpatNone
+                                    }
+                                } rc
+                            }
+                        } fillBox
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%1% Point Style
+                                marginHeight = 0
+                                topAttachment = attach_widget
+                                topWidget = fillBox
+                                leftAttachment = attach_widget
+                                leftWidget = lineBox
+                            }
+                        } pointLabel
+                        widget XmFrame {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                topAttachment = attach_widget
+                                topWidget = pointLabel
+                                leftAttachment = attach_widget
+                                leftWidget = lineBox
+                                bottomAttachment = attach_form
+                                rightAttachment = attach_form
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        numColumns = 6
+                                        radioBehavior = true
+                                        spacing = 0
+                                    }
+                                    children {
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_DOT);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptdot.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointDot
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_BOX);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptbox.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointBox
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_TRI);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtpttri.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointTri
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_DIAMOND);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptdiam.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointDiamond
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_STAR);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptstar.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointStar
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_VERT_LINE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptvert.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointVertLine
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_HORIZ_LINE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtpthoriz.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointHorizLine
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_CROSS);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptcross.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointCross
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_CIRCLE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptcirc.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointCircle
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_SQUARE);
+                                            }
+                                            resources {
+                                                labelPixmap = xrtptsq.bm
+                                                labelType = pixmap
+                                                marginHeight = 0
+                                            }
+                                        } PointSquare
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyle
+                                                set = self:set = (@ == self:userData);
+                                            }
+                                            activevalue {
+                                                name = _XrtDataStylePointStyleName
+                                                get = \
+if(self:set)
+	_FmSysAvSetString("_XrtDataStylePointStyleName", XtName(self));
+                                            }
+                                            createproc {
+                                                SetValues (self,1,userData,XRT_POINT_NONE);\
+parent.PointDot:indicatorSize = self:indicatorSize;\
+parent.PointBox:indicatorSize = self:indicatorSize;\
+parent.PointTri:indicatorSize = self:indicatorSize;\
+parent.PointDiamond:indicatorSize = self:indicatorSize;\
+parent.PointStar:indicatorSize = self:indicatorSize;\
+parent.PointVertLine:indicatorSize = self:indicatorSize;\
+parent.PointHorizLine:indicatorSize = self:indicatorSize;\
+parent.PointCross:indicatorSize = self:indicatorSize;\
+parent.PointCircle:indicatorSize = self:indicatorSize;\
+parent.PointSquare:indicatorSize = self:indicatorSize;
+                                            }
+                                            resources {
+                                                labelString = %MSG%1% none
+                                                marginHeight = 0
+                                            }
+                                        } PointNone
+                                    }
+                                } rc
+                            }
+                        } pointBox
+                    }
+                } boxForm
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = vertical
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.styleBtn
+                        topAttachment = attach_widget
+                        topWidget = parent.boxForm
+                        leftAttachment = attach_position
+                        leftPosition = 50
+                        separatorType = no_line
+                    }
+                } sep
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = parent.boxForm
+                        leftAttachment = attach_form
+                        horizontalSpacing = 5
+                        verticalSpacing = 5
+                        rightAttachment = attach_widget
+                        rightWidget = sep
+                        shadowThickness = 2
+                        shadowType = shadow_etched_in
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                alignment = alignment_beginning
+                                labelString = %MSG%1% Foreground color:
+                                topAttachment = attach_form
+                                leftAttachment = attach_form
+                            }
+                        } fgColorLabel
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _XrtDataStyleColor
+                                set = self:background = @;
+                            }
+                            resources {
+                                borderWidth = 1
+                                labelString = \ 
+                                topAttachment = attach_form
+                                rightAttachment = attach_form
+                                leftAttachment = attach_widget
+                                leftWidget = parent.fgColorLabel
+                            }
+                        } fgColorSample
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _XrtDataStyleColorName
+                                get = _FmSysAvSetString ("_XrtDataStyleColorName",self:value);
+                                set = _XrtDataStyleSetTextFieldValue (self,@);
+                            }
+                            createproc {
+                                function void _XrtDataStyleSetTextFieldValue (Widget w,String s) {
+	w:value = s;
+	TextFieldSetInsertionPosition (w,TextFieldGetLastPosition (w));\
+}
+                            }
+                            resources {
+                                marginHeight = 1
+                                marginWidth = 1
+                                bottomAttachment = attach_form
+                                leftAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = parent.fgColorLabel
+                                shadowThickness = 1
+                            }
+                        } fgColor
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            createproc {
+                                function void _XrtDataStyleAskColor (Widget text,Widget sample) {
+	old = text:value;
+	s = FmCallResourceBox("Pixel", old, "ColorSelectionBox", "_FmColorSelectionPixel");
+	free (old);
+	if (s != 0 && strlen(s) > 0) {
+		_XrtDataStyleSetTextFieldValue (text,s);
+		sample:background = ConvertString (sample,s,"Pixel");
+	}\
+}
+                            }
+                            resources {
+                                labelString = %MSG%1% Select ...
+                                activateCallback = _XrtDataStyleAskColor (parent.fgColor,parent.fgColorSample);
+                                topAttachment = attach_widget
+                                topWidget = parent.fgColorLabel
+                                leftAttachment = attach_widget
+                                leftWidget = parent.fgColor
+                                bottomAttachment = attach_form
+                                rightAttachment = attach_form
+                                shadowThickness = 1
+                            }
+                        } fgColorSelect
+                    }
+                } fgColorForm
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = parent.boxForm
+                        leftAttachment = attach_widget
+                        leftWidget = sep
+                        horizontalSpacing = 5
+                        verticalSpacing = 5
+                        rightAttachment = attach_form
+                        shadowThickness = 2
+                        shadowType = shadow_etched_in
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                alignment = alignment_beginning
+                                labelString = %MSG%1% Point color:
+                                topAttachment = attach_form
+                                leftAttachment = attach_form
+                            }
+                        } pointColorLabel
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _XrtDataStylePointColor
+                                set = self:background = @;
+                            }
+                            resources {
+                                borderWidth = 1
+                                labelString = \ 
+                                topAttachment = attach_form
+                                rightAttachment = attach_form
+                                leftAttachment = attach_widget
+                                leftWidget = parent.pointColorLabel
+                            }
+                        } pointColorSample
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _XrtDataStylePointColorName
+                                get = _FmSysAvSetString ("_XrtDataStylePointColorName",self:value);
+                                set = _XrtDataStyleSetTextFieldValue(self, @);
+                            }
+                            resources {
+                                marginHeight = 1
+                                marginWidth = 1
+                                topAttachment = attach_widget
+                                topWidget = parent.pointColorLabel
+                                leftAttachment = attach_form
+                                bottomAttachment = attach_form
+                                shadowThickness = 1
+                            }
+                        } pointColor
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%1% Select ...
+                                activateCallback = _XrtDataStyleAskColor (parent.pointColor,parent.pointColorSample);
+                                topAttachment = attach_widget
+                                topWidget = parent.pointColorLabel
+                                rightAttachment = attach_form
+                                leftAttachment = attach_widget
+                                leftWidget = parent.pointColor
+                                bottomAttachment = attach_form
+                                shadowThickness = 1
+                            }
+                        } pointColorSelect
+                    }
+                } pointColorForm
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = parent.fgColorForm
+                        bottomAttachment = attach_widget
+                        bottomWidget = styleBtn
+                        horizontalSpacing = 5
+                        verticalSpacing = 5
+                        rightAttachment = attach_widget
+                        rightWidget = parent.sep
+                        shadowThickness = 2
+                        shadowType = shadow_etched_in
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                alignment = alignment_beginning
+                                labelString = %MSG%1% Line width:
+                                marginHeight = 0
+                                marginWidth = 0
+                                topAttachment = attach_form
+                                leftAttachment = attach_form
+                                bottomAttachment = attach_form
+                            }
+                        } lineWidthLabel
+                        widget XmArrowButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            createproc {
+                                function void _XrtDataStyleSetTextFieldIntValue (Widget w,Int n) {
+	s = itoa (n);
+	w:value = s;
+	free (String (s));
+	TextFieldSetInsertionPosition (w,TextFieldGetLastPosition (w));\
+}
+				
+				SetValues (self,1,userData,1);\
+function void _XrtDataStyleDownButton (Widget w,Int m) {
+	s = w:value;
+	n = atoi (String (s));
+	if (n > m)
+		_XrtDataStyleSetTextFieldIntValue (w,n - 1);
+	free (String (s));\
+}
+                            }
+                            resources {
+                                arrowDirection = arrow_down
+                                activateCallback = _XrtDataStyleDownButton (parent.lineWidth,Int (self:userData));
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                rightAttachment = attach_form
+                                shadowThickness = 1
+                            }
+                        } lineWidthDown
+                        widget XmArrowButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            createproc {
+                                SetValues (self,1,userData,1);\
+function void _XrtDataStyleUpButton (Widget w,Int m) {
+	s = w:value;
+	n = atoi (String (s));
+	if (n < m)
+		_XrtDataStyleSetTextFieldIntValue (w,m);
+	else
+		_XrtDataStyleSetTextFieldIntValue (w,n + 1);
+	free (String (s));\
+}
+                            }
+                            resources {
+                                arrowDirection = arrow_up
+                                activateCallback = _XrtDataStyleUpButton (parent.lineWidth,Int (self:userData));
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                rightAttachment = attach_widget
+                                rightWidget = parent.lineWidthDown
+                                shadowThickness = 1
+                            }
+                        } lineWidthUp
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _XrtDataStyleLineWidth
+                                get = @ = atoi(self:value);
+                                set = _XrtDataStyleSetTextFieldIntValue (self,Int(@));
+                            }
+                            resources {
+                                columns = 5
+                                marginHeight = 1
+                                marginWidth = 1
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                leftAttachment = attach_widget
+                                leftWidget = lineWidthLabel
+                                rightAttachment = attach_widget
+                                rightWidget = lineWidthUp
+                                shadowThickness = 1
+                            }
+                        } lineWidth
+                    }
+                } lineWidthForm
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = parent.fgColorForm
+                        leftAttachment = attach_widget
+                        leftWidget = sep
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.styleBtn
+                        horizontalSpacing = 5
+                        verticalSpacing = 5
+                        rightAttachment = attach_form
+                        shadowThickness = 2
+                        shadowType = shadow_etched_in
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                alignment = alignment_beginning
+                                labelString = %MSG%1% Point size:
+                                marginHeight = 0
+                                marginWidth = 0
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                leftAttachment = attach_form
+                            }
+                        } pointSizeLabel
+                        widget XmArrowButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            createproc {
+                                SetValues (self,1,userData,0);
+                            }
+                            resources {
+                                arrowDirection = arrow_down
+                                activateCallback = _XrtDataStyleDownButton (parent.pointSize,Int (self:userData));
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                rightAttachment = attach_form
+                                shadowThickness = 1
+                            }
+                        } pointSizeDown
+                        widget XmArrowButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            createproc {
+                                SetValues (self,1,userData,0);
+                            }
+                            resources {
+                                arrowDirection = arrow_up
+                                activateCallback = _XrtDataStyleUpButton (parent.pointSize,Int (self:userData));
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                rightAttachment = attach_widget
+                                rightWidget = parent.pointSizeDown
+                                shadowThickness = 1
+                            }
+                        } pointSizeUp
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _XrtDataStylePointSize
+                                get = @ = atoi(self:value);
+                                set = _XrtDataStyleSetTextFieldIntValue(self, Int(@));
+                            }
+                            resources {
+                                marginHeight = 1
+                                marginWidth = 1
+                                columns = 5
+                                topAttachment = attach_form
+                                bottomAttachment = attach_form
+                                leftAttachment = attach_widget
+                                leftWidget = pointSizeLabel
+                                rightAttachment = attach_widget
+                                rightWidget = pointSizeUp
+                                shadowThickness = 1
+                            }
+                        } pointSize
+                    }
+                } pointSizeForm
+            }
+        } form
+    }
+} XrtDataStyle
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    createproc {
+        remote None _XnslAttachXrtRemoteAvs;
+    }
+    resources {
+        x = 440
+        y = 198
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            activevalue {
+                name = _XrtXLabel
+                set = _XnslSetXrtLabel (self,"XrtXLabels",String ($));
+            }
+            createproc {
+                _XnslAttachXrtAvs();
+		_XnslAttachXrtRemoteAvs();
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                dialogStyle = dialog_full_application_modal
+                buttonFontList = *helvetica-bold-r-*-12-*
+                labelFontList = *helvetica-bold-r-*-12-*
+                textFontList = *courier-medium-r-*-12-*
+                mapCallback = local Boolean already;\
+if (!already) {
+	already = True;
+	parent:minWidth = self:width;
+	parent:minHeight = self:height;
+	parent:maxHeight = self:height;\
+}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)\
+        Return (self,String (0));\
+else\
+        resource_returning = False;
+                mapCallback = global resource_name;\
+if (resource_name != 0) {\
+        xms = CreateXmString (String (resource_name));\
+        self.resource:labelString = xms;\
+        StringFree (xms);\
+}
+
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% OK
+                        marginHeight = 3
+                        marginWidth = 5
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+hide (parent);\
+Return (self,_XnslGetXrtLabel());
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% Cancel
+                        marginHeight = 3
+                        marginWidth = 5
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+hide (parent);\
+Return (self,String (0));
+                        topAttachment = attach_opposite_widget
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                    }
+                } cancel
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_form
+                        topOffset = 8
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } resource
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% Value:
+                        alignment = alignment_beginning
+                        topAttachment = attach_widget
+                        topOffset = 20
+                        topWidget = resource
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } valueLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _XrtValue
+                        set = script _XrtLabelSetTextValue:\
+self:value = String(@);\
+TextFieldSetInsertionPosition (self,TextFieldGetLastPosition (self));
+                        get = script _XrtLabelGetTextValue:\
+@ = self:value;
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 13
+                        topWidget = resource
+                        leftAttachment = attach_widget
+                        leftWidget = valueLabel
+                        leftOffset = 3
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                    }
+                } value
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% Label:
+                        alignment = alignment_beginning
+                        topAttachment = attach_widget
+                        topOffset = 10
+                        topWidget = value
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } labelLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _XrtLabel
+                        set = script _XrtLabelSetTextValue;
+                        get = script _XrtLabelGetTextValue;
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 3
+                        topWidget = value
+                        leftAttachment = attach_widget
+                        leftWidget = valueLabel
+                        leftOffset = 3
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                    }
+                } label
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 8
+                        topWidget = label
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 8
+                        bottomWidget = ok
+                    }
+                } sep
+            }
+        } form
+    }
+} XrtLabel

@@ -1,0 +1,120 @@
+widget XmCascadeButton {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_ISMENUCASCADE
+        get = script get_MFCMenuCascade_MFC_ISMENUCASCADE:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmRowColumn")
+		&& (parent:rowColumnType == XmMENU_BAR
+		 || parent:rowColumnType == XmMENU_PULLDOWN
+		 || parent:rowColumnType == XmMENU_POPUP)){
+			@ = True;
+		} else {
+			@ = False;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUMNEMONIC
+        get = script get_MFCMenuCascade_MFC_MENUMNEMONIC:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUCASCADE){
+			@ = XKeysymToString(self:mnemonic);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUACCELERATOR
+        get = script get_MFCMenuCascade_MFC_MENUACCELERATOR:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUCASCADE){
+			@ = self:accelerator;
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUITEMSTRING
+        get = script get_MFCMenuCascade_MFC_MENUITEMSTRING:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUCASCADE){
+			String label = FmGetString(self:labelString);
+			String m = self:@MFC_MENUMNEMONIC;
+			if(m && !equal(m, "")){
+				/*
+				 * Find the mnemonic character using sscanf,
+				 * and insert an & character before it.
+				 */
+				Int l = strlen(label);
+				if(strncmp(label, m, 1) == 0){
+					String newlabel = XtMalloc(l+2);
+					sprintf(newlabel, "&%s", label);
+					XtFree(label);
+					label = newlabel;
+				} else {
+					String left = XtMalloc(l+1);
+					String right = XtMalloc(l+1);
+					String fmt = XtMalloc(20);
+					sprintf(fmt, "%%[^%s]%s%%s", m, m);
+					Int n = Int(sscanf(label, fmt, left, right));
+					XtFree(fmt);
+					if(n == 2){
+						String newlabel = XtMalloc(l+2);
+						sprintf(newlabel, "%s&%s%s", left, m, right);
+						XtFree(label);
+						label = newlabel;
+					}
+					XtFree(left);
+					XtFree(right);
+				}
+			}
+			String a = FmGetString(self:acceleratorText);
+			if(a && !equal(a, "")){
+				String newlabel = XtMalloc(strlen(label) + 2 + strlen(a) + 1);
+				sprintf(newlabel, "%s\\\\t%s", label, a);
+				XtFree(label);
+				label = newlabel;
+			}
+			XtFree(a);
+			@ = label;
+		} else {
+			@ = XtNewString("");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCMenuCascade_MFC_CLASS:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUCASCADE){
+			@ = "CXfmMenuCascade";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} menu

@@ -1,0 +1,734 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 968
+        y = 738
+        width = 223
+        height = 223
+    }
+    children {
+        widget XmMainWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 223
+                height = 223
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    createproc {
+                        /* DO NOT EDIT THIS LINE */ self:menuHelpWidget = self.help;
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 223
+                        height = 34
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Open...
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = O
+                                        activateCallback = XmString label;\
+if (!label)
+	label = FmCreateXmString("File to open:");\
+Widget w = parent.parent.parent.parent.xmDialogShell2.xmFileSelectionBox0;\
+w:selectionLabelString = label;\
+w.parent:title = "Opening Address Book";\
+FmShowWidget(w);\
+global Boolean;\
+SavingAddressBook = False;
+                                    }
+                                } open
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Save As...
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = A
+                                        activateCallback = XmString label;\
+if (!label)
+	label = FmCreateXmString("File to save:");\
+Widget w = parent.parent.parent.parent.xmDialogShell2.xmFileSelectionBox0;\
+w:selectionLabelString = label;\
+w.parent:title = "Saving Address Book";\
+FmShowWidget(w);\
+global Boolean SavingAddressBook;\
+SavingAddressBook = True;
+                                    }
+                                } saveAs
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        separatorType = shadow_etched_in
+                                    }
+                                } line
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Exit
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        accelerator = Ctrl<KeyPress>c
+                                        acceleratorText = ^C
+                                        mnemonic = E
+                                        activateCallback = exit(0);
+                                    }
+                                } exit
+                            }
+                        } filePulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = File
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = F
+                                subMenuId = parent.filePulldown
+                            }
+                        } file
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Edit...
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = E
+                                        activateCallback = FmShowWidget(parent.parent.parent.parent.xmDialogShell1.xmForm0);
+                                    }
+                                } edit
+                            }
+                        } addressPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Address
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = A
+                                subMenuId = parent.addressPulldown
+                            }
+                        } address
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = On Version ...
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = V
+                                        activateCallback = FmShowWidget(parent.parent.parent.parent.xmDialogShell0.xmBulletinBoard0);
+                                    }
+                                } onVersion
+                            }
+                        } helpPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Help
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = H
+                                subMenuId = parent.helpPulldown
+                            }
+                        } help
+                    }
+                } menuBar0
+                widget XmForm {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 0
+                        y = 34
+                        width = 223
+                        height = 189
+                        marginHeight = 10
+                        marginWidth = 10
+                        verticalSpacing = 10
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                marginBottom = 0
+                                marginHeight = 5
+                                marginWidth = 5
+                                alignment = alignment_center
+                                leftAttachment = attach_form
+                                topAttachment = attach_form
+                                rightAttachment = attach_form
+                                labelString = Name\
+Street\
+City
+                            }
+                        } address
+                        widget XmScrolledWindow {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 10
+                                y = 69
+                                width = 203
+                                height = 110
+                                leftAttachment = attach_form
+                                rightAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = address
+                                bottomAttachment = attach_form
+                            }
+                            children {
+                                widget XmList {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = Clear
+                                        set = include "addrbook.inc";\
+if (Book) {
+	n = self:itemCount;
+	for (i = 0; i < n; i = i + 1) {
+		Address a = Book[i];
+		XtFree (a->name);
+		XtFree (a->street);
+		XtFree (a->city);
+		XtFree (a->state);
+		XtFree (a->zip);
+		XtFree(String(a));
+	}
+	destroy(Book);
+	Book = NULL;\
+}\
+XmListDeleteAllItems(self);
+                                        usage = face
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        width = 203
+                                        height = 110
+                                        browseSelectionCallback = include "addrbook.inc";\
+if (self:selectedItemCount > 0) {
+	XmListCallback cb = $;
+	Address a = Book[cb->item_position -1];
+	String buf;
+	if (!buf)
+		buf = XtMalloc(1000);
+	sprintf (buf, "%s\n%s\n%s, %s %s",a->name,a->street,a->city,a->state,a->zip);
+	xms = FmCreateXmString(buf);
+	parent.parent.address:labelString = xms;
+	XmStringFree(xms);\
+}
+                                    }
+                                } xmList0
+                            }
+                        } xmScrolledWindow0
+                    }
+                } form
+            }
+        } xmMainWindow0
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 443
+                y = 46
+                width = 247
+                height = 131
+                title = Address Book Version
+            }
+            children {
+                widget XmBulletinBoard {
+                    flag {
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 247
+                        height = 131
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 11
+                                y = 10
+                                width = 225
+                                height = 71
+                                labelString = My Address Book\
+Version 1.0\
+XFaceMaker Tutorial
+                            }
+                        } xmLabel0
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 98
+                                y = 93
+                                labelString = Close
+                            }
+                        } xmPushButton0
+                    }
+                } xmBulletinBoard0
+            }
+        } xmDialogShell0
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 529
+                y = 245
+                width = 399
+                height = 193
+                title = Address Editor
+            }
+            children {
+                widget XmForm {
+                    flag {
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        FmSetWidest(self.nameLabel,self.streetLabel,self.cityLabel,self.stateLabel,NULL);
+                    }
+                    resources {
+                        autoUnmanage = false
+                        horizontalSpacing = 5
+                        verticalSpacing = 2
+                        marginHeight = 10
+                        marginWidth = 10
+                        buttonFontList = *adobe-helvetica-bold-r-*-12-*
+                        labelFontList = *adobe-helvetica-bold-r-*-12-*
+                        textFontList = *adobe-courier-bold-r-*-12-*
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Name:
+                                leftAttachment = attach_form
+                                topAttachment = attach_form
+                            }
+                        } nameLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = Name
+                                set = self:value = @;
+                                type = String
+                                usage = face
+                            }
+                            createproc {
+                                FmSetTallest(parent.nameLabel,self,NULL);
+                            }
+                            resources {
+                                leftAttachment = attach_widget
+                                leftWidget = parent.nameLabel
+                                topAttachment = attach_form
+                                rightAttachment = attach_form
+                            }
+                        } name
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Street:
+                                leftAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = parent.nameLabel
+                            }
+                        } streetLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = Street
+                                set = self:value = @;
+                                type = String
+                                usage = face
+                            }
+                            createproc {
+                                FmSetTallest(parent.streetLabel,self,NULL);
+                            }
+                            resources {
+                                leftAttachment = attach_widget
+                                leftWidget = parent.streetLabel
+                                rightAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = nameLabel
+                            }
+                        } street
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = City:
+                                leftAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = streetLabel
+                            }
+                        } cityLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = City
+                                set = self:value = @;
+                                type = String
+                                usage = face
+                            }
+                            createproc {
+                                FmSetTallest(parent.cityLabel,self,NULL);
+                            }
+                            resources {
+                                leftAttachment = attach_widget
+                                leftWidget = parent.streetLabel
+                                rightAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = parent.streetLabel
+                            }
+                        } city
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = State:
+                                leftAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = cityLabel
+                            }
+                        } stateLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = Zip
+                                set = self:value = @;
+                                type = String
+                                usage = face
+                            }
+                            resources {
+                                columns = 12
+                                topAttachment = attach_widget
+                                topWidget = city
+                                rightAttachment = attach_form
+                            }
+                        } zip
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Zip Code:
+                                rightAttachment = attach_widget
+                                rightWidget = zip
+                                topAttachment = attach_widget
+                                topWidget = city
+                            }
+                        } zipLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = State
+                                set = self:value = @;
+                                type = String
+                                usage = face
+                            }
+                            createproc {
+                                FmSetTallest(parent.zip,parent.zipLabel,parent.stateLabel,self,NULL);
+                            }
+                            resources {
+                                leftAttachment = attach_widget
+                                leftWidget = parent.streetLabel
+                                topAttachment = attach_widget
+                                topWidget = parent.cityLabel
+                                rightAttachment = attach_widget
+                                rightWidget = zipLabel
+                            }
+                        } state
+                        widget XmSeparator {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 0
+                                y = 154
+                                width = 399
+                                height = 2
+                                topAttachment = attach_widget
+                                topWidget = state
+                                topOffset = 10
+                                leftAttachment = attach_form
+                                leftOffset = 0
+                                rightAttachment = attach_form
+                                rightOffset = 0
+                            }
+                        } xmSeparator0
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = OK
+                                topAttachment = attach_widget
+                                topWidget = xmSeparator0
+                                topOffset = 10
+                                leftAttachment = attach_form
+                                leftOffset = 10
+                            }
+                        } ok
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Help
+                                topAttachment = attach_opposite_widget
+                                topOffset = 0
+                                topWidget = ok
+                                rightAttachment = attach_form
+                            }
+                        } help
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = Add
+                                set = XtCallCallbacks (self, "activateCallback", 0);\
+parent.name:value = "";\
+parent.street:value = "";\
+parent.city:value = "";\
+parent.state:value = "";\
+parent.zip:value = "";
+                                usage = face
+                            }
+                            createproc {
+                                self:leftOffset = -(self:width/2);
+                            }
+                            resources {
+                                rightAttachment = attach_none
+                                labelString = Add
+                                topAttachment = attach_opposite_widget
+                                topOffset = 0
+                                topWidget = ok
+                                leftAttachment = attach_position
+                                leftPosition = 50
+                                activateCallback = include "addrbook.inc";\
+list = root.xmMainWindow0.form.xmScrolledWindow0.xmList0;\
+n = list:itemCount;\
+if (!Book)
+	Book = new_array();\
+if (!Book[n])
+	Book[n] = new_struct("Address");\
+Address a = Book[n];\
+a->name = parent.name:value;\
+a->street = parent.street:value;\
+a->city = parent.city:value;\
+a->state = parent.state:value;\
+a->zip = parent.zip:value;\
+xms = FmCreateXmString (a->name);\
+XmListAddItemUnselected(list,xms,0);\
+XmStringFree(xms);
+                            }
+                        } add
+                        widget XmSeparator {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                separatorType = no_line
+                                topAttachment = attach_widget
+                                topOffset = 0
+                                topWidget = ok
+                                leftAttachment = attach_form
+                                leftOffset = 0
+                                bottomAttachment = attach_form
+                                bottomOffset = 0
+                            }
+                        } xmSeparator1
+                    }
+                } xmForm0
+            }
+        } xmDialogShell1
+        widget XmDialogShell {
+            flag {
+                popup
+                autosize
+            }
+            resources {
+                x = 504
+                y = 0
+            }
+            children {
+                widget XmFileSelectionBox {
+                    flag {
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        buttonFontList = *adobe-helvetica-bold-r-*-12-*
+                        labelFontList = *adobe-helvetica-bold-r-*-12-*
+                        textFontList = *adobe-courier-medium-r-*-12-*
+                        okCallback = xms =self:dirSpec;\
+name = FmGetString(xms);\
+XmStringFree(xms);\
+Boolean done = False;\
+global Boolean SavingAddressBook;\
+if (SavingAddressBook) {
+	function Boolean OpenAddressBook(String file) = True;
+	if (OpenAddressBook(name)) {
+		Int n = parent.parent.xmMainWindow0.form.xmScrolledWindow0.xmList0:itemCount;
+		for (i = 0; i<n; i = i+1) {
+			include "addrbook.inc";
+			Address a = Book[i];
+			function None WriteAddress(String name, String street, String city, String state, String zip);
+			WriteAddress(a->name, a->street, a-> city, a->state, a->zip);
+		}
+		function None CloseAddressBook();
+		CloseAddressBook();
+		done = True;
+	} else {
+		printf("Cannot open file for saving.\n");
+	}\
+} else {
+	function Boolean ReadAddressBook (String file) = True;
+	if (ReadAddressBook(name)) {
+		done = True;
+	} else {
+		printf("Cannot open file for reading.\n");
+	}\
+}\
+XtFree(name);\
+if (done) FmHideWidget(self);
+                        cancelCallback = FmHideWidget(self);
+                        dialogStyle = dialog_full_application_modal
+                    }
+                } xmFileSelectionBox0
+            }
+        } xmDialogShell2
+    }
+} applicationShell0

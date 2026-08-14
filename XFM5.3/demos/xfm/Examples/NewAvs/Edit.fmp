@@ -1,0 +1,4 @@
+_FmPOpenFile("Edit.fm");
+_FmPReadFile("Alert.fm", String(0));
+_FmPReadFile("Help.fm", String(0));
+_FmPReadFile("FileSel.fm", String(0));

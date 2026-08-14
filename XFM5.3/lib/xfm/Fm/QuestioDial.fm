@@ -1,0 +1,32 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    resources {
+        x = 399
+        y = 358
+        width = 179
+        height = 99
+        allowShellResize = true
+    }
+    children {
+        widget XmMessageBox {
+            flag {
+                mapped
+            }
+            createproc {
+                UnmanageChild (MessageBoxGetChild (self,XmDIALOG_HELP_BUTTON));
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 179
+                height = 99
+                messageString = Question Here ?
+                textFontList = *helvetica-bold-r-*-12-*
+                dialogType = dialog_question
+                dialogStyle = dialog_application_modal
+            }
+        } QuestionDialog
+    }
+} MyQuestionDialog

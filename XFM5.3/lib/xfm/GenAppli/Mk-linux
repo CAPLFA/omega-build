@@ -1,0 +1,29 @@
+# linux 2.0.xx configuration.
+#
+ MOTIF_DIR = $(MOTIFHOME)
+ X_DIR = /usr/X11R6
+
+MOTIF_INCPATH = -I$(MOTIF_DIR)/include #-I$(X_DIR)/include
+MOTIF_LIBPATH = -L$(MOTIF_DIR)/lib #-L$(X_DIR)/lib
+
+   XT_INCPATH = -I$(X_DIR)/include
+   XT_LIBPATH = -L$(X_DIR)/lib
+
+ XLIB_INCPATH = -I$(X_DIR)/include
+ XLIB_LIBPATH = -L$(X_DIR)/lib
+
+ XEXT_INCPATH = -I$(X_DIR)/include
+ XEXT_LIBPATH = -L$(X_DIR)/lib
+
+  SYS_CFLAGS =	-DUSE_XWCHAR_STRING -DUSE_XMBTOWC\
+		-Dlinux -D_POSIX_SOURCE \
+		-D_BSD_SOURCE -D_GNU_SOURCE -DX_LOCALE
+
+  XT_LIBNAME = -lXt -lSM -lICE
+RANLIB = ranlib
+      HAS_SHLIBS = true         # replace with true if shared libs are supported.
+    SHLIB_SUFFIX = .so.3.5      # replace with appropriate suffix
+SHLIB_C_FLAGS =   -fPIC -DSHAREDCODE
+SHLIB_LD_FLAGS = -shared #-Wl,-soname,$@
+SHLIB_DEP_LIBS = false
+

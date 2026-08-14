@@ -1,0 +1,13 @@
+widget XmPushButton {
+    flag {
+        autosize
+    }
+    resources {
+        x = 0
+        y = 0
+        activateCallback = function None new_child(Widget wp, Widget w);\
+function None create_node(Widget p, Widget p_n,String name,Int state);\
+\
+new_child(parent,self);
+    }
+} Widgets

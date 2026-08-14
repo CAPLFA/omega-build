@@ -1,0 +1,31 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- DEC OSF/1 configuration.
+#
+
+    MOTIF_DXM = /usr/opt/DXM121
+
+MOTIF_INCPATH = -I$(MOTIF_DXM)/include
+MOTIF_LIBPATH = -L$(MOTIF_DXM)/lib
+
+   XT_INCPATH = -I$(MOTIF_DXM)/include
+   XT_LIBPATH = -L$(MOTIF_DXM)/lib
+
+ XLIB_INCPATH = -I$(MOTIF_DXM)/include
+ XLIB_LIBPATH = -L$(MOTIF_DXM)/lib
+
+ XEXT_INCPATH = -I$(MOTIF_DXM)/include
+ XEXT_LIBPATH = -L$(MOTIF_DXM)/lib
+
+     SYS_LIBS = -lbsd -ldnet_stub
+
+   SYS_CFLAGS = -std1 -D_BSD
+
+  SYS_LDFLAGS = -taso
+         NONE = -none
+   HAS_SHLIBS = true
+ SHLIB_SUFFIX = .so.3.5
+SHLIB_DEP_LIBS=false
+SHLIB_LD_FLAGS= -shared -expect_unresolved '*'
+RANLIB = ranlib

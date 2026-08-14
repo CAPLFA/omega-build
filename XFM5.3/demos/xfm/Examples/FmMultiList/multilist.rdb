@@ -1,0 +1,33 @@
+*background: grey
+*rightPane*background: grey
+*fontList: -*-helvetica-medium-r-*-*-*-140-*-*-*-*-*-*
+*explain_label*fontList: -*-helvetica-bold-r-*-*-*-140-*-*-*-*-*-*
+*explain_label*marginWidth: 10
+*explain_label*marginHeight: 10
+*rem_label.alignment: XmALIGNMENT_BEGINNING
+*rem_label.labelString: Remove Player
+*add_label.labelString: Add Player
+*add_label.alignment: XmALIGNMENT_BEGINNING
+*rem_pb.labelString: No Selected Player
+*unsel_pb.labelString: Unselect Current
+*firstRowCol.labelString: Go to Row 2, 1
+*toggleFind.labelString: Toggle Finder
+*quit_pb.labelString: Quit
+*multilist.title: Red Sox Line Up Card
+*multiListWidget*title: Line Up
+*player1.labelString: Mo Vaughn
+*player2.labelString: Tim Naehring
+*player3.labelString: Scott Cooper
+*player4.labelString: John Valentin
+*player5.labelString: Carlos Rodriguez
+*player6.labelString: Otis Nixon
+*player7.labelString: Scott Fletcher
+*player8.labelString: Andre Dawon
+*player9.labelString: Damon Berryhill
+*player10.labelString: Billy Hatcher
+*player11.labelString: Mike Greenwell
+*player12.labelString: Rich Rowland
+*player13.labelString: Lee Tinsley
+*player14.labelString: Dave Valle
+*multiListWidget*background: White
+*list*background: White

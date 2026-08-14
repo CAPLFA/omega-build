@@ -1,0 +1,481 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    createproc {
+        remote String @_XrtCalendarSpecialDay;\
+remote None _XnslAttachRemoteXrtFldAvs;\
+remote None _XnslSetXrtCalendarSpecialDay;\
+remote String _XnslGetXrtCalendarSpecialDay;\
+remote Int @_XrtCalendarSpecialDayType;\
+remote Int @_XrtCalendarSpecialDayYears;\
+remote Int @_XrtCalendarSpecialDayMonth;\
+remote Int @_XrtCalendarSpecialDayDay;\
+remote Int @_XrtCalendarSpecialDayWeek;\
+remote Int @_XrtCalendarSpecialDayDayofweek;
+    }
+    resources {
+        x = 1060
+        y = 0
+        width = 220
+        height = 291
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+            }
+            activevalue {
+                name = _XrtCalendarSpecialDay
+                set = function None _XnslSetXrtCalendarSpecialDay(String a);\
+_XnslSetXrtCalendarSpecialDay(String($));
+                usage = face
+            }
+            createproc {
+                function None _XnslAttachXrtFldAvs();\
+function None _XnslAttachRemoteXrtFldAvs();\
+_XnslAttachXrtFldAvs();\
+_XnslAttachRemoteXrtFldAvs();
+            }
+            resources {
+                x = 0
+                y = 0
+                dialogStyle = dialog_full_application_modal
+            }
+            children {
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        topAttachment = attach_form
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 2
+                                y = 17
+                                width = 216
+                                height = 59
+                                radioBehavior = true
+                                radioAlwaysOne = false
+                                orientation = vertical
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtCalendarSpecialDayType
+                                        get = if(Boolean(self:set)) \
+ @ = Int(self:userData);
+                                        set = XmToggleButtonSetState(self,(Int(self:userData) == @),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,0);
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 210
+                                        height = 25
+                                        set = unset
+                                        labelString = Special day by date
+                                    }
+                                } Special_day_by_date
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtCalendarSpecialDayType
+                                        get = if(Boolean(self:set)) 
+	@ = Int(self:userData);
+                                        set = XmToggleButtonSetState(self,(Int(self:userData) == @),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,1);
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 31
+                                        width = 210
+                                        height = 25
+                                        set = unset
+                                        labelString = special day by day of week
+                                    }
+                                } special_day_by_day_of_week
+                            }
+                        } xmRowColumn0
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 12
+                                y = 0
+                                childType = frame_title_child
+                            }
+                        } Type
+                    }
+                } xmFrame0_2
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 0
+                        y = 78
+                        topAttachment = attach_widget
+                        bottomAttachment = attach_none
+                        topWidget = xmFrame0_2
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 2
+                                y = 17
+                                childType = frame_workarea_child
+                            }
+                            children {
+                                widget XmSpinBox {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        rightAttachment = attach_form
+                                        bottomAttachment = attach_form
+                                        leftAttachment = attach_form
+                                    }
+                                    children {
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtCalendarSpecialDayYears
+                                                get = @ = atoi(self:value);
+                                                set = self:value = itoa(@);\
+/*self:position = PositionValue(@);*/
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 2
+                                                y = 2
+                                                width = 58
+                                                height = 32
+                                                spinBoxChildType = numeric
+                                                maximumValue = 9999
+                                                columns = 4
+                                                minimumValue = -1
+                                                positionType = position_value
+                                                translations = #override
+	<Btn3Down>:	eval("popup=NameToWidget(self, '*popupMenu0');if(popup){MenuPosition(popup, $);ManageChild(popup);}")
+                                            }
+                                        } year
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 60
+                                                y = 9
+                                                labelString = -
+                                            }
+                                        } xmLabel0
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtCalendarSpecialDayMonth
+                                                get = @ = /*atoi(self:value)*/self:position;
+                                                set = /*self:value = itoa(@);*/\
+self:position = @;
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 70
+                                                y = 2
+                                                width = 58
+                                                height = 32
+                                                translations = #override
+	<Btn3Down>:	eval("popup=NameToWidget(self, '*popupMenu0');if(popup){MenuPosition(popup, $);ManageChild(popup);}")
+                                                spinBoxChildType = string
+                                                values = ALL,Jan,Feb,Mar,Apr,Mai,Jun,Jul,Aug,Sep,Oct,Nov,Dec
+                                                numValues = 13
+                                                value = 1
+                                                columns = 3
+                                                positionType = position_value
+                                            }
+                                        } month
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 128
+                                                y = 9
+                                                labelString = -
+                                            }
+                                        } xmLabel0_2
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtCalendarSpecialDayDay
+                                                get = @ = atoi(self:value);
+                                                set = self:value = itoa(@);\
+self:position=PositionValue(@);
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 138
+                                                y = 3
+                                                width = 60
+                                                height = 30
+                                                maximumValue = 31
+                                                spinBoxChildType = numeric
+                                                columns = 2
+                                                positionType = position_value
+                                            }
+                                        } day
+                                    }
+                                } xmSpinBox0
+                            }
+                        } xmForm0
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 12
+                                y = 0
+                                width = 118
+                                height = 17
+                                childType = frame_title_child
+                                labelString = Years - Month - Day
+                            }
+                        } YearsMonthDay
+                    }
+                } xmFrame0
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 0
+                        y = 133
+                        topAttachment = attach_widget
+                        topWidget = xmFrame0
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 2
+                                y = 17
+                                radioBehavior = true
+                                radioAlwaysOne = false
+                                orientation = horizontal
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtCalendarSpecialDaydayofweek
+                                        get = if(Boolean(self:set)) 
+	@ = Int(self:userData);
+                                        set = XmToggleButtonSetState(self,(Int(self:userData) == @),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,0);
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 73
+                                        height = 25
+                                        set = unset
+                                    }
+                                } Sunday
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtCalendarSpecialDaydayofweek
+                                        get = if(Boolean(self:set)) 
+	@ = Int(self:userData);
+                                        set = XmToggleButtonSetState(self,(Int(self:userData) == @),true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,6);
+                                    }
+                                    resources {
+                                        x = 79
+                                        y = 3
+                                        width = 73
+                                        height = 25
+                                        set = unset
+                                    }
+                                } Saturday
+                            }
+                        } xmRowColumn0_2
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 12
+                                y = 0
+                                width = 70
+                                height = 17
+                                childType = frame_title_child
+                            }
+                        } "Day of week"
+                    }
+                } xmFrame0_3
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 0
+                        y = 183
+                        topAttachment = attach_widget
+                        topWidget = xmFrame0_3
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 12
+                                y = 0
+                                width = 28
+                                height = 17
+                                childType = frame_title_child
+                            }
+                        } Week
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 2
+                                y = 17
+                            }
+                            children {
+                                widget XmSimpleSpinBox {
+                                    flag {
+                                        mapped
+                                    }
+                                    activevalue {
+                                        name = _XrtCalendarSpecialDayweek
+                                        get = /*Widget text = self:textField;*/\
+/*@ = atoi(text:value );*/\
+@=self:position;
+                                        set = /*Widget text = self:textField;\
+text:value = itoa(@);*/\
+self:position = /*PositionValue(@)*/@;
+                                        usage = face
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        translations = #override
+	<Btn3Down>:	eval("popup=NameToWidget(self, '*popupMenu0');if(popup){MenuPosition(popup, $);ManageChild(popup);}")
+                                        height = 42
+                                        width = 216
+                                        topAttachment = attach_form
+                                        leftAttachment = attach_form
+                                        bottomAttachment = attach_form
+                                        rightAttachment = attach_form
+                                        spinBoxChildType = numeric
+                                        columns = 4
+                                        maximumValue = 53
+                                        minimumValue = -1
+                                    }
+                                } xmSimpleSpinBox0
+                            }
+                        } xmForm0
+                    }
+                } xmFrame0_4
+                widget XmMessageBox {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        cancel = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);
+	if (cancel)
+		XtUnmanageChild(cancel);
+                    }
+                    resources {
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                        marginHeight = 0
+                        marginWidth = 0
+                        helpLabelString = %MSG%1% Cancel
+                        okLabelString = %MSG%1% OK
+                        helpCallback = global resource_returning;
+	resource_returning = True;
+	hide (parent);
+	Return (self,String (0));
+                        okCallback = function String _XnslGetXrtCalendarSpecialDay();\
+global resource_returning;
+	resource_returning = True;
+	hide (parent);
+	Return (self,_XnslGetXrtCalendarSpecialDay());
+                        topAttachment = attach_widget
+                        topWidget = xmFrame0_4
+                    }
+                } styleBtn
+            }
+        } CalendarSpecialDay
+    }
+} XrtCalendarSpecialDay

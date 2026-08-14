@@ -1,0 +1,54 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 102
+        y = 21
+        width = 533
+        height = 412
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 533
+                height = 412
+            }
+            children {
+                widget XtXrt3d {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 73
+                        y = 15
+                        width = 448
+                        height = 381
+                        xrt3dSurfaceData = xrt3d.data
+                        xrt3dHeaderForegroundColor = red
+                        xrt3dGraphBackgroundColor = green
+                        xrt3dGraphForegroundColor = red
+                        borderColor = lemonchiffon
+                        xrt3dYAxisTitle = \ Axis title
+                        borderWidth = 2
+                        xrt3dSurfaceTopColor = blue
+                        xrt3dLegendOrientation = AlignVertical
+                        xrt3dSurfaceBottomColor = red
+                        xrt3dXBarFormat = BarFixed
+                        xrt3dFooterStrings = ( "footnote" "footnote1" )
+                        xrt3dFooterXUseDefault = true
+                        xrt3dDrawShaded = true
+                        xrt3dDrawZones = true
+                        xrt3dDrawHiddenLines = false
+                        xrt3dDistnMethod = DistnLinear
+                    }
+                } xtXrt3d0
+            }
+        } xmForm0
+    }
+} applicationShell0

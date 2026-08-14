@@ -1,0 +1,149 @@
+widget XmDrawingArea {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_CLASS
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+        default_type = String
+        default_value = CXfmWnd
+    }
+    activevalue {
+        name = MFC_N_WM_LBUTTONDOWN
+        get = script get_MFCDrawingArea_MFC_N_WM_LBUTTONDOWN:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnLButtonDown(UINT flags, CPoint point)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_LBUTTONUP
+        get = script get_MFCDrawingArea_MFC_N_WM_LBUTTONUP:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnLButtonUp(UINT flags, CPoint point)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_MBUTTONDOWN
+        get = script get_MFCDrawingArea_MFC_N_WM_MBUTTONDOWN:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnMButtonDown(UINT flags, CPoint point)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_MBUTTONUP
+        get = script get_MFCDrawingArea_MFC_N_WM_MBUTTONUP:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnMButtonUp(UINT flags, CPoint point)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_RBUTTONDOWN
+        get = script get_MFCDrawingArea_MFC_N_WM_RBUTTONDOWN:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnRButtonDown(UINT flags, CPoint point)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_RBUTTONUP
+        get = script get_MFCDrawingArea_MFC_N_WM_RBUTTONUP:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnRButtonUp(UINT flags, CPoint point)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_KEYDOWN
+        get = script get_MFCDrawingArea_MFC_N_WM_KEYDOWN:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnKeyDown(UINT nChar, UINT repCount, UINT flags)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_KEYUP
+        get = script get_MFCDrawingArea_MFC_N_WM_KEYUP:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "inputCallback")){
+			@ = "#void ::OnKeyUp(UINT nChar, UINT repCount, UINT flags)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INPUT); call_data = (XtPointer)&cbs;$inputCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_PAINT
+        get = script get_MFCDrawingArea_MFC_N_WM_PAINT:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "exposeCallback")){
+			@ = "#void ::OnPaint()#$CXfmWnd::OnPaint(); XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_EXPOSE); call_data = (XtPointer)&cbs;$exposeCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_SIZE
+        get = script get_MFCDrawingArea_MFC_N_WM_SIZE:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "resizeCallback")){
+			@ = "#void ::OnSize(UINT type, int cx, int cy)#$XmDrawingAreaCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_RESIZE); call_data = (XtPointer)&cbs;$resizeCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} drawingarea

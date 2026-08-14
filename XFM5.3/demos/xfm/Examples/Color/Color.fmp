@@ -1,0 +1,3 @@
+_FmSetSaveOptions('','',2081,0,0,1,0,'','','');
+_FmPOpenFile("Color.fm");
+_FmPReadSubFile("ColorItem.fm", "AS.F.SW.ClipWindow.RC", "", 1);

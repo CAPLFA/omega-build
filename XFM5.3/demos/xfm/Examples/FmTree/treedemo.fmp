@@ -1,0 +1,5 @@
+_FmSetSaveOptions('','',2081,0,0,1,0,'','','');
+_FmLoadWidgetClass ("PBnodeC", "PBnodeC.fm");
+_FmCmdSetCcodeMode (TRUE);
+_FmCmdSetAppliPreserveMode (TRUE);
+_FmPOpenFile ("treedemo.fm");

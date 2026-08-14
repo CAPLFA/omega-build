@@ -1,0 +1,197 @@
+Introduction
+	XFaceMaker is the only UIMS which has the capability
+	of generating true widget classes conforming to the
+	programming interface of the X Toolkit Intrinsics.
+	
+	Given an object edited with XFaceMaker, you can generate
+	a widget class which has the look and behaviour of this
+	object built into it.
+	
+	The new widget class can be instanciated immediately:
+	XFaceMaker creates the class dynamically and adds it to
+	its Toolkit icons. You can use your new class just like
+	any standard Motif class.
+	
+	You can also generate the C code for your new widget
+	class: XFaceMaker will produce the Class.c, Class.h and
+	ClassP.h files automatically.
+	
+	In your widget class, you can define not only different
+	default values for existing Motif resources, but also
+	completely new resources. You specify the side-effects
+	of these new resources using XFaceMaker active values
+	and FACE scripts.
+	
+Creating a Widget Class
+	To create a simple widget class, you must first create the
+	object which will be used as the model for the class.
+	The model object is created like any ordinary interface object.
+	It can be a single widget, or a composite widget with sub-widgets.
+	
+	Once the model object is defined, you must select it and call the
+	command `Modules/Classes/Save As' in the main menu bar of XFaceMaker.
+	This will pop up a special purpose file selector in which you must
+	specify:
+	
+	- the name of the class,
+	
+	- the .fm file where the class definition will be saved.
+	
+	When you click `OK', the selected object is saved in the specified .fm
+	file, and the widget class is created dynamically by XFaceMaker.
+	An icon is created in the toolkit area of
+	the main window, in the `User defined' section: to see it, use the Toolkit
+	pulldown menu and select `User defined'. (Note: if you specified a class
+	name starting with `Xnsl', the new class appears in the `NSL'
+	section of the toolkit).
+	
+	You can also load a class that was defined previously. To do this,
+	use the command `Modules/Classes/Load'. The class selector pops
+	up and lets you choose the class name and file. The class model is loaded,
+	the class is created dynamically and the icon is added to the Toolkit.
+	
+	To generate the C code for the new class:
+	
+	- Open the C Code Options box by `Options/C Code' and check the `Save C Also'
+	toggle,
+	
+	- Save your class again (select the model object and use
+	`Modules/Classes/Save'). The .c and .h files are generated.
+	
+	Notes:
+	
+	1. The `File/Save Prefs' command records the classes that
+	you have saved or loaded, so you don't have to load them again when
+	you restart XFaceMaker. Loaded classes are also recorded in project
+	files so they are created automatically when the project file is
+	loaded.
+	
+	2. Widget classes are NOT loaded automatically when you load an
+	interface containing class instances. You must load classes explicitly
+	or record them in your .xfm.startup or in your project file.
+	
+Changing Default Resource Values
+	In the simplest cases, you define widget classes to specify
+	special resource values for existing Motif resources. For example,
+	you can define a very simple class `OKButton' as follows:
+	
+	- create a PushButton and select it,
+	
+	- change its `labelString' resource to `OK',
+	
+	- save it as a new widget class `OKButton' in a file `OKButton.fm'.
+	
+	When you save the class, XFaceMaker creates a widget class which
+	is a sub-class of XmPushButton, and which defines the resource
+	`labelString' with a default value of `OK'. You can save the C code
+	files of your class as explained in `Creating a Widget Class' and have
+	a look at the resource array and class record definition.
+	
+	You can specify not only the look for the new class, but more usefully
+	its behavior by defining callbacks. For example, you could program
+	the activateCallback of your PushButton (say, ``printf("OK\n");'').
+	In that case, the callback will be built into the new class (of course,
+	it is still possible to define additional callbacks in the class instance).
+	
+Defining New Resources
+	In addition to specifying new default values for existing resources,
+	you can define completely new resources in your new widget class.
+	
+	To define a new resource:
+	
+	- Select your model object.
+	
+	- Open the Active Values box (`Windows/Active Values' command).
+	
+	- Select the usage toggle `Widget Class'.
+	
+	- Enter the name of your new resource in the `Name' text field.
+	
+	- Enter the type of the resource in the `Type' field (you can choose
+	an existing type using the `...' button, or enter a new type -- see
+	`Defining New Resource Types').
+	
+	- Enter the resource's default value (or leave it blank, in which
+	case the default value will be 0).
+	
+	- In the `Get Script' text field, you can enter a FACE script which
+	will be executed when the resource is retrieved from the class instance
+	using XtGetValues. The value which will be returned by XtGetValues
+	must stored in the @ argument of the FACE script.
+	This script can be left blank in which case no side
+	effect will be executed. 
+	
+	- In the `Set Script' text field, you can enter a FACE script which
+	will be executed when the resource is changed in the class instance
+	using XtSetValues, and also when the resource is initialized when
+	the class instance is created. The new value which was passed to
+	XtSetValues is stored in the @ argument of the FACE script, and
+	can be used to update the widget accordingly. The previous value of
+	the resource is also passed as @1. To know if the script is called
+	at creation time or by an XtGetValues, you can test the value
+	@2 which is null at creation time and non-null at SetValues time.
+	This script can be left blank in which case no side effect will be
+	executed.
+	
+	- Click on the `Add' button of the Active Values box.
+	
+	- Save your class (you can use the toplevel menu's `Modules/Classes/Save As',
+	or enter the class name in the `Class Name' field of the Active Values box
+	and click on the `Save' button).
+	
+Defining New Resource Types
+	When you define a new resource, you must specify its type.
+	
+	There are basically 3 cases.
+	
+	
+	1. Your resource can be represented by an existing Motif or Xt type.
+	This is the case for Strings, XmStrings, Booleans, integers, etc.
+	In that case, all you have to do it choose the right type from the
+	list. When possible, we recommend that you use existing representation
+	types.
+	
+	
+	2. You resource cannot be represented by an existing type, but it is
+	a scalar resource which will accept only a fixed set of values, i.e.
+	an enumerated type. In that case, XFaceMaker provides a simple means
+	of declaring the type:
+	
+	- in the Type field, enter the name of your new type (say, `MyType');
+	
+	- in the Set Script of your resource, declare the type and its possible
+	values as follows:
+	
+	type MyType my_value_1, my_value_2, my_value_2;
+	
+	(the declaration can be placed anywhere in the Set script, but before
+	any call to the type caster MyType(...));
+	
+	XFaceMaker handles all the declarations and code necessary to define
+	new enumerated types. You do not have anything more to do.
+	
+	
+	3. Your resource hold data that cannot be represented by a standard
+	Motif or Xt representation, and is not an enumeration. In that case,
+	you only enter the name of the new type in the `Type' field, but you
+	will not be able to manipulate it through FACE scripts in the standard
+	version of XFaceMaker. You have to write C code to convert and manipulate
+	your new type, and add it to an extended version of XFaceMaker. See
+	the documentation for details.
+	
+Defining Class Methods
+	When you define a new widget class, you can program the Core and Composite
+	class methods of your class.
+	
+	To program a class method:
+	
+	- Click on the `Methods' button in the Active Values box;
+	
+	- Select the method you want to program;
+	
+	- Enter the FACE script that will be executed when the class method
+	is called in Set Script area;
+	
+	See the documentation for a list of methods that can be programmed in
+	this way, and for explanations on the arguments passed to the corresponding
+	FACE script.

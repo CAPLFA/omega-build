@@ -1,0 +1,84 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 405
+        y = 342
+        width = 170
+        height = 180
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+            }
+            resources {
+                background = White
+                x = 0
+                y = 0
+                width = 170
+                height = 180
+            }
+            children {
+                widget XmDrawnButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 48
+                        y = 24
+                        labelType = pixmap
+                        activateCallback = \
+	global state;\
+	if(state){\
+		state = False;\
+		self:labelPixmap = "NSLLogo_Off.xpm";\
+		parent.XmFrame1.State : labelString = "OFF";\
+	} else {\
+		state = True;\
+		self:labelPixmap = "NSLLogo_On.xpm";\
+		parent.XmFrame1.State : labelString = "ON";\
+	}\
+
+                        borderWidth = 0
+                        shadowThickness = 0
+                        labelPixmap = NSLLogo_Off.xpm
+                        width = 92
+                        height = 55
+                    }
+                } XmDrawnButton0
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 57
+                        y = 122
+                        width = 61
+                        height = 34
+                        borderWidth = 3
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 2
+                                y = 2
+                                width = 53
+                                height = 26
+                                recomputeSize = false
+                                fontList = *helvetica-*-r-*-18-*
+                                shadowThickness = 2
+                                borderWidth = 2
+                                backgroundPixmap = background
+                            }
+                        } State
+                    }
+                } XmFrame1
+            }
+        } XmBulletinBoard0
+    }
+} Switch

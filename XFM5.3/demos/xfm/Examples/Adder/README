@@ -1,0 +1,18 @@
+Before you try to build the examples in this directory, make sure
+that your environment is properly set up, i.e. that you have run
+one of the scripts (nslenv.sh or nslenv.csh) that set up NSLHOME, 
+PATH, LibraryPath variables for your installation.
+
+If you have not run them, do so now. They are in 
+<installation_directory>/scripts
+
+To build the examples, do
+	make
+
+This will create three executables that calculate a sum:
+adder - interface <-> application communication through function calls
+adderAv - interface <-> application communication with active values
+adderInt - internationalized version - works only on POSIX systems
+
+To remove the examples built, do
+	make clean

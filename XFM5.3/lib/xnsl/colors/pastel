@@ -1,0 +1,21 @@
+*XDrawMaker*foreground : black
+*XDrawMaker*background : seashell
+*XDrawMaker*XnslDraw*background : lightGrey
+
+*XDrawMaker*Tools*Attributes*background : aliceblue
+*XDrawMaker*Tools*Slots*background : azure
+*XDrawMaker*Tools*Objects*background : honeydew
+*XDrawMaker*Tools*SelectButton*background : snow
+*XDrawMaker*Tools*KeepButton*background : floralwhite
+*XDrawMaker*BoxesFrame*background : lightCyan
+
+!*XDrawMaker*LeftRuler*background : honeydew
+!*XDrawMaker*TopRuler*background : honeydew
+*XDrawMaker*Menu*background : lavenderblush
+*XDrawMaker*Messages*background : lavenderblush
+*XDrawMaker*Messages*foreground : red
+!*XDrawMaker*UnitForm*background : seashell
+*XDrawMaker*selectColor: purple
+*XDrawMakerExec*background : seashell
+*XDrawMakerExec*XnslDraw*background : lightGrey
+*XDrawMakerExec*foreground : black

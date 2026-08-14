@@ -1,0 +1,21 @@
+widget XmDrawingArea {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_TITLE
+        get = script get_MFCFrame_MFC_TITLE:
+		FacePragma("ignore");
+		@ = self:title;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} frame

@@ -1,0 +1,664 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    createproc {
+        if(self.xmDialogShell0.frame.bbox:orientation == XmHORIZONTAL ) \
+ self.bform.resframe.resform.orientRC.orientRadio.toggle3:set=unset;\
+else\
+ self.bform.resframe.resform.orientRC.orientRadio.toggle4:set=unset;
+    }
+    resources {
+        x = 150
+        y = 79
+        width = 707
+        height = 626
+        allowShellResize = true
+        background = grey
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 707
+                height = 626
+                dialogTitle = Button Box Demo
+                resizePolicy = resize_grow
+            }
+            children {
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 1
+                        height = 606
+                        bottomAttachment = attach_form
+                        topAttachment = attach_form
+                        topOffset = 10
+                        bottomOffset = 10
+                    }
+                } bboxframe
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 21
+                        y = 10
+                        width = 651
+                        height = 185
+                        rightAttachment = attach_position
+                        rightPosition = 95
+                        leftOffset = 10
+                        topAttachment = attach_opposite_widget
+                        topWidget = parent.bboxframe
+                        leftAttachment = attach_widget
+                        leftWidget = parent.bboxframe
+                    }
+                    children {
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 2
+                                y = 2
+                                width = 647
+                                height = 181
+                                alignment = alignment_beginning
+                                labelString = The OpenMotif Button Box widget can arrange buttons into single rows and columns\
+much more easily than the Motif Row Column or Motif Form!\
+(And two ButtonBoxes paired together do a great job of lining items up.)\
+\
+The four buttons in the other window are inside an OpenMotif Button Box. Try resizing\
+this window! Try modifying the Button Box's resources using the area below.\
+\
+Press the \"Explain...\" button to find out more about a particular resource.
+                            }
+                        } infolabel
+                    }
+                } infoframe
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 21
+                        y = 198
+                        width = 651
+                        height = 302
+                        rightAttachment = attach_position
+                        rightPosition = 95
+                        topAttachment = attach_widget
+                        topWidget = parent.infoframe
+                        leftAttachment = attach_opposite_widget
+                        leftWidget = parent.infoframe
+                        topOffset = 3
+                    }
+                    children {
+                        widget XmForm {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 2
+                                y = 2
+                                width = 647
+                                height = 298
+                                resizePolicy = resize_grow
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 10
+                                        y = 10
+                                        width = 303
+                                        height = 37
+                                        orientation = horizontal
+                                        topOffset = 10
+                                        leftOffset = 10
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 76
+                                                height = 31
+                                            }
+                                        } boxSizeLabel
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 82
+                                                y = 3
+                                                width = 143
+                                                height = 31
+                                                orientation = horizontal
+                                                packing = pack_column
+                                                radioBehavior = true
+                                            }
+                                            children {
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 3
+                                                        y = 3
+                                                        width = 67
+                                                        height = 25
+                                                        valueChangedCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:equalSize=true;
+                                                    }
+                                                } toggle1
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 73
+                                                        y = 3
+                                                        width = 67
+                                                        height = 25
+                                                        valueChangedCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:equalSize=false;
+                                                    }
+                                                } toggle2
+                                            }
+                                        } radioRC
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 228
+                                                y = 3
+                                                width = 72
+                                                height = 31
+                                                activateCallback = parent.parent.parent.parent.parent.xmDialogShell1.explain:messageString="The equalSize resource specifies whether children of the Button\n\
+Box have equal heights and widths. The height and width chosen for\n\
+all the children is the height and width of the largest child.";\
+show(parent.parent.parent.parent.parent.xmDialogShell1.explain);
+                                            }
+                                        } pushButton
+                                    }
+                                } bboxSizeRC
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 57
+                                        width = 276
+                                        height = 41
+                                        orientation = horizontal
+                                        topAttachment = attach_widget
+                                        topWidget = bboxSizeRC
+                                        topOffset = 10
+                                        leftOffset = 10
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 94
+                                                height = 35
+                                            }
+                                        } fillOptionLabel
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                menu_pulldown
+                                            }
+                                            resources {
+                                            }
+                                            children {
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        activateCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:fillOption=XmFillNone;
+                                                    }
+                                                } nonePB
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        activateCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:fillOption=XmFillMinor;
+                                                    }
+                                                } minorPB
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        activateCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:fillOption=XmFillMajor;
+                                                    }
+                                                } majorPB
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        activateCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:fillOption=XmFillAll;
+                                                    }
+                                                } allPB
+                                            }
+                                        } filloptionMenuPulldown
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                menu_option
+                                            }
+                                            resources {
+                                                x = 100
+                                                y = 3
+                                                width = 92
+                                                height = 35
+                                                subMenuId = parent.filloptionMenuPulldown
+                                            }
+                                        } filloptionMenu
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 195
+                                                y = 3
+                                                width = 78
+                                                height = 35
+                                                activateCallback = parent.parent.parent.parent.parent.xmDialogShell1.explain:messageString="The fillOption resource sets four kinds of fill options: FillNone,\n\
+FillMajor, FillMinor, and FillAll. Fill specifies how to use any extra\n\
+space left over once all children have been sized. This resource usually\n\
+expands children in a reasonable manner.\n\
+\n\
+FillMajor expands children in the direction of the orientation resource.\n\
+FillMinor expands children in the opposite direction of the orientation \
+resource.\n\
+FillAll expands children in both major and minor directions.\n\
+FillNone doesn't expand children.";\
+show(parent.parent.parent.parent.parent.xmDialogShell1.explain);
+                                            }
+                                        } pushButton1
+                                    }
+                                } fillOptionRC
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 10
+                                        y = 108
+                                        width = 280
+                                        height = 37
+                                        orientation = horizontal
+                                        topAttachment = attach_widget
+                                        topWidget = fillOptionRC
+                                        topOffset = 10
+                                        leftOffset = 10
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 52
+                                                height = 31
+                                            }
+                                        } widLabel
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 58
+                                                y = 3
+                                                width = 138
+                                                height = 31
+                                                modifyVerifyCallback = extern function None OnlyNum();\
+OnlyNum();
+                                                activateCallback = Int a = atoi(self:value);\
+parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:marginWidth=a;
+                                            }
+                                        } widText
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 199
+                                                y = 3
+                                                width = 78
+                                                height = 31
+                                                activateCallback = parent.parent.parent.parent.parent.xmDialogShell1.explain:messageString="marginWidth is the number of spacing pixels to the left and to the right\n\
+of the children in the Button Box.";\
+\
+show(parent.parent.parent.parent.parent.xmDialogShell1.explain);
+                                            }
+                                        } pushButton2
+                                    }
+                                } widRC
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 155
+                                        width = 274
+                                        height = 37
+                                        orientation = horizontal
+                                        leftOffset = 10
+                                        topAttachment = attach_widget
+                                        topWidget = widRC
+                                        topOffset = 10
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 46
+                                                height = 31
+                                            }
+                                        } htLabel
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 52
+                                                y = 3
+                                                width = 138
+                                                height = 31
+                                                activateCallback = Int margin = atoi(self:value);\
+parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:marginHeight=margin;
+                                                modifyVerifyCallback = extern function None OnlyNum();\
+OnlyNum();
+                                            }
+                                        } htText
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 193
+                                                y = 3
+                                                activateCallback = parent.parent.parent.parent.parent.xmDialogShell1.explain:messageString="marginHeight is the number of spacing pixels on top and on bottom of the \n\
+children in the Button Box.";\
+show(parent.parent.parent.parent.parent.xmDialogShell1.explain);
+                                                width = 78
+                                                height = 31
+                                            }
+                                        } pushButton3
+                                    }
+                                } htRC
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 202
+                                        width = 303
+                                        height = 37
+                                        topAttachment = attach_widget
+                                        topWidget = htRC
+                                        leftOffset = 10
+                                        topOffset = 10
+                                        orientation = horizontal
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 70
+                                                height = 31
+                                            }
+                                        } orientLabel
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 76
+                                                y = 3
+                                                orientation = horizontal
+                                                width = 143
+                                                height = 31
+                                                packing = pack_column
+                                                radioBehavior = true
+                                                isHomogeneous = true
+                                            }
+                                            children {
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 3
+                                                        y = 3
+                                                        width = 67
+                                                        height = 25
+                                                        valueChangedCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:orientation=vertical;
+                                                    }
+                                                } toggle3
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 73
+                                                        y = 3
+                                                        valueChangedCallback = parent.parent.parent.parent.parent.parent.xmDialogShell0.frame.bbox:orientation=horizontal;
+                                                        width = 67
+                                                        height = 25
+                                                    }
+                                                } toggle4
+                                            }
+                                        } orientRadio
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 222
+                                                y = 3
+                                                activateCallback = parent.parent.parent.parent.parent.xmDialogShell1.explain:messageString="orientation specifies whether the children of the Button Box are placed\n\
+in a row or a column. HORIZONTAL places children in a row (major dimension\n\
+is width, minor dimension is height). VERTICAL places children in a column\n\
+(major dimension is height, minor dimension is width).";\
+show(parent.parent.parent.parent.parent.xmDialogShell1.explain);
+                                                width = 78
+                                                height = 31
+                                            }
+                                        } pushButton4
+                                    }
+                                } orientRC
+                            }
+                        } resform
+                    }
+                } resframe
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 294
+                        y = 564
+                        width = 196
+                        height = 25
+                        leftAttachment = attach_widget
+                        leftWidget = parent.bboxframe
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_form
+                        rightOffset = 217
+                        leftOffset = 283
+                        bottomOffset = 37
+                        activateCallback = exit(0);
+                    }
+                } quitPB
+            }
+        } bform
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 327
+                y = 352
+                width = 352
+                height = 80
+            }
+            children {
+                widget XmForm {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 352
+                        height = 80
+                    }
+                    children {
+                        widget XmButtonBox {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                width = 352
+                                height = 80
+                                bottomAttachment = attach_form
+                                topAttachment = attach_form
+                                rightAttachment = attach_form
+                                leftAttachment = attach_form
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 7
+                                        y = 27
+                                        width = 78
+                                        height = 25
+                                    }
+                                } FirstButton
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 93
+                                        y = 27
+                                        width = 84
+                                        height = 25
+                                    }
+                                } SecondButton
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 185
+                                        y = 27
+                                        width = 78
+                                        height = 25
+                                    }
+                                } ThirdButton
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 271
+                                        y = 27
+                                        width = 72
+                                        height = 25
+                                    }
+                                } LastButton
+                            }
+                        } bbox
+                    }
+                } frame
+            }
+        } xmDialogShell0
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 532
+                y = 432
+                width = 282
+                height = 227
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    createproc {
+                        Widget temp;\
+temp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+UnmanageChild(temp);\
+temp = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+UnmanageChild(temp);
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 282
+                        height = 227
+                        dialogTitle = Explanation
+                        dialogType = dialog_information
+                    }
+                } explain
+            }
+        } xmDialogShell1
+    }
+} Buttonbox

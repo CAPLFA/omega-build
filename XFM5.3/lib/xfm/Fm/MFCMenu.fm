@@ -1,0 +1,483 @@
+widget XmRowColumn {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_ISCOMBOBOX
+        get = script get_MFCMenu_MFC_ISCOMBOBOX:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmMENU_OPTION){
+			@ = True;
+			Widget pd = self:subMenuId;
+			if(pd){
+				pd:@MFC_ISPULLDOWN = False;
+				pd:@MFC_CLASS = "";
+				function None _FmWinIgnoreOptSubMenus(Widget pd, Int level)
+				{
+					Int n = pd:numChildren;
+					if(n > 0){
+						Widget children[Int] = new_c_array(Pointer(pd:children), n);
+						for(i = 0; i < n; i = i+1){
+							Widget w = children[i];
+							if(level > 0
+							&& _FmIsOfSubClass(w, "XmLabel")
+							&& !_FmIsOfSubClass(w, "XmCascadeButton")){
+								_FmTargetWarning(w, "sub-menus in option menus are not supported");
+								w:@MFC_ISMENUITEM = False;
+								w:@MFC_CLASS = "";
+							}
+							else
+							if(_FmIsOfSubClass(w, "XmCascadeButton")){
+								_FmTargetWarning(w, "sub-menus in option menus are not supported");
+								w:@MFC_ISMENUCASCADE = False;
+								w:@MFC_CLASS = "";
+								Widget subpd = w:subMenuId;
+								if(subpd){
+									subpd:@MFC_ISPULLDOWN = False;
+									subpd:@MFC_CLASS = "";
+									_FmWinIgnoreOptSubMenus(subpd, level+1);
+								}
+							}
+						}
+						destroy(children);
+					}
+				}
+				_FmWinIgnoreOptSubMenus(pd, 0);
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_packing
+        get = script get_MFCMenu_MFC_R_packing:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			Int p = Int(self:packing);
+			if(p == XmPACK_TIGHT)
+				@ = "XmPACK_TIGHT";
+			else
+			if(p == XmPACK_COLUMN)
+				@ = "XmPACK_COLUMN";
+			else
+			if(p == XmPACK_NONE)
+				@ = "XmPACK_NONE";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_numColumns
+        get = script get_MFCMenu_MFC_R_numColumns:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			@ = itoa(self:numColumns);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_orientation
+        get = script get_MFCMenu_MFC_R_orientation:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			if(self:orientation == XmVERTICAL)
+				@ = "XmVERTICAL";
+			else
+				@ = "XmHORIZONTAL";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_adjustLast
+        get = script get_MFCMenu_MFC_R_adjustLast:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			if(self:adjustLast)
+				@ = "True";
+			else
+				@ = "False";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_spacing
+        get = script get_MFCMenu_MFC_R_spacing:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			@ = itoa(self:spacing);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_marginWidth
+        get = script get_MFCMenu_MFC_R_marginWidth:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			@ = itoa(self:marginWidth);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_marginHeight
+        get = script get_MFCMenu_MFC_R_marginHeight:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmWORK_AREA){
+			@ = itoa(self:marginHeight);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xfmVerticalTextMargin
+        get = script get_MFCMenu_MFC_R_xfmVerticalTextMargin:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOX)
+			@ = itoa(-4);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISMENUBAR
+        get = script get_MFCMenu_MFC_ISMENUBAR:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmMENU_BAR){
+			@ = True;
+			if(!_FmIsOfSubClass(parent, "XmPanedWindow")){
+				parent:@MFC_MENUBARHEIGHT =
+					_FmGetWidgetResourceValue(self, "height");
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISMENUPOPUP
+        get = script get_MFCMenu_MFC_ISMENUPOPUP:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmMENU_POPUP){
+			@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISPULLDOWN
+        get = script get_MFCMenu_MFC_ISPULLDOWN:
+		FacePragma("ignore");
+		if(self:rowColumnType == XmMENU_PULLDOWN){
+			/*
+			Widget p = parent;
+			while(p && (_FmIsOfSubClass(p, "XmMenuShell"))){
+				p = XtParent(p);
+			}
+			if(p && _FmIsOfSubClass(p, "XmRowColumn")
+			&& (p:rowColumnType == XmMENU_BAR
+			 || p:rowColumnType == XmMENU_PULLDOWN
+			 || p:rowColumnType == XmMENU_POPUP)){
+				@ = True;
+			}
+			 */
+			@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+!    activevalue {
+!        name = MFC_H
+!        get = script get_MFCMenu_MFC_H:
+!		FacePragma("ignore");
+!		if(self:@MFC_ISCOMBOBOX){
+!			Widget p = self:subMenuId;
+!			if(p)
+!				@ = p:numChildren * 30;
+!			else
+!				@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+!		} else {
+!			@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+!		}
+!        type = Int
+!        storage = object
+!        automatic = true
+!        autoget = true
+!        genvalue = true
+!    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCMenu_MFC_CLASS:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOX){
+			@ = "CComboBox";
+		}
+		else
+		if(self:@MFC_ISMENUBAR){
+			@ = "CXfmMenuBar";
+		}
+		else
+		if(self:@MFC_ISMENUPOPUP){
+			@ = "CXfmPopupMenu";
+		}
+		else
+		if(self:@MFC_ISPULLDOWN){
+			@ = "CXfmPulldownMenu";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUBARHELP
+        get = script get_MFCMenu_MFC_MENUBARHELP:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUBAR
+		&& self:menuHelpWidget){
+			@ = XtName(self:menuHelpWidget);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_CBS_DROPDOWNLIST
+        get = script get_MFCMenu_MFC_S_CBS_DROPDOWNLIST:
+		FacePragma("ignore");
+		@ = self:@MFC_ISCOMBOBOX;
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_VSCROLL
+        get = script get_MFCMenu_MFC_S_WS_VSCROLL:
+		FacePragma("ignore");
+		@ = self:@MFC_ISCOMBOBOX;
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_BORDER
+        get = script get_MFCMenu_MFC_S_WS_BORDER:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOX)
+			@ = "true";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_items
+        get = script get_MFCMenu_MFC_R_items:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOX){
+			Widget p = self:subMenuId;
+			if(p){
+				Int n = p:numChildren;
+				if(n > 0){
+					Widget children[Int] = new_c_array(Pointer(p:children), n);
+					String items[Int] = new_array();
+					Int length = 1;
+					for(Int i = 0; i < n; i = i+1){
+						Widget b = children[i];
+						items[i] = FmGetString(b:labelString);
+						length = length + strlen(items[i]) + 1;
+					}
+					String choices = XtMalloc(length);
+					strcpy(choices, "");
+					for(i = 0; i < n; i = i+1){
+						strcat(choices, items[i]);
+						if(i < n-1)
+							strcat(choices, ",");
+					}
+					@ = _FmWinQuoteString(choices);
+				}
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_CBN_CLOSEUP
+        get = script get_MFCMenu_MFC_N_CBN_CLOSEUP:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOX){
+			Widget p = self:subMenuId;
+			if(p){
+				Int n = p:numChildren;
+				if(n > 0){
+					Widget children[Int] = new_c_array(Pointer(p:children), n);
+					for(Int i = 0; i < n; i = i+1){
+						Widget b = children[i];
+						String buf = XtMalloc(1000);
+						sprintf(buf,
+	'(Widget)FmWGetValue(%%self, "menuHistory") == FmWGetWidget(%%self, 1, "%s.%s")?$XtCallCallbacks(FmWGetWidget(%%self, 1, "%s.%s"), "activateCallback", 0);$none',
+							XtName(p), XtName(b),
+							XtName(p), XtName(b));
+						@ = _FmConcatString(@, buf , "|");
+					}
+				}
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_COMBOBOXITEM
+        get = script get_MFCMenu_MFC_COMBOBOXITEM:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOX){
+			Widget w = self:menuHistory;
+			if(w)
+				@ = w;
+			else {
+				Widget p = self:subMenuId;
+				if(p){
+					Int n = p:numChildren;
+					if(n > 0){
+						Widget children[Int] = new_c_array(Pointer(p:children), n);
+						@ = children[0];
+					}
+				}
+			}
+		}
+        type = Widget
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_menuHistory
+        get = script get_MFCMenu_MFC_R_menuHistory:
+		FacePragma("ignore");
+		Widget mh = self:@MFC_COMBOBOXITEM;
+		if(mh){
+			String name = XtName(mh);
+			String pname = XtName(XtParent(mh));
+			String mhname = XtMalloc(strlen(pname) + 1 + strlen(name) + 1);
+			sprintf(mhname, "%s.%s", pname, name);
+			@ = _FmWinQuoteString(mhname);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_FAMILY
+        get = script get_MFCMenu_MFC_FONT_FAMILY:
+		FacePragma("ignore");
+		w = self:@MFC_COMBOBOXITEM;
+		if(w)
+			@ = w:@MFC_FONT_FAMILY;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_SIZE
+        get = script get_MFCMenu_MFC_FONT_SIZE:
+		FacePragma("ignore");
+		w = self:@MFC_COMBOBOXITEM;
+		if(w)
+			@ = w:@MFC_FONT_SIZE;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_WEIGHT
+        get = script get_MFCMenu_MFC_FONT_WEIGHT:
+		FacePragma("ignore");
+		w = self:@MFC_COMBOBOXITEM;
+		if(w)
+			@ = w:@MFC_FONT_WEIGHT;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_ITALIC
+        get = script get_MFCMenu_MFC_FONT_ITALIC:
+		FacePragma("ignore");
+		w = self:@MFC_COMBOBOXITEM;
+		if(w)
+			@ = w:@MFC_FONT_ITALIC;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+        MFCTraversal = Fm/MFCTraversal.fm
+    }
+} menu

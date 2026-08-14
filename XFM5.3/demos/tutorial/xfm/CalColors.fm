@@ -1,0 +1,12 @@
+widget XmPushButton {
+    flag {
+        autosize
+        autopos
+    }
+    resources {
+        bottomShadowColor = goldenrod
+        foreground = blue
+        topShadowColor = lemonchiffon
+        background = yellow
+    }
+} calColors

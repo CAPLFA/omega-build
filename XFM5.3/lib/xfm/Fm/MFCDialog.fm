@@ -1,0 +1,227 @@
+widget XmDialogShell {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_DIALOGCHILD
+        get = script get_MFCDialog_MFC_DIALOGCHILD:
+		FacePragma("ignore");
+		Int n = self:numChildren;
+		if(n > 0){
+			Widget children[Int] = new_c_array(Pointer(self:children), n);
+			@ = children[0];
+		}
+        type = Widget
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_W
+        get = script get_MFCDialog_MFC_W:
+		FacePragma("ignore");
+		Widget w = self:@MFC_DIALOGCHILD;
+		if(w)
+			@ = w:@MFC_W;
+		else
+			@ = atoi(_FmGetWidgetResourceValue(self, "width"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCDialog_MFC_H:
+		FacePragma("ignore");
+		Widget w = self:@MFC_DIALOGCHILD;
+		if(w)
+			@ = w:@MFC_H;
+		else
+			@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISFILESELECTIONDIALOG
+        get = script get_MFCDialog_MFC_ISFILESELECTIONDIALOG:
+		FacePragma("ignore");
+		Widget w = self:@MFC_DIALOGCHILD;
+		if(w && _FmIsOfSubClass(w, "XmFileSelectionBox")){
+			@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISAUTOUNMANAGE
+        get = script get_MFCDialog_MFC_ISAUTOUNMANAGE:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmDialogShell")){
+			Widget w = self:@MFC_DIALOGCHILD;
+			if(w && w:autoUnmanage){
+				@ = True;
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCDialog_MFC_CLASS:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "TopLevelShell"))
+			@ = "CFrameWnd";
+		else
+		if(self:@MFC_ISFILESELECTIONDIALOG)
+			@ = "CXfmFileDialog";
+		else
+			@ = "CXfmDialog";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TITLE
+        get = script get_MFCDialog_MFC_TITLE:
+		FacePragma("ignore");
+		@ = self:title;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_title
+        get = script get_MFCDialog_MFC_R_title:
+		FacePragma("ignore");
+		if(self:@MFC_ISFILESELECTIONDIALOG){
+			@ = _FmWinQuoteString(self:title);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISMODAL
+        get = script get_MFCDialog_MFC_ISMODAL:
+		FacePragma("ignore");
+		if(self:mwmInputMode > 0)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FD_OPEN
+        get = script get_MFCDialog_MFC_FD_OPEN:
+		FacePragma("ignore");
+		if(self:@MFC_ISFILESELECTIONDIALOG){
+			Widget w = self:@MFC_DIALOGCHILD;
+			if(strncmp(XtName(w), "open", 4) == 0)
+				@ = True;
+			else
+			if(strncmp(XtName(w), "save", 4) == 0)
+				@ = False;
+			else
+				@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FD_FILTER
+        get = script get_MFCDialog_MFC_FD_FILTER:
+		FacePragma("ignore");
+		if(self:@MFC_ISFILESELECTIONDIALOG){
+			Widget w = self:@MFC_DIALOGCHILD;
+			String dir_mask = _FmGetNonDefaultResourceValue(w, "dirMask");
+			if(dir_mask && strcmp(dir_mask, "") != 0){
+				XmString xmstr = w:pattern;
+				@ = FmGetString(xmstr);
+				XmStringFree(xmstr);
+			}else{
+				String pattern = _FmGetNonDefaultResourceValue(w, "pattern");
+				if(pattern && strcmp(pattern, "") != 0)
+					@ = pattern;
+			}
+			if (dir_mask)
+				XtFree(dir_mask);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_SHOWWINDOW
+        get = script get_MFCDialog_MFC_N_WM_SHOWWINDOW:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "popupCallback")){
+			if(!@) @ = "#void ::OnShowWindow(BOOL show, UINT status)#";
+			@ = _FmConcatString(@, "show == TRUE?popupCallback", "|");
+		}
+		if(_FmHasCallback(self, "popdownCallback")){
+			if(!@) @ = "#void ::OnShowWindow(BOOL show, UINT status)#";
+			@ = _FmConcatString(@, "show == FALSE?popdownCallback", "|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_popupCallback
+        get = script get_MFCDialog_MFC_R_popupCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "popupCallback")){
+			@ = "popupCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_popdownCallback
+        get = script get_MFCDialog_MFC_R_popdownCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "popdownCallback")){
+			@ = "popdownCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} dialog

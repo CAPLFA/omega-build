@@ -1,0 +1,53 @@
+widget XmScrolledWindow {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmEnumResourceList
+        set = _FmListFill (self.list,@);
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = XmProcessTraversal (self.list,XmTRAVERSE_CURRENT);
+    }
+    activevalue {
+        name = Enumeration
+        set = 
+		if (Int(@) >= 0 && Int(@) < self.list:itemCount)
+			XmListSelectPos (self.list,@ + 1,True);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = 
+		Int n = list:selectedItemCount;
+		if(n == 0){
+			strcpy($, "");
+			return();
+		}
+		XmString items[Int] = new_c_array(Pointer(list:selectedItems), n);
+		String s = FmGetString (items[0]);
+		destroy(items);
+		if(s){
+			strcpy($, s);
+			XtFree(s);
+		} else {
+			strcpy($, "");
+		}
+    }
+    resources {
+        visualPolicy = variable
+    }
+    children {
+        widget XmList {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                defaultActionCallback = XtCallCallbacks (parent.parent.ok,"activateCallback",0);
+            }
+        } list
+    }
+} Enumeration

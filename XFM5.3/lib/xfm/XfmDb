@@ -1,0 +1,46 @@
+! XFaceMaker font file.
+! $Id: XfmDb 312 2006-11-28 13:29:34Z bt $
+
+! special fonts for version boxes
+Xfm*xfmVersionBB.loading.fontList:		*-helvetica-bold-r-*-18-*
+Xfm*xfmVersionBB.XmLabel.fontList:		*-helvetica-medium-r-*-14-*-iso8859-1
+Xfm*xfmVersionBB.XmLabelGadget.fontList:	*-helvetica-medium-r-*-14-*-iso8859-1
+Xfm*xfmVersionBB.OK.fontList:			*-helvetica-bold-r-*-18-*
+Xfm*xfmVersionBB.labelXFM.fontList:		*-times-medium*-i-*-24-*
+Xfm*xfmVersionBB.labelVersion.fontList:		*-times-medium*-r-*-18-*
+Xfm*xfmVersionBB.labelNames.fontList:		*-charter-medium-i-*-14-*
+
+! text font
+Xfm*TextList.font:		*-courier-medium-r-*-12-*
+Xfm*Tree.font:			*-courier-medium-r-*-12-*
+Xfm*Wix.font:			*-courier-medium-r-*-12-*
+Xfm*textFontList:		*-courier-medium-r-*-12-*
+Xfm*XmList.fontList:		*-courier-medium-r-*-12-*
+Xfm*XmText.fontList:		*-courier-medium-r-*-12-*
+Xfm*XmTextField.fontList:	*-courier-medium-r-*-12-*
+
+! menubar font
+Xfm*Panel.MenuBar.XmCascadeButton.fontList:		*-helvetica-bold-r-*-14-*
+Xfm*Panel.MenuBar.XmCascadeButtonGadget.fontList:	*-helvetica-bold-r-*-14-*
+Xfm.main.bar.XmCascadeButton.fontList:			*-helvetica-bold-r-*-14-*
+Xfm.main.bar.XmCascadeButtonGadget.fontList:		*-helvetica-bold-r-*-14-*
+
+! menu font
+Xfm*Panel.MenuBar*fontList:	*-helvetica-bold-r-*-12-*
+Xfm.main.bar*fontList:		*-helvetica-bold-r-*-12-*
+
+! special very big font
+Xfm*Boolean*True.fontList:	*-helvetica-bold-r-*-18-*
+Xfm*Boolean*False.fontList:	*-helvetica-bold-r-*-18-*
+Xfm*Colors*Black.fontList:	*-helvetica-bold-r-*-18-*
+Xfm*Colors*White.fontList:	*-helvetica-bold-r-*-18-*
+
+! special font list for fast resource list
+Xfm*fastList.fontList: *-courier-bold-r-*-12-*=n,*-courier-medium-r-*-12-*=v,*-courier-bold-o-*-12-*=t
+
+! nicer font for Help boxes
+Xfm*HelpIndex*XmList.fontList:	*-helvetica-medium-r-*-12-*
+Xfm*Help*XmText.fontList:	*-helvetica-medium-r-*-12-*
+
+! other (label & button) font
+Xfm*fontList:			*-helvetica-bold-r-*-12-*

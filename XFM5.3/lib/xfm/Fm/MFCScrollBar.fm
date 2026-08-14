@@ -1,0 +1,237 @@
+widget XmScrollBar {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_CLASS
+        type = String
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = CScrollBar
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_VERTICAL
+        get = script get_MFCScrollBar_MFC_VERTICAL:
+		FacePragma("ignore");
+		if(self:orientation == XmVERTICAL)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MINIMUM
+        get = script get_MFCScrollBar_MFC_MINIMUM:
+		FacePragma("ignore");
+		@ = self:minimum;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MAXIMUM
+        get = script get_MFCScrollBar_MFC_MAXIMUM:
+		FacePragma("ignore");
+		@ = self:maximum;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_POS
+        get = script get_MFCScrollBar_MFC_POS:
+		FacePragma("ignore");
+		@ = self:value;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_SBS_VERT
+        get = script get_MFCScrollBar_MFC_S_SBS_VERT:
+		FacePragma("ignore");
+		if(self:orientation == XmVERTICAL)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_HSCROLL
+        get = script get_MFCScrollBar_MFC_N_WM_HSCROLL:
+		FacePragma("ignore");
+		if(self:orientation == XmHORIZONTAL){
+			@ = "#void ::OnHScroll(UINT code, UINT pos, CScrollBar* sb)#$if(sb == %self) FmWMoveScrollBar(sb, code, pos);$";
+			@ = _FmConcatString(@, "$static int %name_callValueChanged;$none", "|");
+			@ = _FmConcatString(@, "$if(sb == %self && code != SB_ENDSCROLL) %name_callValueChanged = 1;$none", "|");
+			if(_FmIsOfSubClass(self, "XmScrollBar")){
+				if(_FmHasCallback(self, "incrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_LINEDOWN?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INCREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$incrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "decrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_LINEUP?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DECREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$decrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "pageIncrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_PAGEDOWN?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_PAGE_INCREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$pageIncrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "pageDecrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_PAGEUP?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_PAGE_DECREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$pageDecrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "toTopCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_TOP?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_TO_TOP); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$toTopCallback", "|");
+				}
+				if(_FmHasCallback(self, "toBottomCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_BOTTOM?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_TO_BOTTOM); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$toBottomCallback", "|");
+				}
+			}
+			if(_FmHasCallback(self, "dragCallback")){
+				@ = _FmConcatString(@, "sb == %self && code == SB_THUMBTRACK?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DRAG); call_data = (XtPointer)&cbs;$dragCallback", "|");
+			}
+			if(_FmHasCallback(self, "valueChangedCallback")){
+				@ = _FmConcatString(@, "sb == %self && code == SB_ENDSCROLL && %name_callValueChanged?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_VALUE_CHANGED); call_data = (XtPointer)&cbs;$valueChangedCallback", "|");
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_WM_VSCROLL
+        get = script get_MFCScrollBar_MFC_N_WM_VSCROLL:
+		FacePragma("ignore");
+		if(self:orientation == XmVERTICAL){
+			@ = "#void ::OnVScroll(UINT code, UINT pos, CScrollBar* sb)#$if(sb == %self) FmWMoveScrollBar(sb, code, pos);$";
+			@ = _FmConcatString(@, "$static int %name_callValueChanged;$none", "|");
+			@ = _FmConcatString(@, "$if(sb == %self && code != SB_ENDSCROLL) %name_callValueChanged = 1;$none", "|");
+			if(_FmIsOfSubClass(self, "XmScrollBar")){
+				if(_FmHasCallback(self, "incrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_LINEDOWN?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_INCREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$incrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "decrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_LINEUP?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DECREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$decrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "pageIncrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_PAGEDOWN?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_PAGE_INCREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$pageIncrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "pageDecrementCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_PAGEUP?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_PAGE_DECREMENT); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$pageDecrementCallback", "|");
+				}
+				if(_FmHasCallback(self, "toTopCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_TOP?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_TO_TOP); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$toTopCallback", "|");
+				}
+				if(_FmHasCallback(self, "toBottomCallback")){
+					@ = _FmConcatString(@, "sb == %self && code == SB_BOTTOM?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_TO_BOTTOM); call_data = (XtPointer)&cbs; %name_callValueChanged = 0;$toBottomCallback", "|");
+				}
+			}
+			if(_FmHasCallback(self, "dragCallback")){
+				@ = _FmConcatString(@, "sb == %self && code == SB_THUMBTRACK?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DRAG); call_data = (XtPointer)&cbs;$dragCallback", "|");
+			}
+			if(_FmHasCallback(self, "valueChangedCallback")){
+				@ = _FmConcatString(@, "sb == %self && code == SB_ENDSCROLL && %name_callValueChanged?$XmScrollBarCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_VALUE_CHANGED); call_data = (XtPointer)&cbs;$valueChangedCallback", "|");
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_dragCallback
+        get = script get_MFCScrollBar_MFC_R_dragCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "dragCallback")){
+			@ = "dragCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_valueChangedCallback
+        get = script get_MFCScrollBar_MFC_R_valueChangedCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "valueChangedCallback")){
+			@ = "valueChangedCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_incrementCallback
+        get = script get_MFCScrollBar_MFC_R_incrementCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "incrementCallback")){
+			@ = "incrementCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_decrementCallback
+        get = script get_MFCScrollBar_MFC_R_decrementCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "decrementCallback")){
+			@ = "decrementCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_pageIncrementCallback
+        get = script get_MFCScrollBar_MFC_R_pageIncrementCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "pageIncrementCallback")){
+			@ = "pageIncrementCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_pageDecrementCallback
+        get = script get_MFCScrollBar_MFC_R_pageDecrementCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "pageDecrementCallback")){
+			@ = "pageDecrementCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+        MFCTraversal = Fm/MFCTraversal.fm
+    }
+} default

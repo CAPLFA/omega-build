@@ -1,0 +1,71 @@
+widget XmLabel {
+    flag {
+        autopos
+    }
+    activevalue {
+        name = alertOn
+        set = if (@) {
+		self:labelString = self:alertLabel;
+		self:background = self:alertColor;
+	} else{
+		self:labelString = self:okLabel;
+		self:background = self:okColor;
+	}
+        type = Boolean
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = False
+    }
+    activevalue {
+        name = okLabel
+        set = if (!self:alertOn)
+		self:labelString = @;
+        type = XmString
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = EVERYTHING'S OK
+    }
+    activevalue {
+        name = alertLabel
+        set = if (self:alertOn)
+		self:labelString = @;
+        type = XmString
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = ALERT ...
+    }
+    activevalue {
+        name = alertColor
+        set = if (self:alertOn)
+		self:background = @;
+        type = Pixel
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = red
+    }
+    activevalue {
+        name = okColor
+        set = if (!self:alertOn)
+		self:background = @;
+        type = Pixel
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = green
+    }
+    resources {
+        width = 124
+        height = 65
+        recomputeSize = false
+        fontList = *adobe-helvetica-medium-r-*-12-*
+    }
+} La

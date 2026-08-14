@@ -1,0 +1,22 @@
+widget XmScrolledWindow {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCScrolledWindow_MFC_CLASS:
+		FacePragma("ignore");
+		if(self:scrollingPolicy == XmAUTOMATIC)
+			@ = "CXfmScrolledWnd";
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+        autoget = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} scrolledwin

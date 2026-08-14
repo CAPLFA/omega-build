@@ -1,0 +1,40 @@
+widget XmRowColumn {
+    flag {
+        autopos
+    }
+    resources {
+        width = 34
+        height = 10
+        radioBehavior = true
+        packing = pack_column
+        rowColumnType = work_area
+    }
+    children {
+        widget XmToggleButton {
+            flag {
+                mapped
+                gadget
+            }
+            resources {
+                x = 3
+                y = 3
+                width = 69
+                height = 17
+                labelString = Choice 1
+            }
+        } TButton
+        widget XmToggleButton {
+            flag {
+                mapped
+                gadget
+            }
+            resources {
+                x = 5
+                y = 5
+                width = 69
+                height = 17
+                labelString = Choice 2
+            }
+        } TButton_2
+    }
+} MyRadioBox

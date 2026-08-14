@@ -1,0 +1,108 @@
+widget XmForm {
+    flag {
+    }
+    activevalue {
+        name = reset
+        set = struct reset_args {
+	None ret;\
+};\
+\
+self:@count = self:@origin;
+        type = reset_args
+        storage = none
+        usage = cxx
+    }
+    activevalue {
+        name = origin
+        type = Int
+        storage = object
+        scope = protected
+        automatic = true
+        genfun = true
+        usage = cxx
+        default_type = String
+        default_value = 0
+    }
+    activevalue {
+        name = increment
+        set = struct increment_args { None ret; };\
+self:@count = self:@count + 1;
+        type = increment_args
+        storage = none
+        automatic = true
+        usage = cxx
+    }
+    activevalue {
+        name = count
+        get = @ = atoi(self.countTF:value);
+        set = self.countTF:value = itoa(@);
+        type = Int
+        storage = object
+        scope = protected
+        automatic = true
+        genfun = true
+        usage = cxx
+    }
+    activevalue {
+        name = setLabel
+        set = struct setLabel_args { None ret; String s;};\
+setLabel_args args = @;\
+self.labelPB:labelString = args->s;
+        type = setLabel_args
+        storage = none
+        automatic = true
+        usage = cxx
+    }
+    createproc {
+        self:reset();
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 361
+        height = 49
+    }
+    children {
+        widget XmPushButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 12
+                y = 10
+                width = 127
+                height = 30
+                activateCallback = parent:increment();
+                recomputeSize = false
+            }
+        } labelPB
+        widget XmTextField {
+            flag {
+                mapped
+            }
+            resources {
+                x = 150
+                y = 10
+                height = 30
+                width = 98
+                value = \   
+                cursorPositionVisible = false
+                editable = false
+            }
+        } countTF
+        widget XmPushButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 262
+                y = 10
+                width = 89
+                height = 30
+                activateCallback = parent:reset();
+                recomputeSize = false
+                labelString = Reset
+            }
+        } resetPB
+    }
+} form

@@ -1,0 +1,12 @@
+*background: lightcoral
+*fontList: -*-helvetica-medium-r-*-*-*-140-*-*-*-*-*-*
+*hypelabel*fontList: -*-helvetica-bold-r-*-*-*-140-*-*-*-*-*-*
+*show_code*fontList: -*-courier-*-r-normal-*-*-*-*-*-*-*-*-*
+*show_pb.labelString: Show Layout Code...
+*explain_pb.labelString: Other Resources...
+*rc_1*XmSeparator*orientation: XmVERTICAL
+*ladder_tog.labelString: Connect Style:
+*callback_tog.labelString: Node State Callback:
+*autoclose_tog.labelString: Auto Close
+*connect_tog.labelString: Connect Nodes
+*quit_pb.labelString: Quit

@@ -1,0 +1,38 @@
+!resources for the Column layout and labels
+
+*entryLabelAlignment:	ALIGNMENT_END
+
+*column.tabLabelString:			Demo
+*name.entryLabelString:			Name
+*address1.entryLabelString:		Address
+*address2.showEntryLabel:		False
+*address1.columns:			30
+*address2.columns:			30
+*address1.fillStyle:			FILL_RAGGED
+*address2.fillStyle:			FILL_RAGGED
+*city.entryLabelString:			City
+*state.entryLabelString:		State
+*state.columns:				2
+*state.fillStyle:			FILL_RAGGED
+*zip.entryLabelString:			Zip+4 Code
+*zip.columns:				10
+*zip.fillStyle:				FILL_RAGGED
+*phone.entryLabelString:		USA Telephone
+*phone.entryLabelType:			pixmap
+
+! resources for picture definitions
+*state.picture:				&&
+*zip.picture:				#####-####
+*phone.picture:				###-###-#### 
+
+! resources for the pop-up tips
+*column.XmTextField.toolTip.tipEnabled:	True
+*column.XmDataField.toolTip.tipEnabled:	True
+*column.name.toolTip.labelString:	Customer's Name
+*column.address1.toolTip.labelString:	Address, First Line
+*column.address2.toolTip.labelString:	Address, Second Line
+*column.city.toolTip.labelString:	Customer's City
+*column.state.toolTip.labelString:	Two-Letter Abbreviation
+*column.zip.toolTip.labelString:	Zip+4 USA Postal Code
+*column.phone.toolTip.labelString:	Telephone ###-###-####
+

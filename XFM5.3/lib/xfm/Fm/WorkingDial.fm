@@ -1,0 +1,32 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    resources {
+        x = 808
+        y = 77
+        width = 194
+        height = 100
+        allowShellResize = true
+    }
+    children {
+        widget XmMessageBox {
+            flag {
+                mapped
+            }
+            createproc {
+                UnmanageChild (MessageBoxGetChild (self,XmDIALOG_HELP_BUTTON));
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 194
+                height = 100
+                messageString = Working Message Here
+                textFontList = *helvetica-bold-r-*-12-*
+                dialogType = dialog_working
+                dialogStyle = dialog_modeless
+            }
+        } WorkingDialog
+    }
+} MyWorkingDialog

@@ -1,0 +1,64 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    createproc {
+        function String changetext(Widget w){\
+if(w:set==XmSET) return( XtName(w));\
+};
+    }
+    resources {
+        x = 594
+        y = 487
+        width = 338
+        height = 72
+    }
+    children {
+        widget XmPanedWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 338
+                height = 72
+            }
+            children {
+                widget XmDropDown {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = text_value
+                        type = String
+                        automatic = TRUE
+                        usage = face
+                        default_type = String
+                        default_value = ""
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 332
+                        height = 30
+                        items = Mercury,Venus,Earth,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto
+                        itemCount = 9
+                    }
+                } combo
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 41
+                        width = 332
+                        height = 28
+                        activateCallback = exit(0);
+                    }
+                } quit
+            }
+        } pane
+    }
+} sessionShell1

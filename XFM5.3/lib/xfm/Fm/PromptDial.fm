@@ -1,0 +1,26 @@
+widget XmDialogShell {
+    flag {
+        mapped
+        popup
+        autosize
+    }
+    resources {
+        x = 819
+        y = 69
+        allowShellResize = true
+    }
+    children {
+        widget XmSelectionBox {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                dialogType = dialog_prompt
+                dialogStyle = dialog_application_modal
+                defaultPosition = true
+            }
+        } PromptBox
+    }
+} MyPromptDialog

@@ -1,0 +1,30 @@
+	/*******************************
+	 *******************************
+	 *
+	 * Integration information
+	 * for XnslStand support library
+	 *
+	 *******************************
+	 ******************************/
+	
+	/*******************************
+	 * Build information.
+	 *
+	 *#####################################################
+	 * ATTENTION: 	IF YOU MODIFY THIS FILE, YOU MUST ALSO
+	 *		MODIFY ../../../FmUtil/stand.c
+	 *#####################################################
+	 *
+	 ******************************/
+	
+	define _XFM_EXT_C_LIBRARY_XnslStand			'';
+	define _XFM_EXT_E_LIBRARY_XnslStand			'';
+	define _XFM_EXT_BUILD_INIT_FUNCALL_XnslStand		'FmInitStand(FmGetFunctionsVector());';
+	define _XFM_EXT_BUILD_C_INIT_FUNCALL_XnslStand		'XnslRegisterConverters();';
+
+	define _XFM_EXT_BUILD_INCLUDE_PATH_XnslStand		'-I$(NSLHOME)/include';
+	define _XFM_EXT_BUILD_LIBRARY_PATH_XnslStand		'-L$(NSLHOME)/lib';
+	
+	define _XFM_EXT_BUILD_INCLUDES_XnslStand		'#include <Xnsl/Stand.h>';
+	define _XFM_EXT_BUILD_LIBRARIES_XnslStand		'-lXnslStand';
+	define _XFM_EXT_BUILD_E_LIBRARIES_XnslStand		'-lXnslFm';

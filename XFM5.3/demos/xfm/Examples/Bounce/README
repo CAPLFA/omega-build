@@ -1,0 +1,19 @@
+Before you try to build the example in this directory, make sure
+that your environment is properly set up, i.e. that you have run
+one of the scripts (nslenv.sh or nslenv.csh) that set up NSLHOME, 
+PATH, LibraryPath variables for your installation.
+
+If you have not run them, do so now. They are in 
+<installation_directory>/scripts
+
+To build the example, do
+	make Makefile; make
+
+This will create cbounce and ibounce, the compiled and interpreted executables
+that animate the XLOGO in the window.
+
+This example illustrates how active values can be used to share data 
+between the application and the interface.
+
+To remove the example built, do
+	make clean

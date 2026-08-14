@@ -1,0 +1,98 @@
+Introduction
+	This help section explains how to work with XFaceMaker
+	to create C++ applications. Specifically, it explains:
+	
+	- how to create a C++ class with XFaceMaker,
+	
+	- how to call a C++ method from a FACE script.
+	
+Creating a C++ Class
+	XFaceMaker can generate a C++ class based on an interface
+	module that you wish to access as a C++ object.
+	
+	As for other modules, you must first create your model
+	object for your class. The model can be any widget,
+	composite or not.
+	
+	As opposed to other modules, C++ classes cannot be
+	created and instanciated dynamically in XFaceMaker. For
+	this reason, there is no command for loading a C++ class,
+	and there is no way of creating an instance of a C++ class.
+	All you can do is generate the C++ code for the class
+	and instanciate it in a C++ application.
+	
+	When defining the model object for the C++ class, you can
+	specify:
+	
+	- values of Motif/Xt resource: these will be set automatically
+	when the C++ class instance is created;
+	
+	- sub-widgets: if the class model is a composite widget with
+	sub-widgets, these will be created automatically in the instance;
+	
+	- C++ class members: to define class members, open the
+	Active Values box, select the `C++ class' usage toggle, and
+	enter the name, type, default value, and side-effects of the
+	member; you can choose to define a data member (i.e. with associated
+	storage in the class) or a method (without storage), and you
+	can specify the access mode (public, private or protected);
+	in the Set and Get scripts of data member, the value is passed
+	as the @ argument of the script.
+	
+	Once your model object is defined, call the command `Module/C++ Class'.
+	A special file selector pops up. You must select:
+	
+	- the name of the C++ class;
+	
+	- the style, i.e. the base class from which your C++ class
+	will be derived; you can choose either the NSL style or the
+	Rogue Wave style which is based on classes of the View.h++
+	library by Rogue Wave Software;
+	
+	- the header file suffix;
+	
+	- the C++ file name where the class will be saved;
+	
+	- the .fm file where the model will be saved.
+	
+	See the documentation for more details.
+	
+Calling C++ methods
+	When you are developing the user interface of a C++ application,
+	it is useful to be able to call C++ methods of C++ classes
+	defined or used by your application. The FACE interpreter/compiler
+	provides a special syntax to do that.
+	
+	Let us assume that your application defines or uses a class name
+	`Foo' which contains a method `int bar(char*)'. You must
+	declare the method in a FACE script as follows:
+	
+	function Int "Foo::bar"(String);
+	
+	Then, you must declare a variable of type `Foo' and initialize it.
+	We will assume that there is a function `GetFoo()' which returns
+	a `Foo' object:
+	
+	Foo foo = GetFoo();
+	
+	Now, you can call the `bar' method as follows:
+	
+	i = foo->bar("hello");
+	
+	The FACE interpreter recognizes the bar method, and calls it
+	with the implicit `this' object pointer passed as the first
+	argument to the method.
+	
+	If you want your C++ application to run in interpreted mode
+	(i.e. the FACE scripts are interpreted, not compiled into C code),
+	you have to attach the method's address to the name "Foo::bar"
+	as follows:
+	
+	FmAttachFunction("Foo::bar", (FaceFunctionPtr)Foo::bar, "Int", 1, "String");
+	
+	(Note: if you are using g++, use `(FaceFunctionPtr)&Foo::bar'
+	instead).
+	
+	In compiled mode, the method call will be translated to
+	a regular C++ method call `foo->bar'.
+	

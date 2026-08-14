@@ -1,0 +1,7366 @@
+
+	
+Beep
+	Also known as: FmBeep
+	
+	Synopsis:
+	        None FmBeep(  )
+	
+	Description:
+	
+	Produce a sound. Calls XBell.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmBeep
+	
+
+CallCallbacksTimeOut
+	Also known as: FmCallCallbacksTimeOut
+	
+	Synopsis:
+	        Pointer FmCallCallbacksTimeOut( Widget w, String callback, Int interval )
+	
+	Description:
+	
+	Initialize a timeout. callback is called in interval milliseconds by:
+	XtCallCallbacks(widget, callback, (caddr_t)0). Returns a pointer to a timeout
+	identifier TimeoutID. The timeout can be stopped with: StopTimeOut(Pointer
+	TimeoutID).
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Initiate a process in the create callback of the parent of a pushbutton;
+	continue it in the pushbutton's activateCallback. Stop when i reaches 9. The
+	process `raises' label widgets successively.
+	xfmCreateCallback = global iter; 
+	        global buf; 
+	        iter = 0; 
+	        buf = malloc ( 10 ) ; 
+	        sprintf ( buf, "*Label0_%d", iter ) ; 
+	        iter = iter+1;
+	        w = XtNameToWidget ( self, buf ) ; 
+	        RaiseWidget ( w ) ;
+	        CallCallbacksTimeOut ( self.pb, "activateCallback", 2000 ) ; 
+	
+	activateCallback = global iter; 
+	        global buf; 
+	        sprintf ( buf, "*Label0_%d", iter ) ; 
+	        iter = iter + 1; 
+	        w = XtNameToWidget ( root, buf ) ; 
+	        RaiseWidget ( w ) ; 
+	        if ( iter <= 9 ) 
+	                CallCallbacksTimeOut ( self, "activateCallback", 2000 ) ; 
+	        else 
+	                iter = 0; 
+	
+	The corresponding C function is: FmCallCallbacksTimeOut
+	See also:
+	        FmStopTimeOut, FmGetActiveValueTimeOut, FmSetActiveValueTimeOut
+	
+	
+
+CallEditor
+	Also known as: FmCallEditor
+	
+	Synopsis:
+	        None FmCallEditor(  )
+	
+	Description:
+	
+	Call the XFaceMaker editor from an interpreted interface. If the application
+	uses FmEditLoop as the main events handling function, the CallEditor function
+	is also activated by typing <Shift-Control-Escape> while the pointer is in one
+	of the windows of the interface. However, <Shift-Control-Escape> does not work
+	in a window which was popped by PopupAndWait. This function can also be called
+	from an application as FmCallEditor, to produce a customized version of
+	XFaceMaker. Any application or interface which calls this function must be
+	linked with the library libFm_e. This library is protected and the resulting
+	executable will expect the token server to be running.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Application program to create a new XFaceMaker which includes the function
+	strncpy.
+	
+	#include <Fm.h>
+	extern char * strncpy (  ) ; 
+	main ( argc, argv ) 
+	int argc;
+	char **argv; {
+	        Widget toplevel;
+	        toplevel = FmInitiaize ( "myxfm", "Xfm", NULL, 0, &argc, argv ) ; 
+	        FmAttachFunction ( "strncpy", strncpy, "String", 3, "String", "String", "Int" ) ;
+	        FmCallEditor (  ) ;
+	}
+	
+	The corresponding C function is: FmCallEditor
+	
+
+ConvertString
+	Also known as: FaceConvertString
+	
+	Synopsis:
+	        Any FaceConvertString( Widget w, String from, String to_type )
+	
+	Description:
+	
+	Explicitly convert the string from to the to_type resource type. This function
+	calls XtConvert. For example: pixmap = ConvertString(self, "50_foreground",
+	"Pixmap"); converts the string "50_foreground" into the corresponding Pixmap.
+	The return type of the function is "Any", which means that type checking will
+	not be done on the result unless the appropriate type caster is used: pix =
+	Pixmap(ConvertString(... ,... ,... ));
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Redefine the translation for <KeyPress> osfLeft; some managers ( e.g. rowcolumn
+	) redefine the translation table for some keys, such as osfLeft; in that case,
+	you can't use the translation resource to redefine the translation table. You
+	can redefine it with a script such a this one in the widget's create callback. 
+	
+	t = ConvertString ( self.XmPushButton0, 
+	                '#override <KeyPress>osfLeft:eval ( "Beep (  ) ;" ) '
+	                "TranslationTable" ) ;
+	self.XmPushButton0:translations = t; 
+	
+	The corresponding C function is: FaceConvertString
+	See also:
+	        XtConvert
+	
+	
+
+CreateXmString
+	Also known as: FmCreateXmString
+	
+	Synopsis:
+	        XmString FmCreateXmString( String s )
+	
+	Description:
+	
+	Create an XmString using the string s and the default character set. When it is
+	no longer needed, the string can be freed using XmStringFree.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Specify a side effect for the XtSetValues of a new resource of type String when
+	defining a class. For example, in the resource's set script: 
+	        xms = CreateXmString ( @ ) ; 
+	        self.PB:labelString = xms; 
+	        StringFree ( xms ) ; 
+	
+	The corresponding C function is: FmCreateXmString
+	See also:
+	        FmGetString
+	        XmStringFree
+	
+	
+
+FaceConvertString
+	Also known as: ConvertString
+	
+	Synopsis:
+	        Any FaceConvertString( Widget w, String from, String to_type )
+	
+	Description:
+	
+	Explicitly convert the string from to the to_type resource type. This function
+	calls XtConvert. For example: pixmap = ConvertString(self, "50_foreground",
+	"Pixmap"); converts the string "50_foreground" into the corresponding Pixmap.
+	The return type of the function is "Any", which means that type checking will
+	not be done on the result unless the appropriate type caster is used: pix =
+	Pixmap(ConvertString(... ,... ,... ));
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Redefine the translation for <KeyPress> osfLeft; some managers ( e.g. rowcolumn
+	) redefine the translation table for some keys, such as osfLeft; in that case,
+	you can't use the translation resource to redefine the translation table. You
+	can redefine it with a script such a this one in the widget's create callback. 
+	
+	t = ConvertString ( self.XmPushButton0, 
+	                '#override <KeyPress>osfLeft:eval ( "Beep (  ) ;" ) '
+	                "TranslationTable" ) ;
+	self.XmPushButton0:translations = t; 
+	
+	The corresponding C function is: FaceConvertString
+	See also:
+	        XtConvert
+	
+	
+
+FaceEvalString
+	Also known as: eval_string
+	
+	Synopsis:
+	        int FaceEvalString( Widget w, String *str, Pointer param )
+	
+	Description:
+	
+	Interpret the FACE script whose text is in str, a character string, e. g. "i =
+	1; " and return -1 if the script was incorrect. Execution of an incorrect
+	script causes an error message to be sent to stderr. This function is not
+	available in the library libFm_c. a. widget is the reference widget, i. e. ,
+	the widget which determines the content of self and of parent. It need not be
+	otherwise related to the script being evaluated unless it is directly
+	referenced by the script. param is any parameter. It has been declared here as
+	an int but could be any legal FACE type. In a FACE script, this parameter is
+	referenced by the read-only variable $.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	eval_string ( self, "st = WidgetName ( parent.PB_2 ) ;
+	printf ( `%s\n', st ) ;", Pointer ( 2 )  ) ;
+	
+	The corresponding C function is: FaceEvalString
+	
+
+FaceInitTimer
+	Also known as: init_timer
+	
+	Synopsis:
+	        Timer FaceInitTimer( Widget widget, String script, None call_data, Int delay, Int repeat )
+	
+	Description:
+	
+	This function will interrupt a FACE script after a specific delay. You may
+	optionally request that the script be repeated at regular intervals after its
+	initial execution. It returns an identifier that you can give to FaceStopTimer
+	to stop the timer. FaceInitTimer is not available in the library libFm_c. a.
+	widget is the widget that will be used as "self" when the timer script is run.
+	script is a string containing the script to execute. call_data is the value of
+	the call_data ($) in the script. delay is the delay in milliseconds before the
+	script is run. repeat if non-zero, is the delay in milliseconds between
+	successive calls of the script after the initial delay.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FaceInitTimer
+	See also:
+	        FaceStopTimer
+	        XtAddTimeOut
+	
+	
+
+FaceSetValues
+	Also known as: SetValues
+	
+	Synopsis:
+	        Int FaceSetValues( Widget w, Int num_resources, String resource1, None value1, String resource2, None value2, ... )
+	
+	Description:
+	
+	Set multiple resource values in one call to XtSetValues. num_resources
+	specifies the number of resources to be set. A maximum of 5 resources can be
+	set simultaneously. resource1 is the name of the first resource. value1 is the
+	value to which it will be set. The values must be given in their internal form,
+	not in their String form. The internal form of a resource can be obtained by
+	using ConvertString.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Set the resources for the scale widget in a float resource editing box:
+	SetValues ( parent.scale, 3, 
+	        "minimum", cftoi ( min * 100.0 ) , 
+	        "maximum", cftoi ( max * 100.0 ) , 
+	        "value", cftoi ( v * 100.0 )  ) ; 
+	
+	The corresponding C function is: FaceSetValues
+	See also:
+	        ConvertString
+	        XtSetValue
+	
+	
+
+FaceStopTimer
+	Also known as: stop_timer
+	
+	Synopsis:
+	        void FaceStopTimer( Timer timer )
+	
+	Description:
+	
+	Stop a timer started by FaceInitTimer. FaceStopTimer is not available in the
+	library libFm_c. a. timer is the timer returned from the call to FaceInitTimer
+	for the timer you want to stop.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FaceStopTimer
+	See also:
+	        FaceInitTimer
+	
+	
+
+FmAddArg
+	Synopsis:
+	        None FmAddArg( FmArgList list, String name, None value )
+	
+	Description:
+	
+	Add an argument to an argument list. list is a list of arguments created with
+	FmNewArgList. name is a resource name. value is the value of the resource with
+	its internal representation.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Taken from the DragDrop example in the distribution:
+	        FmArgList arglist = FmNewArgList (  ) ; 
+	        FmAddArg ( arglist, "pixmap", 
+	        FmGetPixmap ( self, "letters.bm" )  ) ; 
+	        FmAddArg ( arglist, "mask", ConvertString ( self, "letters_m.bm", "Bitmap" )  ) ; 
+	        Widget source_icon = FmCreateDragIcon ( self, "source", arglist ) ;
+	        FmClearArgList ( arglist ) ; 
+	
+	The corresponding C function is: FmAddArg
+	See also:
+	        FmNewArgList 
+	        FmClearArgList 
+	        FmFreeArgList
+	
+	
+
+FmBeep
+	Also known as: Beep
+	
+	Synopsis:
+	        None FmBeep(  )
+	
+	Description:
+	
+	Produce a sound. Calls XBell.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmBeep
+	
+
+FmCallCallbacksTimeOut
+	Also known as: CallCallbacksTimeOut
+	
+	Synopsis:
+	        Pointer FmCallCallbacksTimeOut( Widget w, String callback, Int interval )
+	
+	Description:
+	
+	Initialize a timeout. callback is called in interval milliseconds by:
+	XtCallCallbacks(widget, callback, (caddr_t)0). Returns a pointer to a timeout
+	identifier TimeoutID. The timeout can be stopped with: StopTimeOut(Pointer
+	TimeoutID).
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Initiate a process in the create callback of the parent of a pushbutton;
+	continue it in the pushbutton's activateCallback. Stop when i reaches 9. The
+	process `raises' label widgets successively.
+	xfmCreateCallback = global iter; 
+	        global buf; 
+	        iter = 0; 
+	        buf = malloc ( 10 ) ; 
+	        sprintf ( buf, "*Label0_%d", iter ) ; 
+	        iter = iter+1;
+	        w = XtNameToWidget ( self, buf ) ; 
+	        RaiseWidget ( w ) ;
+	        CallCallbacksTimeOut ( self.pb, "activateCallback", 2000 ) ; 
+	
+	activateCallback = global iter; 
+	        global buf; 
+	        sprintf ( buf, "*Label0_%d", iter ) ; 
+	        iter = iter + 1; 
+	        w = XtNameToWidget ( root, buf ) ; 
+	        RaiseWidget ( w ) ; 
+	        if ( iter <= 9 ) 
+	                CallCallbacksTimeOut ( self, "activateCallback", 2000 ) ; 
+	        else 
+	                iter = 0; 
+	
+	The corresponding C function is: FmCallCallbacksTimeOut
+	See also:
+	        FmStopTimeOut, FmGetActiveValueTimeOut, FmSetActiveValueTimeOut
+	
+	
+
+FmCallEditor
+	Also known as: CallEditor
+	
+	Synopsis:
+	        None FmCallEditor(  )
+	
+	Description:
+	
+	Call the XFaceMaker editor from an interpreted interface. If the application
+	uses FmEditLoop as the main events handling function, the CallEditor function
+	is also activated by typing <Shift-Control-Escape> while the pointer is in one
+	of the windows of the interface. However, <Shift-Control-Escape> does not work
+	in a window which was popped by PopupAndWait. This function can also be called
+	from an application as FmCallEditor, to produce a customized version of
+	XFaceMaker. Any application or interface which calls this function must be
+	linked with the library libFm_e. This library is protected and the resulting
+	executable will expect the token server to be running.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Application program to create a new XFaceMaker which includes the function
+	strncpy.
+	
+	#include <Fm.h>
+	extern char * strncpy (  ) ; 
+	main ( argc, argv ) 
+	int argc;
+	char **argv; {
+	        Widget toplevel;
+	        toplevel = FmInitiaize ( "myxfm", "Xfm", NULL, 0, &argc, argv ) ; 
+	        FmAttachFunction ( "strncpy", strncpy, "String", 3, "String", "String", "Int" ) ;
+	        FmCallEditor (  ) ;
+	}
+	
+	The corresponding C function is: FmCallEditor
+	
+
+FmCallValue
+	Synopsis:
+	        XtArgVal FmCallValue( Widget widget, char *avname, int count, ... )
+	
+	Description:
+	
+	Activate the set script of a per-call active value. This function stores its
+	count last arguments in a structure (starting at field 1), and calls the set
+	script of the specified active value with the address of the structure passed
+	as the $ argument for an immediate active value, and as @ otherwise. The
+	function returns the first field of the structure, which is initialized to 0.
+	Calling this function is similar to executing an instruction of the form:
+	<widget>: <name>(... ); in a FACE script. widget is the widget in which the
+	active value whose set script is to be activated has been defined. avname is
+	the name of the active value whose set script is to be executed. count is the
+	number of arguments passed in the arguments following. Storage for the
+	arguments is allocated at the time of the call and freed upon completion.
+	
+	Scope: Application FACE scripts 	
+	
+	The corresponding C function is: FmCallValue
+	See also:
+	        FmWriteValue
+	        FmReadValue
+	
+	
+
+FmClearArgList
+	Synopsis:
+	        None FmClearArgList( FmArgList list )
+	
+	Description:
+	
+	Removes all arguments from a list (but does not free the list itself).
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Taken from the DragDrop example in the distribution:
+	FmArgList arglist = FmNewArgList (  ) ; 
+	FmAddArg ( arglist, "pixmap", 
+	                                FmGetPixmap ( self"letters.bm" )  ) ; 
+	FmAddArg ( arglist, "mask", ConvertString
+	 ( self, "letters_m.bm", "Bitmap" )  ) ; 
+	Widget source_icon = FmCreateDragIcon ( self, 
+	                                        "source", arglist ) ;
+	FmClearArgList ( arglist ) ; 
+	
+	The corresponding C function is: FmClearArgList
+	See also:
+	        FmFreeArgList
+	
+	
+
+FmCreateDragIcon
+	Synopsis:
+	        Widget FmCreateDragIcon( Widget widget, String name, FmArgList arglist )
+	
+	Description:
+	
+	Call XmCreateDragIcon with the arguments specified by arglist. widget specifies
+	the ID of the widget where default values for the drag icons's visual
+	attributes should be fetched. name is the name of the DragIcon widget that will
+	be created. arglist specifies the argument list.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmCreateDragIcon
+	
+
+FmCreateRectangle
+	Synopsis:
+	        XRectangle FmCreateRectangle( int x, int y, int width, int height )
+	
+	Description:
+	
+	Allocate and fill an XRectangle structure with the specified geometry. This
+	structure can be passed to FmDropSiteRegister as the value of the resource
+	XmNdropRectangles. The pointer returned should be freed when no longer needed,
+	using XtFree.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmCreateRectangle
+	
+
+FmCreateXmString
+	Also known as: CreateXmString
+	
+	Synopsis:
+	        XmString FmCreateXmString( String s )
+	
+	Description:
+	
+	Create an XmString using the string s and the default character set. When it is
+	no longer needed, the string can be freed using XmStringFree.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Specify a side effect for the XtSetValues of a new resource of type String when
+	defining a class. For example, in the resource's set script: 
+	        xms = CreateXmString ( @ ) ; 
+	        self.PB:labelString = xms; 
+	        StringFree ( xms ) ; 
+	
+	The corresponding C function is: FmCreateXmString
+	See also:
+	        FmGetString
+	        XmStringFree
+	
+	
+
+FmDeleteObject
+	Synopsis:
+	        void FmDeleteObject( Widget w )
+	
+	Description:
+	
+	Destroy Widget w and all its subwidgets. The widget must have been created by
+	one of the following: FmLoadCreate, FmLoad, FmLoadCreateGroup,
+	FmLoadCreateManagedGroup, FmCreateObject, or FmCreateManagedObject.
+	
+	Scope: Application only 	
+	
+	The corresponding C function is: FmDeleteObject
+	
+
+FmDisableTraversal
+	Synopsis:
+	        None FmDisableTraversal( Widget w )
+	
+	Description:
+	
+	Disable keyboard traversal for Widget w and all its children by calling
+	XmRemoveTabGroup(w) and setting the resources traversalOn to False and
+	highlightThickness to 0 for all children of w.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		DisableTraversal ( parent.XmRowColumn0 ) ; 
+	
+	The corresponding C function is: FmDisableTraversal
+	See also:
+	        FmEnableTraversal 
+	        XmProcessTraversal
+	
+	
+
+FmDoEvent
+	Synopsis:
+	        None FmDoEvent(  )
+	
+	Description:
+	
+	Process a single X event. This function calls XtNextEvent and then
+	XtDispatchEvent once.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmDoEvent
+	See also:
+	        FmLoop
+	
+	
+
+FmDragStart
+	Synopsis:
+	        Widget FmDragStart( Widget widget, XEvent *event, String targets, FmArgList arglist )
+	
+	Description:
+	
+	Call XmDragStart with the arguments specified by arglist. The XmNexportTargets
+	and XmNnumExportTargets arguments are specified as a comma-separated string in
+	targets.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	FmDragStart ( self, $, "STRING", arglist ) ;
+	
+	The corresponding C function is: FmDragStart
+	See also:
+	        FmStartSimpleDrag
+	
+	
+
+FmDropSiteRegister
+	Synopsis:
+	        Widget FmDropSiteRegister( Widget widget, String targets, FmArgList arglist
+	
+	Description:
+	
+	Call XmDropSiteRegister with the arguments specified by arglist. The
+	XmNimportTargets and XmNnumImportTargets arguments are specified as a
+	comma-separated string in targets.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmDropSiteRegister
+	See also:
+	        FmRegisterSimpleDropSite
+	
+	
+
+FmDropSiteRetrieve
+	Synopsis:
+	        Any FmDropSiteRetrieve( Widget widget, String name )
+	
+	Description:
+	
+	Call XmDropSiteRetrieve to retrieve the value of the resource name, and return
+	the retrieved value. widget is the ID of the widget that encloses the drop
+	site. name is the name of the resource to be retrieved. The value of the
+	resource is returned by the function. Only one resource can be retrieved for
+	each call.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmDropSiteRetrieve
+	See also:
+	        XmDropSiteRetrieve
+	
+	
+
+FmDropSiteUpdate
+	Synopsis:
+	        Widget FmDropSiteUpdate( Widget widget, String name, None value )
+	
+	Description:
+	
+	Call XmDropSiteUpdate with an Arg built using name and value. widget is the ID
+	of the widget registered as a drop site where the resource is to be changed.
+	name is the name of the resource to be changed. value is the new value for the
+	resource.
+	
+	Scope: FACE scripts, application 	
+	
+	The corresponding C function is: FmDropSiteUpdate
+	See also:
+	        XmDropSiteUpdate
+	
+	
+
+FmDropTransferAdd
+	Synopsis:
+	        Any FmDropTransferAdd( Widget widget, Widget drop_transfer, String targets, None client_data )
+	
+	Description:
+	
+	Call XmDropTransferAdd with a drop transfer entry list built using the targets
+	and client_data arguments. widget is the ID of the widget in which the drop
+	will occur. drop_transfer is the ID of the Drop Transfer widget returned by
+	XmDropTransferStart. targets is a comma-separated list of targets that are to
+	be added to the drop targets list. client_data is the client data you want to
+	pass tp the drop site's active value. The set script can retrieve it from the
+	FmTransferProcStruct structure.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmDropTransferAdd
+	
+
+FmDropTransferStart
+	Synopsis:
+	        Any FmDropTransferStart( Widget widget, Widget drag_context, String targets, None client_data, Boolean incremental, Int status )
+	
+	Description:
+	
+	Call XmDropTransferStart with the specified drag_context. The value of the
+	XmNdropTransfers resource is built using the targets and client_data arguments.
+	The incremental and status arguments are passed as the XmNincremental and
+	XmNtransferStatus resources respectively. widget is the ID of the widget in
+	which the drop will occur. drag_context is the ID of the Drag Context widget
+	associated to the transaction. targets is a comma-separated list of targets.
+	client_data is the client data you want to pass to the drop site's active
+	value. The set script can retrieve it from the FmTransferProcStruct structure.
+	incremental is the value stored in the XmNincremental resource of the Drop
+	Transfer widget. status is the value stored in the XmNtransferStatus resource
+	of the Drop Transfer widget.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmDropTransferStart
+	See also:
+	        XmDropTransferStart
+	
+	
+
+FmDtoi
+	Also known as: dtoi
+	
+	Synopsis:
+	        Int FmDtoi( Pointer dp )
+	
+	Description:
+	
+	Return the conversion of the double pointed to by dp into an integer.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		parent.scale:value = dtoi ( dblval ) ; 
+	
+	The corresponding C function is: FmDtoi
+	See also:
+	        itod 
+	        atoi
+	
+	
+
+FmEnableTraversal
+	Synopsis:
+	        None FmEnableTraversal( Widget w, Int ht )
+	
+	Description:
+	
+	Enable keyboard traversal for Widget w and all its children by calling
+	XmAddTabGroup(w) and setting the resources traversalOn to True and
+	highlightThickness to ht for all children of w.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		EnableTraversal ( parent.XmRowColumn2 ) ; 
+	
+	The corresponding C function is: FmEnableTraversal
+	See also:
+	        DisableTraversal 
+	        XmProcessTraversal
+	
+	
+
+FmEqualString
+	Also known as: equal
+	
+	Synopsis:
+	        Boolean FmEqualstring( String s1, String s2 )
+	
+	Description:
+	
+	Return true if strings s1 and s2 are identical.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Compare an active value called File with the empty string: 
+	GetActiveValue ( parent.TextFile, "File" ) ; 
+	if ( equal ( $File, "" )  ) { 
+	        Show ( root.FileNameHelp ) ; 
+	} 
+	
+	The corresponding C function is: FmEqualString
+	See also:
+	        not_equal
+	        strcmp
+	
+	
+
+FmFreeArgList
+	Synopsis:
+	        None FmFreeArgList( FmArgList list )
+	
+	Description:
+	
+	Remove all the arguments from a list and free the list itself. The list must
+	not be used again.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		FmFreeArgList ( arglist ) ; 
+	
+	The corresponding C function is: FmFreeArgList
+	See also:
+	        FmClearArgList 
+	        FmNewArgList 
+	        FmAddArg
+	
+	
+
+FmFtoi
+	Also known as: ftoi
+	
+	Synopsis:
+	        Int FmFtoi( Pointer fp )
+	
+	Description:
+	
+	Return the result of converting a float pointed to by fp into an integer.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the decimal value of a Float active value called fval: 
+	printf ( "decimal value of fval: %d\n", ftoi ( $fval )  ) ;
+	
+	The corresponding C function is: FmFtoi
+	See also:
+	        FmItof
+	
+	
+
+FmGetActiveValue
+	Also known as: GetActiveValue
+	
+	Synopsis:
+	        Boolean FmGetActiveValue( Widget w, String name )
+	
+	Description:
+	
+	Call the get script of active value name for Widget w. If name is null, call
+	the get scripts for all active values defined for w regardless of their names.
+	If w is null, call the get scripts for all active values called name regardless
+	of the Widget they are defined for. If at least one script was called, return
+	1, otherwise, return 0.
+	
+	Scope: FACE scripts, application 	
+	
+	Example:
+	
+	Activate the get script for active value "fval" in widget parent.SB: 
+	GetActiveValue ( parent.SB, "fval" ) ; 
+	Activate the get script for active value "fval" in all widgets: 
+	GetActiveValue ( Widget ( 0 ) , "fval" ) ; 
+	
+	The corresponding C function is: FmGetActiveValue
+	See also:
+	        FmSetActiveValue 
+	        FmGetActiveValueTimeOut
+	
+	
+
+FmGetActiveValueAddr
+	Also known as: GetActiveValueAddr
+	
+	Synopsis:
+	        String FmGetActiveValueAddr( String name )
+	
+	Description:
+	
+	Return the address attached to the active value named name, or 0 if no address
+	was attached to name.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the value of a float active value: 
+	ptr = GetActiveValueAddr ( "fval" ) ; 
+	printf ( "decimal val:%d\n", ftoi ( Pointer ( ptr )  )  ) ;
+	
+	The corresponding C function is: FmGetActiveValueAddr
+	See also:
+	        FmAttachAv
+	        FmFetchValueAddress
+	        FmAttachValue
+	
+	
+
+FmGetActiveValueTimeOut
+	Also known as: GetActiveValueTimeOut
+	
+	Synopsis:
+	        TimeOutClosure FmGetActiveValueTimeOut( Widget w, String name, Int interval )
+	
+	Description:
+	
+	Initialize a timeout so that the get script of the active value name is called
+	in interval milliseconds by: GetActiveValue(w, name). It returns a pointer to a
+	timeout identifier TimeoutID. The timeout can be stopped with
+	StopTimeOut(Pointer TimeoutID). The w parameter must not be null, but name can
+	be.
+	
+	Scope: FACE scripts, application 	
+	
+	Example:
+	
+	Definition of an active value which re-activates its get script every second: 
+	
+	name = Myav 
+	get = 
+	        global handle;
+	        Beep (  ) ; 
+	        handle  = GetActiveValueTimeOut ( self, "Myav", 1000 ) ; 
+	
+	a push Button which activates the active value's get script:
+	
+	labelString = Get_activeval
+	activateCallback = global handle; 
+	handle = GetActiveValueTimeOut ( parent.avwidget, "Myav", 1000 ) ; 
+	
+	a pushButton which stops the process: 
+	
+	labelString = Stop_activeval 
+	activateCallback = global handle; StopTimeOut ( handle ) ; 
+	
+	The corresponding C function is: FmGetActiveValueTimeOut
+	
+
+FmGetPixmap
+	Synopsis:
+	        Pixmap FmGetPixmap( Widget w, char image_name )
+	
+	Description:
+	
+	Get the screen, foreground and background resources for Widget w and call
+	XmGetPixmap.
+	
+	Scope: Application, FACE scripts 	
+	
+	Example:
+	
+	parent.PB:labelType = pixmap;
+	parent.PB:labelPixmap = FmGetPixmap ( self, "scales" ) ;
+	
+	The corresponding C function is: FmGetPixmap
+	See also:
+	        FmGetColorPixmap
+	
+	
+
+FmGetString
+	Also known as: GetString
+	
+	Synopsis:
+	        String FmGetString( XmString str )
+	
+	Description:
+	
+	Return an ordinary zero terminated character string equal to the text contained
+	within the XmString str assuming XmSTRING_DEFAULT_CHARSET. Calls
+	XmStringGetLtoR. When it is no longer needed, the string can be freed using
+	free.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Declare and initialize a FACE array to contain the items of an XmList widget;
+	print its contents:
+	
+	XmString a[Int]; 
+	count = parent.XmList0:itemCount; 
+	a = new_c_array ( Pointer ( parent.XmList0:items ) , count ) ; 
+	for ( i = 0; i < count; i = i+1 ) 
+	        printf ( "index: %d item %s\n", i, FmGetString ( a[i] )  ) ; 
+	
+	The corresponding C function is: FmGetString
+	See also:
+	        CreateXmString
+	
+	
+
+FmGetStringFromTable
+	Synopsis:
+	        String FmGetStringFromTable( XmStringTable table )
+	
+	Description:
+	
+	FmGetStringFromTable returns the first string in an XmStringTable. table is the
+	XmStringTable.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	parent.TF:value = FmGetStringFromTable ( parent.Li:items ) ;
+	
+	The corresponding C function is: FmGetStringFromTable
+	
+
+FmGetValue
+	Synopsis:
+	        Boolean FmGetValue( Widget widget, char *name, XtPointer address )
+	
+	Description:
+	
+	This function calls the get script of the specified active value for the
+	specified widget, passing it the specified address as the $ argument. This
+	function is similar to FmGetActiveValue, but allows you to specify the attached
+	address for each call. widget is the widget in which the active value has been
+	defined. name is the name of the active value. address is the address to be
+	passed as $ to the active value get script. Returns True if the get script is
+	executed, False otherwise.
+	
+	Scope: FACE scripts, application 	
+	
+	The corresponding C function is: FmGetValue
+	See also:
+	        FmGetActiveValue
+	        FmAttachValue
+	
+	
+
+FmGetVersionString
+	Also known as: GetVersionString
+	
+	Synopsis:
+	        String FmGetVersionString(  )
+	
+	Description:
+	
+	Return a string describing the version of XFaceMaker, such as "Version 3. 0".
+	When it is no longer needed, the string can be freed using free.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the version of XFaceMaker:
+	
+	        tmp = GetVersionString (  ) ;
+	        printf ( "%s\n", tmp ) ; 
+	        free ( tmp ) ; 
+	
+	The corresponding C function is: FmGetVersionString
+	
+
+FmGetXmDisplay
+	Synopsis:
+	        Widget FmGetXmDisplay( Widget w )
+	
+	Description:
+	
+	Call XmGetXmDisplay with widget w's display, and return the global XmDisplay
+	widget id.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmGetXmDisplay
+	
+
+FmGetXmScreen
+	Synopsis:
+	        Widget FmGetXmScreen( Widget w )
+	
+	Description:
+	
+	Call XmGetXmScreen with Widget w's display, and return the global XmScreen
+	widget id.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmGetXmScreen
+	
+
+FmHideWidget
+	Also known as: Hide, hide
+	
+	Synopsis:
+	        None FmHideWidget( Widget w )
+	
+	Description:
+	
+	Hide widget w from the screen. If w is a Shell widget, then Hide unmaps the
+	Shell. If w is a Popup-Shell, then Hide calls XtPopdown on the shell.
+	Otherwise, Hide simply unmanages the Widget. Note: if the intent is to hide an
+	XmDialogShell, w should refer to the DialogShell's child, not to the shell
+	itself because of the way Motif handles DialogShells.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Hide a transientShell which is the shell ancestor of self: 
+	        Hide ( toplevel ) ; 
+	
+	The corresponding C function is: FmHideWidget
+	See also:
+	        FmShowWidget 
+	        FmLowerWidget
+	
+	
+
+FmInternationalize
+	Also known as: Internationalize
+	
+	Synopsis:
+	        String FmInternationalize( String str )
+	
+	Description:
+	
+	Scan the string str which must be of the form %MSG%n%m xxx, call FmCatGetS,
+	searching the message catalogs that are currently open, and return the
+	resulting string, or NULL if str does not have the correct format.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Internationalize a string returned by an application function: 
+	
+	function String GetMyString (  ) ; 
+	s1 = GetMyString (  ) ; 
+	s2 = Internationalize ( s1 ) ; 
+	
+	The corresponding C function is: FmInternationalize
+	
+
+FmItoa
+	Also known as: itoa
+	
+	Synopsis:
+	        String FmItoa( Int i )
+	
+	Description:
+	
+	Convert integer i into a statically allocated string.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Set a push button's label string to the value of a scale: 
+	
+	s = itoa ( parent.scale:value ) ;
+	parent.GetLabel:labelString = s
+	free ( s ) ; 
+	
+	The corresponding C function is: FmItoa
+	See also:
+	        itod
+	        atoi
+	
+	
+
+FmItod
+	Also known as: itod
+	
+	Synopsis:
+	        None FmItod( Int i, Pointer dp )
+	
+	Description:
+	
+	Convert integer i into a double and store the result in the double variable
+	pointed to by dp.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmItod
+	See also:
+	        itoa
+	        dtoi
+	
+	
+
+FmItof
+	Also known as: itof
+	
+	Synopsis:
+	        None FmItof( Int i, Pointer fp )
+	
+	Description:
+	
+	Convert integer i into a float and store the result in the float variable
+	pointed to by fp.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Store the value of a scale widget in a float active value called fval:
+	
+	itof ( parent.scale:value, $fval ) ; 
+	
+	The corresponding C function is: FmItof
+	See also:
+	        citof
+	
+	
+
+FmListAllowKeySelection
+	Description:
+	
+	For information, please refer to the FmListAllowKeySelection description in
+	your reference manual.
+	
+	The corresponding C function is: FmListAllowKeySelection
+	
+
+FmListGetItems
+	Description:
+	
+	For information, please refer to the FmListGetItems description in your
+	reference manual.
+	
+	The corresponding C function is: FmListGetItems
+	
+
+FmListGetNthItem
+	Also known as: ListGetNthItem
+	
+	Synopsis:
+	        String FmListGetNthItem( Widget list, Int position )
+	
+	Description:
+	
+	A convenience function used to get the n-th item of an XmList widget, where
+	position is: last = 0, first = 1, second = 2, etc. Returns a pointer to a
+	character string which should be freed when no longer needed, or NULL if the
+	item is not found.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the content of a list widget from a sibling pushbutton: 
+	
+	activateCallback = w = parent.XmList0; 
+	        for ( i = 1; i <= w:itemCount; i = i+1 ) { 
+	                str = ListGetNthItem ( w, i ) ; 
+	                printf ( "%s\n", str ) ; 
+	                free ( str ) ; 
+	        } 
+	
+	The corresponding C function is: FmListGetNthItem
+	See also:
+	        ListGetNthSelectedItem
+	
+	
+
+FmListGetNthSelectedItem
+	Also known as: ListGetNthSelectedItem
+	
+	Synopsis:
+	        String FmListGetNthSelectedItem( Widget list, Int position )
+	
+	Description:
+	
+	A convenience function used to get the n-th selected item of an XmList widget,
+	where position is: last = 0, first = 1, second = 2, selected item etc. It
+	returns a pointer to the character string which should be freed when no longer
+	needed, or NULL if the item is not found.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the selected items of a list from a sibling pushbutton: 
+	
+	activateCallback = w = parent.XmList0; 
+	        for ( i = 1; i <= w:selectedItemCount; i = i+1 ) {
+	                str = ListGetNthSelectedItem ( w, i ) ; 
+	                printf ( " selected item number %d, item %s\n", i, str ) ;
+	                free ( str ) ;
+	        }
+	
+	The corresponding C function is: FmListGetNthSelectedItem
+	See also:
+	        ListGetNthItem
+	
+	
+
+FmListGetSelectedItems
+	Synopsis:
+	        String FmListGetSelectedItems( Widget list )
+	
+	Description:
+	
+	Return the selected items in a list as a string of comma-separated items. list
+	is the XmList widget.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmListGetSelectedItems
+	See also:
+	        ListGetNthSelectedItem
+	
+	
+
+FmListSetItems
+	Also known as: ListSetItems
+	
+	Synopsis:
+	        None ListSetItems( Widget list, String items )
+	
+	Description:
+	
+	A convenience function used to set the items and itemCount resources of the
+	XmList widget, according to the items string. items is a string containing
+	comma-separated items. ListSetItems converts this string to an XmStringTable,
+	and calls XtSetValues to set the items and itemCount resources.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Initialize a list in its create callback: 
+	
+	xfmCreateCallback = ListSetItems ( self, "first, second, third, fourth, 
+	                                                fifth, sixth" ) ; 
+	
+	The corresponding C function is: FmListSetItems
+	See also:
+	        FmListGetItems
+	
+	
+
+FmLoadGroup
+	Also known as: LoadGroup
+	
+	Synopsis:
+	        int FmLoadGroup( char *group_name, char *group_file )
+	
+	Description:
+	
+	Load a widget group from the interface file group_file. The group is named
+	group_name. FmLoadGroup returns 0 if the group could not be loaded, and
+	non-zero otherwise. Unlike FmLoad, FmLoadGroup only loads and parses the. fm
+	file. FmCreateObject or FmCreateManagedObject must subsequently be called to
+	create instances of the group. Therefore in most cases the functions
+	FmLoadCreateGroup and FmLoadCreateManagedGroup should be used. Unlike FmLoad,
+	if the interface contains several main shells, only the first one will be
+	loaded and created.
+	
+	Scope: Application only 	
+	
+	The corresponding C function is: FmLoadGroup
+	
+
+FmLowerWidget
+	Also known as: LowerWidget
+	
+	Synopsis:
+	        None FmLowerWidget( Widget w )
+	
+	Description:
+	
+	Call XLowerWindow on w's window.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Find a widget called List0 starting from the top of the interface hierarchy and
+	lower it:
+	
+	w = XtNameToWidget ( root, "*List0" ) ; 
+	LowerWidget ( w ) ; 
+	
+	The corresponding C function is: FmLowerWidget
+	See also:
+	        FmRaiseWidget 
+	        FmHide
+	
+	
+
+FmNewArgList
+	Also known as: NewArgList
+	
+	Synopsis:
+	        FmArgList FmNewArgList(  )
+	
+	Description:
+	
+	Allocate an empty argument list.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		FmArgList arglist = FmNewArgList (  ) ; 
+	        FmAddArg ( arglist, "pixmap", FmGetPixmap ( self"letters.bm" )  ) ; 
+	        FmAddArg ( arglist, "mask", ConvertString ( self, "letters_m.bm", "Bitmap" )  ) ; 
+	        Widget source_icon = FmCreateDragIcon ( self, "source", arglist ) ;
+	        FmClearArgList ( arglist ) ; 
+	
+	The corresponding C function is: FmNewArgList
+	See also:
+	        FmClearArgList 
+	        FmFreeArgList
+	        FmAddArg
+	
+	
+
+FmNotEqualString
+	Also known as: not_equal
+	
+	Synopsis:
+	        Boolean FmNotEqualString( String s1, String s2 )
+	
+	Description:
+	
+	Returns true if strings s1 and s2 are different.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the string returned by the callbacks of a message box if it is not
+	Cancel.
+	
+	str = PopupAndWait ( parent.parent.XmDialogShell0.XmMessageBox0 ) ; 
+	if ( not_equal ( str, "Cancel" )  ) 
+	        printf ( "%s\n", str ) ; 
+	
+	The corresponding C function is: FmNotEqualString
+	See also:
+	        FmEqualString 
+	        strcmp
+	
+	
+
+FmPopupAndWait
+	Also known as: PopupAndWait
+	
+	Synopsis:
+	        String FmPopupAndWait( Widget w )
+	
+	Description:
+	
+	Pops up the widget w and the program enters a local event-handling loop, until
+	the Return function is called. The program then exits the local loop, and
+	returns the value passed as an argument to Return. If the popup flag is set in
+	the Resources Box, the shell grabs all events, thus forcing the user to answer
+	the popup box. Note: All possible return points must use Return to ensure the
+	local event loop is exited properly. The return value should not be freed if
+	the argument passed to Return is statically allocated.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	In a Pushbutton, show a selectionBox, print the string returned by the
+	selectionBox pushbutton callbacks, and change the labelString:
+	
+	ret = PopupAndWait ( root.FareDB.FareSB ) ; 
+	printf ( "ret =  %s\n", ret ) ;
+	parent.Fare:labelString = ret; 
+	
+	The corresponding C function is: FmPopupAndWait
+	See also:
+	        FmShowWidget 
+	        FmWaitForReturn 
+	        FmReturn
+	
+	
+
+FmRaiseWidget
+	Also known as: RaiseWidget
+	
+	Synopsis:
+	        None FmRaiseWidget( widget w )
+	
+	Description:
+	
+	Call XRaiseWindow on w's X Window.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Find a widget called List0 starting from the top of the interface hierarchy and
+	raise it: 
+	
+	w = XtNameToWidget ( root, "*List0" ) ; 
+	RaiseWidget ( w ) ; 
+	
+	The corresponding C function is: FmRaiseWidget
+	See also:
+	        FmLowerWidget 
+	        FmShowWidget
+	
+	
+
+FmRegisterSimpleDropSite
+	Synopsis:
+	        None FmRegisterSimpleDropSite( Widget widget, String targets )
+	
+	Description:
+	
+	Register widget as a drop site, which accepts the targets specified in the
+	targets argument. If several targets are specified, they must be separated by
+	commas. This function is generally called from a widget's xfmCreateCallback at
+	widget creation time. Similar to FmDropSiteRegister but does not have the
+	arglist argument: all arguments other than XmNimportTargets and
+	XmNnumImportTargets have their default values.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmRegisterSimpleDropSite
+	See also:
+	        FmDropSiteRegister
+	
+	
+
+FmReturn
+	Also known as: Return
+	
+	Synopsis:
+	        None FmReturn( Widget w, String retval )
+	
+	Description:
+	
+	Exit a local event-handling loop entered by a call to FmPopupAndWait, or
+	FmWaitForReturn, and transfer retval as a return value. w is currently un-used
+	and should be set to self.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	See PopupAndWait example. In the SelectionBox applyCallback, return the
+	selected string: 
+	
+	str = GetString ( self:textString ) ; 
+	Return ( self, str ) ; 
+	
+	The corresponding C function is: FmReturn
+	See also:
+	        FmPopupAndWait
+	        FmWaitForReturn
+	
+	
+
+FmSendClick
+	Also known as: SendClick, send_click
+	
+	Synopsis:
+	        None FmSendClick( Widget w )
+	
+	Description:
+	
+	Send a Btn1Down event followed by a Btn1Up event to widget w. This simulates a
+	click on the Select button.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Activate the sibling Cancel button
+	
+	SendClick ( parent.Cancel ) ;
+	
+	The corresponding C function is: FmSendClick
+	
+
+FmSendMessage
+	Also known as: SendMessage
+	
+	Synopsis:
+	        Int FmSendMessage( Widget w, String type, String data )
+	
+	Description:
+	
+	Send a ClientMessage event to Widget w. The message_type field of the event is
+	the Atom form of type, and the first word of the data field is data. The return
+	value is that of the call to the XSendEvent function.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	A pushButton sends a client message to a label:
+	
+	SendMessage ( parent.XmLabel0, "String", "Y" ) ; 
+	
+	The label receiving the client message changes its labelString to the character 
+	passed with SendMessage
+	
+	translations = #override\ 
+	        <ClientMessage> : eval ( "XClientMessageEvent ev;\n 
+	                                ev  = $;\n 
+	                                buf = '   ';\n 
+	                                sprintf ( buf, '%c', ev->data_b0 ) ;\n 
+	                                self:labelString = buf;" ) 
+	
+	The corresponding C function is: FmSendMessage
+	See also:
+	        XSendEvent
+	
+	
+
+FmSetActiveValue
+	Also known as: SetActiveValue
+	
+	Synopsis:
+	        Boolean FmSetActiveValue( Widget w, String name )
+	
+	Description:
+	
+	Call the set script of active value name for widget w. If name is null, calls
+	the set scripts of all active values defined for w regardless of their names.
+	If w is null, calls the set scripts of all active values called name regardless
+	of the widget they are defined for. If at least one script was called, it
+	returns 1, otherwise, 0.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Activate the set script for active value "fval" in widget parent.SB: 
+	
+	SetActiveValue ( parent.SB, "fval" ) ; 
+	
+	Activate the set script for active value "fval" in all widgets: 
+	
+	SetActiveValue ( Widget ( 0 ) , "fval" ) ; 
+	
+	The corresponding C function is: FmSetActiveValue
+	See also:
+	        FmGetActiveValue 
+	        FmSetActiveValueTimeOut
+	        FmSetValue
+	
+	
+
+FmSetActiveValueTimeOut
+	Also known as: SetActiveValueTimeOut
+	
+	Synopsis:
+	        TimeOutClosure FmSetActiveValueTimeOut( Widget w, String name, Int interval )
+	
+	Description:
+	
+	Initialize a timeout so that the set script of active value name is called in
+	interval milliseconds by: SetActiveValue(w, name). It returns a handle to a
+	timeout identifier. The timeout can be stopped with FmStopTimeOut to which the
+	handle is passed. Note: The parameter w must not be null, but name can be.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	See the example for FmGetActiveValueTimeOut
+	
+	The corresponding C function is: FmSetActiveValueTimeOut
+	See also:
+	        FmStopTimeOut
+	        FmGetActiveValueTimeOut
+	
+	
+
+FmSetTallest
+	Synopsis:
+	        None FmSetTallest( Widget ... )
+	
+	Description:
+	
+	FmSetTallest sets the height of up to twelve widgets to that of the tallest
+	widget. If the list contains less than twelve widgets, you must put a null
+	widget, Widget(NULL), after the last widget.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmSetTallest
+	See also:
+	        FmSetWidest
+	
+	
+
+FmSetValue
+	Synopsis:
+	        Boolean FmSetValue( Widget widget, char *name, XtPointer address )
+	
+	Description:
+	
+	This function calls the set script of the specified active value for the
+	specified widget, passing it the specified address as the $ argument. This
+	function is similar to FmSetActiveValue, but allows to specify the attached
+	address for each call. widget is the widget ID of the widget where the active
+	value is defined. name is the name of the active valueaddress is the address
+	corresponding to the active value.
+	
+	Scope: FACE scripts, application 	
+	
+	The corresponding C function is: FmSetValue
+	See also:
+	        FmAttachValue
+	        FmGetValue
+	        FmSetActiveValue
+	
+	
+
+FmSetWidest
+	Synopsis:
+	        None FmSetWidest( Widget ... )
+	
+	Description:
+	
+	FmSetWidest sets the width of up to twelve widgets to that of the widest
+	widget. If the list contains less than twelve widgets, you must put a null
+	widget, Widget(NULL), after the last widget.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmSetWidest
+	See also:
+	        FmSetTallest
+	
+	
+
+FmShowPopup
+	Also known as: ShowPopup
+	
+	Synopsis:
+	        None FmShowPopup( Pointer event, Widget menu )
+	
+	Description:
+	
+	Pop up the menu popup-menu. The menu is popped so that its upper-left corner is
+	at the position indicated by the event. This function is mostly used in a
+	translation, where the event is passed as the $ special variable. XFaceMaker
+	automatically defines such a translation on Button3 when a popup-menu is
+	created.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Translation defined in a bulletinBoard to open a popup menu ( XFaceMaker
+	defines a different translation ) : 
+	translations = #override\
+	<ButtonPress>Button3: eval ( "ShowPopup ( $, self.popup_PopupMenu0.PopupMenu0 ) ;" ) 
+	
+	The corresponding C function is: FmShowPopup
+	
+
+FmShowWidget
+	Also known as: Show
+	
+	Synopsis:
+	        None FmShowWidget( Widget w )
+	
+	Description:
+	
+	Display widget w on the screen. If w is a Shell widget, then Show realizes it
+	and maps it. If w is a Popup-Shell, then Show calls XtPopup on the shell with a
+	grab_kind of GrabNone. Otherwise, Show simply manages the Widget. Note: if the
+	intent is to show a DialogShell, w should refer to the DialogShell's child, not
+	to the shell itself because of the way Motif handles DialogShells.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Show a transientShell which is the shell ancestor of self: 
+	Show ( toplevel ) ; 
+	
+	The corresponding C function is: FmShowWidget
+	See also:
+	        Hide
+	
+	
+
+FmStartCursorDrag
+	Synopsis:
+	        Widget FmStartCursorDrag( Widget widget, XEvent *event, String targets, Pixmap pixmap, Pixmap mask )
+	
+	Description:
+	
+	FmStartCursorDrag is like FmStartSimpleDrag, with the additional argument mask
+	that specifies a mask bitmap to use with the cursor pixmap.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmStartCursorDrag
+	See also:
+	        FmStartSimpleDrag
+	
+	
+
+FmStartSimpleDrag
+	Synopsis:
+	        Widget FmStartSimpleDrag( Widget w, XEvent event, String targets, Pixmap pixmap )
+	
+	Description:
+	
+	Start a drag operation. w argument specifies the drag source. It is generally
+	the widget in which the user has pressed mouse button two. event is a pointer
+	to the X event generated by the user's action (this must be a button event).
+	targets is a character string which contains the name(s) of the target(s) that
+	the widget can provide. If several targets are specified, they must be
+	separated by commas. pixmap specifies the Pixmap which will be displayed during
+	the drag operation by the drag icon. If pixmap is null, a default pixmap
+	provided by Motif is used. This function is generally called from a widget's
+	translation table, in a FACE action script for a button press. In this case,
+	the widget argument is self and the event argument is $. Similar to
+	FmDragStart, but the argument list is replaced by a single pixmap argument.
+	This pixmap is used to create a drag icon using XmCreateDragIcon. The icon is
+	then passed as the XmNsourcePixmapIcon argument to XmDragStart.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmStartSimpleDrag
+	See also:
+	        FmStartDrag
+	
+	
+
+FmStopTimeOut
+	Also known as: StopTimeOut
+	
+	Synopsis:
+	        None FmStopTimeOut( TimeOutClosure TimeoutID )
+	
+	Description:
+	
+	Stop a previously started timeout identified by the TimeoutID returned by
+	FmCallCallbacksTimeOut, FmSetActiveValueTimeOut, or FmGetActiveValueTimeOut.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmStopTimeOut
+	See also:
+	        CallCallbacksTimeOut 
+	        GetActiveValueTimeOut
+	        SetActiveValueTimeOut
+	
+	
+
+FmWait
+	Also known as: wait
+	
+	Synopsis:
+	        None FmWait( Widget w, Int delay )
+	
+	Description:
+	
+	Wait during delay milliseconds, handling X events meanwhile.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Wait one second: 
+	wait ( self, 1000 ) ; 
+	
+	The corresponding C function is: FmWait
+	
+
+FmWaitForReturn
+	Also known as: WaitForReturn
+	
+	Synopsis:
+	        String FmWaitForReturn(  )
+	
+	Description:
+	
+	Enter a local event-handling loop, until Return is called. Return the value
+	passed to Return as an argument. For example: Popup(root. PopupShell, 2);
+	result = WaitForReturn(); is equivalent to: result = PopupAndWait(root.
+	PopupShell);
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	A push button shows a transientShell and waits for a return value; the
+	transientShell contains a messageBox whose okcallback calls Return: in the
+	pushbutton: 
+	
+	activateCallback = Show ( root.TransientShell0 ) ;
+	        str = WaitForReturn (  ) ; 
+	        printf ( "%s\n", str ) ;
+	
+	in the MessageBox: 
+	
+	okCallback = Return ( self, "my returned string" ) ; Hide ( toplevel ) ; 
+	
+	This is equivalent to: in the pushButton: 
+	
+	activateCallback = str = PopupAndWait ( root.TransientShell0 ) ; 
+	        printf ( "%s\n", str ) ;
+	
+	in the MessageBox: 
+	
+	okCallback = Return ( self, "my returned string" ) ;
+	        Hide ( toplevel ) ; 
+	
+	The corresponding C function is: FmWaitForReturn
+	See also:
+	        PopupAndWait, Return
+	
+	
+
+FmWarpPointer
+	Also known as: WarpPointer
+	
+	Synopsis:
+	        None FmWarpPointer( Widget w )
+	
+	Description:
+	
+	Move the mouse pointer to the center of widget w. Should be used in rare cases:
+	taking control of the pointer independently from the user is contrary to good
+	ergonomics and to Motif Style guide recommendations.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	In a pushButton, force the pointer to move to the center of a sibling
+	drawingArea: 
+	WarpPointer ( parent.XmDrawingArea0 ) ; 
+	
+	The corresponding C function is: FmWarpPointer
+	
+
+FmWidest
+	Synopsis:
+	        Int FmWidest( Widget ... )
+	
+	Description:
+	
+	FmWidest returns the width of the widest widget of up to twelve widgets, the
+	maximum number of arguments in a FACE function call. If the list contains less
+	than twelve widgets, you must put a null widget, Widget(NULL), after the last
+	widget.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmWidest
+	
+
+FmWidgetName
+	Also known as: WidgetName
+	
+	Synopsis:
+	        String FmWidgetName( Widget widget )
+	
+	Description:
+	
+	Return the name of widget widget. The string is returned in a static buffer and
+	should not be freed.
+	
+	Scope: FACE scripts, application 	
+	
+	The corresponding C function is: FmWidgetName
+	
+
+GetActiveValue
+	Also known as: FmGetActiveValue
+	
+	Synopsis:
+	        Boolean FmGetActiveValue( Widget w, String name )
+	
+	Description:
+	
+	Call the get script of active value name for Widget w. If name is null, call
+	the get scripts for all active values defined for w regardless of their names.
+	If w is null, call the get scripts for all active values called name regardless
+	of the Widget they are defined for. If at least one script was called, return
+	1, otherwise, return 0.
+	
+	Scope: FACE scripts, application 	
+	
+	Example:
+	
+	Activate the get script for active value "fval" in widget parent.SB: 
+	GetActiveValue ( parent.SB, "fval" ) ; 
+	Activate the get script for active value "fval" in all widgets: 
+	GetActiveValue ( Widget ( 0 ) , "fval" ) ; 
+	
+	The corresponding C function is: FmGetActiveValue
+	See also:
+	        FmSetActiveValue 
+	        FmGetActiveValueTimeOut
+	
+	
+
+GetActiveValueAddr
+	Also known as: FmGetActiveValueAddr
+	
+	Synopsis:
+	        String FmGetActiveValueAddr( String name )
+	
+	Description:
+	
+	Return the address attached to the active value named name, or 0 if no address
+	was attached to name.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the value of a float active value: 
+	ptr = GetActiveValueAddr ( "fval" ) ; 
+	printf ( "decimal val:%d\n", ftoi ( Pointer ( ptr )  )  ) ;
+	
+	The corresponding C function is: FmGetActiveValueAddr
+	See also:
+	        FmAttachAv
+	        FmFetchValueAddress
+	        FmAttachValue
+	
+	
+
+GetActiveValueTimeOut
+	Also known as: FmGetActiveValueTimeOut
+	
+	Synopsis:
+	        TimeOutClosure FmGetActiveValueTimeOut( Widget w, String name, Int interval )
+	
+	Description:
+	
+	Initialize a timeout so that the get script of the active value name is called
+	in interval milliseconds by: GetActiveValue(w, name). It returns a pointer to a
+	timeout identifier TimeoutID. The timeout can be stopped with
+	StopTimeOut(Pointer TimeoutID). The w parameter must not be null, but name can
+	be.
+	
+	Scope: FACE scripts, application 	
+	
+	Example:
+	
+	Definition of an active value which re-activates its get script every second: 
+	
+	name = Myav 
+	get = 
+	        global handle;
+	        Beep (  ) ; 
+	        handle  = GetActiveValueTimeOut ( self, "Myav", 1000 ) ; 
+	
+	a push Button which activates the active value's get script:
+	
+	labelString = Get_activeval
+	activateCallback = global handle; 
+	handle = GetActiveValueTimeOut ( parent.avwidget, "Myav", 1000 ) ; 
+	
+	a pushButton which stops the process: 
+	
+	labelString = Stop_activeval 
+	activateCallback = global handle; StopTimeOut ( handle ) ; 
+	
+	The corresponding C function is: FmGetActiveValueTimeOut
+	
+
+GetString
+	Also known as: FmGetString
+	
+	Synopsis:
+	        String FmGetString( XmString str )
+	
+	Description:
+	
+	Return an ordinary zero terminated character string equal to the text contained
+	within the XmString str assuming XmSTRING_DEFAULT_CHARSET. Calls
+	XmStringGetLtoR. When it is no longer needed, the string can be freed using
+	free.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Declare and initialize a FACE array to contain the items of an XmList widget;
+	print its contents:
+	
+	XmString a[Int]; 
+	count = parent.XmList0:itemCount; 
+	a = new_c_array ( Pointer ( parent.XmList0:items ) , count ) ; 
+	for ( i = 0; i < count; i = i+1 ) 
+	        printf ( "index: %d item %s\n", i, FmGetString ( a[i] )  ) ; 
+	
+	The corresponding C function is: FmGetString
+	See also:
+	        CreateXmString
+	
+	
+
+GetVersionString
+	Also known as: FmGetVersionString
+	
+	Synopsis:
+	        String FmGetVersionString(  )
+	
+	Description:
+	
+	Return a string describing the version of XFaceMaker, such as "Version 3. 0".
+	When it is no longer needed, the string can be freed using free.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the version of XFaceMaker:
+	
+	        tmp = GetVersionString (  ) ;
+	        printf ( "%s\n", tmp ) ; 
+	        free ( tmp ) ; 
+	
+	The corresponding C function is: FmGetVersionString
+	
+
+Hide
+	Also known as: FmHideWidget, hide
+	
+	Synopsis:
+	        None FmHideWidget( Widget w )
+	
+	Description:
+	
+	Hide widget w from the screen. If w is a Shell widget, then Hide unmaps the
+	Shell. If w is a Popup-Shell, then Hide calls XtPopdown on the shell.
+	Otherwise, Hide simply unmanages the Widget. Note: if the intent is to hide an
+	XmDialogShell, w should refer to the DialogShell's child, not to the shell
+	itself because of the way Motif handles DialogShells.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Hide a transientShell which is the shell ancestor of self: 
+	        Hide ( toplevel ) ; 
+	
+	The corresponding C function is: FmHideWidget
+	See also:
+	        FmShowWidget 
+	        FmLowerWidget
+	
+	
+
+Internationalize
+	Also known as: FmInternationalize
+	
+	Synopsis:
+	        String FmInternationalize( String str )
+	
+	Description:
+	
+	Scan the string str which must be of the form %MSG%n%m xxx, call FmCatGetS,
+	searching the message catalogs that are currently open, and return the
+	resulting string, or NULL if str does not have the correct format.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Internationalize a string returned by an application function: 
+	
+	function String GetMyString (  ) ; 
+	s1 = GetMyString (  ) ; 
+	s2 = Internationalize ( s1 ) ; 
+	
+	The corresponding C function is: FmInternationalize
+	
+
+ListGetNthItem
+	Also known as: FmListGetNthItem
+	
+	Synopsis:
+	        String FmListGetNthItem( Widget list, Int position )
+	
+	Description:
+	
+	A convenience function used to get the n-th item of an XmList widget, where
+	position is: last = 0, first = 1, second = 2, etc. Returns a pointer to a
+	character string which should be freed when no longer needed, or NULL if the
+	item is not found.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the content of a list widget from a sibling pushbutton: 
+	
+	activateCallback = w = parent.XmList0; 
+	        for ( i = 1; i <= w:itemCount; i = i+1 ) { 
+	                str = ListGetNthItem ( w, i ) ; 
+	                printf ( "%s\n", str ) ; 
+	                free ( str ) ; 
+	        } 
+	
+	The corresponding C function is: FmListGetNthItem
+	See also:
+	        ListGetNthSelectedItem
+	
+	
+
+ListGetNthSelectedItem
+	Also known as: FmListGetNthSelectedItem
+	
+	Synopsis:
+	        String FmListGetNthSelectedItem( Widget list, Int position )
+	
+	Description:
+	
+	A convenience function used to get the n-th selected item of an XmList widget,
+	where position is: last = 0, first = 1, second = 2, selected item etc. It
+	returns a pointer to the character string which should be freed when no longer
+	needed, or NULL if the item is not found.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the selected items of a list from a sibling pushbutton: 
+	
+	activateCallback = w = parent.XmList0; 
+	        for ( i = 1; i <= w:selectedItemCount; i = i+1 ) {
+	                str = ListGetNthSelectedItem ( w, i ) ; 
+	                printf ( " selected item number %d, item %s\n", i, str ) ;
+	                free ( str ) ;
+	        }
+	
+	The corresponding C function is: FmListGetNthSelectedItem
+	See also:
+	        ListGetNthItem
+	
+	
+
+ListSetItems
+	Also known as: FmListSetItems
+	
+	Synopsis:
+	        None ListSetItems( Widget list, String items )
+	
+	Description:
+	
+	A convenience function used to set the items and itemCount resources of the
+	XmList widget, according to the items string. items is a string containing
+	comma-separated items. ListSetItems converts this string to an XmStringTable,
+	and calls XtSetValues to set the items and itemCount resources.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Initialize a list in its create callback: 
+	
+	xfmCreateCallback = ListSetItems ( self, "first, second, third, fourth, 
+	                                                fifth, sixth" ) ; 
+	
+	The corresponding C function is: FmListSetItems
+	See also:
+	        FmListGetItems
+	
+	
+
+LoadGroup
+	Also known as: FmLoadGroup
+	
+	Synopsis:
+	        int FmLoadGroup( char *group_name, char *group_file )
+	
+	Description:
+	
+	Load a widget group from the interface file group_file. The group is named
+	group_name. FmLoadGroup returns 0 if the group could not be loaded, and
+	non-zero otherwise. Unlike FmLoad, FmLoadGroup only loads and parses the. fm
+	file. FmCreateObject or FmCreateManagedObject must subsequently be called to
+	create instances of the group. Therefore in most cases the functions
+	FmLoadCreateGroup and FmLoadCreateManagedGroup should be used. Unlike FmLoad,
+	if the interface contains several main shells, only the first one will be
+	loaded and created.
+	
+	Scope: Application only 	
+	
+	The corresponding C function is: FmLoadGroup
+	
+
+LowerWidget
+	Also known as: FmLowerWidget
+	
+	Synopsis:
+	        None FmLowerWidget( Widget w )
+	
+	Description:
+	
+	Call XLowerWindow on w's window.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Find a widget called List0 starting from the top of the interface hierarchy and
+	lower it:
+	
+	w = XtNameToWidget ( root, "*List0" ) ; 
+	LowerWidget ( w ) ; 
+	
+	The corresponding C function is: FmLowerWidget
+	See also:
+	        FmRaiseWidget 
+	        FmHide
+	
+	
+
+NewArgList
+	Also known as: FmNewArgList
+	
+	Synopsis:
+	        FmArgList FmNewArgList(  )
+	
+	Description:
+	
+	Allocate an empty argument list.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		FmArgList arglist = FmNewArgList (  ) ; 
+	        FmAddArg ( arglist, "pixmap", FmGetPixmap ( self"letters.bm" )  ) ; 
+	        FmAddArg ( arglist, "mask", ConvertString ( self, "letters_m.bm", "Bitmap" )  ) ; 
+	        Widget source_icon = FmCreateDragIcon ( self, "source", arglist ) ;
+	        FmClearArgList ( arglist ) ; 
+	
+	The corresponding C function is: FmNewArgList
+	See also:
+	        FmClearArgList 
+	        FmFreeArgList
+	        FmAddArg
+	
+	
+
+PopupAndWait
+	Also known as: FmPopupAndWait
+	
+	Synopsis:
+	        String FmPopupAndWait( Widget w )
+	
+	Description:
+	
+	Pops up the widget w and the program enters a local event-handling loop, until
+	the Return function is called. The program then exits the local loop, and
+	returns the value passed as an argument to Return. If the popup flag is set in
+	the Resources Box, the shell grabs all events, thus forcing the user to answer
+	the popup box. Note: All possible return points must use Return to ensure the
+	local event loop is exited properly. The return value should not be freed if
+	the argument passed to Return is statically allocated.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	In a Pushbutton, show a selectionBox, print the string returned by the
+	selectionBox pushbutton callbacks, and change the labelString:
+	
+	ret = PopupAndWait ( root.FareDB.FareSB ) ; 
+	printf ( "ret =  %s\n", ret ) ;
+	parent.Fare:labelString = ret; 
+	
+	The corresponding C function is: FmPopupAndWait
+	See also:
+	        FmShowWidget 
+	        FmWaitForReturn 
+	        FmReturn
+	
+	
+
+Quit
+	Also known as: exit
+	
+	Synopsis:
+	        None exit( Int exitVal )
+	
+	Description:
+	
+	Quit the application or the interface. If called in Try mode, will only print a
+	message in the Messages Box. The argument exitVal will be returned to the
+	calling program, normally a Unix shell. It should follow the Unix conventions.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: exit
+	
+
+RaiseWidget
+	Also known as: FmRaiseWidget
+	
+	Synopsis:
+	        None FmRaiseWidget( widget w )
+	
+	Description:
+	
+	Call XRaiseWindow on w's X Window.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Find a widget called List0 starting from the top of the interface hierarchy and
+	raise it: 
+	
+	w = XtNameToWidget ( root, "*List0" ) ; 
+	RaiseWidget ( w ) ; 
+	
+	The corresponding C function is: FmRaiseWidget
+	See also:
+	        FmLowerWidget 
+	        FmShowWidget
+	
+	
+
+Return
+	Also known as: FmReturn
+	
+	Synopsis:
+	        None FmReturn( Widget w, String retval )
+	
+	Description:
+	
+	Exit a local event-handling loop entered by a call to FmPopupAndWait, or
+	FmWaitForReturn, and transfer retval as a return value. w is currently un-used
+	and should be set to self.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	See PopupAndWait example. In the SelectionBox applyCallback, return the
+	selected string: 
+	
+	str = GetString ( self:textString ) ; 
+	Return ( self, str ) ; 
+	
+	The corresponding C function is: FmReturn
+	See also:
+	        FmPopupAndWait
+	        FmWaitForReturn
+	
+	
+
+SendClick
+	Also known as: send_click, FmSendClick
+	
+	Synopsis:
+	        None FmSendClick( Widget w )
+	
+	Description:
+	
+	Send a Btn1Down event followed by a Btn1Up event to widget w. This simulates a
+	click on the Select button.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Activate the sibling Cancel button
+	
+	SendClick ( parent.Cancel ) ;
+	
+	The corresponding C function is: FmSendClick
+	
+
+SendMessage
+	Also known as: FmSendMessage
+	
+	Synopsis:
+	        Int FmSendMessage( Widget w, String type, String data )
+	
+	Description:
+	
+	Send a ClientMessage event to Widget w. The message_type field of the event is
+	the Atom form of type, and the first word of the data field is data. The return
+	value is that of the call to the XSendEvent function.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	A pushButton sends a client message to a label:
+	
+	SendMessage ( parent.XmLabel0, "String", "Y" ) ; 
+	
+	The label receiving the client message changes its labelString to the character 
+	passed with SendMessage
+	
+	translations = #override\ 
+	        <ClientMessage> : eval ( "XClientMessageEvent ev;\n 
+	                                ev  = $;\n 
+	                                buf = '   ';\n 
+	                                sprintf ( buf, '%c', ev->data_b0 ) ;\n 
+	                                self:labelString = buf;" ) 
+	
+	The corresponding C function is: FmSendMessage
+	See also:
+	        XSendEvent
+	
+	
+
+SetActiveValue
+	Also known as: FmSetActiveValue
+	
+	Synopsis:
+	        Boolean FmSetActiveValue( Widget w, String name )
+	
+	Description:
+	
+	Call the set script of active value name for widget w. If name is null, calls
+	the set scripts of all active values defined for w regardless of their names.
+	If w is null, calls the set scripts of all active values called name regardless
+	of the widget they are defined for. If at least one script was called, it
+	returns 1, otherwise, 0.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Activate the set script for active value "fval" in widget parent.SB: 
+	
+	SetActiveValue ( parent.SB, "fval" ) ; 
+	
+	Activate the set script for active value "fval" in all widgets: 
+	
+	SetActiveValue ( Widget ( 0 ) , "fval" ) ; 
+	
+	The corresponding C function is: FmSetActiveValue
+	See also:
+	        FmGetActiveValue 
+	        FmSetActiveValueTimeOut
+	        FmSetValue
+	
+	
+
+SetActiveValueTimeOut
+	Also known as: FmSetActiveValueTimeOut
+	
+	Synopsis:
+	        TimeOutClosure FmSetActiveValueTimeOut( Widget w, String name, Int interval )
+	
+	Description:
+	
+	Initialize a timeout so that the set script of active value name is called in
+	interval milliseconds by: SetActiveValue(w, name). It returns a handle to a
+	timeout identifier. The timeout can be stopped with FmStopTimeOut to which the
+	handle is passed. Note: The parameter w must not be null, but name can be.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	See the example for FmGetActiveValueTimeOut
+	
+	The corresponding C function is: FmSetActiveValueTimeOut
+	See also:
+	        FmStopTimeOut
+	        FmGetActiveValueTimeOut
+	
+	
+
+SetValues
+	Also known as: FaceSetValues
+	
+	Synopsis:
+	        Int FaceSetValues( Widget w, Int num_resources, String resource1, None value1, String resource2, None value2, ... )
+	
+	Description:
+	
+	Set multiple resource values in one call to XtSetValues. num_resources
+	specifies the number of resources to be set. A maximum of 5 resources can be
+	set simultaneously. resource1 is the name of the first resource. value1 is the
+	value to which it will be set. The values must be given in their internal form,
+	not in their String form. The internal form of a resource can be obtained by
+	using ConvertString.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Set the resources for the scale widget in a float resource editing box:
+	SetValues ( parent.scale, 3, 
+	        "minimum", cftoi ( min * 100.0 ) , 
+	        "maximum", cftoi ( max * 100.0 ) , 
+	        "value", cftoi ( v * 100.0 )  ) ; 
+	
+	The corresponding C function is: FaceSetValues
+	See also:
+	        ConvertString
+	        XtSetValue
+	
+	
+
+Show
+	Also known as: FmShowWidget
+	
+	Synopsis:
+	        None FmShowWidget( Widget w )
+	
+	Description:
+	
+	Display widget w on the screen. If w is a Shell widget, then Show realizes it
+	and maps it. If w is a Popup-Shell, then Show calls XtPopup on the shell with a
+	grab_kind of GrabNone. Otherwise, Show simply manages the Widget. Note: if the
+	intent is to show a DialogShell, w should refer to the DialogShell's child, not
+	to the shell itself because of the way Motif handles DialogShells.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Show a transientShell which is the shell ancestor of self: 
+	Show ( toplevel ) ; 
+	
+	The corresponding C function is: FmShowWidget
+	See also:
+	        Hide
+	
+	
+
+ShowPopup
+	Also known as: FmShowPopup
+	
+	Synopsis:
+	        None FmShowPopup( Pointer event, Widget menu )
+	
+	Description:
+	
+	Pop up the menu popup-menu. The menu is popped so that its upper-left corner is
+	at the position indicated by the event. This function is mostly used in a
+	translation, where the event is passed as the $ special variable. XFaceMaker
+	automatically defines such a translation on Button3 when a popup-menu is
+	created.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Translation defined in a bulletinBoard to open a popup menu ( XFaceMaker
+	defines a different translation ) : 
+	translations = #override\
+	<ButtonPress>Button3: eval ( "ShowPopup ( $, self.popup_PopupMenu0.PopupMenu0 ) ;" ) 
+	
+	The corresponding C function is: FmShowPopup
+	
+
+StopTimeOut
+	Also known as: FmStopTimeOut
+	
+	Synopsis:
+	        None FmStopTimeOut( TimeOutClosure TimeoutID )
+	
+	Description:
+	
+	Stop a previously started timeout identified by the TimeoutID returned by
+	FmCallCallbacksTimeOut, FmSetActiveValueTimeOut, or FmGetActiveValueTimeOut.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmStopTimeOut
+	See also:
+	        CallCallbacksTimeOut 
+	        GetActiveValueTimeOut
+	        SetActiveValueTimeOut
+	
+	
+
+SuperclassDeleteChild
+	Synopsis:
+	        SuperclassDeleteChild( Widget parent, Widget w )
+	
+	Description:
+	
+	Call the DeleteChild method of the superclass of widget parent, to delete w
+	from the list of children. In general, if you have defined a DeleteChild method
+	when defining a new class, you must call this function to delete a widget w
+	from its parent's children array. Otherwise, widget w would remain managed by
+	its parent, and this could cause a crash.
+	
+	Scope: FACE scripts, application 	
+	
+	Example:
+	
+	SuperclassDeleteChild ( self, $ ) ;
+	
+	The corresponding C function is: SuperclassDeleteChild
+	See also:
+	        SuperclassInsertChild
+	
+	
+
+SuperclassExpose
+	Synopsis:
+	        None SuperclassExpose( Widget w, Xevent *event, Region region )
+	
+	Description:
+	
+	Call the expose method of the superclass of widget w, if w is realized. In
+	general, you should call this function after the class Expose method, if you
+	have defined such a method when defining a new class.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		SuperclassExpose ( self, @, @1 ) ;
+	
+	The corresponding C function is: SuperclassExpose
+	
+
+SuperclassInsertChild
+	Synopsis:
+	        None SuperclassInsertChild( Widget parent, Widget w )
+	
+	Description:
+	
+	Call the InsertChild method of the superclass of widget parent, to insert w in
+	the list of children. In general, if you have defined an InsertChild method
+	when defining a new class, you must call this function to insert a new widget w
+	in its parent's children array. Otherwise, widget w would not be managed by its
+	parent.
+	
+	Scope: FACE scripts, the application 	
+	
+	Example:
+	
+	SuperclassInsertchild ( self, $ ) ; 
+	
+	The corresponding C function is: SuperclassInsertChild
+	
+
+SuperclassRealize
+	Description:
+	
+	For information, please refer to the SuperclassRealize description in your
+	reference manual.
+	
+	The corresponding C function is: SuperclassRealize
+	
+
+SuperclassResize
+	Synopsis:
+	        None SuperclassResize( Widget w )
+	
+	Description:
+	
+	Call the resize method of the superclass of widget w, if w is realized. In
+	general, you should call this function after the class Resize method, if you
+	have defined such a method when defining a new class.
+	
+	Scope: FACE scripts, the application 	
+	
+	The corresponding C function is: SuperclassResize
+	
+
+WaitForReturn
+	Also known as: FmWaitForReturn
+	
+	Synopsis:
+	        String FmWaitForReturn(  )
+	
+	Description:
+	
+	Enter a local event-handling loop, until Return is called. Return the value
+	passed to Return as an argument. For example: Popup(root. PopupShell, 2);
+	result = WaitForReturn(); is equivalent to: result = PopupAndWait(root.
+	PopupShell);
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	A push button shows a transientShell and waits for a return value; the
+	transientShell contains a messageBox whose okcallback calls Return: in the
+	pushbutton: 
+	
+	activateCallback = Show ( root.TransientShell0 ) ;
+	        str = WaitForReturn (  ) ; 
+	        printf ( "%s\n", str ) ;
+	
+	in the MessageBox: 
+	
+	okCallback = Return ( self, "my returned string" ) ; Hide ( toplevel ) ; 
+	
+	This is equivalent to: in the pushButton: 
+	
+	activateCallback = str = PopupAndWait ( root.TransientShell0 ) ; 
+	        printf ( "%s\n", str ) ;
+	
+	in the MessageBox: 
+	
+	okCallback = Return ( self, "my returned string" ) ;
+	        Hide ( toplevel ) ; 
+	
+	The corresponding C function is: FmWaitForReturn
+	See also:
+	        PopupAndWait, Return
+	
+	
+
+WarpPointer
+	Also known as: FmWarpPointer
+	
+	Synopsis:
+	        None FmWarpPointer( Widget w )
+	
+	Description:
+	
+	Move the mouse pointer to the center of widget w. Should be used in rare cases:
+	taking control of the pointer independently from the user is contrary to good
+	ergonomics and to Motif Style guide recommendations.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	In a pushButton, force the pointer to move to the center of a sibling
+	drawingArea: 
+	WarpPointer ( parent.XmDrawingArea0 ) ; 
+	
+	The corresponding C function is: FmWarpPointer
+	
+
+WidgetName
+	Also known as: FmWidgetName
+	
+	Synopsis:
+	        String FmWidgetName( Widget widget )
+	
+	Description:
+	
+	Return the name of widget widget. The string is returned in a static buffer and
+	should not be freed.
+	
+	Scope: FACE scripts, application 	
+	
+	The corresponding C function is: FmWidgetName
+	
+
+XmActivateProtocol
+	Description:
+	
+	For information, please refer to the XmActivateProtocol description in your
+	reference manual.
+	
+	The corresponding C function is: XmActivateProtocol
+	
+
+XmAddProtocolCallback
+	Description:
+	
+	For information, please refer to the XmAddProtocolCallback description in your
+	reference manual.
+	
+	The corresponding C function is: XmAddProtocolCallback
+	
+
+XmAddProtocols
+	Description:
+	
+	For information, please refer to the XmAddProtocols description in your
+	reference manual.
+	
+	The corresponding C function is: XmAddProtocols
+	
+
+XmAddTabGroup
+	Description:
+	
+	For information, please refer to the XmAddTabGroup description in your
+	reference manual.
+	
+	The corresponding C function is: XmAddTabGroup
+	
+
+XmCascadeButtonGadgetHighlight
+	Description:
+	
+	For information, please refer to the XmCascadeButtonGadgetHighlight description
+	in your reference manual.
+	
+	The corresponding C function is: XmCascadeButtonGadgetHighlight
+	
+
+XmCascadeButtonHighlight
+	Description:
+	
+	For information, please refer to the XmCascadeButtonHighlight description in
+	your reference manual.
+	
+	The corresponding C function is: XmCascadeButtonHighlight
+	
+
+XmChangeColor
+	Description:
+	
+	For information, please refer to the XmChangeColor description in your
+	reference manual.
+	
+	The corresponding C function is: XmChangeColor
+	
+
+XmClipboardBeginCopy
+	Description:
+	
+	For information, please refer to the XmClipboardBeginCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardBeginCopy
+	
+
+XmClipboardCancelCopy
+	Description:
+	
+	For information, please refer to the XmClipboardCancelCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardCancelCopy
+	
+
+XmClipboardCopy
+	Description:
+	
+	For information, please refer to the XmClipboardCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardCopy
+	
+
+XmClipboardCopyByName
+	Description:
+	
+	For information, please refer to the XmClipboardCopyByName description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardCopyByName
+	
+
+XmClipboardEndCopy
+	Description:
+	
+	For information, please refer to the XmClipboardEndCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardEndCopy
+	
+
+XmClipboardEndRetrieve
+	Description:
+	
+	For information, please refer to the XmClipboardEndRetrieve description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardEndRetrieve
+	
+
+XmClipboardInquireCount
+	Description:
+	
+	For information, please refer to the XmClipboardInquireCount description in
+	your reference manual.
+	
+	The corresponding C function is: XmClipboardInquireCount
+	
+
+XmClipboardInquireFormat
+	Description:
+	
+	For information, please refer to the XmClipboardInquireFormat description in
+	your reference manual.
+	
+	The corresponding C function is: XmClipboardInquireFormat
+	
+
+XmClipboardInquireLength
+	Description:
+	
+	For information, please refer to the XmClipboardInquireLength description in
+	your reference manual.
+	
+	The corresponding C function is: XmClipboardInquireLength
+	
+
+XmClipboardInquirePendingItems
+	Description:
+	
+	For information, please refer to the XmClipboardInquirePendingItems description
+	in your reference manual.
+	
+	The corresponding C function is: XmClipboardInquirePendingItems
+	
+
+XmClipboardLock
+	Description:
+	
+	For information, please refer to the XmClipboardLock description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardLock
+	
+
+XmClipboardRegisterFormat
+	Description:
+	
+	For information, please refer to the XmClipboardRegisterFormat description in
+	your reference manual.
+	
+	The corresponding C function is: XmClipboardRegisterFormat
+	
+
+XmClipboardRetrieve
+	Description:
+	
+	For information, please refer to the XmClipboardRetrieve description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardRetrieve
+	
+
+XmClipboardStartCopy
+	Description:
+	
+	For information, please refer to the XmClipboardStartCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardStartCopy
+	
+
+XmClipboardStartRetrieve
+	Description:
+	
+	For information, please refer to the XmClipboardStartRetrieve description in
+	your reference manual.
+	
+	The corresponding C function is: XmClipboardStartRetrieve
+	
+
+XmClipboardUndoCopy
+	Description:
+	
+	For information, please refer to the XmClipboardUndoCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardUndoCopy
+	
+
+XmClipboardUnlock
+	Description:
+	
+	For information, please refer to the XmClipboardUnlock description in your
+	reference manual.
+	
+	The corresponding C function is: XmClipboardUnlock
+	
+
+XmClipboardWithdrawFormat
+	Description:
+	
+	For information, please refer to the XmClipboardWithdrawFormat description in
+	your reference manual.
+	
+	The corresponding C function is: XmClipboardWithdrawFormat
+	
+
+XmCommandAppendValue
+	Description:
+	
+	For information, please refer to the XmCommandAppendValue description in your
+	reference manual.
+	
+	The corresponding C function is: XmCommandAppendValue
+	
+
+XmCommandError
+	Description:
+	
+	For information, please refer to the XmCommandError description in your
+	reference manual.
+	
+	The corresponding C function is: XmCommandError
+	
+
+XmCommandGetChild
+	Description:
+	
+	For information, please refer to the XmCommandGetChild description in your
+	reference manual.
+	
+	The corresponding C function is: XmCommandGetChild
+	
+
+XmCommandSetValue
+	Description:
+	
+	For information, please refer to the XmCommandSetValue description in your
+	reference manual.
+	
+	The corresponding C function is: XmCommandSetValue
+	
+
+XmConvertUnits
+	Description:
+	
+	For information, please refer to the XmConvertUnits description in your
+	reference manual.
+	
+	The corresponding C function is: XmConvertUnits
+	
+
+XmCreateArrowButton
+	Description:
+	
+	For information, please refer to the XmCreateArrowButton description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateArrowButton
+	
+
+XmCreateArrowButtonGadget
+	Description:
+	
+	For information, please refer to the XmCreateArrowButtonGadget description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateArrowButtonGadget
+	
+
+XmCreateBulletinBoard
+	Description:
+	
+	For information, please refer to the XmCreateBulletinBoard description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateBulletinBoard
+	
+
+XmCreateBulletinBoardDialog
+	Description:
+	
+	For information, please refer to the XmCreateBulletinBoardDialog description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateBulletinBoardDialog
+	
+
+XmCreateCascadeButton
+	Description:
+	
+	For information, please refer to the XmCreateCascadeButton description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateCascadeButton
+	
+
+XmCreateCascadeButtonGadget
+	Description:
+	
+	For information, please refer to the XmCreateCascadeButtonGadget description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateCascadeButtonGadget
+	
+
+XmCreateCommand
+	Description:
+	
+	For information, please refer to the XmCreateCommand description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateCommand
+	
+
+XmCreateCommandDialog
+	Description:
+	
+	For information, please refer to the XmCreateCommandDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateCommandDialog
+	
+
+XmCreateDialogShell
+	Description:
+	
+	For information, please refer to the XmCreateDialogShell description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateDialogShell
+	
+
+XmCreateDragIcon
+	Description:
+	
+	For information, please refer to the XmCreateDragIcon description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateDragIcon
+	
+
+XmCreateDrawingArea
+	Description:
+	
+	For information, please refer to the XmCreateDrawingArea description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateDrawingArea
+	
+
+XmCreateDrawnButton
+	Description:
+	
+	For information, please refer to the XmCreateDrawnButton description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateDrawnButton
+	
+
+XmCreateErrorDialog
+	Description:
+	
+	For information, please refer to the XmCreateErrorDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateErrorDialog
+	
+
+XmCreateFileSelectionBox
+	Description:
+	
+	For information, please refer to the XmCreateFileSelectionBox description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateFileSelectionBox
+	
+
+XmCreateFileSelectionDialog
+	Description:
+	
+	For information, please refer to the XmCreateFileSelectionDialog description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateFileSelectionDialog
+	
+
+XmCreateForm
+	Description:
+	
+	For information, please refer to the XmCreateForm description in your reference
+	manual.
+	
+	The corresponding C function is: XmCreateForm
+	
+
+XmCreateFormDialog
+	Description:
+	
+	For information, please refer to the XmCreateFormDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateFormDialog
+	
+
+XmCreateFrame
+	Description:
+	
+	For information, please refer to the XmCreateFrame description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateFrame
+	
+
+XmCreateInformationDialog
+	Description:
+	
+	For information, please refer to the XmCreateInformationDialog description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateInformationDialog
+	
+
+XmCreateLabel
+	Description:
+	
+	For information, please refer to the XmCreateLabel description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateLabel
+	
+
+XmCreateLabelGadget
+	Description:
+	
+	For information, please refer to the XmCreateLabelGadget description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateLabelGadget
+	
+
+XmCreateList
+	Description:
+	
+	For information, please refer to the XmCreateList description in your reference
+	manual.
+	
+	The corresponding C function is: XmCreateList
+	
+
+XmCreateMainWindow
+	Description:
+	
+	For information, please refer to the XmCreateMainWindow description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateMainWindow
+	
+
+XmCreateMenuBar
+	Description:
+	
+	For information, please refer to the XmCreateMenuBar description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateMenuBar
+	
+
+XmCreateMenuShell
+	Description:
+	
+	For information, please refer to the XmCreateMenuShell description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateMenuShell
+	
+
+XmCreateMessageBox
+	Description:
+	
+	For information, please refer to the XmCreateMessageBox description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateMessageBox
+	
+
+XmCreateMessageDialog
+	Description:
+	
+	For information, please refer to the XmCreateMessageDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateMessageDialog
+	
+
+XmCreateOptionMenu
+	Description:
+	
+	For information, please refer to the XmCreateOptionMenu description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateOptionMenu
+	
+
+XmCreatePanedWindow
+	Description:
+	
+	For information, please refer to the XmCreatePanedWindow description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreatePanedWindow
+	
+
+XmCreatePopupMenu
+	Description:
+	
+	For information, please refer to the XmCreatePopupMenu description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreatePopupMenu
+	
+
+XmCreatePromptDialog
+	Description:
+	
+	For information, please refer to the XmCreatePromptDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreatePromptDialog
+	
+
+XmCreatePulldownMenu
+	Description:
+	
+	For information, please refer to the XmCreatePulldownMenu description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreatePulldownMenu
+	
+
+XmCreatePushButton
+	Description:
+	
+	For information, please refer to the XmCreatePushButton description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreatePushButton
+	
+
+XmCreatePushButtonGadget
+	Description:
+	
+	For information, please refer to the XmCreatePushButtonGadget description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreatePushButtonGadget
+	
+
+XmCreateQuestionDialog
+	Description:
+	
+	For information, please refer to the XmCreateQuestionDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateQuestionDialog
+	
+
+XmCreateRadioBox
+	Description:
+	
+	For information, please refer to the XmCreateRadioBox description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateRadioBox
+	
+
+XmCreateRowColumn
+	Description:
+	
+	For information, please refer to the XmCreateRowColumn description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateRowColumn
+	
+
+XmCreateScale
+	Description:
+	
+	For information, please refer to the XmCreateScale description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateScale
+	
+
+XmCreateScrollBar
+	Description:
+	
+	For information, please refer to the XmCreateScrollBar description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateScrollBar
+	
+
+XmCreateScrolledList
+	Description:
+	
+	For information, please refer to the XmCreateScrolledList description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateScrolledList
+	
+
+XmCreateScrolledText
+	Description:
+	
+	For information, please refer to the XmCreateScrolledText description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateScrolledText
+	
+
+XmCreateScrolledWindow
+	Description:
+	
+	For information, please refer to the XmCreateScrolledWindow description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateScrolledWindow
+	
+
+XmCreateSelectionBox
+	Description:
+	
+	For information, please refer to the XmCreateSelectionBox description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateSelectionBox
+	
+
+XmCreateSelectionDialog
+	Description:
+	
+	For information, please refer to the XmCreateSelectionDialog description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateSelectionDialog
+	
+
+XmCreateSeparator
+	Description:
+	
+	For information, please refer to the XmCreateSeparator description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateSeparator
+	
+
+XmCreateSeparatorGadget
+	Description:
+	
+	For information, please refer to the XmCreateSeparatorGadget description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateSeparatorGadget
+	
+
+XmCreateSimpleCheckBox
+	Description:
+	
+	For information, please refer to the XmCreateSimpleCheckBox description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateSimpleCheckBox
+	
+
+XmCreateSimpleMenuBar
+	Description:
+	
+	For information, please refer to the XmCreateSimpleMenuBar description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateSimpleMenuBar
+	
+
+XmCreateSimpleOptionMenu
+	Description:
+	
+	For information, please refer to the XmCreateSimpleOptionMenu description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateSimpleOptionMenu
+	
+
+XmCreateSimplePopupMenu
+	Description:
+	
+	For information, please refer to the XmCreateSimplePopupMenu description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateSimplePopupMenu
+	
+
+XmCreateSimplePulldownMenu
+	Description:
+	
+	For information, please refer to the XmCreateSimplePulldownMenu description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateSimplePulldownMenu
+	
+
+XmCreateSimpleRadioBox
+	Description:
+	
+	For information, please refer to the XmCreateSimpleRadioBox description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateSimpleRadioBox
+	
+
+XmCreateTemplateDialog
+	Description:
+	
+	For information, please refer to the XmCreateTemplateDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateTemplateDialog
+	
+
+XmCreateText
+	Description:
+	
+	For information, please refer to the XmCreateText description in your reference
+	manual.
+	
+	The corresponding C function is: XmCreateText
+	
+
+XmCreateTextField
+	Description:
+	
+	For information, please refer to the XmCreateTextField description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateTextField
+	
+
+XmCreateToggleButton
+	Description:
+	
+	For information, please refer to the XmCreateToggleButton description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateToggleButton
+	
+
+XmCreateToggleButtonGadget
+	Description:
+	
+	For information, please refer to the XmCreateToggleButtonGadget description in
+	your reference manual.
+	
+	The corresponding C function is: XmCreateToggleButtonGadget
+	
+
+XmCreateWarningDialog
+	Description:
+	
+	For information, please refer to the XmCreateWarningDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateWarningDialog
+	
+
+XmCreateWorkArea
+	Description:
+	
+	For information, please refer to the XmCreateWorkArea description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateWorkArea
+	
+
+XmCreateWorkingDialog
+	Description:
+	
+	For information, please refer to the XmCreateWorkingDialog description in your
+	reference manual.
+	
+	The corresponding C function is: XmCreateWorkingDialog
+	
+
+XmCvtCTToXmString
+	Description:
+	
+	For information, please refer to the XmCvtCTToXmString description in your
+	reference manual.
+	
+	The corresponding C function is: XmCvtCTToXmString
+	
+
+XmCvtFromHorizontalPixels
+	Description:
+	
+	For information, please refer to the XmCvtFromHorizontalPixels description in
+	your reference manual.
+	
+	The corresponding C function is: XmCvtFromHorizontalPixels
+	
+
+XmCvtFromVerticalPixels
+	Description:
+	
+	For information, please refer to the XmCvtFromVerticalPixels description in
+	your reference manual.
+	
+	The corresponding C function is: XmCvtFromVerticalPixels
+	
+
+XmCvtStringToUnitType
+	Description:
+	
+	For information, please refer to the XmCvtStringToUnitType description in your
+	reference manual.
+	
+	The corresponding C function is: XmCvtStringToUnitType
+	
+
+XmCvtTextToXmString
+	Description:
+	
+	For information, please refer to the XmCvtTextToXmString description in your
+	reference manual.
+	
+	The corresponding C function is: XmCvtTextToXmString
+	
+
+XmCvtToHorizontalPixels
+	Description:
+	
+	For information, please refer to the XmCvtToHorizontalPixels description in
+	your reference manual.
+	
+	The corresponding C function is: XmCvtToHorizontalPixels
+	
+
+XmCvtToVerticalPixels
+	Description:
+	
+	For information, please refer to the XmCvtToVerticalPixels description in your
+	reference manual.
+	
+	The corresponding C function is: XmCvtToVerticalPixels
+	
+
+XmCvtXmStringToCT
+	Description:
+	
+	For information, please refer to the XmCvtXmStringToCT description in your
+	reference manual.
+	
+	The corresponding C function is: XmCvtXmStringToCT
+	
+
+XmCvtXmStringToText
+	Description:
+	
+	For information, please refer to the XmCvtXmStringToText description in your
+	reference manual.
+	
+	The corresponding C function is: XmCvtXmStringToText
+	
+
+XmDeactivateProtocol
+	Description:
+	
+	For information, please refer to the XmDeactivateProtocol description in your
+	reference manual.
+	
+	The corresponding C function is: XmDeactivateProtocol
+	
+
+XmDestroyPixmap
+	Description:
+	
+	For information, please refer to the XmDestroyPixmap description in your
+	reference manual.
+	
+	The corresponding C function is: XmDestroyPixmap
+	
+
+XmDragCancel
+	Description:
+	
+	For information, please refer to the XmDragCancel description in your reference
+	manual.
+	
+	The corresponding C function is: XmDragCancel
+	
+
+XmDragStart
+	Description:
+	
+	For information, please refer to the XmDragStart description in your reference
+	manual.
+	
+	The corresponding C function is: XmDragStart
+	
+
+XmDropSiteConfigureStackingOrder
+	Description:
+	
+	For information, please refer to the XmDropSiteConfigureStackingOrder
+	description in your reference manual.
+	
+	The corresponding C function is: XmDropSiteConfigureStackingOrder
+	
+
+XmDropSiteEndUpdate
+	Description:
+	
+	For information, please refer to the XmDropSiteEndUpdate description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropSiteEndUpdate
+	
+
+XmDropSiteGetActiveVisuals
+	Description:
+	
+	For information, please refer to the XmDropSiteGetActiveVisuals description in
+	your reference manual.
+	
+	The corresponding C function is: XmDropSiteGetActiveVisuals
+	
+
+XmDropSiteQueryStackingOrder
+	Description:
+	
+	For information, please refer to the XmDropSiteQueryStackingOrder description
+	in your reference manual.
+	
+	The corresponding C function is: XmDropSiteQueryStackingOrder
+	
+
+XmDropSiteRegister
+	Description:
+	
+	For information, please refer to the XmDropSiteRegister description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropSiteRegister
+	
+
+XmDropSiteRetrieve
+	Description:
+	
+	For information, please refer to the XmDropSiteRetrieve description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropSiteRetrieve
+	
+
+XmDropSiteStartUpdate
+	Description:
+	
+	For information, please refer to the XmDropSiteStartUpdate description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropSiteStartUpdate
+	
+
+XmDropSiteUnregister
+	Description:
+	
+	For information, please refer to the XmDropSiteUnregister description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropSiteUnregister
+	
+
+XmDropSiteUpdate
+	Description:
+	
+	For information, please refer to the XmDropSiteUpdate description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropSiteUpdate
+	
+
+XmDropTransferAdd
+	Description:
+	
+	For information, please refer to the XmDropTransferAdd description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropTransferAdd
+	
+
+XmDropTransferStart
+	Description:
+	
+	For information, please refer to the XmDropTransferStart description in your
+	reference manual.
+	
+	The corresponding C function is: XmDropTransferStart
+	
+
+XmFileSelectionBoxGetChild
+	Description:
+	
+	For information, please refer to the XmFileSelectionBoxGetChild description in
+	your reference manual.
+	
+	The corresponding C function is: XmFileSelectionBoxGetChild
+	
+
+XmFileSelectionDoSearch
+	Description:
+	
+	For information, please refer to the XmFileSelectionDoSearch description in
+	your reference manual.
+	
+	The corresponding C function is: XmFileSelectionDoSearch
+	
+
+XmFontListAdd
+	Description:
+	
+	For information, please refer to the XmFontListAdd description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListAdd
+	
+
+XmFontListAppendEntry
+	Description:
+	
+	For information, please refer to the XmFontListAppendEntry description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListAppendEntry
+	
+
+XmFontListCopy
+	Description:
+	
+	For information, please refer to the XmFontListCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListCopy
+	
+
+XmFontListCreate
+	Description:
+	
+	For information, please refer to the XmFontListCreate description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListCreate
+	
+
+XmFontListEntryCreate
+	Description:
+	
+	For information, please refer to the XmFontListEntryCreate description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListEntryCreate
+	
+
+XmFontListEntryFree
+	Description:
+	
+	For information, please refer to the XmFontListEntryFree description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListEntryFree
+	
+
+XmFontListEntryGetFont
+	Description:
+	
+	For information, please refer to the XmFontListEntryGetFont description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListEntryGetFont
+	
+
+XmFontListEntryGetTag
+	Description:
+	
+	For information, please refer to the XmFontListEntryGetTag description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListEntryGetTag
+	
+
+XmFontListEntryLoad
+	Description:
+	
+	For information, please refer to the XmFontListEntryLoad description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListEntryLoad
+	
+
+XmFontListFree
+	Description:
+	
+	For information, please refer to the XmFontListFree description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListFree
+	
+
+XmFontListFreeFontContext
+	Description:
+	
+	For information, please refer to the XmFontListFreeFontContext description in
+	your reference manual.
+	
+	The corresponding C function is: XmFontListFreeFontContext
+	
+
+XmFontListGetNextFont
+	Description:
+	
+	For information, please refer to the XmFontListGetNextFont description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListGetNextFont
+	
+
+XmFontListInitFontContext
+	Description:
+	
+	For information, please refer to the XmFontListInitFontContext description in
+	your reference manual.
+	
+	The corresponding C function is: XmFontListInitFontContext
+	
+
+XmFontListNextEntry
+	Description:
+	
+	For information, please refer to the XmFontListNextEntry description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListNextEntry
+	
+
+XmFontListRemoveEntry
+	Description:
+	
+	For information, please refer to the XmFontListRemoveEntry description in your
+	reference manual.
+	
+	The corresponding C function is: XmFontListRemoveEntry
+	
+
+XmGetAtomName
+	Description:
+	
+	For information, please refer to the XmGetAtomName description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetAtomName
+	
+
+XmGetColorCalculation
+	Description:
+	
+	For information, please refer to the XmGetColorCalculation description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetColorCalculation
+	
+
+XmGetColors
+	Description:
+	
+	For information, please refer to the XmGetColors description in your reference
+	manual.
+	
+	The corresponding C function is: XmGetColors
+	
+
+XmGetDestination
+	Description:
+	
+	For information, please refer to the XmGetDestination description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetDestination
+	
+
+XmGetDragContext
+	Description:
+	
+	For information, please refer to the XmGetDragContext description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetDragContext
+	
+
+XmGetFocusWidget
+	Description:
+	
+	For information, please refer to the XmGetFocusWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetFocusWidget
+	
+
+XmGetMenuCursor
+	Description:
+	
+	For information, please refer to the XmGetMenuCursor description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetMenuCursor
+	
+
+XmGetPixmap
+	Description:
+	
+	For information, please refer to the XmGetPixmap description in your reference
+	manual.
+	
+	The corresponding C function is: XmGetPixmap
+	
+
+XmGetPixmapByDepth
+	Description:
+	
+	For information, please refer to the XmGetPixmapByDepth description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetPixmapByDepth
+	
+
+XmGetPostedFromWidget
+	Description:
+	
+	For information, please refer to the XmGetPostedFromWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetPostedFromWidget
+	
+
+XmGetSecondaryResourceData
+	Description:
+	
+	For information, please refer to the XmGetSecondaryResourceData description in
+	your reference manual.
+	
+	The corresponding C function is: XmGetSecondaryResourceData
+	
+
+XmGetTabGroup
+	Description:
+	
+	For information, please refer to the XmGetTabGroup description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetTabGroup
+	
+
+XmGetTearOffControl
+	Description:
+	
+	For information, please refer to the XmGetTearOffControl description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetTearOffControl
+	
+
+XmGetVisibility
+	Description:
+	
+	For information, please refer to the XmGetVisibility description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetVisibility
+	
+
+XmGetXmDisplay
+	Description:
+	
+	For information, please refer to the XmGetXmDisplay description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetXmDisplay
+	
+
+XmGetXmScreen
+	Description:
+	
+	For information, please refer to the XmGetXmScreen description in your
+	reference manual.
+	
+	The corresponding C function is: XmGetXmScreen
+	
+
+XmImGetXIM
+	Description:
+	
+	For information, please refer to the XmImGetXIM description in your reference
+	manual.
+	
+	The corresponding C function is: XmImGetXIM
+	
+
+XmImMbLookupString
+	Description:
+	
+	For information, please refer to the XmImMbLookupString description in your
+	reference manual.
+	
+	The corresponding C function is: XmImMbLookupString
+	
+
+XmImRegister
+	Description:
+	
+	For information, please refer to the XmImRegister description in your reference
+	manual.
+	
+	The corresponding C function is: XmImRegister
+	
+
+XmImSetFocusValues
+	Description:
+	
+	For information, please refer to the XmImSetFocusValues description in your
+	reference manual.
+	
+	The corresponding C function is: XmImSetFocusValues
+	
+
+XmImSetValues
+	Description:
+	
+	For information, please refer to the XmImSetValues description in your
+	reference manual.
+	
+	The corresponding C function is: XmImSetValues
+	
+
+XmImUnregister
+	Description:
+	
+	For information, please refer to the XmImUnregister description in your
+	reference manual.
+	
+	The corresponding C function is: XmImUnregister
+	
+
+XmImUnsetFocus
+	Description:
+	
+	For information, please refer to the XmImUnsetFocus description in your
+	reference manual.
+	
+	The corresponding C function is: XmImUnsetFocus
+	
+
+XmImVaSetFocusValues
+	Description:
+	
+	For information, please refer to the XmImVaSetFocusValues description in your
+	reference manual.
+	
+	The corresponding C function is: XmImVaSetFocusValues
+	
+
+XmImVaSetValues
+	Description:
+	
+	For information, please refer to the XmImVaSetValues description in your
+	reference manual.
+	
+	The corresponding C function is: XmImVaSetValues
+	
+
+XmInstallImage
+	Description:
+	
+	For information, please refer to the XmInstallImage description in your
+	reference manual.
+	
+	The corresponding C function is: XmInstallImage
+	
+
+XmInternAtom
+	Description:
+	
+	For information, please refer to the XmInternAtom description in your reference
+	manual.
+	
+	The corresponding C function is: XmInternAtom
+	
+
+XmIsMotifWMRunning
+	Description:
+	
+	For information, please refer to the XmIsMotifWMRunning description in your
+	reference manual.
+	
+	The corresponding C function is: XmIsMotifWMRunning
+	
+
+XmIsTraversable
+	Description:
+	
+	For information, please refer to the XmIsTraversable description in your
+	reference manual.
+	
+	The corresponding C function is: XmIsTraversable
+	
+
+XmListAddItem
+	Description:
+	
+	For information, please refer to the XmListAddItem description in your
+	reference manual.
+	
+	The corresponding C function is: XmListAddItem
+	
+
+XmListAddItemUnselected
+	Description:
+	
+	For information, please refer to the XmListAddItemUnselected description in
+	your reference manual.
+	
+	The corresponding C function is: XmListAddItemUnselected
+	
+
+XmListAddItems
+	Description:
+	
+	For information, please refer to the XmListAddItems description in your
+	reference manual.
+	
+	The corresponding C function is: XmListAddItems
+	
+
+XmListAddItemsUnselected
+	Description:
+	
+	For information, please refer to the XmListAddItemsUnselected description in
+	your reference manual.
+	
+	The corresponding C function is: XmListAddItemsUnselected
+	
+
+XmListDeleteAllItems
+	Description:
+	
+	For information, please refer to the XmListDeleteAllItems description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeleteAllItems
+	
+
+XmListDeleteItem
+	Description:
+	
+	For information, please refer to the XmListDeleteItem description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeleteItem
+	
+
+XmListDeleteItems
+	Description:
+	
+	For information, please refer to the XmListDeleteItems description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeleteItems
+	
+
+XmListDeleteItemsPos
+	Description:
+	
+	For information, please refer to the XmListDeleteItemsPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeleteItemsPos
+	
+
+XmListDeletePos
+	Description:
+	
+	For information, please refer to the XmListDeletePos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeletePos
+	
+
+XmListDeletePositions
+	Description:
+	
+	For information, please refer to the XmListDeletePositions description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeletePositions
+	
+
+XmListDeselectAllItems
+	Description:
+	
+	For information, please refer to the XmListDeselectAllItems description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeselectAllItems
+	
+
+XmListDeselectItem
+	Description:
+	
+	For information, please refer to the XmListDeselectItem description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeselectItem
+	
+
+XmListDeselectPos
+	Description:
+	
+	For information, please refer to the XmListDeselectPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListDeselectPos
+	
+
+XmListGetKbdItemPos
+	Description:
+	
+	For information, please refer to the XmListGetKbdItemPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListGetKbdItemPos
+	
+
+XmListGetMatchPos
+	Description:
+	
+	For information, please refer to the XmListGetMatchPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListGetMatchPos
+	
+
+XmListGetSelectedPos
+	Description:
+	
+	For information, please refer to the XmListGetSelectedPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListGetSelectedPos
+	
+
+XmListItemExists
+	Description:
+	
+	For information, please refer to the XmListItemExists description in your
+	reference manual.
+	
+	The corresponding C function is: XmListItemExists
+	
+
+XmListItemPos
+	Description:
+	
+	For information, please refer to the XmListItemPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListItemPos
+	
+
+XmListPosSelected
+	Description:
+	
+	For information, please refer to the XmListPosSelected description in your
+	reference manual.
+	
+	The corresponding C function is: XmListPosSelected
+	
+
+XmListPosToBounds
+	Description:
+	
+	For information, please refer to the XmListPosToBounds description in your
+	reference manual.
+	
+	The corresponding C function is: XmListPosToBounds
+	
+
+XmListReplaceItems
+	Description:
+	
+	For information, please refer to the XmListReplaceItems description in your
+	reference manual.
+	
+	The corresponding C function is: XmListReplaceItems
+	
+
+XmListReplaceItemsPos
+	Description:
+	
+	For information, please refer to the XmListReplaceItemsPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListReplaceItemsPos
+	
+
+XmListReplaceItemsPosUnselected
+	Description:
+	
+	For information, please refer to the XmListReplaceItemsPosUnselected
+	description in your reference manual.
+	
+	The corresponding C function is: XmListReplaceItemsPosUnselected
+	
+
+XmListReplaceItemsUnselected
+	Description:
+	
+	For information, please refer to the XmListReplaceItemsUnselected description
+	in your reference manual.
+	
+	The corresponding C function is: XmListReplaceItemsUnselected
+	
+
+XmListReplacePositions
+	Description:
+	
+	For information, please refer to the XmListReplacePositions description in your
+	reference manual.
+	
+	The corresponding C function is: XmListReplacePositions
+	
+
+XmListSelectItem
+	Description:
+	
+	For information, please refer to the XmListSelectItem description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSelectItem
+	
+
+XmListSelectPos
+	Description:
+	
+	For information, please refer to the XmListSelectPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSelectPos
+	
+
+XmListSetAddMode
+	Description:
+	
+	For information, please refer to the XmListSetAddMode description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSetAddMode
+	
+
+XmListSetBottomItem
+	Description:
+	
+	For information, please refer to the XmListSetBottomItem description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSetBottomItem
+	
+
+XmListSetBottomPos
+	Description:
+	
+	For information, please refer to the XmListSetBottomPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSetBottomPos
+	
+
+XmListSetHorizPos
+	Description:
+	
+	For information, please refer to the XmListSetHorizPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSetHorizPos
+	
+
+XmListSetItem
+	Description:
+	
+	For information, please refer to the XmListSetItem description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSetItem
+	
+
+XmListSetKbdItemPos
+	Description:
+	
+	For information, please refer to the XmListSetKbdItemPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmListSetKbdItemPos
+	
+
+XmListSetPos
+	Description:
+	
+	For information, please refer to the XmListSetPos description in your reference
+	manual.
+	
+	The corresponding C function is: XmListSetPos
+	
+
+XmListUpdateSelectedList
+	Description:
+	
+	For information, please refer to the XmListUpdateSelectedList description in
+	your reference manual.
+	
+	The corresponding C function is: XmListUpdateSelectedList
+	
+
+XmListYToPos
+	Description:
+	
+	For information, please refer to the XmListYToPos description in your reference
+	manual.
+	
+	The corresponding C function is: XmListYToPos
+	
+
+XmMainWindowSep1
+	Description:
+	
+	For information, please refer to the XmMainWindowSep1 description in your
+	reference manual.
+	
+	The corresponding C function is: XmMainWindowSep1
+	
+
+XmMainWindowSep2
+	Description:
+	
+	For information, please refer to the XmMainWindowSep2 description in your
+	reference manual.
+	
+	The corresponding C function is: XmMainWindowSep2
+	
+
+XmMainWindowSep3
+	Description:
+	
+	For information, please refer to the XmMainWindowSep3 description in your
+	reference manual.
+	
+	The corresponding C function is: XmMainWindowSep3
+	
+
+XmMainWindowSetAreas
+	Description:
+	
+	For information, please refer to the XmMainWindowSetAreas description in your
+	reference manual.
+	
+	The corresponding C function is: XmMainWindowSetAreas
+	
+
+XmMapSegmentEncoding
+	Description:
+	
+	For information, please refer to the XmMapSegmentEncoding description in your
+	reference manual.
+	
+	The corresponding C function is: XmMapSegmentEncoding
+	
+
+XmMenuPosition
+	Description:
+	
+	For information, please refer to the XmMenuPosition description in your
+	reference manual.
+	
+	The corresponding C function is: XmMenuPosition
+	
+
+XmMessageBoxGetChild
+	Description:
+	
+	For information, please refer to the XmMessageBoxGetChild description in your
+	reference manual.
+	
+	The corresponding C function is: XmMessageBoxGetChild
+	
+
+XmOptionButtonGadget
+	Description:
+	
+	For information, please refer to the XmOptionButtonGadget description in your
+	reference manual.
+	
+	The corresponding C function is: XmOptionButtonGadget
+	
+
+XmOptionLabelGadget
+	Description:
+	
+	For information, please refer to the XmOptionLabelGadget description in your
+	reference manual.
+	
+	The corresponding C function is: XmOptionLabelGadget
+	
+
+XmProcessTraversal
+	Description:
+	
+	For information, please refer to the XmProcessTraversal description in your
+	reference manual.
+	
+	The corresponding C function is: XmProcessTraversal
+	
+
+XmRegisterConverters
+	Description:
+	
+	For information, please refer to the XmRegisterConverters description in your
+	reference manual.
+	
+	The corresponding C function is: XmRegisterConverters
+	
+
+XmRegisterSegmentEncoding
+	Description:
+	
+	For information, please refer to the XmRegisterSegmentEncoding description in
+	your reference manual.
+	
+	The corresponding C function is: XmRegisterSegmentEncoding
+	
+
+XmRemoveProtocolCallback
+	Description:
+	
+	For information, please refer to the XmRemoveProtocolCallback description in
+	your reference manual.
+	
+	The corresponding C function is: XmRemoveProtocolCallback
+	
+
+XmRemoveProtocols
+	Description:
+	
+	For information, please refer to the XmRemoveProtocols description in your
+	reference manual.
+	
+	The corresponding C function is: XmRemoveProtocols
+	
+
+XmRemoveTabGroup
+	Description:
+	
+	For information, please refer to the XmRemoveTabGroup description in your
+	reference manual.
+	
+	The corresponding C function is: XmRemoveTabGroup
+	
+
+XmRepTypeAddReverse
+	Description:
+	
+	For information, please refer to the XmRepTypeAddReverse description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeAddReverse
+	
+
+XmRepTypeGetId
+	Description:
+	
+	For information, please refer to the XmRepTypeGetId description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeGetId
+	
+
+XmRepTypeGetNameList
+	Description:
+	
+	For information, please refer to the XmRepTypeGetNameList description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeGetNameList
+	
+
+XmRepTypeGetRecord
+	Description:
+	
+	For information, please refer to the XmRepTypeGetRecord description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeGetRecord
+	
+
+XmRepTypeGetRegistered
+	Description:
+	
+	For information, please refer to the XmRepTypeGetRegistered description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeGetRegistered
+	
+
+XmRepTypeInstallTearOffModelConverter
+	Description:
+	
+	For information, please refer to the XmRepTypeInstallTearOffModelConverter
+	description in your reference manual.
+	
+	The corresponding C function is: XmRepTypeInstallTearOffModelConverter
+	
+
+XmRepTypeRegister
+	Description:
+	
+	For information, please refer to the XmRepTypeRegister description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeRegister
+	
+
+XmRepTypeValidValue
+	Description:
+	
+	For information, please refer to the XmRepTypeValidValue description in your
+	reference manual.
+	
+	The corresponding C function is: XmRepTypeValidValue
+	
+
+XmResolveAllPartOffsets
+	Description:
+	
+	For information, please refer to the XmResolveAllPartOffsets description in
+	your reference manual.
+	
+	The corresponding C function is: XmResolveAllPartOffsets
+	
+
+XmResolvePartOffsets
+	Description:
+	
+	For information, please refer to the XmResolvePartOffsets description in your
+	reference manual.
+	
+	The corresponding C function is: XmResolvePartOffsets
+	
+
+XmScaleGetValue
+	Description:
+	
+	For information, please refer to the XmScaleGetValue description in your
+	reference manual.
+	
+	The corresponding C function is: XmScaleGetValue
+	
+
+XmScaleSetValue
+	Description:
+	
+	For information, please refer to the XmScaleSetValue description in your
+	reference manual.
+	
+	The corresponding C function is: XmScaleSetValue
+	
+
+XmScrollBarGetValues
+	Description:
+	
+	For information, please refer to the XmScrollBarGetValues description in your
+	reference manual.
+	
+	The corresponding C function is: XmScrollBarGetValues
+	
+
+XmScrollBarSetValues
+	Description:
+	
+	For information, please refer to the XmScrollBarSetValues description in your
+	reference manual.
+	
+	The corresponding C function is: XmScrollBarSetValues
+	
+
+XmScrollVisible
+	Description:
+	
+	For information, please refer to the XmScrollVisible description in your
+	reference manual.
+	
+	The corresponding C function is: XmScrollVisible
+	
+
+XmScrolledWindowSetAreas
+	Description:
+	
+	For information, please refer to the XmScrolledWindowSetAreas description in
+	your reference manual.
+	
+	The corresponding C function is: XmScrolledWindowSetAreas
+	
+
+XmSelectionBoxGetChild
+	Description:
+	
+	For information, please refer to the XmSelectionBoxGetChild description in your
+	reference manual.
+	
+	The corresponding C function is: XmSelectionBoxGetChild
+	
+
+XmSetColorCalculation
+	Description:
+	
+	For information, please refer to the XmSetColorCalculation description in your
+	reference manual.
+	
+	The corresponding C function is: XmSetColorCalculation
+	
+
+XmSetFontUnit
+	Description:
+	
+	For information, please refer to the XmSetFontUnit description in your
+	reference manual.
+	
+	The corresponding C function is: XmSetFontUnit
+	
+
+XmSetFontUnits
+	Description:
+	
+	For information, please refer to the XmSetFontUnits description in your
+	reference manual.
+	
+	The corresponding C function is: XmSetFontUnits
+	
+
+XmSetMenuCursor
+	Description:
+	
+	For information, please refer to the XmSetMenuCursor description in your
+	reference manual.
+	
+	The corresponding C function is: XmSetMenuCursor
+	
+
+XmSetProtocolHooks
+	Description:
+	
+	For information, please refer to the XmSetProtocolHooks description in your
+	reference manual.
+	
+	The corresponding C function is: XmSetProtocolHooks
+	
+
+XmStringBaseline
+	Description:
+	
+	For information, please refer to the XmStringBaseline description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringBaseline
+	
+
+XmStringByteCompare
+	Description:
+	
+	For information, please refer to the XmStringByteCompare description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringByteCompare
+	
+
+XmStringCompare
+	Description:
+	
+	For information, please refer to the XmStringCompare description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringCompare
+	
+
+XmStringConcat
+	Description:
+	
+	For information, please refer to the XmStringConcat description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringConcat
+	
+
+XmStringCopy
+	Description:
+	
+	For information, please refer to the XmStringCopy description in your reference
+	manual.
+	
+	The corresponding C function is: XmStringCopy
+	
+
+XmStringCreate
+	Description:
+	
+	For information, please refer to the XmStringCreate description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringCreate
+	
+
+XmStringCreateFontList
+	Description:
+	
+	For information, please refer to the XmStringCreateFontList description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringCreateFontList
+	
+
+XmStringCreateLocalized
+	Description:
+	
+	For information, please refer to the XmStringCreateLocalized description in
+	your reference manual.
+	
+	The corresponding C function is: XmStringCreateLocalized
+	
+
+XmStringCreateLtoR
+	Description:
+	
+	For information, please refer to the XmStringCreateLtoR description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringCreateLtoR
+	
+
+XmStringCreateSimple
+	Description:
+	
+	For information, please refer to the XmStringCreateSimple description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringCreateSimple
+	
+
+XmStringDirectionCreate
+	Description:
+	
+	For information, please refer to the XmStringDirectionCreate description in
+	your reference manual.
+	
+	The corresponding C function is: XmStringDirectionCreate
+	
+
+XmStringEmpty
+	Description:
+	
+	For information, please refer to the XmStringEmpty description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringEmpty
+	
+
+XmStringExtent
+	Description:
+	
+	For information, please refer to the XmStringExtent description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringExtent
+	
+
+XmStringFree
+	Description:
+	
+	For information, please refer to the XmStringFree description in your reference
+	manual.
+	
+	The corresponding C function is: XmStringFree
+	
+
+XmStringFreeContext
+	Description:
+	
+	For information, please refer to the XmStringFreeContext description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringFreeContext
+	
+
+XmStringGetLtoR
+	Description:
+	
+	For information, please refer to the XmStringGetLtoR description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringGetLtoR
+	
+
+XmStringGetNextComponent
+	Description:
+	
+	For information, please refer to the XmStringGetNextComponent description in
+	your reference manual.
+	
+	The corresponding C function is: XmStringGetNextComponent
+	
+
+XmStringGetNextSegment
+	Description:
+	
+	For information, please refer to the XmStringGetNextSegment description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringGetNextSegment
+	
+
+XmStringHasSubstring
+	Description:
+	
+	For information, please refer to the XmStringHasSubstring description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringHasSubstring
+	
+
+XmStringHeight
+	Description:
+	
+	For information, please refer to the XmStringHeight description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringHeight
+	
+
+XmStringInitContext
+	Description:
+	
+	For information, please refer to the XmStringInitContext description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringInitContext
+	
+
+XmStringLength
+	Description:
+	
+	For information, please refer to the XmStringLength description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringLength
+	
+
+XmStringLineCount
+	Description:
+	
+	For information, please refer to the XmStringLineCount description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringLineCount
+	
+
+XmStringLtoRCreate
+	Description:
+	
+	For information, please refer to the XmStringLtoRCreate description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringLtoRCreate
+	
+
+XmStringNConcat
+	Description:
+	
+	For information, please refer to the XmStringNConcat description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringNConcat
+	
+
+XmStringNCopy
+	Description:
+	
+	For information, please refer to the XmStringNCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringNCopy
+	
+
+XmStringPeekNextComponent
+	Description:
+	
+	For information, please refer to the XmStringPeekNextComponent description in
+	your reference manual.
+	
+	The corresponding C function is: XmStringPeekNextComponent
+	
+
+XmStringSegmentCreate
+	Description:
+	
+	For information, please refer to the XmStringSegmentCreate description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringSegmentCreate
+	
+
+XmStringSeparatorCreate
+	Description:
+	
+	For information, please refer to the XmStringSeparatorCreate description in
+	your reference manual.
+	
+	The corresponding C function is: XmStringSeparatorCreate
+	
+
+XmStringWidth
+	Description:
+	
+	For information, please refer to the XmStringWidth description in your
+	reference manual.
+	
+	The corresponding C function is: XmStringWidth
+	
+
+XmTargetsAreCompatible
+	Description:
+	
+	For information, please refer to the XmTargetsAreCompatible description in your
+	reference manual.
+	
+	The corresponding C function is: XmTargetsAreCompatible
+	
+
+XmTextClearSelection
+	Description:
+	
+	For information, please refer to the XmTextClearSelection description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextClearSelection
+	
+
+XmTextCopy
+	Description:
+	
+	For information, please refer to the XmTextCopy description in your reference
+	manual.
+	
+	The corresponding C function is: XmTextCopy
+	
+
+XmTextCut
+	Description:
+	
+	For information, please refer to the XmTextCut description in your reference
+	manual.
+	
+	The corresponding C function is: XmTextCut
+	
+
+XmTextDisableRedisplay
+	Description:
+	
+	For information, please refer to the XmTextDisableRedisplay description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextDisableRedisplay
+	
+
+XmTextEnableRedisplay
+	Description:
+	
+	For information, please refer to the XmTextEnableRedisplay description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextEnableRedisplay
+	
+
+XmTextFieldClearSelection
+	Description:
+	
+	For information, please refer to the XmTextFieldClearSelection description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldClearSelection
+	
+
+XmTextFieldCopy
+	Description:
+	
+	For information, please refer to the XmTextFieldCopy description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldCopy
+	
+
+XmTextFieldCut
+	Description:
+	
+	For information, please refer to the XmTextFieldCut description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldCut
+	
+
+XmTextFieldGetAddMode
+	Description:
+	
+	For information, please refer to the XmTextFieldGetAddMode description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldGetAddMode
+	
+
+XmTextFieldGetBaseline
+	Description:
+	
+	For information, please refer to the XmTextFieldGetBaseline description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldGetBaseline
+	
+
+XmTextFieldGetCursorPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldGetCursorPosition description
+	in your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetCursorPosition
+	
+
+XmTextFieldGetEditable
+	Description:
+	
+	For information, please refer to the XmTextFieldGetEditable description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldGetEditable
+	
+
+XmTextFieldGetInsertionPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldGetInsertionPosition
+	description in your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetInsertionPosition
+	
+
+XmTextFieldGetLastPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldGetLastPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetLastPosition
+	
+
+XmTextFieldGetMaxLength
+	Description:
+	
+	For information, please refer to the XmTextFieldGetMaxLength description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetMaxLength
+	
+
+XmTextFieldGetSelection
+	Description:
+	
+	For information, please refer to the XmTextFieldGetSelection description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetSelection
+	
+
+XmTextFieldGetSelectionPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldGetSelectionPosition
+	description in your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetSelectionPosition
+	
+
+XmTextFieldGetSelectionWcs
+	Description:
+	
+	For information, please refer to the XmTextFieldGetSelectionWcs description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetSelectionWcs
+	
+
+XmTextFieldGetString
+	Description:
+	
+	For information, please refer to the XmTextFieldGetString description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldGetString
+	
+
+XmTextFieldGetStringWcs
+	Description:
+	
+	For information, please refer to the XmTextFieldGetStringWcs description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetStringWcs
+	
+
+XmTextFieldGetSubstring
+	Description:
+	
+	For information, please refer to the XmTextFieldGetSubstring description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetSubstring
+	
+
+XmTextFieldGetSubstringWcs
+	Description:
+	
+	For information, please refer to the XmTextFieldGetSubstringWcs description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldGetSubstringWcs
+	
+
+XmTextFieldInsert
+	Description:
+	
+	For information, please refer to the XmTextFieldInsert description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldInsert
+	
+
+XmTextFieldInsertWcs
+	Description:
+	
+	For information, please refer to the XmTextFieldInsertWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldInsertWcs
+	
+
+XmTextFieldPaste
+	Description:
+	
+	For information, please refer to the XmTextFieldPaste description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldPaste
+	
+
+XmTextFieldPosToXY
+	Description:
+	
+	For information, please refer to the XmTextFieldPosToXY description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldPosToXY
+	
+
+XmTextFieldRemove
+	Description:
+	
+	For information, please refer to the XmTextFieldRemove description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldRemove
+	
+
+XmTextFieldReplace
+	Description:
+	
+	For information, please refer to the XmTextFieldReplace description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldReplace
+	
+
+XmTextFieldReplaceWcs
+	Description:
+	
+	For information, please refer to the XmTextFieldReplaceWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldReplaceWcs
+	
+
+XmTextFieldSetAddMode
+	Description:
+	
+	For information, please refer to the XmTextFieldSetAddMode description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldSetAddMode
+	
+
+XmTextFieldSetCursorPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldSetCursorPosition description
+	in your reference manual.
+	
+	The corresponding C function is: XmTextFieldSetCursorPosition
+	
+
+XmTextFieldSetEditable
+	Description:
+	
+	For information, please refer to the XmTextFieldSetEditable description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldSetEditable
+	
+
+XmTextFieldSetHighlight
+	Description:
+	
+	For information, please refer to the XmTextFieldSetHighlight description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldSetHighlight
+	
+
+XmTextFieldSetInsertionPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldSetInsertionPosition
+	description in your reference manual.
+	
+	The corresponding C function is: XmTextFieldSetInsertionPosition
+	
+
+XmTextFieldSetMaxLength
+	Description:
+	
+	For information, please refer to the XmTextFieldSetMaxLength description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldSetMaxLength
+	
+
+XmTextFieldSetSelection
+	Description:
+	
+	For information, please refer to the XmTextFieldSetSelection description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldSetSelection
+	
+
+XmTextFieldSetString
+	Description:
+	
+	For information, please refer to the XmTextFieldSetString description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldSetString
+	
+
+XmTextFieldSetStringWcs
+	Description:
+	
+	For information, please refer to the XmTextFieldSetStringWcs description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldSetStringWcs
+	
+
+XmTextFieldShowPosition
+	Description:
+	
+	For information, please refer to the XmTextFieldShowPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextFieldShowPosition
+	
+
+XmTextFieldXYToPos
+	Description:
+	
+	For information, please refer to the XmTextFieldXYToPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFieldXYToPos
+	
+
+XmTextFindString
+	Description:
+	
+	For information, please refer to the XmTextFindString description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFindString
+	
+
+XmTextFindStringWcs
+	Description:
+	
+	For information, please refer to the XmTextFindStringWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextFindStringWcs
+	
+
+XmTextGetAddMode
+	Description:
+	
+	For information, please refer to the XmTextGetAddMode description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetAddMode
+	
+
+XmTextGetBaseline
+	Description:
+	
+	For information, please refer to the XmTextGetBaseline description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetBaseline
+	
+
+XmTextGetCursorPosition
+	Description:
+	
+	For information, please refer to the XmTextGetCursorPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextGetCursorPosition
+	
+
+XmTextGetEditable
+	Description:
+	
+	For information, please refer to the XmTextGetEditable description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetEditable
+	
+
+XmTextGetInsertionPosition
+	Description:
+	
+	For information, please refer to the XmTextGetInsertionPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextGetInsertionPosition
+	
+
+XmTextGetLastPosition
+	Description:
+	
+	For information, please refer to the XmTextGetLastPosition description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetLastPosition
+	
+
+XmTextGetMaxLength
+	Description:
+	
+	For information, please refer to the XmTextGetMaxLength description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetMaxLength
+	
+
+XmTextGetSelection
+	Description:
+	
+	For information, please refer to the XmTextGetSelection description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetSelection
+	
+
+XmTextGetSelectionPosition
+	Description:
+	
+	For information, please refer to the XmTextGetSelectionPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextGetSelectionPosition
+	
+
+XmTextGetSelectionWcs
+	Description:
+	
+	For information, please refer to the XmTextGetSelectionWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetSelectionWcs
+	
+
+XmTextGetSource
+	Description:
+	
+	For information, please refer to the XmTextGetSource description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetSource
+	
+
+XmTextGetString
+	Description:
+	
+	For information, please refer to the XmTextGetString description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetString
+	
+
+XmTextGetStringWcs
+	Description:
+	
+	For information, please refer to the XmTextGetStringWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetStringWcs
+	
+
+XmTextGetSubstring
+	Description:
+	
+	For information, please refer to the XmTextGetSubstring description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetSubstring
+	
+
+XmTextGetSubstringWcs
+	Description:
+	
+	For information, please refer to the XmTextGetSubstringWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetSubstringWcs
+	
+
+XmTextGetTopCharacter
+	Description:
+	
+	For information, please refer to the XmTextGetTopCharacter description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextGetTopCharacter
+	
+
+XmTextInsert
+	Description:
+	
+	For information, please refer to the XmTextInsert description in your reference
+	manual.
+	
+	The corresponding C function is: XmTextInsert
+	
+
+XmTextInsertWcs
+	Description:
+	
+	For information, please refer to the XmTextInsertWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextInsertWcs
+	
+
+XmTextPaste
+	Description:
+	
+	For information, please refer to the XmTextPaste description in your reference
+	manual.
+	
+	The corresponding C function is: XmTextPaste
+	
+
+XmTextPosToXY
+	Description:
+	
+	For information, please refer to the XmTextPosToXY description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextPosToXY
+	
+
+XmTextRemove
+	Description:
+	
+	For information, please refer to the XmTextRemove description in your reference
+	manual.
+	
+	The corresponding C function is: XmTextRemove
+	
+
+XmTextReplace
+	Description:
+	
+	For information, please refer to the XmTextReplace description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextReplace
+	
+
+XmTextReplaceWcs
+	Description:
+	
+	For information, please refer to the XmTextReplaceWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextReplaceWcs
+	
+
+XmTextScroll
+	Description:
+	
+	For information, please refer to the XmTextScroll description in your reference
+	manual.
+	
+	The corresponding C function is: XmTextScroll
+	
+
+XmTextSetAddMode
+	Description:
+	
+	For information, please refer to the XmTextSetAddMode description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetAddMode
+	
+
+XmTextSetCursorPosition
+	Description:
+	
+	For information, please refer to the XmTextSetCursorPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextSetCursorPosition
+	
+
+XmTextSetEditable
+	Description:
+	
+	For information, please refer to the XmTextSetEditable description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetEditable
+	
+
+XmTextSetHighlight
+	Description:
+	
+	For information, please refer to the XmTextSetHighlight description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetHighlight
+	
+
+XmTextSetInsertionPosition
+	Description:
+	
+	For information, please refer to the XmTextSetInsertionPosition description in
+	your reference manual.
+	
+	The corresponding C function is: XmTextSetInsertionPosition
+	
+
+XmTextSetMaxLength
+	Description:
+	
+	For information, please refer to the XmTextSetMaxLength description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetMaxLength
+	
+
+XmTextSetSelection
+	Description:
+	
+	For information, please refer to the XmTextSetSelection description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetSelection
+	
+
+XmTextSetSource
+	Description:
+	
+	For information, please refer to the XmTextSetSource description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetSource
+	
+
+XmTextSetString
+	Description:
+	
+	For information, please refer to the XmTextSetString description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetString
+	
+
+XmTextSetStringWcs
+	Description:
+	
+	For information, please refer to the XmTextSetStringWcs description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetStringWcs
+	
+
+XmTextSetTopCharacter
+	Description:
+	
+	For information, please refer to the XmTextSetTopCharacter description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextSetTopCharacter
+	
+
+XmTextShowPosition
+	Description:
+	
+	For information, please refer to the XmTextShowPosition description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextShowPosition
+	
+
+XmTextXYToPos
+	Description:
+	
+	For information, please refer to the XmTextXYToPos description in your
+	reference manual.
+	
+	The corresponding C function is: XmTextXYToPos
+	
+
+XmToggleButtonGadgetGetState
+	Description:
+	
+	For information, please refer to the XmToggleButtonGadgetGetState description
+	in your reference manual.
+	
+	The corresponding C function is: XmToggleButtonGadgetGetState
+	
+
+XmToggleButtonGadgetSetState
+	Description:
+	
+	For information, please refer to the XmToggleButtonGadgetSetState description
+	in your reference manual.
+	
+	The corresponding C function is: XmToggleButtonGadgetSetState
+	
+
+XmToggleButtonGetState
+	Description:
+	
+	For information, please refer to the XmToggleButtonGetState description in your
+	reference manual.
+	
+	The corresponding C function is: XmToggleButtonGetState
+	
+
+XmToggleButtonSetState
+	Description:
+	
+	For information, please refer to the XmToggleButtonSetState description in your
+	reference manual.
+	
+	The corresponding C function is: XmToggleButtonSetState
+	
+
+XmTrackingEvent
+	Description:
+	
+	For information, please refer to the XmTrackingEvent description in your
+	reference manual.
+	
+	The corresponding C function is: XmTrackingEvent
+	
+
+XmTrackingLocate
+	Description:
+	
+	For information, please refer to the XmTrackingLocate description in your
+	reference manual.
+	
+	The corresponding C function is: XmTrackingLocate
+	
+
+XmTranslateKey
+	Description:
+	
+	For information, please refer to the XmTranslateKey description in your
+	reference manual.
+	
+	The corresponding C function is: XmTranslateKey
+	
+
+XmUninstallImage
+	Description:
+	
+	For information, please refer to the XmUninstallImage description in your
+	reference manual.
+	
+	The corresponding C function is: XmUninstallImage
+	
+
+XmUpdateDisplay
+	Description:
+	
+	For information, please refer to the XmUpdateDisplay description in your
+	reference manual.
+	
+	The corresponding C function is: XmUpdateDisplay
+	
+
+XmVaCreateSimpleCheckBox
+	Description:
+	
+	For information, please refer to the XmVaCreateSimpleCheckBox description in
+	your reference manual.
+	
+	The corresponding C function is: XmVaCreateSimpleCheckBox
+	
+
+XmVaCreateSimpleMenuBar
+	Description:
+	
+	For information, please refer to the XmVaCreateSimpleMenuBar description in
+	your reference manual.
+	
+	The corresponding C function is: XmVaCreateSimpleMenuBar
+	
+
+XmVaCreateSimpleOptionMenu
+	Description:
+	
+	For information, please refer to the XmVaCreateSimpleOptionMenu description in
+	your reference manual.
+	
+	The corresponding C function is: XmVaCreateSimpleOptionMenu
+	
+
+XmVaCreateSimplePopupMenu
+	Description:
+	
+	For information, please refer to the XmVaCreateSimplePopupMenu description in
+	your reference manual.
+	
+	The corresponding C function is: XmVaCreateSimplePopupMenu
+	
+
+XmVaCreateSimplePulldownMenu
+	Description:
+	
+	For information, please refer to the XmVaCreateSimplePulldownMenu description
+	in your reference manual.
+	
+	The corresponding C function is: XmVaCreateSimplePulldownMenu
+	
+
+XmVaCreateSimpleRadioBox
+	Description:
+	
+	For information, please refer to the XmVaCreateSimpleRadioBox description in
+	your reference manual.
+	
+	The corresponding C function is: XmVaCreateSimpleRadioBox
+	
+
+XmWidgetGetBaselines
+	Description:
+	
+	For information, please refer to the XmWidgetGetBaselines description in your
+	reference manual.
+	
+	The corresponding C function is: XmWidgetGetBaselines
+	
+
+XmWidgetGetDisplayRect
+	Description:
+	
+	For information, please refer to the XmWidgetGetDisplayRect description in your
+	reference manual.
+	
+	The corresponding C function is: XmWidgetGetDisplayRect
+	
+
+XtAddGrab
+	Description:
+	
+	For information, please refer to the XtAddGrab description in your reference
+	manual.
+	
+	The corresponding C function is: XtAddGrab
+	
+
+XtAugmentTranslations
+	Description:
+	
+	For information, please refer to the XtAugmentTranslations description in your
+	reference manual.
+	
+	The corresponding C function is: XtAugmentTranslations
+	
+
+XtCallActionProc
+	Description:
+	
+	For information, please refer to the XtCallActionProc description in your
+	reference manual.
+	
+	The corresponding C function is: XtCallActionProc
+	
+
+XtCallCallbacks
+	Description:
+	
+	For information, please refer to the XtCallCallbacks description in your
+	reference manual.
+	
+	The corresponding C function is: XtCallCallbacks
+	
+
+XtClass
+	Description:
+	
+	For information, please refer to the XtClass description in your reference
+	manual.
+	
+	The corresponding C function is: XtClass
+	
+
+XtDestroyWidget
+	Description:
+	
+	For information, please refer to the XtDestroyWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XtDestroyWidget
+	
+
+XtDisplay
+	Description:
+	
+	For information, please refer to the XtDisplay description in your reference
+	manual.
+	
+	The corresponding C function is: XtDisplay
+	
+
+XtDisplayOfObject
+	Description:
+	
+	For information, please refer to the XtDisplayOfObject description in your
+	reference manual.
+	
+	The corresponding C function is: XtDisplayOfObject
+	
+
+XtFree
+	Description:
+	
+	For information, please refer to the XtFree description in your reference
+	manual.
+	
+	The corresponding C function is: XtFree
+	
+
+XtIsForm
+	Description:
+	
+	For information, please refer to the XtIsForm description in your reference
+	manual.
+	
+	The corresponding C function is: XtIsForm
+	
+
+XtIsManaged
+	Description:
+	
+	For information, please refer to the XtIsManaged description in your reference
+	manual.
+	
+	The corresponding C function is: XtIsManaged
+	
+
+XtIsSensitive
+	Description:
+	
+	For information, please refer to the XtIsSensitive description in your
+	reference manual.
+	
+	The corresponding C function is: XtIsSensitive
+	
+
+XtIsSubclass
+	Description:
+	
+	For information, please refer to the XtIsSubclass description in your reference
+	manual.
+	
+	The corresponding C function is: XtIsSubclass
+	
+
+XtMalloc
+	Description:
+	
+	For information, please refer to the XtMalloc description in your reference
+	manual.
+	
+	The corresponding C function is: XtMalloc
+	
+
+XtManageChild
+	Description:
+	
+	For information, please refer to the XtManageChild description in your
+	reference manual.
+	
+	The corresponding C function is: XtManageChild
+	
+
+XtMapWidget
+	Description:
+	
+	For information, please refer to the XtMapWidget description in your reference
+	manual.
+	
+	The corresponding C function is: XtMapWidget
+	
+
+XtMoveWidget
+	Description:
+	
+	For information, please refer to the XtMoveWidget description in your reference
+	manual.
+	
+	The corresponding C function is: XtMoveWidget
+	
+
+XtName
+	Description:
+	
+	For information, please refer to the XtName description in your reference
+	manual.
+	
+	The corresponding C function is: XtName
+	
+
+XtNameToWidget
+	Description:
+	
+	For information, please refer to the XtNameToWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XtNameToWidget
+	
+
+XtNewString
+	Description:
+	
+	For information, please refer to the XtNewString description in your reference
+	manual.
+	
+	The corresponding C function is: XtNewString
+	
+
+XtOverrideTranslations
+	Description:
+	
+	For information, please refer to the XtOverrideTranslations description in your
+	reference manual.
+	
+	The corresponding C function is: XtOverrideTranslations
+	
+
+XtParent
+	Description:
+	
+	For information, please refer to the XtParent description in your reference
+	manual.
+	
+	The corresponding C function is: XtParent
+	
+
+XtPopdown
+	Description:
+	
+	For information, please refer to the XtPopdown description in your reference
+	manual.
+	
+	The corresponding C function is: XtPopdown
+	
+
+XtPopup
+	Description:
+	
+	For information, please refer to the XtPopup description in your reference
+	manual.
+	
+	The corresponding C function is: XtPopup
+	
+
+XtRealizeWidget
+	Description:
+	
+	For information, please refer to the XtRealizeWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XtRealizeWidget
+	
+
+XtRemoveGrab
+	Description:
+	
+	For information, please refer to the XtRemoveGrab description in your reference
+	manual.
+	
+	The corresponding C function is: XtRemoveGrab
+	
+
+XtSetKeyboardFocus
+	Description:
+	
+	For information, please refer to the XtSetKeyboardFocus description in your
+	reference manual.
+	
+	The corresponding C function is: XtSetKeyboardFocus
+	
+
+XtSetSensitive
+	Description:
+	
+	For information, please refer to the XtSetSensitive description in your
+	reference manual.
+	
+	The corresponding C function is: XtSetSensitive
+	
+
+XtSuperclass
+	Description:
+	
+	For information, please refer to the XtSuperclass description in your reference
+	manual.
+	
+	The corresponding C function is: XtSuperclass
+	
+
+XtUnmanageChild
+	Description:
+	
+	For information, please refer to the XtUnmanageChild description in your
+	reference manual.
+	
+	The corresponding C function is: XtUnmanageChild
+	
+
+XtUnmapWidget
+	Description:
+	
+	For information, please refer to the XtUnmapWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XtUnmapWidget
+	
+
+XtUnrealizeWidget
+	Description:
+	
+	For information, please refer to the XtUnrealizeWidget description in your
+	reference manual.
+	
+	The corresponding C function is: XtUnrealizeWidget
+	
+
+XtWarning
+	Description:
+	
+	For information, please refer to the XtWarning description in your reference
+	manual.
+	
+	The corresponding C function is: XtWarning
+	
+
+XtWindow
+	Also known as: XtWindowOfObject
+	
+	Description:
+	
+	For information, please refer to the XtWindowOfObject description in your
+	reference manual.
+	
+	The corresponding C function is: XtWindowOfObject
+	
+
+XtWindowOfObject
+	Also known as: XtWindow
+	
+	Description:
+	
+	For information, please refer to the XtWindowOfObject description in your
+	reference manual.
+	
+	The corresponding C function is: XtWindowOfObject
+	
+
+atoi
+	Synopsis:
+	        Int atoi( String s )
+	
+	Description:
+	
+	Call the C function atoi.
+	
+	Scope: FACE scripts, the application 	
+	
+	The corresponding C function is: atoi
+	
+
+breakpoint
+	Synopsis:
+	        Boolean breakpoint( Widget widget String message )
+	
+	Description:
+	
+	Explicitly call a breakpoint within a FACE script. The widget and the message
+	are displayed when the breakpoint is activated.
+	
+	Scope: FACE scripts 	
+	
+	
+
+cbtoi
+	Synopsis:
+	        Int cbtoi( Int value )
+	
+	Description:
+	
+	Convert a byte value to an integer. Although FACE always uses XtArgVal-sized
+	integers, cbtoi returns an integer within the appropriate range for a byte.
+	
+	Scope: FACE scripts 	
+	
+	
+
+cftoi
+	Synopsis:
+	        Int cftoi( Float f )
+	
+	Description:
+	
+	Convert a floating-point number to an integer.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Perform a calculation in Float and convert to Int.
+	Float ymin; 
+	Float ymax; Float y; 
+	Int v; 
+	min = self:sliderMin; 
+	max = self:sliderMax;
+	v = cftoi (  ( y - ymin ) * citof ( max - min ) / ( ymax - ymin )  ) ; 
+	
+	See also:
+	        citof
+	
+	
+
+citof
+	Synopsis:
+	        Float citof( Int i )
+	
+	Description:
+	
+	Convert an integer to a floating-point number.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Perform a calculation in Float and convert to Int.
+	Float ymin; 
+	Float ymax; Float y; 
+	Int v; 
+	min = self:sliderMin; 
+	max = self:sliderMax;
+	v = cftoi (  ( y - ymin ) * citof ( max - min ) / ( ymax - ymin )  ) ; 
+	
+	See also:
+	        cftoi
+	
+	
+
+clear
+	Synopsis:
+	        None clear( FaceArray a )
+	
+	Description:
+	
+	Delete all entries in array a, but not the array itself.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Clear a FACE array that has been declared elsewhere:
+	global FaceArray a; 
+	clear ( a ) ; 
+	
+	See also:
+	        destroy
+	
+	
+
+cstoi
+	Synopsis:
+	        Int cstoi( Int value )
+	
+	Description:
+	
+	Convert a short value to an integer. Although FACE always uses XtArgVal-sized
+	integers, cstoi returns an integer within the appropriate range for a short.
+	
+	Scope: FACE scripts 	
+	
+	
+
+data
+	Synopsis:
+	        Pointer data( FaceArray a )
+	
+	Description:
+	
+	Return a pointer to the data in FaceArray a.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Get the address of a FACE array that has been declared elsewhere: 
+	global FaceArray a; 
+	p = data ( a ) ; 
+	
+	See also:
+	        new_c_array
+	        new_array
+	
+	
+
+destroy
+	Synopsis:
+	        None destroy( FaceArray a )
+	
+	Description:
+	
+	Free array a.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Free a FACE array that has been declared elsewhere:
+	global FaceArray a; 
+	destroy ( a ) ; 
+	
+	See also:
+	        clear
+	
+	
+
+dtoi
+	Also known as: FmDtoi
+	
+	Synopsis:
+	        Int FmDtoi( Pointer dp )
+	
+	Description:
+	
+	Return the conversion of the double pointed to by dp into an integer.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+		parent.scale:value = dtoi ( dblval ) ; 
+	
+	The corresponding C function is: FmDtoi
+	See also:
+	        itod 
+	        atoi
+	
+	
+
+equal
+	Also known as: FmEqualString
+	
+	Synopsis:
+	        Boolean FmEqualstring( String s1, String s2 )
+	
+	Description:
+	
+	Return true if strings s1 and s2 are identical.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Compare an active value called File with the empty string: 
+	GetActiveValue ( parent.TextFile, "File" ) ; 
+	if ( equal ( $File, "" )  ) { 
+	        Show ( root.FileNameHelp ) ; 
+	} 
+	
+	The corresponding C function is: FmEqualString
+	See also:
+	        not_equal
+	        strcmp
+	
+	
+
+eval_string
+	Also known as: FaceEvalString
+	
+	Synopsis:
+	        int FaceEvalString( Widget w, String *str, Pointer param )
+	
+	Description:
+	
+	Interpret the FACE script whose text is in str, a character string, e. g. "i =
+	1; " and return -1 if the script was incorrect. Execution of an incorrect
+	script causes an error message to be sent to stderr. This function is not
+	available in the library libFm_c. a. widget is the reference widget, i. e. ,
+	the widget which determines the content of self and of parent. It need not be
+	otherwise related to the script being evaluated unless it is directly
+	referenced by the script. param is any parameter. It has been declared here as
+	an int but could be any legal FACE type. In a FACE script, this parameter is
+	referenced by the read-only variable $.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	eval_string ( self, "st = WidgetName ( parent.PB_2 ) ;
+	printf ( `%s\n', st ) ;", Pointer ( 2 )  ) ;
+	
+	The corresponding C function is: FaceEvalString
+	
+
+exit
+	Also known as: Quit
+	
+	Synopsis:
+	        None exit( Int exitVal )
+	
+	Description:
+	
+	Quit the application or the interface. If called in Try mode, will only print a
+	message in the Messages Box. The argument exitVal will be returned to the
+	calling program, normally a Unix shell. It should follow the Unix conventions.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: exit
+	
+
+fclose
+	Description:
+	
+	For information, please refer to the fclose description in your reference
+	manual.
+	
+	The corresponding C function is: fclose
+	
+
+fgets
+	Description:
+	
+	For information, please refer to the fgets description in your reference
+	manual.
+	
+	The corresponding C function is: fgets
+	
+
+first
+	Synopsis:
+	        key_type first( FaceArray a, key_type k )
+	
+	Description:
+	
+	Return the initial key for array a. k is the key value returned if the array is
+	empty.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Int b[String] = new_table (  ) ; 
+	key1 = "key1"; 
+	b[key1] = 1; 
+	key2 = "key2"; 
+	b[key2] = 2; 
+	String si = first ( b, 0 ) ; 
+	printf ( "  key first = %s\n", si ) ; 
+	printf ( "first = %d\n", b[si] ) ; 
+	String s2 = next ( b, si, 0 ) ; 
+	printf ( "  key second = %s\n", s2 ) ; 
+	printf ( "second = %d\n", b[s2] ) ; 
+	
+	See also:
+	        next
+	        size
+	
+	
+
+fopen
+	Description:
+	
+	For information, please refer to the fopen description in your reference
+	manual.
+	
+	The corresponding C function is: fopen
+	
+
+fputs
+	Description:
+	
+	For information, please refer to the fputs description in your reference
+	manual.
+	
+	The corresponding C function is: fputs
+	
+
+free
+	Description:
+	
+	For information, please refer to the free description in your reference manual.
+	
+	The corresponding C function is: free
+	
+
+fscanf
+	Description:
+	
+	For information, please refer to the fscanf description in your reference
+	manual.
+	
+	The corresponding C function is: fscanf
+	
+
+ftoi
+	Also known as: FmFtoi
+	
+	Synopsis:
+	        Int FmFtoi( Pointer fp )
+	
+	Description:
+	
+	Return the result of converting a float pointed to by fp into an integer.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the decimal value of a Float active value called fval: 
+	printf ( "decimal value of fval: %d\n", ftoi ( $fval )  ) ;
+	
+	The corresponding C function is: FmFtoi
+	See also:
+	        FmItof
+	
+	
+
+hide
+	Also known as: FmHideWidget, Hide
+	
+	Synopsis:
+	        None FmHideWidget( Widget w )
+	
+	Description:
+	
+	Hide widget w from the screen. If w is a Shell widget, then Hide unmaps the
+	Shell. If w is a Popup-Shell, then Hide calls XtPopdown on the shell.
+	Otherwise, Hide simply unmanages the Widget. Note: if the intent is to hide an
+	XmDialogShell, w should refer to the DialogShell's child, not to the shell
+	itself because of the way Motif handles DialogShells.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Hide a transientShell which is the shell ancestor of self: 
+	        Hide ( toplevel ) ; 
+	
+	The corresponding C function is: FmHideWidget
+	See also:
+	        FmShowWidget 
+	        FmLowerWidget
+	
+	
+
+init_timer
+	Also known as: FaceInitTimer
+	
+	Synopsis:
+	        Timer FaceInitTimer( Widget widget, String script, None call_data, Int delay, Int repeat )
+	
+	Description:
+	
+	This function will interrupt a FACE script after a specific delay. You may
+	optionally request that the script be repeated at regular intervals after its
+	initial execution. It returns an identifier that you can give to FaceStopTimer
+	to stop the timer. FaceInitTimer is not available in the library libFm_c. a.
+	widget is the widget that will be used as "self" when the timer script is run.
+	script is a string containing the script to execute. call_data is the value of
+	the call_data ($) in the script. delay is the delay in milliseconds before the
+	script is run. repeat if non-zero, is the delay in milliseconds between
+	successive calls of the script after the initial delay.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FaceInitTimer
+	See also:
+	        FaceStopTimer
+	        XtAddTimeOut
+	
+	
+
+init_timer
+	Synopsis:
+	        Timer init_timer( Widget w, String script, None call_data, Int delay, Boolean auto-repeat )
+	
+	Description:
+	
+	Initialize a timer so that the script script will be called automatically in
+	delay milliseconds. script is a string containing a FACE script. After delay
+	milliseconds, the script will be parsed and executed, using w as a reference
+	Widget, and call_data as the $ argument. If auto-repeat is True, then the timer
+	is re-initialized automatically after the script is executed, with the same
+	delay. The return value is an identifier which can be passed to stop_timer to
+	cancel the timer before it has expired. If you intend to generate C-code
+	interfaces you should use the alternative functions: CallCallbacksTimeOut,
+	GetActiveValueTimeOut or SetActiveValueTimeOut.
+	
+	Scope: FACE scripts only 	
+	
+	Example:
+	
+	In a pushbutton, set the label to 0 and increment it every half second as long
+	as the button is armed. 
+	
+	armCallback = global t; 
+	        global i;
+	        i = 0; 
+	        self:labelString = itoa ( i ) ; 
+	        t = init_timer ( self, "global i; i = i+1; 
+	                self:labelString = itoa ( i ) ;", 0, 500, True ) ;
+	
+	disarmCallback = global t; 
+	        stop_timer ( t ) ; 
+	
+	
+
+itoa
+	Also known as: FmItoa
+	
+	Synopsis:
+	        String FmItoa( Int i )
+	
+	Description:
+	
+	Convert integer i into a statically allocated string.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Set a push button's label string to the value of a scale: 
+	
+	s = itoa ( parent.scale:value ) ;
+	parent.GetLabel:labelString = s
+	free ( s ) ; 
+	
+	The corresponding C function is: FmItoa
+	See also:
+	        itod
+	        atoi
+	
+	
+
+itod
+	Also known as: FmItod
+	
+	Synopsis:
+	        None FmItod( Int i, Pointer dp )
+	
+	Description:
+	
+	Convert integer i into a double and store the result in the double variable
+	pointed to by dp.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FmItod
+	See also:
+	        itoa
+	        dtoi
+	
+	
+
+itof
+	Also known as: FmItof
+	
+	Synopsis:
+	        None FmItof( Int i, Pointer fp )
+	
+	Description:
+	
+	Convert integer i into a float and store the result in the float variable
+	pointed to by fp.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Store the value of a scale widget in a float active value called fval:
+	
+	itof ( parent.scale:value, $fval ) ; 
+	
+	The corresponding C function is: FmItof
+	See also:
+	        citof
+	
+	
+
+malloc
+	Description:
+	
+	For information, please refer to the malloc description in your reference
+	manual.
+	
+	The corresponding C function is: malloc
+	
+
+new_array
+	Synopsis:
+	        FaceArray new_array(  )
+	
+	Description:
+	
+	Create a new linear array.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Declare, initialize, and print the content of a FACE array:
+	String a[Int] = new_array (  ) ; 
+	a[0] = "zero"; 
+	a[1] = "one"; 
+	a[2] = "two"; 
+	a[3] = "three"; 
+	for ( i = 0; i < size ( a ) ; i = i+1 ) 
+	printf ( "index: %d val: %s \n", i, a[i] ) ; 
+	
+	See also:
+	        new_c_array
+	        new_table
+	
+	
+
+new_c_array
+	Synopsis:
+	        FaceArray new_c_array( Pointer pa, Int i )
+	
+	Description:
+	
+	Create a new linear array, allowing you to initialize the array with a C array.
+	pa is a pointer to the C array, and i is the size of the C array.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Declare and initialize a FACE array to contain the items of an XmList 
+	widget; print its contents:
+	
+	XmString a[Int]; 
+	count = parent.XmList0:itemCount; 
+	a = new_c_array ( Pointer ( parent.XmList0:items ) , count ) ; 
+	for ( i = 0; i < count; i = i+1 ) 
+	        printf ( "index: %d item %s\n", i, GetString ( a[i] )  ) ; 
+	
+	See also:
+	        new_array 
+	        new_table
+	
+	
+
+new_struct
+	Synopsis:
+	        MyStruct new_struct( MyStruct ms )
+	
+	Description:
+	
+	Allocate a new structure in a FACE script. ms is the name of the structure of
+	type MyStruct. When the structure is no longer needed, use free or XtFree.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Declare a structure which contains a FACE array, and initialize the array: 
+	struct                Mystruct {
+	                Int i; 
+	                FaceArray a; 
+	                Int j; 
+	}; 
+	global Mystruct s; 
+	s = new_struct ( Mystruct ) ; 
+	s->a = new_array (  ) ; 
+	String a[Int] = s->a; 
+	a[0] = "zero"; 
+	a[1] = "one"; 
+	a[2] = "two"; 
+	a[3] = "three"; 
+	
+	See also:
+	        FmRegisterStructures
+	
+	
+
+new_table
+	Synopsis:
+	        FaceArray new_table(  )
+	
+	Description:
+	
+	Create a new hash array.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Int b[String] = new_table (  ) ; 
+	key1 = "key1"; 
+	b[key1] = 1; 
+	key2 = "key2"; 
+	b[key2] = 2; 
+	String si = first ( b, 0 ) ; 
+	printf ( "  key first = %s\n", si ) ; 
+	printf ( "first = %d\n", b[si] ) ; 
+	String s2 = next ( b, si, 0 ) ; 
+	printf ( "  key second = %s\n", s2 ) ; 
+	printf ( "second = %d\n", b[s2] ) ; 
+	
+	See also:
+	        new_array 
+	        new_c_array
+	
+	
+
+next
+	Synopsis:
+	        key_type next( FaceArray a, key_type p, key_type k )
+	
+	Description:
+	
+	Return the next key in array a. p is the previous key returned by first or
+	next, and k is the key to be returned if the end of the array is reached.
+	
+	Scope: FACE scripts 	
+	
+	Example:
+	
+	Int b[String] = new_table (  ) ; 
+	key1 = "key1"; 
+	b[key1] = 1; 
+	key2 = "key2"; 
+	b[key2] = 2; 
+	String si = first ( b, 0 ) ; 
+	printf ( "  key first = %s\n", si ) ; 
+	printf ( "first = %d\n", b[si] ) ; 
+	String s2 = next ( b, si, 0 ) ; 
+	printf ( "  key second = %s\n", s2 ) ; 
+	printf ( "second = %d\n", b[s2] ) ; 
+	
+	See also:
+	        first 
+	        size
+	
+	
+
+not_equal
+	Also known as: FmNotEqualString
+	
+	Synopsis:
+	        Boolean FmNotEqualString( String s1, String s2 )
+	
+	Description:
+	
+	Returns true if strings s1 and s2 are different.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Print the string returned by the callbacks of a message box if it is not
+	Cancel.
+	
+	str = PopupAndWait ( parent.parent.XmDialogShell0.XmMessageBox0 ) ; 
+	if ( not_equal ( str, "Cancel" )  ) 
+	        printf ( "%s\n", str ) ; 
+	
+	The corresponding C function is: FmNotEqualString
+	See also:
+	        FmEqualString 
+	        strcmp
+	
+	
+
+pclose
+	Description:
+	
+	For information, please refer to the pclose description in your reference
+	manual.
+	
+	The corresponding C function is: pclose
+	
+
+popen
+	Description:
+	
+	For information, please refer to the popen description in your reference
+	manual.
+	
+	The corresponding C function is: popen
+	
+
+printf
+	Synopsis:
+	        None printf( None f ... )
+	
+	Description:
+	
+	Call the C function printf. No type checking is done.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: printf
+	
+
+random
+	Synopsis:
+	        Int random( Int num )
+	
+	Description:
+	
+	Return a random integer whose value lies between 0 and num.
+	
+	Scope: FACE scripts only 	
+	
+	Example:
+	
+	In a pushbutton, set the labelString to a random value between 0 and 300, as
+	long as the button is armed. Get a new random number every half second. 
+	armCallback = global t; 
+	        global i; 
+	        t = init_timer ( self, "global i; i = random ( 300 ) ;
+	        self:labelString = itoa ( i ) ;", 0, 500, True ) ;
+	disarmCallback = global t; 
+	        stop_timer ( t ) ; 
+	
+	
+
+send_click
+	Also known as: SendClick, FmSendClick
+	
+	Synopsis:
+	        None FmSendClick( Widget w )
+	
+	Description:
+	
+	Send a Btn1Down event followed by a Btn1Up event to widget w. This simulates a
+	click on the Select button.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Activate the sibling Cancel button
+	
+	SendClick ( parent.Cancel ) ;
+	
+	The corresponding C function is: FmSendClick
+	
+
+size
+	Synopsis:
+	        Int size( FaceArray a )
+	
+	Description:
+	
+	Return the number of elements in array a. For hash arrays, it is the number of
+	values stored in the array. For linear arrays, it is the largest index used to
+	store a value minus one, or the number of elements specified for an initialized
+	array.
+	
+	Scope: FACE scripts 	
+	
+	
+
+sprintf
+	Synopsis:
+	        None sprintf( None targ, None f, ... )
+	
+	Description:
+	
+	Call the C function sprintf. No type checking is done.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: sprintf
+	
+
+sscanf
+	Synopsis:
+	        None sscanf( None src, None format, ... )
+	
+	Description:
+	
+	Call the C function sscanf. No type checking is done.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: sscanf
+	
+
+stop_timer
+	Also known as: FaceStopTimer
+	
+	Synopsis:
+	        void FaceStopTimer( Timer timer )
+	
+	Description:
+	
+	Stop a timer started by FaceInitTimer. FaceStopTimer is not available in the
+	library libFm_c. a. timer is the timer returned from the call to FaceInitTimer
+	for the timer you want to stop.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: FaceStopTimer
+	See also:
+	        FaceInitTimer
+	
+	
+
+strcat
+	Synopsis:
+	        None strcat( String s1, String s2 )
+	
+	Description:
+	
+	Call the C function strcat.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: strcat
+	
+
+strcmp
+	Synopsis:
+	        Int strcmp( String s1, string s2 )
+	
+	Description:
+	
+	Call the C function strcmp.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: strcmp
+	
+
+strcpy
+	Synopsis:
+	        None strcpy( String targ, String src )
+	
+	Description:
+	
+	Call the C function strcpy.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: strcpy
+	
+
+strlen
+	Synopsis:
+	        Int strlen( String src )
+	
+	Description:
+	
+	Call the C function strlen.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: strlen
+	
+
+strncmp
+	Synopsis:
+	        Int strncmp( String s1, String s2, Int i )
+	
+	Description:
+	
+	Call the C function strncmp.
+	
+	Scope: FACE scripts application 	
+	
+	The corresponding C function is: strncmp
+	
+
+strncpy
+	Description:
+	
+	For information, please refer to the strncpy description in your reference
+	manual.
+	
+	The corresponding C function is: strncpy
+	
+
+wait
+	Also known as: FmWait
+	
+	Synopsis:
+	        None FmWait( Widget w, Int delay )
+	
+	Description:
+	
+	Wait during delay milliseconds, handling X events meanwhile.
+	
+	Scope: FACE scripts application 	
+	
+	Example:
+	
+	Wait one second: 
+	wait ( self, 1000 ) ; 
+	
+	The corresponding C function is: FmWait
+	
+

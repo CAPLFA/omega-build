@@ -1,0 +1,69 @@
+Alert Box
+	This is a message alerting you to a problem.
+	
+	If it is a Question Dialog (shown by the question 
+	mark icon), then a response from you is required.
+	Click on the `Yes' or `No' to respond to the
+	question.
+	
+	Otherwise, click the `OK' button to acknowledge the
+	message and close the box.
+File Selector
+	Click in the list of `Files' on the right to select
+	a file (copy the file pathname to the 'Selection' field).
+	 Double-click in the list of `Directories' on the
+	left to change to another directory. Double-click on the
+	double dot (..) to climb the directory tree.
+	 You can change the files `Filter' field using
+	standard shell regular expression characters and
+	click in the `Filter' button to filter the current
+	directory. Changing the filter to an asterisk will
+	show all the files in the directory.
+	 To validate your choice, which is shown in the
+	`Selection' field, click on the `OK' button,
+	or double-click on the selected file name in the
+	Files list.
+	 To cancel the selection, and any changes you may
+	have made, click on `Cancel'.
+	See the OSF/Motif Style Guide for more information
+	on using the Motif File Selector.
+Template Name
+	Choose the name of a template in the list.
+	This template will be applied (or un-applied)
+	to the specified widget(s).
+Restart Design Process
+	The XFaceMaker design process has terminated.
+	 XFaceMaker will now launch a new one by executing the
+	command line contained in the text field of this dialog
+	box.
+	
+	 Click `OK' to launch the command. Type `Cancel' to
+	not launch any command (an alert box will warn you that
+	you are now running without any design process).
+	
+	 If you click the `Wait' button, XFaceMaker will not
+	launch any process. Instead, it will wait for an external
+	design process to connect to it (for example, a design
+	process launched by Gester).
+	
+	 You can edit the command line directly, or use the
+	buttons below it.
+	
+	 The `Command...' push button will
+	pop a file selector with which you can choose a
+	different executable (for example an instance of xfm
+	that you have created yourself using the FmCallEditor
+	function).
+	
+	 The `Restore state' toggle adds or removes the option
+	`-restore' in the command line: when this option is set,
+	XFaceMaker will restore the state of the design process
+	as when it terminated.
+	
+	 The `Trusted state' toggle adds or removes the option
+	`-trusted', which will restore the state of the design
+	process as when it was last automatically saved, which
+	occurs every 30 seconds or when switching to Try mode.
+	This option is useful when the design process encounters
+	an error while re-building objects (for example if an
+	xfmCreateCallback contains an execution error).

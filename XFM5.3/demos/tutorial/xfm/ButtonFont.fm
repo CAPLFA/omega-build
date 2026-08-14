@@ -1,0 +1,11 @@
+widget XmPushButton {
+    flag {
+        autosize
+        autopos
+    }
+    resources {
+        fontList = *adobe-helvetica-bold-r-*-17-*
+        marginHeight = 3
+        marginWidth = 12
+    }
+} buttonFont

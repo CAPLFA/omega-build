@@ -1,0 +1,177 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 542
+        y = 249
+        width = 259
+        height = 71
+    }
+    children {
+        widget XmMainWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 259
+                height = 71
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    createproc {
+                        /* DO NOT EDIT THIS LINE */ self:menuHelpWidget = self.Help;
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 259
+                        height = 31
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Quit
+                                        mnemonic = Q
+                                        activateCallback = exit(0);
+                                    }
+                                } Quit
+                            }
+                        } FilePulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = File
+                                mnemonic = F
+                                subMenuId = parent.FilePulldown
+                            }
+                        } File
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Overview
+                                        mnemonic = O
+                                        activateCallback = show(parent.parent.parent.parent.message.xmMessageBox0);
+                                    }
+                                } Overview
+                            }
+                        } HelpPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Help
+                                mnemonic = H
+                                subMenuId = parent.HelpPulldown
+                            }
+                        } Help
+                    }
+                } menubar
+                widget XmComboBox {
+                    flag {
+                        mapped
+                    }
+                    createproc {
+                        Widget w;\
+\
+w = XtNameToWidget(self,"*List");\
+\
+w:visibleItemCount=5;
+                    }
+                    resources {
+                        x = 0
+                        y = 31
+                        width = 259
+                        height = 40
+                        itemCount = 5
+                        arrowSpacing = 5
+                        items = kiwi,raspberry,carambola,litchi,coconut
+                        comboBoxType = drop_down_combo_box
+                        visibleItemCount = 5
+                        selectionCallback = String itemStr;\
+XmString xmstr;\
+XmComboBoxCallback cb;\
+cb = $;\
+xmstr = cb->item_or_text;\
+itemStr = String( XmStringUnparse(xmstr,\
+XmStringTag(0),\
+XmTextType(XmCHARSET_TEXT),\
+XmTextType(XmCHARSET_TEXT),\
+XmParseTable(0),\
+0,\
+XmParseModel(XmOUTPUT_ALL)));\
+printf ("ComboBox SelectionCB: item = %s\n\n",itemStr);
+                    }
+                } ComboBox
+            }
+        } xmMainWindow0
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 367
+                y = 284
+                width = 455
+                height = 148
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 455
+                        height = 148
+                        messageString = This program demonstrates how to use an XmComboBox in an application.\
+You can make a selection by typing it directly into the TextField\
+or by selecting the item from the DropDown list.  To make the list\
+drop down, click on the arrow that appears next to the TextField.
+                    }
+                } xmMessageBox0
+            }
+        } message
+    }
+} sessionShell0

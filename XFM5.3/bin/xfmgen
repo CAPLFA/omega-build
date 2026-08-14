@@ -1,0 +1,539 @@
+#!/bin/sh
+# This script parses a given FM file and outputs the result
+# according to the command line options.
+# History:
+# 21:07:92	created from fmprint parser	[cmc]
+#
+# NOTE: This script is NOT supported by NSL.
+
+NAME=$0
+if [ -f /bin/nawk ]
+then
+	AWK=nawk
+else
+	AWK=awk
+fi
+$AWK '  # You May Need To Change This To awk or nawk As Appropriate.
+BEGIN {
+	NAME = "xfmgen"		# how do we do this automatically ???
+	debug = 2
+	LocalDir = "./Tmpl/"
+	LibDir = "/usr/lib/X11/xfm/Tmpl/"
+
+# Here we get the command line parameters
+
+    if (ARGC == 1) {
+	printf("usage : '$NAME' [-q] [-m] [-i] [-f] [-a] [-d] file.fm\n")
+	printf("-m = create a Makefile\n")
+	printf("-i = create an Imakefile\n")
+	printf("-f = force file overwrite; default is to ask nicely\n") 
+	printf("-a = ancsi c standard\n") 
+	printf("-q = quiet\n") 
+	printf("-d = debug\n") 
+	exit
+    } else {
+	for ( i = 1 ; i < ARGC; i ++){
+	    if (ARGV[i] == "-q") {
+		opt_d = 0
+		ARGV[i] = ""
+	    } else {
+		if (ARGV[i] == "-m") {
+			opt_m = 1
+			ARGV[i] = ""
+		} else {
+		    if (ARGV[i] == "-i") {
+			opt_i = 1
+			ARGV[i] = ""
+		    } else {
+		    	if (ARGV[i] == "-a") {
+			   opt_a = 1
+			   ARGV[i] = ""
+		        } else {
+		    	 if (ARGV[i] == "-f") {
+			   opt_f = 1
+			   ARGV[i] = ""
+		         } else {
+			  if (ARGV[i] == "-d") {
+			    debug = opt_d = 10	# 0 = none 10 = max
+			    ARGV[i] = ""
+		    	   } else {
+		    	    if (ARGV[i] !~ /.fm/) {
+				printf("Unknown argument: %s\n", ARGV[i])
+				ARGV[i] = ""
+		    	    } else {
+				getnameinfo( ARGV[i] )
+				ok = 1
+				}
+			   }
+			}
+		       }
+		    }
+	        }
+	    }
+	}
+	if (debug > 5) {
+		printf("opt_m %d opt_i %d opt_f %d opt_a %d opt_d %d\n",
+			opt_m, opt_i, opt_f, opt_a, opt_d);
+	}	
+# internal initalization
+	endchild = 0		# end of children block
+	totalavs = 0
+# go for it!
+	numwidgets = nextw(0)   	# main()
+    }
+} # end BEGIN
+
+# If You Get: "awk: syntax error" Here you have old awk not nawk! 
+function nextw(parent) {
+
+	# this is the main function of the recursive descent parser
+	
+	while (getline) {
+		
+		if ($0 ~ /widget /){
+			level ++ 
+			num = level
+			Wparent[num] = parent
+			endchild = 0		# can not be end of child block
+			wtype($0, level)
+			nextw(parent) 
+		} else { 
+		   if ($0 ~ /children {/){	
+			parent = level		# save original level
+			if (debug > 8)
+				printf(" children: parent = %d\n", parent)
+		   }
+		   flag($0, num)
+		   activevalues($0, num)
+		   createproc($0, num)
+		   resources($0, num)
+		   if ($0 ~ /}/){
+			if (isname($2)) {
+				name = getthename($0)
+				if (debug > 7)
+					printf("wname:%s %d %d\n", name, level, endchild);
+				num = level
+				if (endchild) { 	# end of children block 
+					num = parent	# go back to original level
+				}
+				Wname[num]=name
+				endchild = 1
+				return level
+			}
+		   }
+		}
+	}
+	return level 		# for numwidgets number widgets.
+}
+
+function wtype(line, n) {	# save widget class type
+	if (debug > 7)
+		printf("wtype:%s %d\n",$2, n);
+	Wtype[n] = $2
+}
+function isendline(line) {
+	if ($0 ~ /}/) { 			# contains end bracket
+		if ($0 !~ /\=/) { 		# dosent contain assignment
+			if ( !$2)  {            # no extra field (widget name)
+				return 1	# must be end of a block
+			}
+		}
+	}
+	return 0
+}
+function isname(field) {			# is it widget name?
+	if  (field) {    			#
+		if  (field != "else") { 	# not bracket in script
+			if (field !~/\\/ ) { 	# not end of script
+				return 1	# yes
+			}
+		}
+	}
+	return 0
+}
+function getthename(line) { 			# get widget names in quotes
+	if (line ~ /}/) {
+		if ($2) {			# must be better ways!
+			na = $2
+			if ( NF > 2) {
+				for ( e = 3; e <= NF; e++)
+				 	na = na" "$e
+			}
+			return na
+		}
+	}
+	return "NoName"
+}
+
+function flag(line, n) {			# skip flag block
+	if (line ~ /flag {/){
+		if (debug > 9)		
+			printf("flag\n")
+		while (getline) {
+			if ( isendline($0))
+				break
+		}
+	}
+}
+
+function resources(line, n) {			# within resources block
+	if (line ~ /resources {/){		# search for callback scripts
+		if (debug > 8)
+			printf("resources\n")	
+		while (getline) {
+			callbacks($0, n)
+			if (isendline($0))
+				 break
+		}
+	}
+}
+
+function callbacks(line, ln) {			# remember callback names
+	if (line ~ /Callback = /){		# and look for scripts
+		cname = $1
+		oldcname = Wcall[ln]
+		Wcall[ln]  = (oldcname) ? oldcname" "cname : cname
+		if (debug > 5)
+			printf("Callback: %s %s\n", cname, $0)	
+	}	
+	functions(line, ln)
+}
+
+function activevalues(line, n) {		# get av names plus look
+	if (line ~ /activevalue {/){		# for scripts
+		while (getline) {
+			if (isendline($0)){
+				 break	
+			}
+			if ($0 ~ /name =/){
+				name = $3
+				oldname = Wactive[n]
+				Wactive[n] = (oldname) ? oldname" "name : name
+				if (debug > 4)
+					printf("activevalue %s %d\n", name, n)
+			}
+			functions($0, n)
+		}
+	}
+}
+
+function createproc(line, ns) {			# remember createproc as
+	if (line ~ /createproc {/){		# createCallback plus 
+		Wcall[ns] = "createCallback"	# look for scripts
+		if (debug > 4)
+			printf("createproc %s %d\n", $1, ns)	
+		while (getline) {
+			functions($0, ns)
+			if (isendline($0))
+				break
+		}
+	} 
+}
+function getavs() {				# for each av store widget
+	for ( i = 1; i <= numwidgets; i ++) {	# name using it
+		isav =  Wactive[i]
+		if (isav) {
+		        splitn = split(Wactive[i], avarray, " ")
+			totalavs = totalavs + splitn
+			for ( m = 1; m <= splitn; m++) {
+				oldwid = Aav[avarray[m]]
+				Aav[avarray[m]] = (oldwid) ? oldwid" "Wname[i] : Wname[i]
+			}
+		}
+	}
+	return totalavs
+}
+
+function functions(line, ln) {			# look for functions
+	colon = 0
+	if (line ~ /function/ ){		# and extract declarations
+		colon = index($0, ";")		# is it a declaration
+		if (colon)	{		# if so strip anything else
+			fun = substr( $0, 0, colon)
+		}
+		fun = substr( fun, index($0, "function") + 9, 100)
+		gsub(/\\/, " ", fun)		# remove end slash
+		gsub(";", " ", fun)		# remove end semicolon
+		gsub(/\(/, " ", fun)		# remove opening bracket
+		gsub(/\)/, " ", fun)		# remove closing bracket 
+		gsub(/[ \t][ \t]+/, " ", fun)	# remove excess white space
+		gsub(/,/, ", ", fun)		# add space after commas
+		gsub(/[ \t],/, ",", fun)	# rm space before commas
+		if (debug >9)
+			printf("fun:%s\n", fun);
+		if (!colon) {
+		    n = anothersplit(fun, facefuncs) # fill facefuncs array
+		} else {
+		    n = asplit(fun, funcs)	# fill funcs array
+		    if (n && debug > 7)
+			printf("Found function: %s with %d parameters\n", fun, n-2)
+		}
+	}
+}
+function asplit(str, arr) { 		# make an assoc array from str
+	n = split(str, temp)
+	funcname = temp[2]
+	if (funcname in arr) {
+		n = 0
+		if (debug >1)
+			printf("Redeclaration of function %s\n", funcname)
+	} else {
+		arr[funcname] = str
+		if(debug > 1 && debug < 8)
+			printf("Found function: %s \n", funcname)
+	}
+	return n
+}
+function anothersplit(str, arr) { 	# make an assoc array from str
+	n = split(str, temp)
+	funcname = temp[2]
+	if (funcname in arr) {
+		n = 0
+	} else {
+		arr[funcname] = str
+	}
+	if(debug > 1)
+		printf("FACE function: %s declared\n", funcname)
+	return n
+}
+function getnameinfo(fname) {		# extract filename info
+	sub(/\.fm/, "", fname)
+	Name = fname
+	CName = ""
+	lower = "abcdefghijklmnopqrstuvwxyz"
+	upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+	# This can not be the only way to do tr in awk 8^()
+	for ( i = 1; i <= length(fname); i++) {
+		x = substr(fname, i , 1);
+		if ( n = index( upper, x) ) 
+			x = substr(lower, n, 1)
+		CName = CName x
+	}	
+	if (debug > 5)
+		printf("Name: %s Class Name %s\n", Name, CName)
+}
+function F2C(str) {			# Change Face to C
+	gsub(/Int/, "int", str)		# Transform None -> void or None -> "" 
+	gsub(/Float/, "float", str)	# not handled here
+	gsub(/String/, "char *", str)
+	gsub(/Pointer/, "XtPointer", str)
+	gsub(/Widget/, "Widget", str)
+	return str
+}
+function F2Cplus(str) {			# Change Face to C plus variable name
+	gsub(/Int/, "int i", str)	# Transform None -> void / None -> "" 
+	gsub(/Float/, "float f", str)	#  not handled here.
+	gsub(/String/, "char * cptr", str)
+	gsub(/Pointer/, "XtPointer ptr", str)
+	gsub(/Widget/, "Widget w", str)
+	return str
+}
+function F2Cminus(str) {		# Change Face to C: variable name only
+	gsub(/Int/, " i", str)		# 
+	gsub(/Float/, " f", str)	# Transform None -> void / None -> "" 
+	gsub(/String/, " cptr", str)	#  not handled here.
+	gsub(/Pointer/, " ptr", str)
+	gsub(/Widget/, " w", str)
+	return str
+}
+
+#
+# Clean function names that are FACE functions from function array
+#
+# we will call this at the end because we cannot tell the difference
+# between the declaration of an external function and a call to a
+# FACE function
+#
+
+function cleanfuncs() {
+
+	for ( ff in facefuncs) {
+		delete funcs[ff]
+		if (debug >1)
+			printf("Deleting %s\n", ff)
+	}
+}
+
+#
+# Output Functions for Functions and Active Values
+#
+function funcdecl(flag) {		# declarations for header file
+	alf=""
+	for( f in funcs) {
+		n = split(funcs[f], fa)
+		ret = fa[1]
+		sub(/None/, "void", ret)
+		ret = F2C(ret)
+		params =""
+		if (flag) {		# Ansci ?
+			for ( i = 3; i <= n; i++) {
+				pa = fa[i]
+				gsub(/None/, "", pa)
+				gsub(/,/, ", ", pa)
+				params = params F2C(pa)
+			}
+		}
+		alf = alf sprintf("extern %s \t%s\(%s\);\n", ret, f, params)
+	}
+	return(alf)
+}
+function funcdef(flag) {		# function definitions for _usr.c
+	alf=""
+	for( f in funcs) {
+		n = split(funcs[f], fa)
+		ret = fa[1]
+		sub(/None/, "void", ret)
+		ret = F2C(ret)
+		params =""
+		pars =""
+		if ( n > 2) {
+		    if ( opt_a) { 			# ANSCI C
+			for ( i = 3; i <= n; i++) {	# has params
+				pa = fa[i]
+				gsub(/None/, "", pa)
+				gsub(/,/, n-i", ", pa)
+				params = params F2Cplus(pa)
+			}
+			alf = alf sprintf("%s\n%s\(%s\);\n\{\n\tprintf\(\"Function %s\(\) called.\\n\"\);\n\}\n\n\n", ret, f, params, f)
+		    } else {				# K & R
+			# params  = parameter type decleration plus count to 
+			# 	    make it unique except the last one.
+			# pars    = parameter name  plus count to
+			# 	    make it unique except the last one.
+			for ( i = 3; i <= n; i++) {	# has params
+				pa = fa[i]
+				gsub(/None/, "", pa)
+				gsub(/,/, n-i";\n", pa)
+				params = params F2Cplus(pa) 
+
+				if (i == n && params)		# the last one
+					params = params";"	# dont add counter
+				pa2 = fa[i]
+				gsub(/None/, "", pa2)
+				gsub(/,/, n-i",", pa2)
+				pars = pars F2Cminus(pa2) 
+			}
+			alf = alf sprintf("%s\n%s\(%s\)\n%s\n\{\n\tprintf\(\"Function %s\(\) called.\\n\"\);\n\}\n\n", ret, f, pars, params, f)
+		    }
+		} else 	# no params
+					alf = alf sprintf("%s\n%s\(\)\n\n\{\n\tprintf\(\"Function %s\(\) called.\\n\"\);\n\}\n\n", ret, f, f)
+	}
+	return(alf)
+}
+function funcattach(l) {		# FmAttachFunction for .c
+	alf=""
+	for( f in funcs) {
+		n = split(funcs[f], fa)
+		ret = sprintf("\"%s\"", fa[1])
+		params =", "
+		if (n > 2) {		# has parameters
+			for ( i = 3; i <= n; i++) {
+				pa = fa[i]
+				gsub(/,/, "", pa)
+				if (pa ~ /None/) { # parameter is none
+					n = 2
+					params = " "
+					break
+				}
+				
+				if ( i == n )
+					params = params sprintf("\"%s\" ", pa)
+				else
+					params = params sprintf("\"%s\", ", pa)
+			}
+			alf = alf sprintf("\tFmAttachFunction\(\"%s\", %s, %s, %d%s);\n", f, f, ret, n-2, params)		
+		} else	# no params
+			alf = alf sprintf("\tFmAttachFunction\(\"%s\", %s, %s, %d );\n", f, f, ret, 0 )
+	}
+	return(alf)
+}
+function avattach(l) {		# FmAttachAv calls
+	totalavs = getavs()
+	all = ""
+	for (avname in Aav)
+		all = all sprintf("\tFmAttachAv\(\"%s\", &%s \);\n", avname, avname )
+
+	return(all)
+}
+function avdecl(l) {		# Declare CC variables
+	totalavs = getavs()
+	all = ""
+	for (avname in Aav)
+		all = all sprintf("int\t%s;\t /* In widget\(s\): %s */\n", avname, Aav[avname] )
+
+	return(all)
+}
+
+# function to scan input and insert/change according to pattern found.
+function insert(lin) {
+	gsub(/\+UNAME\+/, Name, lin)		# filename (upper case)
+	gsub(/\+LNAME\+/, CName, lin)		# filename (lower case)
+	gsub(/\+PNAME\+/, NAME, lin)		# this program name (not nawk!)
+	gsub(/\+SNAME\+/, Name".fm", lin)	# source file name
+	if (lin ~ /\+FUNCDECLKR\+/ ) 		# function declarations K&R
+		lin = funcdecl(0)
+	else
+	if (lin ~ /\+FUNCDECLANSCI\+/ ) 	# function declarations ANSCI
+		lin = funcdecl(1)
+	else
+	if (lin ~ /\+FUNCTIONS\+/ )		# function definitions
+		lin = funcdef(lin)
+	else
+	if (lin ~ /\+FUNCATTACH\+/ )		# attach functions
+		lin = funcattach(lin)
+	else
+	if (lin ~ /\+AVDECL\+/ )		# declare Active Values
+		lin = avdecl(lin)
+	else
+	if (lin ~ /\+ACTIVEVALUES\+/ )		# attach ActiveValues
+		lin = avattach(lin)
+
+	return lin
+}
+# function for each file we require as output.
+
+function do_each(name, file) {
+	tfile =""
+
+	if ((opt_f == 0) && (getline < name >0) )  # can we read anything?
+		printf("File %s exists will not overwrite.\n", name)
+	else {
+	    tfile = LocalDir file
+	    if ( getline < tfile  == -1 ) {
+	         tfile = LibDir file
+	         if ( getline < tfile  == -1 ) {
+		    printf("Template file %s not found.\n", tfile)
+	            return foo
+                 }
+            } 
+	    if (debug > 1)
+		    printf("Creating %s from %s\n", name, tfile)
+	    print >name				# clear file
+	    while ( getline < tfile > 0 ) {	
+		nl = insert($0)
+		print nl >>name			# create new
+	    }
+	}
+}
+
+# End section - call the functions to do the generation of output files.
+END {
+ if (ok) {
+
+	cleanfuncs()		# remove FACE functions from funcs array
+
+	if (debug > 1)
+		print "Creating files ..."
+	if ( opt_m )
+		do_each("Makefile", "Makefile.tmpl" )
+	if ( opt_i )
+		do_each("Imakefile","Imakefile.tmpl" )
+	if ( opt_a)
+		do_each(Name".c", "ProgramA.tmpl" )
+	else
+		do_each(Name".c", "Program.tmpl" )
+	do_each(Name"_usr.c", "User.tmpl" )
+	do_each(Name".h", "Header.tmpl" )
+  }
+} ' $*

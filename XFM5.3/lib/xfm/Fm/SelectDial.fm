@@ -1,0 +1,28 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    resources {
+        x = 484
+        y = 241
+        width = 172
+        height = 252
+        allowShellResize = true
+    }
+    children {
+        widget XmSelectionBox {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 172
+                height = 252
+                applyLabelString = ddd
+                dialogType = dialog_selection
+                dialogStyle = dialog_modeless
+            }
+        } SelectionBox
+    }
+} MySelectDialog

@@ -1,0 +1,21 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- HP-UX configuration.
+#
+
+MOTIF_INCPATH = -I/usr/include/Motif1.2
+MOTIF_LIBPATH = -L/usr/lib/Motif1.2
+
+   XT_INCPATH = -I/usr/include/X11R5
+   XT_LIBPATH = -L/usr/lib/X11R5
+
+ XLIB_INCPATH = -I/usr/include/X11R5
+ XLIB_LIBPATH = -L/usr/lib/X11R5
+
+ XEXT_INCPATH = -I/usr/include/X11R5
+ XEXT_LIBPATH = -L/usr/lib/X11R5
+
+     SYS_LIBS = -lPW
+   SYS_CFLAGS = -Aa -D_HPUX_SOURCE -Dhpux
+  SYS_LDFLAGS = -Wl,-a,archive

@@ -1,0 +1,716 @@
+widget XmForm {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = TranslationTable
+        get = s = _FmGetList (self.transform.tablescroller.list);\
+_FmSysAvStringCopy ("TranslationTable",s);\
+XtFree (s);
+        set = list = self.transform.tablescroller.list;\
+alist = self.transform.actionscroller.list;\
+elist = self.transform.eventscroller.list;\
+if(strcmp ($,"") == 0)
+	s = "#override\n";\
+else
+	s = $;\
+_FmListFill (list,s);\
+if(!XtIsManaged(self)) XtUnmanageChild(alist);\
+_FmListFill (alist,_FmListResourceWindowActions(toplevel));\
+text = self.transform.trans;\
+text:editable = False;\
+text:value = "";\
+text:userData = Pointer (False);\
+text:editable = True;\
+rc = self.transform.typeRC;\
+s = FmListGetNthItem (list,1);\
+rc.override:set = Set(False);\
+rc.augment:set = Set(False);\
+rc.replace:set = Set(False);\
+if (strncmp (s,"#override",9) == 0)
+	rc.override:set = Set(True);\
+else if (strncmp (s,"#augment",8) == 0)
+	rc.augment:set = Set(True);\
+else {
+	rc.replace:set = Set(True);
+	if (strncmp (s,"#replace",8) != 0) {
+		local XmString rep;
+		if (rep == 0)
+			rep = XmStringCreateSimple ("#replace");
+		XmListAddItem (list,rep,1);
+	}\
+}\
+XtFree (s);\
+XtSetSensitive (self.transform.replace,False);\
+XtSetSensitive (self.transform.delete,False);\
+XmListDeselectAllItems (list);\
+XmListDeselectAllItems (elist);\
+XmListDeselectAllItems (alist);
+    }
+    activevalue {
+        name = _FmSelectedName
+        set = FmSetActiveValue (Widget (self.done:userData),"_FmSelectedName");
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = XmProcessTraversal (self.transform.tablescroller.list,XmTRAVERSE_CURRENT);
+		XtManageChild(self.transform.actionscroller.list);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = XtCallCallbacks (self.transform.add,"activateCallback",0);\
+s = _FmGetList (self.transform.tablescroller.list);\
+strcpy ($,s);\
+XtFree (s);
+    }
+    activevalue {
+        name = _FmResourceEditUnmanage
+        set = function void _FmHideEval (Widget top) {
+	FmShowWidget (top.transform);
+	FmHideWidget (Widget (top.done:userData));
+	FmHideWidget (top.select);
+	FmHideWidget (top.ignore);
+	FmHideWidget (top.done);
+	form = XtParent (top);
+	XtSetSensitive (form.apply,True);
+	XtSetSensitive (form.applyset,True);
+	XtSetSensitive (form.ok,True);
+	XtSetSensitive (form.set,True);
+	XtSetSensitive (form.reset,True);
+	top.done:userData = NULL;\
+}\
+w = Widget(self.done:userData);\
+if (w != NULL)
+	_FmHideEval (self);
+    }
+    activevalue {
+        name = _FmResourceEditAction
+        set = list = self.transform.tablescroller.list;\
+xms = FmCreateXmString ($);\
+if (XmListItemExists (list,xms))
+	XmListSelectItem (list,xms,True);\
+else {
+	global Boolean _FmEditActionFailed;
+	_FmEditActionFailed = True;\
+}
+XmStringFree (xms);
+    }
+    activevalue {
+        name = _FmResourceEditActionLine
+        set = list = self.transform.actionscroller.list;\
+local XmString evalstr;\
+if (evalstr == NULL)
+	evalstr = FmCreateXmString(Internationalize("%MSG%150%976 Eval...") );\
+global Boolean _FmEditActionFailed;\
+if (_FmEditActionFailed)
+	_FmEditActionFailed = False;\
+else if (FmListItemSelected (list,evalstr)) {
+	if (self.done:userData == NULL)
+		XmListSelectItem (list,evalstr,True);
+	Widget w = Widget (self.done:userData);
+	text = w.text;
+	pos = FmTextGetLineColumnPosition (text,@,0);
+	next = FmTextGetLineColumnPosition (text,@ + 1,0);
+	XmTextSetHighlight (text,pos,next,XmHIGHLIGHT_SECONDARY_SELECTED);
+	XmTextSetInsertionPosition (text,FmTextGetLineColumnPosition (text,@,0));\
+}
+    }
+    resources {
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                bottomAttachment = attach_form
+            }
+            children {
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_position
+                        topPosition = 75
+                        leftAttachment = attach_form
+                        leftOffset = 2
+                        rightAttachment = attach_position
+                        rightPosition = 50
+                        rightOffset = 5
+                        bottomAttachment = attach_form
+                        bottomOffset = 5
+                    }
+                    children {
+                        widget XmList {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            createproc {
+                                _FmListFill (self,_FmListEventTypes());\
+FmListAllowKeySelection (self,True,NULL,True);
+                            }
+                            resources {
+                                browseSelectionCallback = local XmListCallback cb;\
+cb = $;\
+text = parent.parent.trans;\
+FmGetActiveValue (text,"_FmCurrentTranslation");\
+s = GetString (cb->item);\
+_FmSetEventType (text,s);\
+XtFree (s);
+                            }
+                        } list
+                    }
+                } eventscroller
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_opposite_widget
+                        topWidget = eventscroller
+                        leftAttachment = attach_widget
+                        leftWidget = eventscroller
+                        leftOffset = 10
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_opposite_widget
+                        bottomWidget = eventscroller
+                    }
+                    children {
+                        widget XmList {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _FmTranslationScript
+                                set = w = Widget (parent.parent.parent.done:userData);\
+s = XtNewString ($);\
+_FmSetResourceGroupAv (w,"Callback",NULL,s);\
+XtFree (s);
+                            }
+                            createproc {
+                                FmListAllowKeySelection (self,True,NULL,True);
+                            }
+                            resources {
+                                browseSelectionCallback = local XmListCallback cb;\
+cb = $;\
+text = parent.parent.trans;\
+FmGetActiveValue (text,"_FmCurrentTranslation");\
+s = GetString (cb->item);\
+if (strcmp (s, Internationalize("%MSG%150%977 Eval...") ) != 0)
+	_FmSetAction (text,s);\
+else {
+	form = parent.parent.parent;
+	w = _FmLoadResourceGroup (form,NULL,"Callback");
+	form.done:userData = Pointer (w);
+	FmShowWidget (form.done);
+	FmShowWidget (form.ignore);
+	FmAttachTopWidget (w,form.scriptLabel,0);
+	FmAttachLeftWidget (w,form,0);
+	FmAttachRightWidget (w,form,0);
+	FmAttachBottomWidget (w,form.done,5);
+	FmShowWidget (w);
+	FmHideWidget (form.transform);
+	FmGetActiveValue (text,"_FmCurrentTranslation");
+	_FmGetScriptAction (self);
+	form = parent.parent.parent.parent;
+	XtSetSensitive (form.apply,False);
+	XtSetSensitive (form.applyset,False);
+	XtSetSensitive (form.ok,False);\
+	XtSetSensitive (form.set,False);\
+	XtSetSensitive (form.reset,False);\
+}\
+XtFree (s);
+                            }
+                        } list
+                    }
+                } actionscroller
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%978 Event type
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 2
+                        bottomWidget = eventscroller
+                    }
+                } eventLabel
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%979 Actions
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_none
+                        topAttachment = attach_opposite_widget
+                        topWidget = eventLabel
+                        leftAttachment = attach_widget
+                        leftOffset = 10
+                        leftWidget = eventscroller
+                    }
+                } actionLabel
+                widget XmDrawnButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        function void _FmTransEvent (XEvent ev) {
+	FmGetActiveValue (parent.trans,"_FmCurrentTranslation");
+	_FmReplaceEvent (parent.trans,ev);\
+}
+                    }
+                    resources {
+                        labelPixmap = Keyboard.bm
+                        labelInsensitivePixmap = Keyboard.bm
+                        labelType = pixmap
+                        marginHeight = 3
+                        marginWidth = 3
+                        topAttachment = attach_none
+                        leftAttachment = attach_none
+                        rightAttachment = attach_opposite_widget
+                        rightOffset = -2
+                        rightWidget = eventscroller
+                        bottomAttachment = attach_widget
+                        bottomWidget = eventscroller
+                        navigationType = tab_group
+                        translations = #override\
+<KeyPress>: eval("_FmTransEvent($);")\
+<KeyRelease>: eval("_FmTransEvent($);")\
+<ButtonPress>: Arm() eval("_FmTransEvent($);")\
+<ButtonRelease>: Disarm() eval("_FmTransEvent($);")
+                    }
+                } keyboard
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 5
+                        bottomWidget = keyboard
+                    }
+                } sep
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%980 Add
+                        marginHeight = 1
+                        marginWidth = 3
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 5
+                        bottomWidget = sep
+                        activateCallback = text = parent.trans;\
+s = text:value;\
+FmGetActiveValue (parent.parent,"TranslationTable");\
+_FmAddTranslation(parent.parent,s,$TranslationTable);\
+XtFree(s);\
+XmListDeselectAllItems (parent.tablescroller.list);\
+XtSetSensitive (parent.replace,False);\
+XtSetSensitive (parent.delete,False);
+                    }
+                } add
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%981 Replace
+                        marginHeight = 1
+                        marginWidth = 3
+                        topAttachment = attach_opposite_widget
+                        topWidget = add
+                        leftAttachment = attach_widget
+                        leftOffset = 5
+                        leftWidget = add
+                        activateCallback = 
+	String trans = parent.trans:value;
+	XtCallCallbacks (parent.delete,"activateCallback",NULL);\
+	parent.trans:value = trans;
+	XtCallCallbacks (parent.add,"activateCallback",NULL);
+	XtFree(trans);
+                    }
+                } replace
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%982 Delete
+                        marginHeight = 1
+                        marginWidth = 3
+                        topAttachment = attach_opposite_widget
+                        topWidget = add
+                        leftAttachment = attach_widget
+                        leftOffset = 5
+                        leftWidget = replace
+                        activateCallback = list = parent.tablescroller.list;\
+type XmStringPtr;\
+XmListDeleteItems (list,XmStringPtr(list:selectedItems),list:selectedItemCount);\
+parent.trans:value = "";\
+XtSetSensitive (parent.replace,False);\
+XtSetSensitive (parent.delete,False);
+                    }
+                } delete
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%983 Type:
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_opposite_widget
+                        topWidget = add
+                        topOffset = 5
+                        leftAttachment = attach_widget
+                        leftOffset = 3
+                        leftWidget = delete
+                    }
+                } typeLabel
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        marginHeight = 0
+                        marginWidth = 0
+                        orientation = horizontal
+                        radioBehavior = true
+                        topAttachment = attach_opposite_widget
+                        topWidget = add
+                        topOffset = 1
+                        leftAttachment = attach_widget
+                        leftOffset = 5
+                        leftWidget = typeLabel
+                        packing = pack_tight
+                    }
+                    children {
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%984 override
+                                marginHeight = 0
+                                marginWidth = 0
+                                set = true
+                                valueChangedCallback =
+	function None _FmSetTransMode(String mode)
+	{
+		if(!Boolean(self:set))
+			return();
+		Widget list = parent.parent.tablescroller.list;
+		String old = FmListGetNthItem(list, 1);
+		if(strcmp(old, mode) == 0)
+			return();
+		XmString new[Int] = new_array();
+		new[0] = XmStringCreateSimple(mode);
+		type XmStringPtr;
+		XmStringPtr items = XmStringPtr(data(new));
+		if(strcmp(old, "#override") == 0
+		|| strcmp(old, "#augment") == 0
+		|| strcmp(old, "#replace") == 0){
+			XmListReplaceItemsPos(list, items, 1, 1);
+		} else {
+			XmListAddItems(list, items, 1, 1);
+		}
+		XtFree(old);
+		XmStringFree(new[0]);
+		destroy(new);
+	}
+	_FmSetTransMode("#override");
+                            }
+                        } override
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%985 augment
+                                marginHeight = 0
+                                marginWidth = 0
+                                valueChangedCallback =
+	_FmSetTransMode("#augment");
+                            }
+                        } augment
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%986 replace
+                                marginHeight = 0
+                                marginWidth = 0
+                                valueChangedCallback =
+	_FmSetTransMode("#replace");
+                            }
+                        } replace
+                    }
+                } typeRC
+                widget XmText {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _FmCurrentTranslation
+                        get = s = self:value;\
+strcpy ($,s);\
+XtFree (s);
+                        set = self:editable = False;\
+self:value = $;\
+self:userData = Pointer (False);\
+self:editable = True;
+                    }
+                    resources {
+                        marginHeight = 1
+                        marginWidth = 1
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 10
+                        bottomWidget = add
+                        activateCallback = XtCallCallbacks (parent.add,"activateCallback",NULL);
+                        valueChangedCallback = if (self:editable) {\
+	self:editable = False;
+	self:userData = Pointer(True);
+	self:editable = True;\
+}
+                    }
+                } trans
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%987 Translation:
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 2
+                        bottomAttachment = attach_widget
+                        bottomWidget = trans
+                    }
+                } transLabel
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%988 Translation Table
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_form
+                        leftAttachment = attach_form
+                        leftOffset = 2
+                    }
+                } tableLabel
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = tableLabel
+                        leftAttachment = attach_form
+                        leftOffset = 2
+                        rightAttachment = attach_form
+                        rightOffset = 2
+                        bottomAttachment = attach_widget
+                        bottomOffset = 5
+                        bottomWidget = transLabel
+                    }
+                    children {
+                        widget XmList {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            createproc {
+                                FmListAllowKeySelection (self,True,NULL,True);
+                            }
+                            resources {
+                                browseSelectionCallback = local XmListCallback cb;\
+cb = $;\
+n = self:selectedItemCount;\
+if (cb->item_position == 1) {
+	XmListDeselectAllItems (self);
+	n = 0;\
+}\
+if (n > 0) {
+	s = GetString (cb->item);
+	text = parent.parent.trans;
+	text:editable = False;
+	text:value = s;
+	text:userData = Pointer (False);
+	text:editable = True;
+	XtFree (s);\
+}\
+XtSetSensitive (parent.parent.replace,n > 0);\
+XtSetSensitive (parent.parent.delete,n > 0);
+                            }
+                        } list
+                    }
+                } tablescroller
+            }
+        } transform
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%989 Eval script:
+                marginHeight = 0
+                marginWidth = 0
+                topAttachment = attach_form
+                topOffset = 10
+                leftAttachment = attach_form
+                leftOffset = 2
+            }
+        } scriptLabel
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%990 OK
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_none
+                leftAttachment = attach_form
+                bottomAttachment = attach_form
+                bottomOffset = 5
+                activateCallback = FmGetActiveValue (Widget (self:userData),"_FmResourceReturnValue");\
+s = XtNewString ($_FmResourceReturnValue);\
+_FmHideEval (parent);\
+text = parent.transform.trans;\
+FmGetActiveValue (text,"_FmCurrentTranslation");\
+_FmSetScriptAction (text,s);\
+XtFree (s);\
+XtCallCallbacks (parent.transform.add,"activateCallback",0);
+            }
+        } done
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%991 Cancel
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_opposite_widget
+                topWidget = done
+                leftAttachment = attach_widget
+                leftOffset = 2
+                leftWidget = done
+                activateCallback = _FmHideEval (parent);
+            }
+        } ignore
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+                gadget
+            }
+            createproc {
+                self:leftOffset = -(self:width / 2);
+            }
+            resources {
+                labelString = %MSG%150%992 Select
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_opposite_widget
+                topWidget = done
+                leftAttachment = attach_position
+                leftPosition = 50
+                activateCallback = name = _FmResourceWindowTrack (toplevel);\
+if (name != 0) {
+	if (strcmp (name,"") != 0) {
+		_FmSetResourceGroupAv (Widget (parent.done:userData),"Callback",
+				       "_FmSelectedName",name);
+	}\
+}
+            }
+        } select
+    }
+} Translations

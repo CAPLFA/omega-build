@@ -1,0 +1,472 @@
+#
+# 	XFaceMaker 5-3 Application Makefile.
+#
+
+#### begin pattern interface
+#### set global RDBMODE = RDBMODE
+#### set global UILMODE = UILMODE
+#### set global PRESERVEMODE = PRESERVEMODE
+#### set global BASEFILES = `'
+#### set global MAINCFILE = `'
+#### end pattern interface
+
+#### begin pattern module
+#### 	begin if [ FILE right 3 == ".fm" ]
+#### 		set local BASEFILE = [ FILE left (length FILE - 3) ]
+#### 	ifelse
+#### 		set local BASEFILE = FILE
+#### 	end if
+#### 	begin if [ BASEFILES == "" ]
+#### 		set global BASEFILES = BASEFILE
+#### 	ifelse
+#### 		set global BASEFILES = BASEFILES BASEFILE
+#### 	end if
+#### 	begin if [ MAINCFILE == "" ]
+#### 		set global MAINCFILE = BASEFILE.c
+#### 	end if
+#### end pattern module
+
+#### begin pattern interface
+####           XFM = XFMNAME
+####     XFMCFLAGS = -cflags "##COPTIONS##"
+####    XFMCLFLAGS = -cflags "##COPTIONS##g"
+#### end pattern interface
+
+#### 					begin pattern interface
+#### 						set global XTRA_DIRS =
+#### 						set global XTRA_LIBS = `'
+#### 						set global XTRA_I_LIBS = `'
+#### 						set global XTRA_C_LIBS = `'
+#### 						set global XTRA_E_LIBS = `'
+#### 						set global XTRA_INCPATH = `-I$(NSLHOME)/include '
+#### 						set global XTRA_LIBPATH = `-L$(NSLHOME)/lib '
+#### 					end pattern interface
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_DIR) == _XFM_EXT_BUILD_DIR ]
+#### 						begin if [ ! (VALUE { XTRA_DIRS) ]
+#### 							set global XTRA_DIRS = XTRA_DIRS`VALUE'
+#### 						end if
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_INCLUDE_PATH) == _XFM_EXT_BUILD_INCLUDE_PATH ]
+#### 						set global XTRA_INCPATH = XTRA_INCPATH` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_LIBRARY_PATH) == _XFM_EXT_BUILD_LIBRARY_PATH ]
+#### 						set global XTRA_LIBPATH = XTRA_LIBPATH` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_LIBRARIES) == _XFM_EXT_BUILD_LIBRARIES ]
+#### 						set global XTRA_LIBS = XTRA_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_I_LIBRARIES) == _XFM_EXT_BUILD_I_LIBRARIES ]
+#### 						set global XTRA_I_LIBS = XTRA_I_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_C_LIBRARIES) == _XFM_EXT_BUILD_C_LIBRARIES ]
+#### 						set global XTRA_C_LIBS = XTRA_C_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_E_LIBRARIES) == _XFM_EXT_BUILD_E_LIBRARIES ]
+#### 						set global XTRA_E_LIBS = XTRA_E_LIBS` 'VALUE
+#### 					end pattern define
+
+      LIBTOOL = libtool
+      LIBTOOL_COMPILE = $(LIBTOOL) --mode=compile
+      LIBTOOL_LINK    = $(LIBTOOL) --mode=link
+      LIBTOOL_EXEC    = $(LIBTOOL) --mode=execute
+      LIBTOOL_CLEAN   = $(LIBTOOL) --mode=clean
+      LIBTOOL_INSTALL = $(LIBTOOL) --mode=install
+
+ifeq ($(LIBTOOL),libtool)
+	OBJ=.lo
+else
+	OBJ=.o
+endif
+
+MOTIF_INCPATH = -I/usr/include
+MOTIF_LIBPATH = -L/usr/lib 
+MOTIF_LIBNAME = -lXm
+
+#### begin pattern interface [ UILMODE == 1 ]
+####   MRM_INCPATH = -I/usr/include
+####   MRM_LIBPATH = -L/usr/lib 
+####   MRM_LIBNAME = -lMrm
+#### end pattern interface
+
+   XT_INCPATH = 
+   XT_LIBPATH = 
+   XT_LIBNAME = -lXt  -lSM -lICE
+
+ XLIB_INCPATH = 
+ XLIB_LIBPATH = 
+ XLIB_LIBNAME = -lX11 
+
+ XEXT_INCPATH = 
+ XEXT_LIBPATH = 
+ XEXT_LIBNAME = -lXext
+
+XFM_I_LIBNAME = -lFm
+XNSLCTRL_LIBNAME = -lXnsl
+
+#### begin pattern interface
+#### 	begin if [ COPTIONS } S ]
+#### XFM_C_LIBNAME =
+#### 	ifelse
+#### XFM_C_LIBNAME = -lFm_c
+#### 	end if
+#### end pattern interface
+XFM_E_LIBNAME = -lFm_e
+
+#### 					begin pattern interface
+#### EXTRA_INCPATH = ##-I`XTRA_DIRS'# # XTRA_INCPATH $(LOC_INCPATH)
+#### EXTRA_LIBPATH = ##-L`XTRA_DIRS'# # XTRA_LIBPATH $(LOC_LIBPATH)
+####  EXTRA_I_LIBS = XTRA_E_LIBS XTRA_I_LIBS XTRA_LIBS
+####  EXTRA_C_LIBS = XTRA_C_LIBS XTRA_LIBS
+####  EXTRA_E_LIBS = XTRA_E_LIBS XTRA_LIBS
+#### 					end pattern interface
+
+   XM_INCPATH = $(MRM_INCPATH) $(MOTIF_INCPATH) $(XT_INCPATH) $(XEXT_INCPATH) $(XLIB_INCPATH)
+
+    A_INCPATH = -I. $(EXTRA_INCPATH) $(XM_INCPATH)
+    E_INCPATH = -I. $(EXTRA_INCPATH) $(XM_INCPATH)
+       X_LIBS =  $(XT_LIBPATH) $(XT_LIBNAME) $(XEXT_LIBPATH) $(XEXT_LIBNAME) $(XLIB_LIBPATH) $(XLIB_LIBNAME)
+   MOTIF_LIBS =  $(MRM_LIBPATH) $(MRM_LIBNAME) $(MOTIF_LIBPATH) $(MOTIF_LIBNAME) $(X_LIBS)
+
+     SYS_LIBS =
+
+   SYS_CFLAGS =  -DMOTIF_1_2 -DMOTIF_2_1 -DMOTIF_2_2 -D__GLIBC_2_3_2__ -DHAS_GLS -DINTERNATIONALIZATION
+  SYS_LDFLAGS =
+  CDEBUGFLAGS =
+
+#### begin pattern interface
+#### 	begin if [ COPTIONS } S ]
+####     CCODEOPTS = -DCCODE -DSTANDALONE
+#### 	ifelse
+####     CCODEOPTS = -DCCODE
+#### 	end if
+#### end pattern interface
+
+     STD_LIBS = $(MOTIF_LIBS) -lm $(SYS_LIBS)
+
+    A_LIBPATH = -L. $(EXTRA_LIBPATH)
+    E_LIBPATH = -L. $(EXTRA_LIBPATH)
+
+   XFM_I_LIBS = $(XFM_I_LIBNAME)
+   XFM_C_LIBS = $(XFM_C_LIBNAME) $(XNSLCTRL_LIBNAME) 
+   XFM_E_LIBS = $(XFM_E_LIBNAME)
+
+     A_CFLAGS = $(A_INCPATH) $(SYS_CFLAGS) $(CDEBUGFLAGS)
+     E_CFLAGS = $(A_INCPATH) $(SYS_CFLAGS) $(CDEBUGFLAGS)
+       CFLAGS = $(E_CFLAGS)
+
+    A_LDFLAGS = $(A_LIBPATH) $(SYS_LDFLAGS) $(CDEBUGFLAGS)
+    E_LDFLAGS = $(E_LIBPATH) $(SYS_LDFLAGS) $(CDEBUGFLAGS)
+
+           RM = rm -rf
+           CP = cp
+           LN = ln -s
+
+#### begin pattern interface
+#### 	begin if [ "TARGETMACH" != "" && "TARGETMACHFILE" != "" ]
+#### 		set local MAKEINCLPATH = [ TARGETMACHFILE left (length TARGETMACHFILE - length TARGETMACH) ]
+#### XFM_TARGET_OS = `TARGETMACH'
+#### XFM_TARGET_MK = `MAKEINCLPATH'$(XFM_TARGET_OS)
+#### include $(XFM_TARGET_MK)
+#### 	end if
+####
+
+#### all:: interpreted compiled
+#### 
+#### interpreted:: i`LCNAME'
+#### 
+#### compiled:: c`LCNAME'
+#### 
+#### editor:: e`LCNAME'
+#### 
+#### remote:: r`LCNAME'
+#### 
+#### i`LCNAME': i`NAME'Main$(OBJ) i`NAME'App$(OBJ)
+#### 	$(LIBTOOL_LINK) $(CC) $(A_LDFLAGS) -o i`LCNAME' i`NAME'Main$(OBJ) i`NAME'App$(OBJ) \\
+#### 	$(EXTRA_I_LIBS) $(XFM_I_LIBS) $(STD_LIBS)
+#### end pattern interface
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_COMMAND) == _XFM_EXT_BUILD_COMMAND ]
+#### 	-VALUE
+#### 					end pattern define
+#### begin pattern interface
+#### 
+#### r`LCNAME': r`NAME'Main$(OBJ) r`NAME'App$(OBJ)
+#### 	$(LIBTOOL_LINK) $(CC) $(A_LDFLAGS) -o r`LCNAME' r`NAME'Main$(OBJ) r`NAME'App$(OBJ) \\
+#### 	$(EXTRA_I_LIBS) $(XFM_I_LIBS) $(STD_LIBS)
+#### end pattern interface
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_COMMAND) == _XFM_EXT_BUILD_COMMAND ]
+#### 	-VALUE
+#### 					end pattern define
+#### begin pattern interface
+#### 
+#### c`LCNAME': c`NAME'Main$(OBJ) c`NAME'App$(OBJ) ##BASEFILES$(OBJ)# # ##UCLASSFILES$(OBJ)# #
+#### 	$(LIBTOOL_LINK) $(CC) $(A_LDFLAGS) -o c`LCNAME' c`NAME'Main$(OBJ) c`NAME'App$(OBJ) \\
+#### 		##BASEFILES$(OBJ)# # ##UCLASSFILES$(OBJ)# # \\
+#### 	$(EXTRA_C_LIBS) $(XFM_C_LIBS) $(STD_LIBS)
+#### end pattern interface
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_COMMAND) == _XFM_EXT_BUILD_COMMAND ]
+#### 	-VALUE
+#### 					end pattern define
+#### begin pattern interface
+#### 
+#### e`LCNAME': e`NAME'Main$(OBJ) `NAME'App$(OBJ)
+#### 	$(LIBTOOL_LINK) $(CC) $(E_LDFLAGS) -o e`LCNAME' e`NAME'Main$(OBJ) `NAME'App$(OBJ) \\
+#### 	$(EXTRA_E_LIBS) $(XFM_E_LIBS) $(STD_LIBS)
+#### end pattern interface
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_COMMAND) == _XFM_EXT_BUILD_COMMAND ]
+#### 	-VALUE
+#### 					end pattern define
+#### begin pattern interface
+#### 
+#### i`NAME'Main$(OBJ): `NAME'Main.c
+#### 	$(LIBTOOL_COMPILE)  $(CC) $(A_CFLAGS) -o $@ -c `NAME'Main.c
+#### 
+#### r`NAME'Main$(OBJ): `NAME'Main.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(A_CFLAGS) -DREMOTE -o $@ -c `NAME'Main.c
+#### 
+#### c`NAME'Main$(OBJ): `NAME'Main.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(A_CFLAGS) $(CCODEOPTS) -o $@ -c `NAME'Main.c
+#### 
+#### e`NAME'Main$(OBJ): `NAME'Main.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(E_CFLAGS) -DCALLEDITOR -o $@ -c `NAME'Main.c
+####
+#### i`NAME'App$(OBJ): `NAME'App.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(A_CFLAGS) -o $@ -c `NAME'App.c
+####
+#### c`NAME'App$(OBJ): `NAME'App.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(E_CFLAGS) $(CCODEOPTS) -o $@ -c `NAME'App.c
+####
+#### e`NAME'App$(OBJ): `NAME'App.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(E_CFLAGS) -DCALLEDITOR -o $@ -c `NAME'App.c
+####
+#### r`NAME'App$(OBJ): `NAME'App.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(E_CFLAGS) -DREMOTE -o $@ -c `NAME'App.c
+#### 
+#### `NAME'$(OBJ): `NAME'.c
+#### 	$(LIBTOOL) $(CC) $(E_CFLAGS) -c `NAME'.c
+#### 
+#### 	begin if [ PROJECTFILE != "" ]
+#### 		begin if [ RDBMODE == 1 ]
+#### ##BASEFILES.c# # ##BASEFILES.fm_rdb# # ##BASEFILES.rdb# #: PROJECTFILE ##BASEFILES.fm# # ##UCLASSFILES.h# #
+#### 		elseif [ UILMODE == 1 ]
+#### ##BASEFILES.c# # ##BASEFILES.uil# #: PROJECTFILE ##BASEFILES.fm# # ##UCLASSFILES.h# #
+#### 		ifelse
+#### ##BASEFILES.c# #: PROJECTFILE ##BASEFILES.fm# # ##UCLASSFILES.h# #
+#### 		end if
+#### 	$(XFM) -compile PROJECTFILE \\
+#### 	ifelse
+#### 		begin if [ RDBMODE == 1 ]
+#### ##BASEFILES.c# # ##BASEFILES.fm_rdb# # ##BASEFILES.rdb# #: ##BASEFILES.fm# # ##UCLASSFILES.h# #
+#### 		elseif [ UILMODE == 1 ]
+#### ##BASEFILES.c# # ##BASEFILES.uil# #: ##BASEFILES.fm# # ##UCLASSFILES.h# #
+#### 		ifelse
+#### ##BASEFILES.c# #: ##BASEFILES.fm# # ##UCLASSFILES.h# #
+#### 		end if
+#### 	$(XFM) -compile ##BASEFILES.fm# # \\
+#### 	end if
+#### 		-cinclude \"`NAME'App.h\" \\
+#### 	begin if [ NUMUCLASSES != 0 && "PROJECTFILE" == "" ]
+#### 		-classes "##UCLASSNAMES:UCLASSPATHS/UCLASSFILES.fm#,#" \\
+#### 	end if
+#### 	begin if [ RDBMODE == 1 ]
+#### 		-rdb \\
+#### 		begin if [ lower RDBRESOURCES != rdbresources ]
+#### 		-rdbresources "RDBRESOURCES" \\
+#### 		end if
+#### 	end if
+#### 	begin if [ UILMODE == 1 ]
+#### 		-uil \\
+#### 	end if
+#### 	begin if [ PRESERVEMODE == 1 ]
+#### 		-preserve \\
+#### 	end if
+#### 	begin if [ UCLASSPREFIX != "" ]
+#### 		-cprefix UCLASSPREFIX \\
+#### 	end if
+#### 		-cfile MAINCFILE -cname `CREATENAME' $(XFMCFLAGS)
+#### 
+#### 	begin if [ RDBMODE == 1 ]
+#### interpreted compiled:: UCNAME.ad
+#### 
+#### interpreted:: ##BASEFILES.fm_rdb# #
+#### 
+#### UCNAME.ad: ##BASEFILES.rdb# #
+#### 	$(RM) UCNAME.ad
+#### 	cat ##BASEFILES.rdb# # > UCNAME.ad
+#### 
+#### clean::
+#### 	$(RM) UCNAME.ad
+#### 
+#### cleanall::
+#### 	$(RM) ##BASEFILES.fm_rdb# # ##BASEFILES.rdb# #
+#### 	end if
+#### 
+#### applifiles:
+#### 	begin if [ PROJECTFILE != "" ]
+#### 	$(XFM) -gen PROJECTFILE \\
+#### 	ifelse
+#### 	$(XFM) -gen ##BASEFILES.fm# # \\
+#### 	end if
+#### 	begin if [ NUMUCLASSES != 0 && "PROJECTFILE" == "" ]
+#### 		-classes "##UCLASSNAMES:UCLASSPATHS/UCLASSFILES.fm#,#" \\
+#### 	end if
+#### 	begin if [ RDBMODE == 1 ]
+#### 		-rdb \\
+#### 		begin if [ lower RDBRESOURCES != rdbresources ]
+#### 		-rdbresources "RDBRESOURCES" \\
+#### 		end if
+#### 	end if
+#### 	begin if [ UILMODE == 1 ]
+#### 		-uil \\
+#### 	end if
+#### 	begin if [ PRESERVEMODE == 1 ]
+#### 		-preserve \\
+#### 	end if
+#### 	begin if [ UCLASSPREFIX != "" ]
+#### 		-cprefix UCLASSPREFIX \\
+#### 	end if
+#### 		-cfile MAINCFILE -cname `CREATENAME' $(XFMCFLAGS) 
+#### 
+#### clean::
+#### 	$(RM) core emergency.fm
+#### 	$(LIBTOOL) --mode=clean $(RM) *$(OBJ) i`LCNAME' e`LCNAME' c`LCNAME'
+#### 
+#### cleanall:: clean
+#### 	$(RM) ##BASEFILES.c# # *~
+#### end pattern interface
+
+#### begin pattern module
+#### 	set local NAMEFM = NAME.fm
+#### 	begin if [ FILE != NAMEFM ]
+#### BASEFILE$(OBJ): BASEFILE.c
+#### 	$(LIBTOOL) $(CC) $(E_CFLAGS) -c BASEFILE.c
+####
+#### clean::
+#### 	$(LIBTOOL) --mode=clean $(RM) BASEFILE$(OBJ)
+#### 	end if
+#### end pattern module
+
+#### begin pattern module [ UILMODE == 1 ]
+#### compiled:: BASEFILE.uid
+#### 
+#### BASEFILE.uid: BASEFILE.uil
+#### 	$(RM) BASEFILE.uid
+#### 	uil BASEFILE.uil -o BASEFILE.uid
+#### 
+#### clean::
+#### 	$(RM) BASEFILE.uid
+#### 
+#### cleanall::
+#### 	$(RM) BASEFILE.uil
+#### end pattern module
+
+#### begin pattern user_class
+#### UCLASSFILE.c UCLASSFILE.h `UCLASSFILE'P.h: UCLASSPATH/UCLASSFILE.fm
+#### 			begin if [ UCLASSPATH != "." ]
+#### 	@sh -c "if [ ! -f UCLASSFILE.fm ] ; then echo '	$(LN) UCLASSPATH/UCLASSFILE.fm UCLASSFILE.fm' ; $(LN) UCLASSPATH/UCLASSFILE.fm UCLASSFILE.fm ; fi"
+#### 			end if
+#### 			begin if [ UCLASSPREFIX != "" ]
+#### 	$(XFM) -compile UCLASSFILE.fm -cfile UCLASSFILE.c $(XFMCLFLAGS) \\
+#### 			-cprefix UCLASSPREFIX 
+#### 	@sh -c "if [ ! -d UCLASSPREFIX ] ; then echo '	mkdir UCLASSPREFIX' ; mkdir UCLASSPREFIX ; fi"
+#### 	(cd UCLASSPREFIX ; $(RM) UCLASSFILE.h `UCLASSFILE'P.h ; $(LN) ../UCLASSFILE.h ../`UCLASSFILE'P.h .)
+#### 			ifelse
+#### 	$(XFM) -compile UCLASSFILE.fm -cfile UCLASSFILE.c $(XFMCLFLAGS)
+#### 			end if
+#### end pattern user_class
+
+.SUFFIXES: .lo
+
+.c.lo:
+	$(LIBTOOL) $(CC) $(A_CFLAGS) -c $? 
+
+#
+# Windows source files generation:
+# 
+
+   WINDOWSDIR = Windows
+    WINOUTDIR = WinOut
+
+#### begin pattern interface
+#### 	set global ALLWINFILES = WINAPPFILES
+####   WINAPPFILES = \\
+#### 	begin if [ SHORTWINDOWSFILENAMES ]
+#### 		set local LNAME5 = [ lower (NAME left 5) ]
+#### 		set local LNAME8 = [ lower (NAME left 8) ]
+#### 	ifelse
+#### 		set local LNAME5 = NAME
+#### 		set local LNAME8 = NAME
+#### 	end if
+#### 	$(WINDOWSDIR)/`LNAME8'.mak \\
+#### 	$(WINDOWSDIR)/`LNAME8'.h \\
+#### 	$(WINDOWSDIR)/`LNAME8'.cpp \\
+#### 	$(WINDOWSDIR)/`LNAME8'.rc \\
+#### 	$(WINDOWSDIR)/`LNAME5'App.h \\
+#### 	$(WINDOWSDIR)/`LNAME5'App.cpp \\
+#### 	$(WINDOWSDIR)/`LNAME5'Res.h \\
+#### 	$(WINDOWSDIR)/stdafx.cpp \\
+#### 	$(WINDOWSDIR)/stdafx.h
+#### 
+#### 	begin if [ PROJECTFILE != "" ]
+#### 		set local FMFILES = PROJECTFILE
+#### 	ifelse
+#### 		set local FILES = FILES`'
+#### 		set local I = 1
+#### 		set local F = [ FILES [ I ]
+#### 		set local SEP = `'
+#### 		set local FMFILES = `'
+#### 		begin while [ F != "" ]
+#### 			set local FMFILES = FMFILES`SEP'F
+#### 			set local I = [ I + 1 ]
+#### 			set local F = [ FILES [ I ]
+#### 			set local SEP = ` '
+#### 		end while
+#### 	end if
+#### end pattern interface
+#### begin pattern module
+#### 	begin if [ SHORTWINDOWSFILENAMES ]
+#### 		set local LNAME5 = NAME
+#### 	ifelse
+#### 		set local LNAME5 = NAME
+#### 	end if
+#### 	set local UNAME = [ upper NAME ]
+#### 	set local MODULEFILES = WIN`UNAME'MODFILES
+#### 	set local MODULEFILES = [ MODULEFILES ]
+#### 	set global ALLWINFILES = ALLWINFILES MODULEFILES
+#### WIN`UNAME'MODFILES = \\
+#### 	$(WINDOWSDIR)/`LNAME5'Xfm.h \\
+#### 	$(WINDOWSDIR)/`LNAME5'Xfm.cpp \\
+#### 	$(WINDOWSDIR)/`LNAME5'Xfm.rc \\
+#### 	$(WINDOWSDIR)/`LNAME5'Fmr.h
+#### 
+#### end pattern module
+#### begin pattern interface
+#### 	begin if [ PRESERVEMODE ] 
+#### 		set local PRESERVEOPTION = `-preserve'
+#### 	ifelse
+#### 		set local PRESERVEOPTION = `'
+#### 	end if
+#### ##$(ALLWINFILES)# #:: FMFILES
+#### 	$(XFM) -target Windows FMFILES -targetfile $@ PRESERVEOPTION
+#### 	@echo Converting $@...
+#### 	@xfmwincvt $@
+#### 
+#### windows:: FMFILES
+#### 	$(XFM) -target Windows FMFILES PRESERVEOPTION
+#### 	@echo Converting files...
+#### 	@xfmwincvt
+#### 
+#### clean::
+#### 	$(RM) $(WINDOWSDIR)/.last.* $(WINOUTDIR)/*
+#### end pattern interface
+
+always:
+
+cleanall:: clean
+	$(RM) $(WINOUTDIR)

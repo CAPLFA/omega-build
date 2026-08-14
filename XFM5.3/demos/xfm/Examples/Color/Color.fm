@@ -1,0 +1,91 @@
+widget ApplicationShell {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    resources {
+        x = 548
+        y = 0
+        width = 168
+        height = 598
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+            }
+            children {
+                widget XmSeparator {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 0
+                        y = 533
+                        width = 168
+                        height = 5
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_position
+                        bottomPosition = 90
+                    }
+                } xmSeparator0
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 24
+                        y = 546
+                        width = 62
+                        height = 34
+                        leftAttachment = attach_position
+                        leftPosition = 14
+                        bottomAttachment = attach_position
+                        bottomPosition = 97
+                        labelString = QUIT
+                        activateCallback = exit(0);
+                    }
+                } PB
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        scrollingPolicy = automatic
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = xmSeparator0
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = Parent
+                                get = @ = self;
+                                type = Widget
+                                automatic = true
+                                usage = face
+                            }
+                            resources {
+                            }
+                        } RC
+                    }
+                } SW
+            }
+        } F
+    }
+} AS

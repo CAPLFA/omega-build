@@ -1,0 +1,163 @@
+widget ApplicationShell {
+    flag {
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 287
+                height = 108
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 144
+                        height = 108
+                        leftAttachment = attach_form
+                        rightAttachment = attach_position
+                        rightPosition = 50
+                        topAttachment = attach_form
+                        bottomAttachment = attach_form
+                        labelString = Beep
+                        activateCallback = FmBeep();
+                    }
+                } beep
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = Blink
+                        set = 
+	if(!self:<inited>){
+		self:<initial_color> = self:background;
+		self:<blink_rate> = root*blink_rate*scale:value;
+		self:<inited> = 1;
+	}
+	if($ == True){
+		self:<state> = !self:<state>;
+		if(self:<state>){
+			self:background = "red";
+		} else {
+			self:background = self:<initial_color>;
+		}
+		self:<timeout> = FmSetActiveValueTimeOut(self, "Blink", self:<blink_rate>);
+	} else {
+		if(self:<timeout>){
+			FmStopTimeOut(self:<timeout>);
+			self:<timeout> = 0;
+		}
+		self:background = self:<initial_color>;
+	}
+                        type = Boolean
+                        usage = face
+                    }
+                    resources {
+                        x = 144
+                        y = 0
+                        width = 143
+                        height = 108
+                        leftAttachment = attach_widget
+                        leftWidget = parent.beep
+                        rightAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_form
+                        labelString = Blink\
+(MB3 to change rate)
+                        activateCallback = 
+	self:<blinking> = !self:<blinking>;
+	FmAttachAv("Blink", Pointer(self:<blinking>));
+	FmSetActiveValue(self, "Blink");
+	if(self:<blinking>){
+		self:labelString = "Stop Blinking\n(MB3 to change rate)";
+	} else {
+		self:labelString = "Blink\n(MB3 to change rate)";
+	}
+                        translations = #override\
+<Btn3Down>: eval("Show(root*blink_rate);")\
+<Btn1Down>: Arm()\
+<Btn1Up>: Disarm() Activate()
+                    }
+                    children {
+                        widget XmDialogShell {
+                            flag {
+                                popup
+                            }
+                            resources {
+                                width = 278
+                                height = 104
+                                title = Blinking Rate
+                                x = 570
+                                y = 346
+                            }
+                            children {
+                                widget XmForm {
+                                    flag {
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        width = 278
+                                        height = 104
+                                        defaultPosition = false
+                                        verticalSpacing = 10
+                                        horizontalSpacing = 10
+                                    }
+                                    children {
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 10
+                                                y = 69
+                                                width = 258
+                                                height = 25
+                                                leftAttachment = attach_form
+                                                rightAttachment = attach_form
+                                                bottomAttachment = attach_form
+                                                labelString = OK
+                                                activateCallback = Hide(parent);
+                                            }
+                                        } ok
+                                        widget XmScale {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                width = 258
+                                                height = 49
+                                                x = 10
+                                                y = 10
+                                                orientation = horizontal
+                                                topAttachment = attach_form
+                                                leftAttachment = attach_form
+                                                rightAttachment = attach_form
+                                                bottomAttachment = attach_widget
+                                                bottomWidget = parent.ok
+                                                showValue = near_slider
+                                                maximum = 1000
+                                                value = 500
+                                                valueChangedCallback = root*blink:<blink_rate> = self:value;
+                                                dragCallback = root*blink:<blink_rate> = self:value;
+                                            }
+                                        } scale
+                                    }
+                                } blink_rate
+                            }
+                        } blink_dshell
+                    }
+                } blink
+            }
+        } mainform
+    }
+} multi

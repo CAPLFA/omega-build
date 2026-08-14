@@ -1,0 +1,31 @@
+widget XmDrawnButton {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmToolkitIconPixmap
+        set =
+		if(equal($, "unspecified_class_pixmap"))
+			self:labelPixmap = DynamicPixmap(_FmGetDefaultIconPixmap(self, "default_class", "5x8", XtName(self)));
+		else
+		if(equal($, "unspecified_group_pixmap"))
+			self:labelPixmap = DynamicPixmap(_FmGetDefaultIconPixmap(self, "default_group", "5x8", XtName(self)));
+		else
+			self:labelPixmap = String ($);
+    }
+    createproc {
+        global XmString _FmBlankLabel;\
+if (_FmBlankLabel == XmString(0))
+	_FmBlankLabel = FmCreateXmString (" ");\
+self:userData = Pointer (FmCreateXmString (XtName (self)));
+    }
+    resources {
+        labelType = pixmap
+        pushButtonEnabled = true
+        translations = #override\
+<Enter>: eval("script _FmTkIconEnter: parent.parent.parent.parent.widgetLabel:labelString = XmString (self:userData);")\
+<Leave>: eval("script _FmTkIconLeave: global XmString _FmBlankLabel; parent.parent.parent.parent.widgetLabel:labelString = _FmBlankLabel;")
+        activateCallback = _FmNewToolkitItem (XtName(self),_FmToolkitIconType(self));
+    }
+} tkicon

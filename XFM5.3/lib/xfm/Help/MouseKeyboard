@@ -1,0 +1,62 @@
+Mouse Bindings
+	Mouse bindings in Edit mode :
+	
+	Left button : 
+			When pressed in a primitive widget,
+			selects this widget and unselects all
+			previously selected widgets. The
+			selected widget becomes the "current"
+			widget.
+	
+			When pressed in a top-level composite
+			widget, unselects all widgets.
+	
+			The selection can be moved by keeping
+			the left button pressed and moving the
+			mouse.
+	
+	Middle button :
+			Pop the Resources box.
+	
+	Control-middle button :
+			Pop the Edit Resource Box.
+	
+	Control-left button :
+			When pressed in a primitive widget,
+			adds this widget to the selection.
+			The selected widget becomes the "current"
+			widget.
+	
+	Right button :
+			Selects the parent of the current widget.
+			This is used to select composite widgets
+			that cannot be selected directly using
+			the left button.
+	
+		
+Keyboard Bindings
+	Default keyboard bindings in Edit mode :
+	
+	^X :	Cut the selection into the cut-buffer.If there is
+		no selection, cut the object which is located
+		under the cursor.
+	
+	^C :	Copy the selection into the cut-buffer. If there is
+		no selection, copy the object which is located
+		under the cursor.
+	
+	^P :	Paste the contents of the cut-buffer. The contents
+		must be dragged to the desired location.
+	
+	^K :	Delete the selection. If there is no selection,
+		delete the object which is located under the cursor.
+	
+	^U :	Undo the last "undoable" command.
+	
+	^D :	Duplicate the selection. If there is no selection,
+		duplicate the object which is located under the cursor.
+	
+	^T :	Switch to Try mode.
+	
+	The default keyboard bindings can be overriden
+	on the xfm command line. For details enter xfm -help.

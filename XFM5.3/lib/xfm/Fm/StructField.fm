@@ -1,0 +1,123 @@
+widget XmForm {
+    flag {
+    }
+    activevalue {
+        name = _FmFieldName
+        set = name:labelString = String(@);
+        get = @ = FmGetString(name:labelString);
+        type = String
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = _FmFieldType
+        type = String
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = _FmFieldValue
+        set =
+		if(@)
+			value:value = @;
+		else
+			value:value = "<unknown>";
+        get = 
+		s = value:value;
+		if(strcmp(s, "<unknown>") == 0)
+			@ = 0;
+		else
+			@ = s;
+        type = String
+        storage = object
+        automatic = true
+    }
+    resources {
+        x = 3
+        y = 3
+        width = 364
+        height = 32
+        resizePolicy = resize_none
+    }
+    children {
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                labelString = StructFieldName
+                topAttachment = attach_form
+                leftAttachment = attach_form
+                bottomAttachment = attach_form
+                marginWidth = 5
+            }
+        } name
+        widget XmPushButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 340
+                y = 0
+                width = 24
+                height = 32
+                rightAttachment = attach_form
+                topAttachment = attach_form
+                bottomAttachment = attach_form
+                labelString = ...
+                activateCallback = function void _FmEditStructField (Widget form) {
+	t = parent:@_FmFieldType;
+	if (t == 0)
+		t = "String";
+	w = _FmLoadResourceGroup (form,String(0),t);
+	s = parent:@_FmFieldValue;
+	if(XtParent(w) == root){ 	/* old-style box */
+		s = FmEditResourceValue(t, s);
+		if(s)
+			parent:@_FmFieldValue = s;
+		return();
+	}
+	form:@_FmStructFieldEditor = w;
+	form:@_FmStructFieldText = parent.value;
+	_FmSetResourceGroupAv (w,t,String(0),s);
+	free (s);
+	show (form.add);
+	show (form.ignore);
+	FmAttachTopWidget (w,form,0);
+	FmAttachLeftWidget (w,form,0);
+	FmAttachRightWidget (w,form,0);
+	FmAttachBottomWidget (w,form.add,3);
+	hide(form.scroll);
+	show (w);
+	FmRaiseWidget (w);
+	form = XtParent (form);
+	XtSetSensitive (form.ok,False);\
+	XtSetSensitive (form.apply,False);
+	XtSetSensitive (form.applyset,False);
+	XtSetSensitive (form.set,False);\
+	XtSetSensitive (form.reset,False);\
+}\
+_FmEditStructField (parent.parent.parent.parent);
+            }
+        } dots
+        widget XmText {
+            flag {
+                mapped
+            }
+            resources {
+                x = 36
+                y = 0
+                width = 304
+                height = 32
+                leftAttachment = attach_widget
+                leftWidget = parent.name
+                topAttachment = attach_form
+                bottomAttachment = attach_form
+                rightAttachment = attach_widget
+                rightWidget = parent.dots
+            }
+        } value
+    }
+} field

@@ -1,0 +1,342 @@
+widget XmText {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_W
+        get = script get_MFCEdit_MFC_W:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmScrolledWindow")){
+			@ = atoi(_FmGetWidgetResourceValue(parent, "width"));
+		} else {
+			@ = atoi(_FmGetWidgetResourceValue(self, "width"));
+		}
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCEdit_MFC_H:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmScrolledWindow")){
+			@ = atoi(_FmGetWidgetResourceValue(parent, "height"));
+		} else {
+			@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+		}
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_value
+        get = script get_MFCEdit_MFC_R_value:
+		FacePragma("ignore");
+		String s = self:value;
+		if(strcmp(s, "") != 0)
+			@ = _FmWinQuoteString(s);
+		XtFree(s);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_maxLength
+        get = script get_MFCEdit_MFC_R_maxLength:
+		FacePragma("ignore");
+		Int max = self:maxLength;
+		if(max < 2147483647)
+			@ = itoa(self:maxLength);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_cursorPosition
+        get = script get_MFCEdit_MFC_R_cursorPosition:
+		FacePragma("ignore");
+		TextPosition cur_pos = self:cursorPosition;
+		if(cur_pos != 0)
+			@ = itoa(Int(cur_pos));
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_topCharacter
+        get = script get_MFCEdit_MFC_R_topCharacter:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmText")){
+			Int cur_pos = Int(self:topCharacter);
+			if(cur_pos != 0)
+				@ = itoa(cur_pos);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        type = String
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = CEdit
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_ES_AUTOHSCROLL
+        get = script get_MFC_S_ES_AUTOHSCROLL:
+		FacePragma("ignore");
+		if (_FmIsOfSubClass(self, "XmText")){
+			if (self:editMode == XmMULTI_LINE_EDIT){
+				if (!self:wordWrap)
+					@ = true;
+			}else
+				@ = true;
+		}else
+			@ = true;
+        type = Boolean
+        storage = object
+        automatic = true
+        genvalue = true
+        autoget = true
+    }
+    activevalue {
+        name = MFC_S_ES_AUTOVSCROLL
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_ES_NOHIDESEL
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_HSCROLL
+        get = script get_MFCEdit_MFC_S_WS_HSCROLL:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmText"))
+			if(self:editMode == XmMULTI_LINE_EDIT
+			&& self:scrollHorizontal
+			&& _FmIsOfSubClass(parent, "XmScrolledWindow"))
+				@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_VSCROLL
+        get = script get_MFCEdit_MFC_S_WS_VSCROLL:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmText"))
+			if(self:editMode == XmMULTI_LINE_EDIT
+			&& self:scrollVertical
+			&& _FmIsOfSubClass(parent, "XmScrolledWindow"))
+				@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_ES_WANTRETURN
+        get = script get_MFCEdit_MFC_S_ES_WANTRETURN:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmText")
+		&& self:editMode == XmMULTI_LINE_EDIT)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_ES_MULTILINE
+        get = script get_MFCEdit_MFC_S_ES_MULTILINE:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmText")
+		&& self:editMode == XmMULTI_LINE_EDIT)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_ES_READONLY
+        get = script get_MFCEdit_MFC_S_ES_READONLY:
+		FacePragma("ignore");
+		@ = self:editable == False;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_BORDER
+        get = script get_MFCEdit_MFC_S_WS_BORDER:
+		FacePragma("ignore");
+		@ = "true";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_EN_CHANGE
+        get = script get_MFCEdit_MFC_N_EN_CHANGE:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "valueChangedCallback")){
+			@ = _FmConcatString(@, "$XmAnyCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_VALUE_CHANGED); call_data = (XtPointer)&cbs;$valueChangedCallback", "|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_EN_UPDATE
+        get = script get_MFCEdit_MFC_N_EN_UPDATE:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "modifyVerifyCallback")){
+			@ = _FmConcatString(@, "$XmTextVerifyCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_MODIFYING_TEXT_VALUE); if(!cbs.reason) return; call_data = (XtPointer)&cbs;$modifyVerifyCallback", "|");
+			@ = _FmConcatString(@, "$cbs.Check(%self);$none", "|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_EN_SETFOCUS
+        get = script get_MFCEdit_MFC_N_EN_SETFOCUS:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "focusCallback")){
+			@ = _FmConcatString(@, "$XmAnyCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_FOCUS); call_data = (XtPointer)&cbs;$focusCallback", "|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_EN_KILLFOCUS
+        get = script get_MFCEdit_MFC_N_EN_KILLFOCUS:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "losingFocusCallback")){
+			@ = _FmConcatString(@, "$XmAnyCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_LOSING_FOCUS); call_data = (XtPointer)&cbs;$losingFocusCallback", "|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TEXT_ACTIVATE
+        get = script get_MFCEdit_MFC_TEXT_ACTIVATE:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "activateCallback")){
+			if(!self:@MFC_S_ES_MULTILINE){
+				self:@MFC_TRANSLATIONS = _FmConcatString(
+					self:@MFC_TRANSLATIONS,
+					'WM_KEYDOWN,"","RETURN",activateCallback,0',
+					"|");
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_activateCallback
+        get = script get_MFCEdit_MFC_R_activateCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "activateCallback")){
+			@ = "activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_valueChangedCallback
+        get = script get_MFCEdit_MFC_R_valueChangedCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "valueChangedCallback")){
+			@ = "valueChangedCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_modifyVerifyCallback
+        get = script get_MFCEdit_MFC_R_modifyVerifyCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "modifyVerifyCallback")){
+			@ = "modifyVerifyCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xfmVerticalTextMargin
+        get = script get_MFCEdit_MFC_R_xfmVerticalTextMargin:
+		FacePragma("ignore");
+		if(!self:@MFC_S_ES_MULTILINE)
+			@ = itoa(self:marginHeight);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCScrolled = Fm/MFCScrolled.fm
+        MFCFont = Fm/MFCFont.fm
+        MFCTraversal = Fm/MFCTraversal.fm
+    }
+} edittext

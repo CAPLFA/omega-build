@@ -1,0 +1,40 @@
+! XFaceMaker font file.
+! $Id: XfmDb11 312 2006-11-28 13:29:34Z bt $
+
+! special fonts for version boxes
+Xfm*xfmVersionBB.loading.fontList:		*-helvetica-bold-r-*-17-*
+Xfm*xfmVersionBB.XmLabel.fontList:		*-helvetica-medium-r-*-14-*-iso8859-1
+Xfm*xfmVersionBB.XmLabelGadget.fontList:	*-helvetica-medium-r-*-14-*-iso8859-1
+Xfm*xfmVersionBB.OK.fontList:			*-helvetica-bold-r-*-17-*
+Xfm*xfmVersionBB.labelXFM.fontList:		*-times-medium*-i-*-25-*
+Xfm*xfmVersionBB.labelVersion.fontList:		*-times-medium*-r-*-17-*
+Xfm*xfmVersionBB.labelNames.fontList:		*-charter-medium-i-*-14-*
+
+! text font
+Xfm*TextList.font:		*-courier-medium-r-*-11-*
+Xfm*Tree.font:			*-courier-medium-r-*-11-*
+Xfm*Wix.font:			*-courier-medium-r-*-11-*
+Xfm*textFontList:		*-courier-medium-r-*-11-*
+Xfm*XmList.fontList:		*-courier-medium-r-*-11-*
+Xfm*XmText.fontList:		*-courier-medium-r-*-11-*
+Xfm*XmTextField.fontList:	*-courier-medium-r-*-11-*
+
+! menu font
+Xfm*Panel.MenuBar*fontList:	*-helvetica-bold-r-*-14-*
+Xfm.main.menu*fontList:		*-helvetica-bold-r-*-14-*
+
+! special very big font
+Xfm*Boolean*True.fontList:	*-helvetica-bold-r-*-17-*
+Xfm*Boolean*False.fontList:	*-helvetica-bold-r-*-17-*
+Xfm*Colors*Black.fontList:	*-helvetica-bold-r-*-17-*
+Xfm*Colors*White.fontList:	*-helvetica-bold-r-*-17-*
+
+! special font list for fast resource list
+Xfm*fastList.fontList: *-courier-bold-r-*-11-*=n,*-courier-medium-r-*-11-*=v,*-courier-bold-o-*-11-*=t
+
+! nicer font for Help boxes
+Xfm*HelpIndex*XmList.fontList:	*-helvetica-medium-r-*-11-*
+Xfm*Help*XmText.fontList:	*-helvetica-medium-r-*-11-*
+
+! other (label & button) font
+Xfm*fontList:			*-helvetica-bold-r-*-11-*

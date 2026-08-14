@@ -1,0 +1,70 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 352
+        y = 403
+        width = 202
+        height = 84
+    }
+    children {
+        widget XmPushButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 202
+                height = 84
+                labelString = Hello
+                activateCallback = \
+	parent.World.MessageBox:messageString = "World";\
+	message = PopupAndWait(parent.World);\
+	printf("\
+%s\
+", message);\
+
+            }
+        } XmPushButton0
+        widget TransientShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 691
+                y = 384
+                width = 288
+                height = 160
+                deleteResponse = unmap
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                        mapped
+                    }
+                    createproc {
+                        Widget w;
+	w = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);
+	XtUnmanageChild(w);
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 288
+                        height = 160
+                        okCallback = \
+	Return(self,"OK");\
+	Hide(toplevel);\
+
+                        cancelCallback = \
+	Return(self,"Cancel");\
+	Hide(toplevel);\
+
+                    }
+                } MessageBox
+            }
+        } World
+    }
+} Hello

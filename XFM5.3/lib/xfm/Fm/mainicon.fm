@@ -1,0 +1,48 @@
+widget XmDrawnButton {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmMainIconWindow
+        get = @ = XtWindow(self);
+    }
+    activevalue {
+        name = _FmMainIconName
+        set = self:userData = Pointer(FmCreateXmString (XtNewString (@)));
+    }
+    activevalue {
+        name = _FmMainIconBitmap
+        set = self:labelPixmap = String(@);
+    }
+    createproc {
+        global XmString _FmBlankLabel;\
+if (_FmBlankLabel == XmString(0))
+	_FmBlankLabel = FmCreateXmString (" ");
+    }
+    resources {
+        labelType = pixmap
+        marginWidth = 0
+        marginHeight = 0
+        pushButtonEnabled = true
+        activateCallback = _Fm_where wh = _FmMainIconWhere (self); \
+if (wh == _FM_NOWHERE) {
+	Widget other = _FmMainIconMenuItem (self);
+	if (other != 0) {
+		if (XtClass (other) == xmToggleButtonWidgetClass)
+			XmToggleButtonSetState (other,!Boolean(other:set),True);
+		else if (XtClass (other) == xmToggleButtonGadgetClass)
+			XmToggleButtonGadgetSetState (other,!Boolean(other:set),True);
+		else
+			XtCallCallbacks (other,"activateCallback",$);
+	} \
+} else {
+	XmDrawnButtonCallback cb = XmDrawnButtonCallback ($);
+	_FmTrackIcon (Pixmap(self:labelPixmap),cb->event,wh); \
+}
+        translations = #override \
+<Enter>: eval("script _FmMainWinButtonEnter: b = parent.parent.buttonLabel; b:labelString = XmString(self:userData); b:width = parent:width;") \
+<Leave>: eval("script _FmMainWinButtonLeave: global XmString _FmBlankLabel; parent.parent.buttonLabel:labelString = _FmBlankLabel;")
+    }
+} mainicon
+

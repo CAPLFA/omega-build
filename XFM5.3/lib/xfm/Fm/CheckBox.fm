@@ -1,0 +1,37 @@
+widget XmRowColumn {
+    flag {
+        autopos
+    }
+    resources {
+        width = 10
+        height = 10
+        packing = pack_column
+        borderWidth = 1
+    }
+    children {
+        widget XmToggleButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 3
+                y = 3
+                width = 99
+                height = 17
+                labelString = Possibility 1
+            }
+        } TButton
+        widget XmToggleButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 3
+                y = 23
+                width = 99
+                height = 17
+                labelString = Possibility 2
+            }
+        } TButton_2
+    }
+} MyCheckBox

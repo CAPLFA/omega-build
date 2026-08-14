@@ -1,0 +1,18 @@
+widget XmPushButton {
+    flag {
+        mapped
+        autosize
+        autopos
+        gadget
+    }
+    resources {
+        activateCallback =
+		if(equal(XtName(toplevel), "IconSelectionBox"))
+			_FmSelectImage(toplevel, "BitmapItemBitmap");
+		else
+			_FmSelectImage(parent.parent.parent, "BitmapItemBitmap");
+        alignment = alignment_center
+        labelType = pixmap
+        labelPixmap = BitmapItemBitmap
+    }
+} item_BitmapItemBitmap

@@ -1,0 +1,31 @@
+# NSL Licensing Information
+# NSL License No.: 331009
+# XFM Release: 5.0
+# Date: 09/10/2013
+# Customer: SCC - DSNA/DGA
+# System: RedHat ... x86
+# Host IP address: 10.226.129.121
+# Host ID: 00:19:99:40:9A:68
+# Host name: centos1
+
+
+list	XFaceMaker,XFaceMaker/EL,XFaceMaker/IDT,XFaceMaker/Win
+list	Wx,XDrawMaker,XFaceMaker/WF
+list	XTree
+list	DrawLib
+list	VistaPoint
+
+alias	XFaceMaker	xfm5,wx2
+alias	XFaceMaker/EL	xfm5/el,wx2
+alias	XFaceMaker/IDT	xfm5/idt,wx2
+alias	Wx		wx2
+alias	XDrawMaker	xdm2,wx2
+alias	XFaceMaker/WF	xfm5,xdm2,wx2,draw2,xfm-draw2
+alias	XTree		tree,xfm-tree
+alias	XFaceMaker/Win	xfm5/win
+alias	DrawLib		draw2,xfm-draw2
+alias	VistaPoint	html,xfm-html
+license XFaceMaker       1  2037/12/31
+host 00:19:99:40:9A:68
+code senalofi fozonuto
+

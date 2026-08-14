@@ -1,0 +1,186 @@
+widget XmPushButton {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_BULLETIN_BOARD
+        get = script get_MFCPushButton_MFC_BULLETIN_BOARD:
+		FacePragma("ignore");
+		Widget pp;
+		for(p = XtParent(self); p; p = pp){
+			pp = XtParent(p);
+			if(pp && _FmIsOfSubClass(pp, "Shell")){
+				if(_FmIsOfSubClass(p, "XmBulletinBoard")){
+					@ = p;
+				}
+				pp = Widget(0); /* break; */
+			}
+		}
+        type = Widget
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_DEFPUSHBUTTON
+        get = script get_MFCPushButton_MFC_S_BS_DEFPUSHBUTTON:
+		FacePragma("ignore");
+		Widget bb = self:@MFC_BULLETIN_BOARD;
+		if(bb && bb:defaultButton == self){
+			@ = True;
+			String path = _FmGetRelativeWidgetPath(self, bb);
+			bb:@MFC_PR_defaultButton = _FmWinQuoteString(path);
+			XtFree(path);
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_PUSHBUTTON
+        get = script get_MFCPushButton_MFC_S_BS_PUSHBUTTON:
+		FacePragma("ignore");
+		if(!self:@MFC_S_BS_DEFPUSHBUTTON)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_DEFPBMARGIN
+        get = script get_MFCPushButton_MFC_DEFPBMARGIN:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(self, "XmPushButton")
+		&& self:defaultButtonShadowThickness > 0){
+			@ = 2*self:defaultButtonShadowThickness
+			  + self:shadowThickness
+			  + 2;
+		}
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_X
+        get = script get_MFCPushButton_MFC_X:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self, "x")) + self:@MFC_DEFPBMARGIN;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_Y
+        get = script get_MFCPushButton_MFC_Y:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self, "y")) + self:@MFC_DEFPBMARGIN;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_W
+        get = script get_MFCPushButton_MFC_W:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self, "width")) - 2*self:@MFC_DEFPBMARGIN;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCPushButton_MFC_H:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self, "height")) - 2*self:@MFC_DEFPBMARGIN;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_BN_CLICKED
+        get = script get_MFCPushButton_MFC_N_BN_CLICKED:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "activateCallback")
+		&& !self:@MFC_ISCOMBOBOXITEM){
+			if(_FmIsOfSubClass(self, "XmDrawnButton"))
+				@ = "$XmDrawnButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ACTIVATE); call_data = (XtPointer)&cbs;$activateCallback";
+			else
+				@ = "$XmPushButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ACTIVATE); call_data = (XtPointer)&cbs;$activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_BN_DOUBLECLICKED
+        get = script get_MFCPushButton_MFC_N_BN_DOUBLECLICKED:
+		FacePragma("ignore");
+		if(self:multiClick == XmMULTICLICK_DISCARD)
+			return();
+		if(_FmHasCallback(self, "activateCallback")
+		&& !self:@MFC_ISCOMBOBOXITEM){
+			if(_FmIsOfSubClass(self, "XmDrawnButton"))
+				@ = "$XmDrawnButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ACTIVATE); call_data = (XtPointer)&cbs;$activateCallback";
+			else
+				@ = "$XmPushButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ACTIVATE); call_data = (XtPointer)&cbs;$activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_activateCallback
+        get = script get_MFCPushButton_MFC_R_activateCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "activateCallback")){
+			@ = "activateCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_AUTO_UNMANAGE
+        get = script get_MFCPushButton_MFC_AUTO_UNMANAGE:
+		FacePragma("ignore");
+		Widget bb = self:@MFC_BULLETIN_BOARD;
+		if(bb){
+			if(_FmIsOfSubClass(XtParent(bb), "XmDialogShell")
+			&& XtParent(XtParent(bb))
+			&& bb:autoUnmanage){
+				@ = True;
+			}
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCButton = Fm/MFCButton.fm
+    }
+} button

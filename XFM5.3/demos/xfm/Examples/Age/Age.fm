@@ -1,0 +1,94 @@
+widget ApplicationShell {
+    flag {
+        mapped
+        autosize
+    }
+    resources {
+        x = 189
+        y = 98
+        title = Age
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                width = 344
+                height = 161
+            }
+            children {
+                widget XmScale {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = age
+                        get = @ = self:value;
+                        set = self:value = @;
+                        type = Int
+                        automatic = true
+                        usage = face
+                        default_type = String
+                        default_value = 31
+                    }
+                    resources {
+                        x = 283
+                        y = 10
+                        width = 35
+                        height = 104
+                        showValue = near_slider
+                        maximum = 65
+                        minimum = 1
+                        fontList = *helvetica-*-r-*-12-*
+                        valueChangedCallback = 
+	GetActiveValue(self, "age");
+                        value = 31
+                    }
+                } Scale
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 28
+                        y = 54
+                        width = 234
+                        height = 54
+                    }
+                    children {
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                activateCallback = 
+	function None print_age();
+	print_age();
+                                fontList = *helvetica-*-r-*-12-*
+                                recomputeSize = false
+                                labelString = Print your age
+                            }
+                        } PushButton
+                    }
+                } XmFrame0
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 23
+                        y = 127
+                        activateCallback = exit(0);
+                        labelString = Quit
+                        fontList = *helvetica-*-r-*-12-*
+                    }
+                } PB
+            }
+        } BB
+    }
+} AS

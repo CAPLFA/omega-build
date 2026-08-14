@@ -1,0 +1,1 @@
+sh -c "/sbin/ifconfig eth0 | grep HWaddr | sed 's/.* HWaddr \\(..:..:..:..:..\\)/\\1/'"

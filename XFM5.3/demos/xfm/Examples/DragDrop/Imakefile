@@ -1,0 +1,11 @@
+#include "Xfm2.tmpl"
+
+all::DragDrop.fm
+	 xfm  -genappli DragDrop.fm
+	 $(MAKE) $(MFLAGS) -f DragDropMake  
+
+clean::
+	$(RM) cdragDrop idragDrop DragDrop.c DragDropApp.c  DragDropApp.h DragDropMain.c DragDropMake
+
+cleanall:
+	$(RM) cdragDrop idragDrop DragDrop.c DragDropApp.c  DragDropApp.h DragDropMain.c DragDropMake Makefile

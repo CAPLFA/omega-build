@@ -1,0 +1,134 @@
+#
+# NSL style
+#
+Xfm.nsl.CxxClass.cFilePattern: Nsl.C
+Xfm.nsl.CxxClass.hFilePattern: Nsl.h
+Xfm.nsl.CxxClass.baseClassName: NslUIC
+Xfm.nsl.CxxClass.baseClassInclude: Fm.h
+#
+# Rogue Wave style
+#
+
+# classes using special pattern files
+
+Xfm.roguewave.ApplicationShell.cFilePattern: RWAppShell.C
+Xfm.roguewave.ApplicationShell.hFilePattern: RWAppShell.h
+Xfm.roguewave.ApplicationShell.baseClassName: RWApplicationShell
+Xfm.roguewave.ApplicationShell.baseClassInclude: AppShell.h
+
+Xfm.roguewave.OverrideShell.cFilePattern: RWOverrideShell.C
+Xfm.roguewave.OverrideShell.hFilePattern: RWOverrideShell.h
+Xfm.roguewave.OverrideShell.baseClassName: RWOverrideShell
+Xfm.roguewave.OverrideShell.baseClassInclude: OverShell.h
+
+Xfm.roguewave.TopLevelShell.cFilePattern: RWTopLevelShell.C
+Xfm.roguewave.TopLevelShell.hFilePattern: RWTopLevelShell.h
+Xfm.roguewave.TopLevelShell.baseClassName: RWTopLevelShell
+Xfm.roguewave.TopLevelShell.baseClassInclude: TopShell.h
+
+Xfm.roguewave.TransientShell.cFilePattern: RWOverrideShell.C	! same constructors as OverrideShell
+Xfm.roguewave.TransientShell.hFilePattern: RWOverrideShell.h	! same constructors as OverrideShell
+Xfm.roguewave.TransientShell.baseClassName: RWTransientShell
+Xfm.roguewave.TransientShell.baseClassInclude: TranShell.h
+
+Xfm.roguewave.XmDialogShell.cFilePattern: RWDialogShell.C
+Xfm.roguewave.XmDialogShell.hFilePattern: RWDialogShell.h
+Xfm.roguewave.XmDialogShell.baseClassName: RWDialogShell
+Xfm.roguewave.XmDialogShell.baseClassInclude: DialogS.h
+
+Xfm.roguewave.XmMenuShell.cFilePattern: RWDialogShell.C  ! same constructors as XmDialogShell
+Xfm.roguewave.XmMenuShell.hFilePattern: RWDialogShell.h	 ! same constructors as XmDialogShell
+Xfm.roguewave.XmMenuShell.baseClassName: RWMenuShell
+Xfm.roguewave.XmMenuShell.baseClassInclude: MenuShell.h
+
+# classes using the default pattern files
+
+Xfm.roguewave.CxxClass.cFilePattern: RWController.C
+Xfm.roguewave.CxxClass.hFilePattern: RWController.h
+
+Xfm.roguewave.XmArrowButton.baseClassName: RWArrowButton
+Xfm.roguewave.XmArrowButton.baseClassInclude: ArrowB.h
+
+Xfm.roguewave.XmBulletinBoard.baseClassName: RWBulletinBoard
+Xfm.roguewave.XmBulletinBoard.baseClassInclude: BulletinB.h
+
+Xfm.roguewave.XmCascadeButton.baseClassName: RWCascadeButton
+Xfm.roguewave.XmCascadeButton.baseClassInclude: CascadeB.h
+
+Xfm.roguewave.XmCommand.baseClassName: RWCommand
+Xfm.roguewave.XmCommand.baseClassInclude: Command.h
+
+Xfm.roguewave.XmDrawingArea.baseClassName: RWDrawingArea
+Xfm.roguewave.XmDrawingArea.baseClassInclude: DrawingA.h
+
+Xfm.roguewave.XmDrawnButton.baseClassName: RWDrawnButton
+Xfm.roguewave.XmDrawnButton.baseClassInclude: DrawnB.h
+
+Xfm.roguewave.XmFileSelectionBox.baseClassName: RWFileSelectionBox
+Xfm.roguewave.XmFileSelectionBox.baseClassInclude: FileSB.h
+
+Xfm.roguewave.XmForm.baseClassName: RWForm
+Xfm.roguewave.XmForm.baseClassInclude: Form.h
+
+Xfm.roguewave.XmFrame.baseClassName: RWFrame
+Xfm.roguewave.XmFrame.baseClassInclude: Frame.h
+
+Xfm.roguewave.XmLabel.baseClassName: RWLabel
+Xfm.roguewave.XmLabel.baseClassInclude: Label.h
+
+Xfm.roguewave.XmList.baseClassName: RWList
+Xfm.roguewave.XmList.baseClassInclude: List.h
+
+Xfm.roguewave.XmMainWindow.baseClassName: RWMainWindow
+Xfm.roguewave.XmMainWindow.baseClassInclude: MainW.h
+
+Xfm.roguewave.MenuBar.baseClassName: RWMenuBar
+Xfm.roguewave.MenuBar.baseClassInclude: RowColumn.h
+
+Xfm.roguewave.XmMessageBox.baseClassName: RWMessageBox
+Xfm.roguewave.XmMessageBox.baseClassInclude: MessageB.h
+
+Xfm.roguewave.OptionMenu.baseClassName: RWOptionMenu
+Xfm.roguewave.OptionMenu.baseClassInclude: RowColumn.h
+
+Xfm.roguewave.XmPanedWindow.baseClassName: RWPanedWindow
+Xfm.roguewave.XmPanedWindow.baseClassInclude: PanedW.h
+
+Xfm.roguewave.PopupMenu.baseClassName: RWPopupMenu
+Xfm.roguewave.PopupMenu.baseClassInclude: RowColumn.h
+
+Xfm.roguewave.PulldownMenu.baseClassName: RWPulldownMenu
+Xfm.roguewave.PulldownMenu.baseClassInclude: RowColumn.h
+
+Xfm.roguewave.XmPushButton.baseClassName: RWPushButton
+Xfm.roguewave.XmPushButton.baseClassInclude: PushB.h
+
+Xfm.roguewave.XmRowColumn.baseClassName: RWRowColumn
+Xfm.roguewave.XmRowColumn.baseClassInclude: RowColumn.h
+
+Xfm.roguewave.XmScale.baseClassName: RWScale
+Xfm.roguewave.XmScale.baseClassInclude: Scale.h
+
+Xfm.roguewave.XmScrollBar.baseClassName: RWScrollBar
+Xfm.roguewave.XmScrollBar.baseClassInclude: ScrollBar.h
+
+Xfm.roguewave.XmScrolledWindow.baseClassName: RWScrolledWindow
+Xfm.roguewave.XmScrolledWindow.baseClassInclude: ScrolledW.h
+
+Xfm.roguewave.XmSelectionBox.baseClassName: RWSelectionBox
+Xfm.roguewave.XmSelectionBox.baseClassInclude: SelectioB.h
+
+Xfm.roguewave.XmSeparator.baseClassName: RWSeparator
+Xfm.roguewave.XmSeparator.baseClassInclude: Separator.h
+
+Xfm.roguewave.XmText.baseClassName: RWText
+Xfm.roguewave.XmText.baseClassInclude: Text.h
+
+Xfm.roguewave.XmTextField.baseClassName: RWTextField
+Xfm.roguewave.XmTextField.baseClassInclude: TextF.h
+
+Xfm.roguewave.XmToggleButton.baseClassName: RWToggleButton
+Xfm.roguewave.XmToggleButton.baseClassInclude: ToggleB.h
+
+
+

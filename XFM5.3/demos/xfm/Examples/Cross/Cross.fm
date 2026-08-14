@@ -1,0 +1,33 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        saveUnder = FALSE
+        wmTimeout = 0
+        x = 181
+        y = 129
+        width = 530
+        height = 550
+        title = Cross
+    }
+    children {
+        widget XmDrawingArea {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 530
+                height = 550
+                exposeCallback = 
+	function None draw_cross(Widget,XEvent);
+	draw_cross(self,XEvent(@1));
+                resizeCallback = 
+	function None draw_cross(Widget,XEvent);
+	draw_cross(self,XEvent(0));
+            }
+        } WorkSpace1
+    }
+} ApplicationShell25

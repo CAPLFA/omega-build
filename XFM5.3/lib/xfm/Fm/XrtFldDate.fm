@@ -1,0 +1,607 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    createproc {
+        remote String @_XrtFldDate;\
+remote None _XnslAttachRemoteXrtFldAvs;\
+remote None _XnslSetXrtFldDate;\
+remote String _XnslGetXrtFldDate;\
+remote String @_XrtFldDateCurrentDate;\
+remote Int @_XrtFldDateType;\
+remote Int @_XrtFldDateYears;\
+remote Int @_XrtFldDateMonthType;\
+remote Int @_XrtFldDateNumMonth;\
+remote String @_XrtFldDateMonth;\
+remote Int @_XrtFldDateDay;\
+remote Int @_XrtFldDateHours;\
+remote Int @_XrtFldDateMinute;\
+remote Int @_XrtFldDateSecond;
+    }
+    resources {
+        x = 1060
+        y = 0
+        width = 220
+        height = 229
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+            }
+            activevalue {
+                name = _XrtFldDate
+                set = function None _XnslSetXrtFldDate(String str);\
+_XnslSetXrtFldDate(String($));
+                usage = face
+            }
+            createproc {
+                function None _XnslAttachXrtFldAvs();\
+function None _XnslAttachRemoteXrtFldAvs();\
+_XnslAttachXrtFldAvs();\
+_XnslAttachRemoteXrtFldAvs();
+            }
+            resources {
+                x = 0
+                y = 0
+                dialogStyle = dialog_full_application_modal
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = _XrtFldDateType
+                        get = if(Boolean(self.Today:set) || Boolean(self.Now:set)) @=0;
+                        usage = face
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 119
+                        height = 31
+                        radioBehavior = true
+                        radioAlwaysOne = false
+                        orientation = horizontal
+                    }
+                    children {
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                            }
+                            activevalue {
+                                name = _XrtFldDateCurrentDate
+                                get = if(Boolean(self:set)) \
+_FmSysAvSetString ("_XrtFldDateCurrentDate",String(self:userData));
+                                set = String str = @;\
+XmToggleButtonSetState(self,(strcmp(str,String(self:userData)) == 0),true);
+                                usage = face
+                            }
+                            createproc {
+                                SetValues (self,1,userData,"TODAY");
+                            }
+                            resources {
+                                x = 3
+                                y = 3
+                                width = 55
+                                height = 25
+                                valueChangedCallback = if(Boolean(self:set)) {\
+XmToggleButtonSetState(parent.parent.xmFrame0.Date,false,true);\
+XmToggleButtonSetState(parent.parent.xmFrame0_2.Time,false,true);\
+}
+                                set = unset
+                            }
+                        } Today
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                            }
+                            activevalue {
+                                name = _XrtFldDateCurrentDate
+                                get = if(Boolean(self:set)) \
+_FmSysAvSetString ("_XrtFldDateCurrentDate",String(self:userData));
+                                set = String str = @;\
+XmToggleButtonSetState(self,(strcmp(str,String(self:userData)) == 0),true);
+                                usage = face
+                            }
+                            createproc {
+                                SetValues (self,1,userData,"NOW");
+                            }
+                            resources {
+                                x = 61
+                                y = 3
+                                width = 55
+                                height = 25
+                                valueChangedCallback = if(Boolean(self:set)) {\
+XmToggleButtonSetState(parent.parent.xmFrame0.Date,false,true);\
+XmToggleButtonSetState(parent.parent.xmFrame0_2.Time,false,true);\
+}
+                                set = unset
+                            }
+                        } Now
+                    }
+                } xmRowColumn0
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 0
+                        y = 31
+                        topAttachment = attach_widget
+                        bottomAttachment = attach_none
+                        topWidget = parent.xmRowColumn0
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 2
+                                y = 25
+                                childType = frame_workarea_child
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    activevalue {
+                                        name = _XrtFldDateType
+                                        get = if(Boolean(self:set)) @=Int(self:userData);
+                                        set = Int a = @;\
+Boolean b = (a == Int(self:userData));\
+XmToggleButtonSetState(self,b , true);
+                                        usage = face
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,3);
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        labelString = Years Only
+                                        valueChangedCallback = \ XtSetSensitive(parent.xmSpinBox0.month,(!Boolean(self:set)));	\
+ XtSetSensitive(parent.xmSpinBox0.day,(!Boolean(self:set)));
+                                        set = unset
+                                    }
+                                } YearsOnly
+                                widget XmSpinBox {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 25
+                                        rightAttachment = attach_form
+                                        bottomAttachment = attach_form
+                                        topAttachment = attach_widget
+                                        topWidget = YearsOnly
+                                        leftAttachment = attach_form
+                                    }
+                                    children {
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateYears
+                                                get = @ = atoi(self:value);
+                                                set = self:value = itoa(@);\
+self:position = PositionValue(@);
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 2
+                                                y = 2
+                                                width = 58
+                                                height = 32
+                                                spinBoxChildType = numeric
+                                                maximumValue = 9999
+                                                columns = 4
+                                                minimumValue = 0
+                                                positionType = position_value
+                                            }
+                                        } year
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 60
+                                                y = 9
+                                                labelString = -
+                                            }
+                                        } xmLabel0
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateNumMonth
+                                                get = if(Boolean(self.popup_popupMenu0.popupMenu0.NumericFormat:set)){\
+@ = atoi(self:value);\
+}
+                                                set = if(Boolean(self.popup_popupMenu0.popupMenu0.NumericFormat:set)){\
+self:value = itoa(@);\
+self:position = PositionValue(@);\
+}
+                                                usage = face
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateMonth
+                                                get = if(Boolean(self.popup_popupMenu0.popupMenu0.AbbreviatedName:set)){\
+@ = self:value ;\
+}
+                                                set = if(Boolean(self.popup_popupMenu0.popupMenu0.AbbreviatedName:set)){\
+self:value = @;\
+}
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 70
+                                                y = 2
+                                                width = 58
+                                                height = 32
+                                                translations = #override
+	<Btn3Down>:	eval("popup=NameToWidget(self, '*popupMenu0');if(popup){MenuPosition(popup, $);ManageChild(popup);}")
+                                                spinBoxChildType = numeric
+                                                values = \ ,Jan,Feb,Mar,Apr,Mai,Jun,Jul,Aug,Sep,Oct,Nov,Dec
+                                                numValues = 12
+                                                maximumValue = 12
+                                                minimumValue = 1
+                                                columns = 3
+                                                positionType = position_value
+                                            }
+                                            children {
+                                                widget XmRowColumn {
+                                                    flag {
+                                                        mapped
+                                                        menu_popup
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 0
+                                                        width = 121
+                                                        height = 46
+                                                        radioBehavior = true
+                                                    }
+                                                    children {
+                                                        widget XmToggleButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            activevalue {
+                                                                name = _XrtFldDateMonthType
+                                                                get = if(Boolean(self:set)) @ = Int(self:userData);
+                                                                set = XmToggleButtonSetState(self,(@ == Int(self:userData)), true);
+                                                                usage = face
+                                                            }
+                                                            createproc {
+                                                                SetValues (self,1,userData,1);
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 2
+                                                                width = 117
+                                                                height = 21
+                                                                labelString = Numeric Format
+                                                                indicatorOn = indicator_check
+                                                                indicatorType = n_of_many
+                                                                set = set
+                                                                valueChangedCallback = if(Boolean(self:set)) parent.parent:spinBoxChildType = "numeric";
+                                                            }
+                                                        } NumericFormat
+                                                        widget XmToggleButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            activevalue {
+                                                                name = _XrtFldDateMonthType
+                                                                get = if(Boolean(self:set)) @ = Int(self:userData);
+                                                                set = XmToggleButtonSetState(self,(@ ==Int( self:userData)), true);
+                                                                usage = face
+                                                            }
+                                                            createproc {
+                                                                SetValues (self,1,userData,2);
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 23
+                                                                width = 117
+                                                                height = 21
+                                                                labelString = abbreviated Name
+                                                                indicatorOn = indicator_check
+                                                                indicatorType = n_of_many
+                                                                valueChangedCallback = if(Boolean(self:set)) parent.parent:spinBoxChildType = "string";
+                                                            }
+                                                        } AbbreviatedName
+                                                    }
+                                                } popupMenu0
+                                            }
+                                        } month
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 128
+                                                y = 9
+                                                labelString = -
+                                            }
+                                        } xmLabel0_2
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateDay
+                                                get = @ = atoi(self:value);
+                                                set = self:value = itoa(@);\
+self:position=PositionValue(@);
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 138
+                                                y = 3
+                                                width = 60
+                                                height = 30
+                                                minimumValue = 1
+                                                maximumValue = 31
+                                                spinBoxChildType = numeric
+                                                columns = 2
+                                                positionType = position_value
+                                            }
+                                        } day
+                                    }
+                                } xmSpinBox0
+                            }
+                        } xmForm0
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                            }
+                            activevalue {
+                                name = _XrtFldDateType
+                                get = Int a;\
+if(Boolean(self:set)) a=Int(self:userData);\
+if(Boolean(parent.xmForm0.YearsOnly:set)) a=Int(parent.xmForm0.YearsOnly:userData);\
+if(Boolean(parent.parent.xmFrame0_2.Time:set)) a=a+Int(parent.parent.xmFrame0_2.Time:userData);\
+if(Boolean(self:set)) @=a;
+                                set = Int a = @;\
+Boolean b = (a == Int(self:userData));\
+Boolean c = (a == (Int(self:userData) + 1));\
+Boolean d = (a == (Int(self:userData) + 4));\
+XmToggleButtonSetState(self,( b || c || d), true);
+                                usage = face
+                            }
+                            createproc {
+                                SetValues (self,1,userData,2);
+                            }
+                            resources {
+                                x = 2
+                                y = 0
+                                width = 49
+                                height = 25
+                                childType = frame_title_child
+                                childHorizontalSpacing = 0
+                                valueChangedCallback = XtSetSensitive(parent.xmForm0.xmSpinBox0,Boolean(self:set));\
+XtSetSensitive(parent.xmForm0.YearsOnly,Boolean(self:set));\
+\
+if(Boolean(self:set)){\
+ parent.parent.xmRowColumn0.Today:set = unset;\
+ parent.parent.xmRowColumn0.Now:set = unset;\
+}
+                                set = set
+                            }
+                        } Date
+                    }
+                } xmFrame0
+                widget XmMessageBox {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        cancel = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);
+	if (cancel)
+		XtUnmanageChild(cancel);
+                    }
+                    resources {
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                        marginHeight = 0
+                        marginWidth = 0
+                        helpLabelString = %MSG%1% Cancel
+                        okLabelString = %MSG%1% OK
+                        helpCallback = global resource_returning;
+	resource_returning = True;
+	hide (parent);
+	Return (self,String (0));
+                        okCallback = function String _XnslGetXrtFldDate();\
+global resource_returning;
+	resource_returning = True;
+	hide (parent);
+	Return (self,_XnslGetXrtFldDate());
+                    }
+                } styleBtn
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 0
+                        y = 119
+                        topAttachment = attach_widget
+                        topWidget = parent.xmFrame0
+                        leftAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = styleBtn
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                            }
+                            resources {
+                                x = 2
+                                y = 25
+                            }
+                            children {
+                                widget XmSpinBox {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 6
+                                        y = 0
+                                        rightAttachment = attach_form
+                                        bottomAttachment = attach_form
+                                        sensitive = false
+                                    }
+                                    children {
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateHours
+                                                get = @ = atoi(self:value);
+                                                set = self:value = itoa(@);\
+self:position = PositionValue(@);
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 2
+                                                y = 1
+                                                width = 52
+                                                height = 34
+                                                maximumValue = 23
+                                                spinBoxChildType = numeric
+                                                columns = 2
+                                            }
+                                        } hour
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 54
+                                                y = 9
+                                                labelString = :
+                                            }
+                                        } xmLabel2
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateMinute
+                                                get = @ = atoi(self:value);
+                                                set = self:value=itoa(@);\
+self:position=PositionValue(@);
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 64
+                                                y = 2
+                                                width = 58
+                                                height = 32
+                                                spinBoxChildType = numeric
+                                                maximumValue = 59
+                                                columns = 2
+                                            }
+                                        } minute
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 122
+                                                y = 9
+                                                labelString = :
+                                            }
+                                        } xmLabel2_2
+                                        widget XmTextField {
+                                            flag {
+                                                mapped
+                                            }
+                                            activevalue {
+                                                name = _XrtFldDateSecond
+                                                get = @ = atoi(self:value);
+                                                set = self:value = itoa(@);\
+self:position = PositionValue(@);
+                                                usage = face
+                                            }
+                                            resources {
+                                                x = 132
+                                                y = 3
+                                                width = 60
+                                                height = 30
+                                                maximumValue = 59
+                                                spinBoxChildType = numeric
+                                                columns = 2
+                                            }
+                                        } second
+                                    }
+                                } xmSpinBox1
+                            }
+                        } xmForm1
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                            }
+                            activevalue {
+                                name = _XrtFldDateType
+                                get = Int a;\
+if(Boolean(self:set)) a=Int(self:userData);\
+if(Boolean(parent.parent.xmFrame0.Date:set)) a=a+Int(parent.parent.xmFrame0.Date:userData);\
+if(Boolean(self:set)) @=a;
+                                set = Int a = @;\
+Boolean b = (a == Int(self:userData));\
+Boolean c = (a == Int(self:userData) + 2);\
+XmToggleButtonSetState(self,( b || c ), true);
+                                usage = face
+                            }
+                            createproc {
+                                SetValues (self,1,userData,4);
+                            }
+                            resources {
+                                x = 2
+                                y = 0
+                                width = 49
+                                height = 25
+                                childType = frame_title_child
+                                childHorizontalSpacing = 0
+                                valueChangedCallback = XtSetSensitive(parent.xmForm1.xmSpinBox1,Boolean(self:set));\
+if(Boolean(self:set)){\
+ parent.parent.xmRowColumn0.Today:set = unset;\
+ parent.parent.xmRowColumn0.Now:set = unset;\
+}
+                            }
+                        } Time
+                    }
+                } xmFrame0_2
+            }
+        } FldDate
+    }
+} XrtFldDate

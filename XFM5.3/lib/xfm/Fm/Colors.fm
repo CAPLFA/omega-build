@@ -1,0 +1,630 @@
+widget XmForm {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = Pixel
+        set = self*colorText:value = $;
+	rgb = self*rgbForm;
+	Hide(rgb);
+	rgb:userData = Pointer(0);
+	sw = self*ColorScrolledWindow;
+	rc = self*ColorRowColumn;
+	new = self*New;
+	da = sw.ColorDrawingArea;
+	FmSelectColor(da, $);
+	class = ListColors(da, da:colormap);
+	if(class == 0){
+		Show(rc);
+		Hide(sw);
+		XtSetSensitive(new, False);
+		rc.White:set = Set(false);
+		rc.Black:set = Set(false);
+		if(equal($, "black")){
+			rc.Black:set = Set(true);
+		} else if(equal($, "white")){
+			rc.White:set = Set(true);
+		}
+	} else {
+		Show(sw);
+		if(class == 2)
+			XtSetSensitive(new, True);
+		else
+			XtSetSensitive(new, False);
+		Hide(rc);
+		/* FIX for HP 900 / HP-UX 9.0:
+		 * the clip window has an initial size of 65534x65534,
+		 * so ResizeColors tries to set the size of the drawing
+		 * area to something bad.
+		 *
+		 * ResizeColors(da);
+		 */
+	}
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = if (XtIsManaged(self.colorForm.ColorRowColumn)) {
+	w = self.colorForm.ColorRowColumn;
+	local Boolean already;
+	if (!already) {
+		w:leftOffset = -(w:width / 2);
+		w:topOffset = -(w:height / 2);
+		already = True;
+	}\
+} else {
+	w = self.colorForm.colorText;\
+	new = self.colorForm.New;
+	new:labelString = Internationalize("%MSG%150%911 RGB ...");
+	new:userData = Pointer(0);\
+}\
+XmProcessTraversal (w,XmTRAVERSE_CURRENT);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get =
+	String color;
+	value = self*colorText:value;
+	if(equal(value, ""))
+		color = "";
+	else
+		color = CheckColorName(value);
+	color = NewString(color);
+	free(value);
+	if(self*rgbForm:userData){
+		save = Alert(True, "dialog_question",
+			Internationalize("%MSG%150%912 You have defined new colors:\nwould you like to save them in a file ?\n"));
+		if(save)
+			SaveRGBFile(String(0));
+		self*rgbForm:userData = Pointer(0);
+	}
+	strcpy ($,color);
+	free (color);
+    }
+    resources {
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 313
+                height = 289
+                verticalSpacing = 10
+                horizontalSpacing = 10
+                topAttachment = attach_form
+                bottomAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        width = 60
+                        marginHeight = 1
+                        marginWidth = 3
+                        labelString =  RGB ...
+                        bottomAttachment = attach_form
+                        activateCallback = 
+			if(!self:userData){
+				self:userData = Pointer(1);
+				name = parent.colorText:value;
+				strcpy($RGBColorAV, name);
+				free(name);
+				FmSetActiveValue(parent.rgbForm, "RGBColorAV");
+				Hide(parent.ColorScrolledWindow);
+				Show(parent.rgbForm);
+				self:labelString = Palette;
+			} else {
+				self:userData = Pointer(0);
+				value = parent.colorText:value;
+				if(equal(value, "")){
+					parent.rgbForm:userData = Pointer(0);
+					parent*colorText:value = "";
+					free(value);
+				} else {
+					name = AddColor(
+						value,
+						parent.rgbForm.red_scale:value,
+						parent.rgbForm.green_scale:value,
+						parent.rgbForm.blue_scale:value);
+					name = NewString(name);
+					free(value);
+					parent*colorText:value = name;
+					FmSelectColor(parent*ColorDrawingArea, name);
+					free(name);
+				}
+				FreeColor();
+				Hide(parent.rgbForm);
+				Show(parent.ColorScrolledWindow);
+				self:labelString = RGB;
+			}
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_form
+                        recomputeSize = false
+                    }
+                } New
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        blinkRate = 0
+                        marginHeight = 1
+                        marginWidth = 1
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_widget
+                        rightWidget = New
+                        leftAttachment = attach_form
+                    }
+                } colorText
+                widget XmScrolledWindow {
+                    flag {
+                    }
+                    resources {
+                        x = 10
+                        y = 38
+                        width = 291
+                        height = 143
+                        borderWidth = 1
+                        translations = #override \
+<ConfigureNotify>:	eval("ResizeColors(self.ColorDrawingArea);\n") \
+<MapNotify>:		eval("ResizeColors(self.ColorDrawingArea);\n")
+                        topAttachment = attach_form
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        scrollingPolicy = automatic
+                        bottomWidget = parent.colorText
+                    }
+                    children {
+                        widget XmDrawingArea {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                width = 258
+                                height = 110
+                                borderWidth = 1
+                                backgroundPixmap = dimple3
+                                translations = #override \
+<ButtonPress>: eval("script _fm_color_move: color = GetColorName(self, $); \n FmSelectColor(self, color); \n if(color){\n parent.parent.colorText:value = color;} \n ") \
+<Expose>:		eval("DrawColors(self, $);\n") \
+
+                            }
+                        } ColorDrawingArea
+                    }
+                } ColorScrolledWindow
+                widget XmRowColumn {
+                    flag {
+                        autopos
+                        autosize
+                    }
+                    resources {
+                        borderWidth = 1
+                        radioBehavior = true
+                        packing = pack_column
+                        numColumns = 2
+                        marginWidth = 40
+                        marginHeight = 40
+                        spacing = 20
+                        topAttachment = attach_position
+                        topPosition = 50
+                        leftAttachment = attach_position
+                        leftPosition = 50
+                    }
+                    children {
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                                autosize
+                                gadget
+                            }
+                            resources {
+                                x = 47
+                                y = 50
+                                labelString = %MSG%150%916 Black
+                                valueChangedCallback = 
+	if(Boolean(self:set)){
+		w = parent.parent.colorText;
+		w:value = "black";
+	}
+                            }
+                        } Black
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                                autosize
+                                gadget
+                            }
+                            resources {
+                                x = 122
+                                y = 50
+                                labelString = %MSG%150%917 White
+                                valueChangedCallback = 
+	if(Boolean(self:set)){
+		w = parent.parent.colorText;
+		w:value = "white";
+	}
+                            }
+                        } White
+                    }
+                } ColorRowColumn
+        widget XmForm {
+            flag {
+            }
+    activevalue {
+        name = RGBColorAV
+        set = 
+		red 	= GetRGB("r", $);
+		green 	= GetRGB("g", $);
+		blue 	= GetRGB("b", $);
+		
+		red_scale:value 	= red;
+		green_scale:value 	= green;
+		blue_scale:value 	= blue;
+		
+		h = RGBToHSV(red, green, blue, "h");
+		s = RGBToHSV(red, green, blue, "s");
+		v = RGBToHSV(red, green, blue, "v");
+		if(h < 0) h = 0;
+		
+		hue_scale:value = h;
+		saturation_scale:value = s;
+		value_scale:value = v;
+		
+		hexa = "#0000000000";
+		sprintf(hexa, "#%02x%02x%02x", red, green, blue);
+		parent.colorText:value = hexa;
+		
+		pixel = StoreColor(parent:colormap, red, green, blue);
+		if(pixel > 0){
+			example:background = pixel;
+		}
+    }
+            resources {
+                x = 0
+                y = 0
+                width = 275
+                height = 536
+                horizontalSpacing = 10
+                verticalSpacing = 5
+                topAttachment = attach_form
+                rightAttachment = attach_form
+                leftAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomWidget = parent.colorText
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        labelString = R: 000
+                        recomputeSize = false
+                        alignment = alignment_beginning
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                    }
+                } red_label
+                widget XmScale {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        leftAttachment = attach_widget
+                        leftWidget = red_label
+                        rightAttachment = attach_form
+                        topAttachment = attach_form
+                        valueChangedCallback = 
+	script _fm_rgb_scale_moved:
+	
+	parent:userData = Pointer(1);
+	
+	String ls = "R: 000";
+	String color;
+	if(self == parent.red_scale)
+		color = "R:";
+	else
+	if(self == parent.green_scale)
+		color = "G:";
+	else
+	if(self == parent.blue_scale)
+		color = "B:";
+	sprintf(ls, "%s %03d", color, self:value);
+	Widget label = self:leftWidget;
+	label:labelString = ls;
+	
+	red = parent.red_scale:value;
+	green = parent.green_scale:value;
+	blue = parent.blue_scale:value;
+	
+	h = RGBToHSV(red, green, blue, "h");
+	s = RGBToHSV(red, green, blue, "s");
+	v = RGBToHSV(red, green, blue, "v");
+	if(h < 0) h = 0;
+	parent.hue_scale:value = h;
+	parent.saturation_scale:value = s;
+	parent.value_scale:value = v;
+	
+	hexa = "#0000000000";
+	sprintf(hexa, "#%02x%02x%02x", red, green, blue);
+	parent.parent.colorText:value = hexa;
+	
+	pixel = StoreColor(parent:colormap, red, green, blue);
+	if(pixel > 0){
+		parent.example:background = pixel;
+	}
+                        dragCallback = 
+	script _fm_rgb_scale_moved;
+                        maximum = 255
+                    }
+                } red_scale
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        labelString = G: 000
+                        recomputeSize = false
+                        alignment = alignment_beginning
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = red_scale
+                    }
+                } green_label
+                widget XmScale {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        leftAttachment = attach_widget
+                        leftWidget = green_label
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        valueChangedCallback = 
+	script _fm_rgb_scale_moved;
+                        dragCallback = 
+	script _fm_rgb_scale_moved;
+                        maximum = 255
+                        topWidget = parent.red_scale
+                    }
+                } green_scale
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        labelString = B: 000
+                        recomputeSize = false
+                        alignment = alignment_beginning
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = green_scale
+                    }
+                } blue_label
+                widget XmScale {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        leftAttachment = attach_widget
+                        leftWidget = blue_label
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        valueChangedCallback = 
+	script _fm_rgb_scale_moved;
+                        dragCallback = 
+	script _fm_rgb_scale_moved;
+                        maximum = 255
+                        topWidget = parent.green_scale
+                    }
+                } blue_scale
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        gadget
+                    }
+                    resources {
+                        x = 10
+                        y = 170
+                        width = 261
+                        height = 10
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = parent.blue_scale
+                    }
+                } sep2
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        labelString = H: 000
+                        recomputeSize = false
+                        alignment = alignment_beginning
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = sep2
+                    }
+                } hue_label
+                widget XmScale {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        leftAttachment = attach_widget
+                        leftWidget = hue_label
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        maximum = 360
+                        topWidget = parent.sep2
+                        valueChangedCallback = 
+	script _fm_hsv_scale_moved:
+	
+	parent:userData = Pointer(1);
+	
+	String ls = "H: 000";
+	String color;
+	if(self == parent.hue_scale)
+		color = "H:";
+	else
+	if(self == parent.saturation_scale)
+		color = "S:";
+	else
+	if(self == parent.value_scale)
+		color = "V:";
+	sprintf(ls, "%s %03d", color, self:value);
+	Widget label = self:leftWidget;
+	label:labelString = ls;
+	
+	h = parent.hue_scale:value;
+	s = parent.saturation_scale:value;
+	v = parent.value_scale:value;
+	
+	red = HSVToRGB(h, s, v, "r");
+	green = HSVToRGB(h, s, v, "g");
+	blue = HSVToRGB(h, s, v, "b");
+	
+	parent.red_scale:value = red;
+	parent.green_scale:value = green;
+	parent.blue_scale:value = blue;
+	
+	hexa = "#0000000000";
+	sprintf(hexa, "#%02x%02x%02x", red, green, blue);
+	parent.parent.colorText:value = hexa;
+	
+	pixel = StoreColor(parent:colormap, red, green, blue);
+	if(pixel > 0){
+		parent.example:background = pixel;
+	}
+                        dragCallback = 
+	script _fm_hsv_scale_moved;
+                    }
+                } hue_scale
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        labelString = S: 000
+                        recomputeSize = false
+                        alignment = alignment_beginning
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = hue_scale
+                    }
+                } saturation_label
+                widget XmScale {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        leftAttachment = attach_widget
+                        leftWidget = saturation_label
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        maximum = 100
+                        decimalPoints = 2
+                        topWidget = parent.hue_scale
+                        valueChangedCallback = 
+	script _fm_hsv_scale_moved;
+                        dragCallback = 
+	script _fm_hsv_scale_moved;
+                    }
+                } saturation_scale
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        labelString = V: 000
+                        recomputeSize = false
+                        alignment = alignment_beginning
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = saturation_scale
+                    }
+                } value_label
+                widget XmScale {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        leftAttachment = attach_widget
+                        leftWidget = value_label
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        maximum = 100
+                        decimalPoints = 2
+                        topWidget = parent.saturation_scale
+                        valueChangedCallback = 
+	script _fm_hsv_scale_moved;
+                        dragCallback = 
+	script _fm_hsv_scale_moved;
+                    }
+                } value_scale
+                widget XmBulletinBoard {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = parent.value_scale
+                        bottomAttachment = attach_form
+                        shadowThickness = 4
+                    }
+                } example
+            }
+        } rgbForm
+            }
+        } colorForm
+    }
+} colorBox

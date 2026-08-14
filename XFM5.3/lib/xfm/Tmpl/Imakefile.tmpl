@@ -1,0 +1,19 @@
+
+#include "Xfm2.tmpl"
+
+applis::fmapplis capplis
+
+fmapplis::+LNAME+
+
+capplis::c+LNAME+
+
+NamedFmCFile(+UNAME+,+UNAME+_fm,/**/)
+
+FmCAppliObj(+UNAME+)
+
+ToolkitProgramTarget(+LNAME+,+UNAME+.o +UNAME+_usr.o,$(FMLIB))
+ToolkitProgramTarget(c+LNAME+,c+UNAME+.o +UNAME+_fm.o +UNAME+_usr.o,$(CFMLIB))
+
+clean::
+    $(RM) +LNAME+ c+LNAME+ +UNAME+_fm.c *.o
+

@@ -1,0 +1,182 @@
+widget XmForm {
+    flag {
+        mapped
+    }
+    createproc {
+        remote Int _FmGetStructFieldCount;
+	remote String _FmGetStructFieldName;
+	remote String _FmGetStructFieldType;
+	remote String _FmGetStructFieldValue;
+    }
+    activevalue {
+        name = _FmStruct
+        set = 
+		global String resource_name;
+		String struct_name = _FmGetStructName(toplevel, resource_name);
+		Int num_fields = _FmGetStructFieldCount(struct_name);
+		Widget rc = self*rc;
+		Int num_children = rc:numChildren;
+		if(num_children < num_fields){
+			for(i = num_children; i < num_fields; i = i+1)
+				CreateGroupInstance(rc, "StructField", "Fm/StructField.fm", "");
+		}
+		num_children = rc:numChildren;
+		Widget children[Int] = new_c_array(Pointer(rc:children), num_children);
+		for(i = 0; i < num_fields; i = i+1){
+			Widget w = children[i];
+			String field_name = XtNewString(_FmGetStructFieldName(struct_name, i));
+			String field_type = XtNewString(_FmGetStructFieldType(struct_name, field_name));
+			String field_value = _FmGetStructFieldValue(struct_name, field_name, @);
+			if(field_value){
+				field_value = XtNewString(field_value);
+			} else {
+				s = _FmGetNamedWindowResource(toplevel, resource_name, 0);
+				if(s){
+					field_value = _FmGetStructFieldStringValue(s, field_name);
+				}
+			}
+			w:@_FmFieldName = field_name;
+			w:@_FmFieldType = field_type;
+			w:@_FmFieldValue = field_value;
+			XtFree(field_name);
+			XtFree(field_value);
+			XtManageChild(w);
+		}
+		for(i = num_fields; i < num_children; i = i+1){
+			Widget w = children[i];
+			XtUnmanageChild(w);
+		}
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = 
+		Widget rc = self*rc;
+		Int num_children = rc:numChildren;
+		Widget children[Int] = new_c_array(Pointer(rc:children), num_children);
+		strcpy($, "");
+		for(i = 0; i < num_children; i = i+1){
+			Widget w = children[i];
+			if(XtIsManaged(w)){
+				String field_name = w:@_FmFieldName;
+				String field_value = w:@_FmFieldValue;
+				if(field_value){
+					if(i > 0)
+						strcat($, " ");
+					strcat($, field_name);
+					strcat($, "=```");
+					strcat($, field_value);
+					strcat($, "'''");
+				}
+				XtFree(field_name);
+				XtFree(field_value);
+			}
+		}
+    }
+    activevalue {
+        name = _FmResourceEditUnmanage
+        set = function void _FmHideStructField (Widget top) {
+	w = Widget (top:@_FmStructFieldEditor);
+	if (w != 0) {
+		if (XtIsManaged (w)) {
+			hide (w);
+			show (top.scroll);
+			hide (top.add);
+			hide (top.ignore);
+			form = XtParent (top);
+			XtSetSensitive (form.ok,True);
+			XtSetSensitive (form.apply,True);
+			XtSetSensitive (form.applyset,True);
+			XtSetSensitive (form.set,True);
+			XtSetSensitive (form.reset,True);
+		}
+	}\
+}\
+_FmHideStructField (self);
+    }
+    activevalue {
+        name = _FmStructFieldEditor
+        type = Widget
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = _FmStructFieldText
+        type = Widget
+        storage = object
+        automatic = true
+    }
+    children {
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+            }
+            resources {
+                labelString = %MSG%150% OK
+                marginHeight = 1
+                marginWidth = 3
+                bottomAttachment = attach_form
+                leftAttachment = attach_form
+                activateCallback = function None _FmGetStructField () {
+	if (XtIsManaged (parent.ignore)) {
+		_FmHideStructField (parent);
+		FmGetActiveValue (parent:@_FmStructFieldEditor,"_FmResourceReturnValue");
+		Widget text = parent:@_FmStructFieldText;
+		text:value = $_FmResourceReturnValue;
+	}\
+};\
+_FmGetStructField();\
+_FmResourceWindowSetModified (toplevel);
+            }
+        } add
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+            }
+            resources {
+                labelString = %MSG%150%956 Cancel
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_opposite_widget
+                topWidget = add
+                rightAttachment = attach_form
+                activateCallback = _FmHideStructField (parent);
+            }
+        } ignore
+widget XmScrolledWindow {
+    flag {
+        mapped
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 374
+        height = 370
+        topAttachment = attach_form
+        bottomAttachment = attach_form
+        bottomOffset = 3
+        leftAttachment = attach_form
+        rightAttachment = attach_form
+        scrollingPolicy = automatic
+        translations = #override\
+<ConfigureNotify> : eval("Widget w= self:clipWindow;\nrc:width = w:width;\n")
+
+    }
+    children {
+        widget XmRowColumn {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 370
+                height = 16
+                resizeWidth = false
+            }
+        } rc
+    }
+        } scroll
+    }
+} Struct

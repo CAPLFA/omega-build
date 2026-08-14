@@ -1,0 +1,58 @@
+widget XmForm {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = Widget
+        set = self.widgetname:value = $;
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = XmProcessTraversal (self.widgetname,XmTRAVERSE_CURRENT);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = s = self.widgetname:value;\
+strcpy ($,s);\
+free (s);
+    }
+    children {
+        widget XmPushButton {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                marginHeight = 1
+                marginWidth = 3
+                labelString = %MSG%150%993 Select
+                topAttachment = attach_form
+                leftAttachment = attach_none
+                rightAttachment = attach_form
+                activateCallback = name = _FmGetWidgetName();\
+if (name != 0 && strlen (name) > 0) {
+	parent.widgetname:value = name;\
+}
+            }
+        } select
+        widget XmTextField {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_widget
+                rightOffset = 5
+                rightWidget = select
+            }
+        } widgetname
+    }
+} Widget

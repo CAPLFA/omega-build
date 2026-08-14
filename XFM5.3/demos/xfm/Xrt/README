@@ -1,0 +1,95 @@
+The interface files in this directory illustrate how the XRT/graph and
+XRT/3d widgets can be used with XFaceMaker.
+
+To use these demos, you must have the XRT widgets installed and a valid
+XRT license file. Your XRTHOME environment variable must be properly set.
+If you do not already have an extended XFaceMaker executable that includes
+the XRT/Graph and XRT/3d extensions, you will have to build one, in order
+to be able to load the interface files.
+
+Do not forget to set your XRTHOME environment variable before you build 
+your extended XFaceMaker. If you do not have access to both the graph
+and 3d widgets, build your XFaceMaker with the extension corresponding
+to the widget you have access to. 
+
+Once you have built your extended XFaceMaker, add the path to reach it
+to your PATH environment variable, and cd to this directory.
+
+These demos will work correctly only if the current directory for XFaceMaker
+is the directory where the files reside, because the data files are
+assumed to be local.
+
+XRT/3d demo
+
+Load the xrt3d.fm file into XFaceMaker. To interact with the display,
+switch to TRY mode, and use mouse button 2 to rotate the viewing cube.
+You can have a look at the resource settings, you can generate the
+application files and build the application, if you want to verify that
+the Makefile generated is correct and that all the libraries are
+accessible.
+
+XRT/graph demo
+
+The interface lets the user change the value of a point on the graph by
+dragging it, attach a text message to a point, add points to the graph,
+and output the graph as either a data file or a PostScript file.
+
+Load the xrtgraph.fm file into XFaceMaker.
+
+
+--> To drag points on the graph, use mouse button 1 (the Select button).
+The interface sets the XmNtranslations resource of the XRT/graph widget
+to process events on this button. Note that if the type of data in the 
+graph is XRT_DATA_ARRAY, the x-value of a point cannot change independently 
+for a  given set of data (a line on the graph), but changes for all sets 
+of data at the same time.
+You might want to look at the translation scripts for <Btn1Down>, 
+<Btn1Motion> and <Btn1Up> to see how point motion is implemented.
+
+--> To attach text to a point, use mouse button 3 (the Custom button).
+If you press the Custom mouse button over a point in the graph, the 
+interface attaches a small text item to the point under the cursor. 
+If you press the Custom mouse button anywhere else in the graph, the 
+widget removes any previously attached text.
+You might want to look at the translation script for <Btn3Down> text
+attachment is implemented.
+
+--> To add points to the graph, you will use the Add button.
+The procedure depends on the type of data being displayed.
+If the type returned by the function XrtGetDataType is 
+XRT_DATA_ARRAY (the type initially loaded), here is how to enter a 
+data point:
+	Specify, in the 'x' input field, the x value of the points 
+	you want to add. In the 'y' input field, specify the new y value.
+	All the curves will have the same value for the point added, since 
+	this simple interface has only one entry field for all the y
+	values (it was developed with data type XRT_DATA_GENERAL in mind).
+	Click Add.
+
+If the data type is XRT_DATA_GENERAL here is how to specify a data
+point (to have access to this type of data, you have to create a
+new empty array with the New General button - see below):
+	Enter the set number in the 'set' input field (set number values are
+vary from 0 to nset-1).
+	Enter the x value in the 'x' input field.
+	Enter the y value in the 'y' input field.
+	Click the Add button.
+
+--> To clear the graph, create a new set of data with no points, by 
+clicking the New Array or New General button. 
+The New Array button creates empty data of type XRT_DATA_ARRAY.
+Specify the number of sets in the data in the 'set' input field before
+you click on the New Array button, or the number of sets will be 1.
+
+The New General button creates empty data of type XRT_DATA_GENERAL.
+Specify the number of setts in the data in the 'set' input field before
+you click on the New General button, or the number of sets will be 1.
+
+--> To save the graph, click on the 'Save' button. A data file called
+'outputdata' is saved in the current directory. This uses the function
+XrtDataHandleOutputData.
+
+--> To create a PostScript file of the data, click on the 'Draw' button.
+A postscript file called 'xrtoutput.ps' is created in the current 
+directory. You can print the file on a postscript printer, or use a
+postscript viewer such as 'gs' to view the  file.

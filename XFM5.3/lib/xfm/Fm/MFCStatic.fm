@@ -1,0 +1,244 @@
+widget XmLabel {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_ISGROUPLABEL
+        get = script get_MFCStatic_MFC_ISGROUPLABEL:
+		FacePragma("ignore");
+		define XmFRAME_TITLE_CHILD 2;
+		if(_FmIsOfSubClass(parent, "XmFrame")
+		&& self:childType == XmFRAME_TITLE_CHILD)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISMENUITEM
+        get = script get_MFCStatic_MFC_ISMENUITEM:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmRowColumn")
+		&& (parent:rowColumnType == XmMENU_PULLDOWN
+		 || parent:rowColumnType == XmMENU_POPUP)){
+			@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISBITMAPBUTTON
+        get = script get_MFCStatic_MFC_ISBITMAPBUTTON:
+		FacePragma("ignore");
+		if(!self:@MFC_ISGROUPLABEL && !self:@MFC_ISMENUITEM
+		&& self:labelType == XmPIXMAP)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CAPTION
+        get = script get_MFCStatic_MFC_CAPTION:
+		FacePragma("ignore");
+		if(!self:@MFC_ISGROUPLABEL
+		&& !self:@MFC_ISBITMAPBUTTON){
+			@ = FmGetString(self:labelString);
+			if(!@ || strcmp(@, "") == 0)
+				@ = "_xfm_win_empty_caption_";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCStatic_MFC_CLASS:
+		FacePragma("ignore");
+		if(!self:@MFC_ISGROUPLABEL){
+			if(self:@MFC_ISBITMAPBUTTON){
+				@ = "CDrawnButton";
+			}
+			else
+			if(self:@MFC_ISMENUITEM){
+				@ = "CXfmMenuItem";
+			}
+			else
+			{
+				@ = "CStatic";
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_SS_CENTER
+        get = script get_MFCStatic_MFC_S_SS_CENTER:
+		FacePragma("ignore");
+		if(!self:@MFC_ISGROUPLABEL
+		&& self:alignment == XmALIGNMENT_CENTER)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_SS_LEFT
+        get = script get_MFCStatic_MFC_S_SS_LEFT:
+		FacePragma("ignore");
+		if(!self:@MFC_ISGROUPLABEL
+		&& self:alignment == XmALIGNMENT_BEGINNING)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_SS_RIGHT
+        get = script get_MFCStatic_MFC_S_SS_RIGHT:
+		FacePragma("ignore");
+		if(!self:@MFC_ISGROUPLABEL
+		&& self:alignment == XmALIGNMENT_END)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_OWNERDRAW
+        get = script get_MFCStatic_MFC_S_BS_OWNERDRAW:
+		FacePragma("ignore");
+		if(self:@MFC_ISBITMAPBUTTON)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_recomputeSize
+        get = script get_MFCStatic_MFC_R_recomputeSize:
+		FacePragma("ignore");
+		if(!self:@MFC_ISMENUITEM && self:recomputeSize)
+			@ = "True";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_BORDER
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+        default_type = String
+        default_value = false
+    }
+    activevalue {
+        name = MFC_R_xfmVerticalTextMargin
+        get = script get_MFCStatic_MFC_R_xfmVerticalTextMargin:
+		FacePragma("ignore");
+		if(!self:@MFC_ISMENUITEM && !self:@MFC_ISBITMAPBUTTON)
+			@ = "0";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xfmPaintBackground
+        get = script get_MFCStatic_MFC_R_xfmPaintBackground:
+		FacePragma("ignore");
+		if(!self:@MFC_ISMENUITEM && !self:@MFC_ISBITMAPBUTTON)
+			@ = "True";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_labelPixmap
+        get = script get_MFCStatic_MFC_R_labelPixmap:
+		FacePragma("ignore");
+		if(!self:@MFC_ISMENUITEM && self:@MFC_ISBITMAPBUTTON){
+			String s = _FmGetNonDefaultResourceValue(self, "labelPixmap");
+			if(s)
+				@ = _FmWinQuoteString(s);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_labelInsensitivePixmap
+        get = script get_MFCStatic_MFC_R_labelInsensitivePixmap:
+		FacePragma("ignore");
+		if(!self:@MFC_ISMENUITEM && self:@MFC_ISBITMAPBUTTON){
+			String s = _FmGetNonDefaultResourceValue(self, "labelInsensitivePixmap");
+			if(s)
+				@ = _FmWinQuoteString(s);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+!    activevalue {
+!        name = MFC_R_shadowType
+!        get = script get_MFCStatic_MFC_R_shadowType:
+!		FacePragma("ignore");
+!		if(self:@MFC_ISBITMAPBUTTON){
+!			@ = '"shadow_none"';
+!		}
+!        type = String
+!        storage = object
+!        automatic = true
+!        autoget = true
+!        genvalue = true
+!    }
+    activevalue {
+        name = MFC_MENUITEMSTRING
+        get = script get_MFCStatic_MFC_MENUITEMSTRING:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUITEM){
+			@ = FmGetString(self:labelString);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+        MFCFont = Fm/MFCFont.fm
+    }
+} static

@@ -1,0 +1,572 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    createproc {
+        function None InitPixmap(Widget w);\
+InitPixmap(self);
+    }
+    resources {
+        x = 51
+        y = 92
+        width = 758
+        height = 543
+    }
+    children {
+        widget XmPaned {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 758
+                height = 543
+                orientation = horizontal
+            }
+            children {
+                widget XmPaned {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 363
+                        height = 537
+                    }
+                    children {
+                        widget XmScrolledWindow {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 3
+                                width = 357
+                                height = 310
+                                scrollBarDisplayPolicy = as_needed
+                                scrollingPolicy = automatic
+                                resizeToPreferred = true
+                                preferredPaneSize = 300
+                            }
+                            children {
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 0
+                                        width = 366
+                                        height = 307
+                                        labelString = This is a demo of the Open Motif Internationalized Extended List widget.\
+\
+The Internationalized Extended List provides multi-column list \
+capabilities, which are not available in Motif. It uses XmStrings \
+exclusively, and is able to display color pixmaps in the leftmost \
+column. Search capability is built into the widget and is accessed \
+through the Find Area below the list.\
+\
+Selections may be done in single select mode or extended select mode.\
+There are convenience routines for selecting and unselecting rows \
+programmatically as well. To see some of the features of this widget, \
+add some data to the list, by selecting one of the players from the \
+Add Player option menu.\
+\
+The Extended List can sort rows based on the currently selected column \
+using sort routines provided by the developer. Select different\
+column titles to see what order that sort routine produces. \
+\
+Search the list by typing a string into the text field next \
+to the Find button. Then select the Find button or hit \
+the Enter key to initiate the search. If the string is found, the \
+row that contains it will be made viewable and selected. If not \
+found,the Extended list will issue a beep.\
+\
+The Find area may be unmanaged by setting the "showFind" resource \
+to False.See how the widget looks without the Find area taking up space.\
+\
+There is a convenience routine for unselecting rows programmatically \
+Select the Unselect Current pushbutton to see it work.\
+\
+To see how the firstRow and firstCol resources work, select the \
+Row 2, Col 1 button. The extended list will make that the upper left \
+row and column. Remember, the list cannot be scrolled past its end.  \
+Therefore, if making a particular row and col the upper leftmost would \
+cause the list to scroll past its boundaries, it will scroll to the\
+end
+                                        alignment = alignment_beginning
+                                    }
+                                } explain_label
+                            }
+                        } scrollExplain
+                        widget XmFrame {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 323
+                                width = 357
+                                height = 77
+                                skipAdjust = true
+                                showSash = false
+                            }
+                            children {
+                                widget XmButtonBox {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 2
+                                        y = 2
+                                        width = 353
+                                        height = 73
+                                        orientation = vertical
+                                        equalSize = true
+                                        fillOption = fillMajor
+                                    }
+                                    children {
+                                        widget XmButtonBox {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 13
+                                                y = 0
+                                                width = 326
+                                                height = 36
+                                                equalSize = true
+                                                fillOption = fillMajor
+                                            }
+                                            children {
+                                                widget XmLabel {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 0
+                                                        width = 163
+                                                        height = 36
+                                                    }
+                                                } add_label
+                                                widget XmRowColumn {
+                                                    flag {
+                                                        mapped
+                                                        menu_pulldown
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 0
+                                                        width = 122
+                                                        height = 340
+                                                    }
+                                                    children {
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 2
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = function None choosePlayerCB(Widget w, Widget parent);\
+choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player1
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 26
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player2
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 50
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player3
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 74
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player4
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 98
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player5
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 122
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player6
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 146
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player7
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 170
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player8
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 194
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player9
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 218
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player10
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 242
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player11
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 266
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player12
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 290
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player13
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 314
+                                                                width = 118
+                                                                height = 24
+                                                                activateCallback = choosePlayerCB(self, parent.parent.parent.parent.parent.parent.parent);
+                                                            }
+                                                        } player14
+                                                    }
+                                                } pulldownMenu
+                                                widget XmRowColumn {
+                                                    flag {
+                                                        mapped
+                                                        menu_option
+                                                    }
+                                                    resources {
+                                                        x = 163
+                                                        y = 0
+                                                        width = 163
+                                                        height = 36
+                                                        subMenuId = parent.pulldownMenu
+                                                    }
+                                                } optionMenu
+                                            }
+                                        } add_rc
+                                        widget XmButtonBox {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 13
+                                                y = 36
+                                                width = 326
+                                                height = 36
+                                                equalSize = true
+                                                fillOption = fillMajor
+                                            }
+                                            children {
+                                                widget XmLabel {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 4
+                                                        width = 163
+                                                        height = 28
+                                                    }
+                                                } rem_label
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 163
+                                                        y = 4
+                                                        width = 163
+                                                        height = 28
+                                                        activateCallback = function None remCB(Widget w,Widget wTop);\
+remCB(self, parent.parent.parent.parent.parent.parent);
+                                                    }
+                                                } rem_pb
+                                            }
+                                        } rem_rc
+                                    }
+                                } lineup_row
+                            }
+                        } lineup_frame
+                        widget XmFrame {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 410
+                                width = 357
+                                height = 86
+                                skipAdjust = true
+                            }
+                            children {
+                                widget XmButtonBox {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 2
+                                        y = 2
+                                        width = 353
+                                        height = 82
+                                    }
+                                    children {
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 2
+                                                y = 27
+                                                width = 121
+                                                height = 28
+                                                activateCallback = XmMultiListUnselectAllItems(parent.parent.parent.parent.listframe.multiList);
+                                            }
+                                        } unsel_pb
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 125
+                                                y = 27
+                                                width = 105
+                                                height = 28
+                                                activateCallback = parent.parent.parent.parent.listframe.multiList:firstRow = 2;\
+parent.parent.parent.parent.listframe.multiList:firstColumn = 1;
+                                            }
+                                        } firstRowCol
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 232
+                                                y = 27
+                                                width = 117
+                                                height = 28
+                                                armCallback = parent.parent.parent.parent.listframe.multiList:showFind = self:set;
+                                            }
+                                        } toggleFind
+                                    }
+                                } quit_rc
+                            }
+                        } lineup_frame1
+                        widget XmButtonBox {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 506
+                                width = 357
+                                height = 28
+                                skipAdjust = true
+                                showSash = false
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 159
+                                        y = 0
+                                        width = 38
+                                        height = 28
+                                        activateCallback = exit(0);
+                                    }
+                                } quit_pb
+                            }
+                        } quit_rc
+                    }
+                } rightPane
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 376
+                        y = 3
+                        width = 379
+                        height = 537
+                    }
+                    children {
+                        widget XmMultiList {
+                            flag {
+                                mapped
+                            }
+                            createproc {
+                                /*self:showSash = false;*/\
+function None InitMultilist(Widget w);\
+InitMultilist(self);
+                            }
+                            resources {
+                                x = 2
+                                y = 2
+                                width = 375
+                                height = 533
+                                title = Lineup
+                                singleSelectionCallback = XmMultiListRowInfo cb = $;\
+XmString a[Int];\
+\
+if (cb && cb->values)\
+{\
+ a = new_c_array(Pointer(cb->values),8);\
+ parent.parent.rightPane.lineup_frame.lineup_row.rem_rc.rem_pb:labelString = GetString(a[1]);\
+}\
+else\
+{\
+ parent.parent.rightPane.lineup_frame.lineup_row.rem_rc.rem_pb:labelString = "No Selected Player";\
+}
+                                firstColumnPixmaps = true
+                                numRows = 0
+                                numColumns = 8
+                                columnTitles = At Bat,Name,AVG,AB,R,H,HR,RBI
+                                selectionPolicy = single_select
+                            }
+                        } multiList
+                    }
+                } listframe
+            }
+        } pane
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 220
+                y = 189
+                width = 318
+                height = 165
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    createproc {
+                        Widget tmp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+Widget tmp1 = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+\
+UnmanageChild(tmp);\
+UnmanageChild(tmp1);
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 318
+                        height = 165
+                        dialogType = dialog_error
+                        dialogTitle = Error
+                        messageString = Cannot have more than nine players.
+                    }
+                } error
+            }
+        } xmDialogShell0
+    }
+} sessionShell0

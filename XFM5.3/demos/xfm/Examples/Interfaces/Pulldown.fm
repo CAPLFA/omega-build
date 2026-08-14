@@ -1,0 +1,170 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 452
+        y = 364
+        width = 164
+        height = 140
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 164
+                height = 140
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 164
+                        height = 31
+                        topAttachment = attach_form
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                menu_pulldown
+                            }
+                            resources {
+                                x = 20
+                                y = 17
+                                width = 69
+                                height = 52
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 5
+                                        y = 5
+                                        width = 59
+                                        height = 21
+                                        labelString = Save
+                                        activateCallback = \
+	printf("\
+Save: Binary %d Ascii %d ", \
+	parent.parent.PulldownMenu2.Binary:set,\
+	parent.parent.PulldownMenu2.Ascii:set);\
+
+                                        mnemonic = S
+                                        accelerator = <KeyPress>F4
+                                        acceleratorText = F4
+                                    }
+                                } Save
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 5
+                                        y = 26
+                                        width = 59
+                                        height = 21
+                                        labelString = Load
+                                        activateCallback = \
+printf("\
+Load: Binary %d Ascii %d ", \
+	parent.parent.PulldownMenu2.Binary:set,\
+	parent.parent.PulldownMenu2.Ascii:set);\
+
+                                        mnemonic = L
+                                        accelerator = <KeyPress>F5
+                                        acceleratorText = F5
+                                    }
+                                } Load
+                            }
+                        } PulldownMenu1
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 5
+                                y = 5
+                                width = 40
+                                height = 21
+                                labelString = File
+                                subMenuId = parent.popup_PulldownMenu1.PulldownMenu1
+                                mnemonic = F
+                            }
+                        } File
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                menu_pulldown
+                            }
+                            resources {
+                                x = 60
+                                y = 11
+                                width = 71
+                                height = 52
+                                radioAlwaysOne = true
+                                radioBehavior = true
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 5
+                                        y = 5
+                                        width = 61
+                                        height = 21
+                                        labelString = Ascii
+                                        mnemonic = A
+                                        set = true
+                                    }
+                                } Ascii
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 5
+                                        y = 26
+                                        width = 61
+                                        height = 21
+                                        labelString = Binary
+                                        mnemonic = B
+                                    }
+                                } Binary
+                            }
+                        } PulldownMenu2
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 45
+                                y = 5
+                                width = 40
+                                height = 21
+                                labelString = Edit
+                                subMenuId = parent.popup_PulldownMenu1.PulldownMenu2
+                                mnemonic = E
+                            }
+                        } Edit
+                    }
+                } MenuBar15
+            }
+        } XmForm0
+    }
+} Pulldown

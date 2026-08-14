@@ -1,0 +1,77 @@
+widget XmBulletinBoard {
+    flag {
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 351
+        height = 228
+        translations = #override
+	<Btn3Down>:	eval("ShowPopup($, self.MyPopupMenu);")
+    }
+    children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_popup
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 80
+                height = 75
+            }
+            children {
+                widget XmCascadeButton {
+                    flag {
+                        mapped
+                        gadget
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 70
+                        height = 23
+                        labelString = Menu Title
+                    }
+                } CButton
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        gadget
+                    }
+                    resources {
+                        x = 5
+                        y = 28
+                        width = 70
+                        height = 2
+                    }
+                } Separator
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        gadget
+                    }
+                    resources {
+                        x = 944
+                        y = 659
+                        width = 56
+                        height = 23
+                    }
+                } PButton
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        gadget
+                    }
+                    resources {
+                        x = 26
+                        y = -5
+                        width = 70
+                        height = 23
+                    }
+                } PButton_2
+            }
+        } MyPopupMenu
+    }
+} XmBulletinBoard0

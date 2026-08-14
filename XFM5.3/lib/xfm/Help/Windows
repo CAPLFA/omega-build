@@ -1,0 +1,736 @@
+Main Window
+	
+	XFaceMaker's main command window gives you access to the widgets and editing 
+	functions you'll need to create your interface. It has three main
+	sections: editing, toolkit, message. 
+	
+	EDITING SECTION
+	
+	The editing section includes the following features:
+	
+	-- The menu bar gives you access to most of the commands and editing
+	windows in XFaceMaker. To give a command from a menu, open it and select an
+	item from the pulldown menu. Many commands can also be given from the
+	keyboard. 
+	
+	-- The Try mode checkbutton. Leave this unset when you are building or 
+	editing the interface.  Change to Try mode when you want to test some
+	aspect of the interface, to see how it will work in your final
+	application.
+	
+	-- The editing icons on the top left of the window give you quick access 
+	to the edit and display
+	features of XFaceMaker. For more details, see the Help on Icons.
+	
+	-- An area to display the interface as a list of widgets or as a 
+	widget tree. You can use the Widget List and Widget Tree to select and edit widgets. You
+	can display one or both by clicking on the corresponding icons. You can
+	adjust the space between the List and Tree by dragging the arrow found
+	between the two.
+	
+	-- The "Current File" field displays the path name of the current interface
+	file.
+	
+	-- The "Current Widget" field displays the name of the most recently
+	selected widget.
+	
+	
+	TOOLKIT SECTION
+	
+	The toolkit gives you access to all the widgets available for building
+	your interface. Widgets are grouped by class in "widgetstores": Shells, 
+	Composites, Primitives, Menus, Dialog, NSL, and Global. In addition, 
+	any templates, groups, or classes you've added to your interface,
+	can be accessed in the Template, Group, and User-defined widgetstores.
+	
+	Open a widgetstore by selecting its name in the "Toolkit" pulldown 
+	menu. The widget icons are displayed in the display field. When the 
+	pointer is over an icon, the widget's type is displayed. 
+	
+	You can open more than one widgetstore at a time, by deselecting the
+	"Single" checkbutton, and selecting the widgetstores in the "Toolkit"
+	pulldown menu.
+	
+	
+	MESSAGE SECTION
+	
+	The message section of the main window has the following features:
+	
+	-- The status indicator at the top of the section displays the current
+	internal condition of XFaceMaker. For instance, after startup, it states "XFaceMaker 
+	Ready". When saving files, the Status indicator shows whether the 
+	operation has succeeded or failed.
+	
+	-- The message window lists errors that occur while interpreting FACE
+	scripts or creating widgets. These messages may be internal to XFaceMaker,
+	may be produced by the Motif library or can be X Toolkit Intrinsics 
+	library warnings. Clicking on the "Clear" button clears the message window.
+	
+	-- A set of icons to the left of the message window indicate the following.
+	When the safe at the top is closed, the state of the Design process
+	has been saved: when open, the state has not been saved. When the Design
+	palette and the XFM Process icons (below the safe) are
+	linked, the two processes are connected. 
+	
+Resource Window
+	This window edits the resources of a widget.
+	The top of the window identifies the widget by
+	displaying path of the widget's parent, the name of
+	the widget, its class, and any templates used to
+	build the widget.  You may change any of these fields
+	except widget's parent.
+	
+	The `Current Selection' toggle indicates whether
+	or not this window will reflect the currently
+	selected widget.  If set, whenever you change
+	the object currently being edited, the window
+	updates its contents to reflect the current
+	widget.  If not set, then the widget updates
+	its contents only when a change occurs to the
+	widget specified in the top portion of the window.
+	While you may have several resource windows open
+	at the same time, only one may have this toggle
+	button set.
+	
+	The `x' and `y' text fields indicate the position
+	of the top left corner of the widget.  If the
+	`auto pos' toggle is set, then these values become
+	plain text fields which are not editable, since
+	the widget determines its position by itself,
+	perhaps according to its other resources.  Similarly,
+	the `width' and `height' fields indicate the size of
+	the widget.  If the `auto size' toggle is set, then
+	these values become plain text fields, and the widget
+	determines its own size
+	
+	The `popup' toggle indicates whether or not a shell
+	widget is a popup widget.  It is insensitive for
+	non-shell widgets.
+	
+	The `gadget' toggle indicates whether or not a widget
+	is created as a gadget.  It is insensitive for widgets
+	that do not have a gadget counterpart.
+	
+	To the left is a graphic of a `real'
+	window, showing symbols of interface objects behind it.
+	When the window icon appears opened, then the resource
+	window has been edited, and its contents do not
+	necessarily reflect the actual values for its
+	corresponding widget.  If the window appears closed,
+	then the resource window is up to date.
+	
+	Below this basic information is the actual list of
+	resources for the widgets.  It comes in two forms:
+	a list of resources, or a resource text editor.
+	The list of resources allows you to see and edit
+	the individual resource values, to control from
+	where there values come, and to invoke specialized
+	dialog boxes for manipulating the various resource
+	types.  The text editor allows you to edit the
+	widget's resources using a text editor.  You can switch
+	between the two forms using the `Edit/List' button.
+	See the `On List' and `On Editor' buttons of the `Help'
+	menu in the resource window for details.
+	
+	Beneath either the resource list or resource editor
+	are the following buttons:
+	
+	- Close: close this resource window;
+	
+	- Rebuild: apply the resources set for this widget
+	by destroying and recreating the widget; in some
+	cases (e.g. XmForms) this may also rebuild ancestors
+	of the widget;
+	
+	- Set Values: apply the resources set for this widget
+	by calling XtSetValues; this is faster than a Rebuild
+	but sometimes yields different results, depending on
+	how the widget is implemented; use `Set Values'
+	to quickly apply repeated resource changes, then use
+	`Rebuild' to check the correct state of the widget;
+	
+	- ... : pop a dialog box with which you can choose
+	how and to which widgets the resources will be applied;
+	see the Help button of the box for details;
+	
+	- Edit/List: switch between the resource list and the
+	textual resource editor;
+	
+	- Sort: display the sort options sub-window; see
+	Help/On List Sort for details;
+	
+	- Help: display help boxes.
+
+MenuEditor
+	Use this window to build and edit menus.  This
+	window only presents the most commonly used
+	resources.  You may still use the Resources
+	window to edit other resources for menu items
+	selected in this window.
+	
+	To start, use the Toolkit window to create an
+	empty menu bar, popup menu, or option menu.
+	Then, select the menu you just created.  You may
+	then create buttons, labels, separators, and
+	cascade menus in the menu.  Fill in the dialog
+	portion below the line with the information for
+	the menu item.  Be sure to set the item type.
+	Then press the Add button to add the menu item.
+	Repeat for more menu items.  After pressing Add,
+	the values in the dialog box remain so that they
+	may be used for subsequent menu items.
+	
+	The Replace button sets the resources for the
+	currently selected menu item to those in the
+	dialog box.  The Delete button deletes the
+	currently selected menu item.
+	
+	The menu containing the currently selected menu
+	item appears at the top of the box above the
+	separator line.  If the item is in a cascade
+	menu, the cascades leading up to the menu will be
+	displayed.  The cascade button for each sub-menu
+	is highlighted, as well as the currently selected
+	menu item.  Increase the size of this window if
+	not all of the menus are visible.
+	
+	While this window displays menu items in the
+	correct font, it does not show any additional
+	menu item decorations, except mnemonics.
+	Specifically, toggle indicators, cascade
+	indicators, and accelerators will not be shown in
+	this window.  You must select the menu item and
+	view the dialog box to see these resources.
+	
+	You may select a menu item by clicking on it in
+	the menu above the line.  You may open a cascade
+	menu by double-clicking its cascade button.  You
+	may change the order of menu items by dragging
+	them in their menu displayed above the line.
+	
+	There are some other miscellaneous buttons in
+	this window:  The GLS button in the Label field
+	inserts GLS prefixes in the label and mnemonic
+	(if present).  The Select button in the Font
+	field opens a font selection box to select a font
+	name.  The arrow button in the Callbacks field
+	rotates among the callbacks for that menu item.
+	The "..." button in the Callbacks field opens an
+	edit window to edit a multi-line callback
+	script.
+
+Debugger
+	
+	This window gives accesss to the debugging facilities
+	of the FACE language. With the FACE debugger, it is
+	possible to:
+	
+		- trace execution of FACE scripts,
+	
+		- execute instructions step-by-step,
+	
+		- print the stack of script and function calls,
+		
+		- set named breakpoints,
+		
+		- interrupt and abort execution of scripts,
+		
+		- execute FACE statements to print variables, etc.
+	
+	 The top part of the window contains information fields:
+	a message field where the current status of the debugger
+	is printed, a field containing the name of the script
+	being executed and a field showing the name of the widget
+	for which a script is executed.
+	
+	 Below is a vertical paned window containing three parts:
+	the top part is where the source of the current script is
+	shown, the middle part is where the debugger prints its
+	output, and the bottom part is where you can type FACE
+	statements to be executed during debugging. You can adjust
+	the relative sizes of the three parts. Note that the first
+	two text areas are read-only: in particular, if you want
+	to modify a script, you have to switch back to edit mode if
+	necessary and edit the script in the usual XFaceMaker editing
+	window.
+	
+	 The three toggle buttons below the text areas are used to
+	control the execution mode of the debugger.
+	
+	 The `Debug On' toggle activates or de-activates the FACE
+	debugger: if this toggle is not set, no FACE debugging
+	actions will take place. (This buttons is automatically
+	unset when the FACE debugger window is hidden). If you do
+	not use debugging, you should unset `Debug On' since
+	debugging slows down the execution of scripts.
+	
+	 The `Step by step'
+	button controls wether the FACE debugger stops before it
+	executes each instruction or not. In step-by-step mode,
+	you can only use the FACE debugger window and control the
+	execution with the `Step', `Abort' and 	`Continue' buttons:
+	the rest of the XFaceMaker interface as well as your user
+	interface is locked.
+	
+	 When the  `Trace' toggle is set,
+	FACE debugger traces the execution of all instructions by
+	showing the source of the corresponding script, and by
+	highlighting the current instruction. When this button
+	is not set, the debugger only traces errors, warnings and
+	breakpoints by showing the corresponding source and
+	instruction, and by entering step-by-step mode.
+	
+	 On the right of the toggles are three push buttons.
+	
+	 The `Print Stack' button prints the stack of scripts
+	and functions currently called, with the argument types
+	and values, in the output text area.
+	
+	 The `Execute' button executes the FACE statements that
+	you have typed in the xecution text area just above. If
+	you are in step-by-step mode, the FACE statements are executed
+	as if they were part of the currently debugged script: the
+	local variables of the debugged scripts are accessible as well
+	as all the global variables defined so far (you do not need to
+	use the `global' keyword before referencing global variables in
+	this case).
+	
+	 The `Clear' button clears the debugger output area.
+	 
+	 The bottom part of the window contains a row of push buttons:
+	
+		- `Close' hides the debugger window (and unsets `Tracing On');
+		
+		- `Step' advances to the next instruction in step-by-step
+		   mode;
+		
+		- `Interrupt' is used to stop the execution of a script:
+		   a SIGINT signal is sent to the design process, and the
+		   debugger switches to step-by-step mode;
+		
+		- `Abort' is used to terminate execution of the current script
+		   in step-by-step mode;
+		
+		- `Continue' is used to switch to normal run mode when in
+		  step-by-step mode: execution continues without stopping
+		  at each instruction;
+		
+		- `Help' shows this help message.
+	
+	 You can set breakpoints in scripts by inserting calls to the `breakpoint'
+	function, which takes two arguments: a widget (usually `self') and the breakpoint
+	name (a character string).
+	When the breakpoint is reached, the debugger enters step-by-step mode and
+	a message containing the breakpoint name is printed in the status area.
+	
+	 Errors and warnings encountered by the FACE parser or interpreter
+	while debugging is on cause the debugger to stop at the point
+	of the error and to enter step-by-step mode. Stepping, aborting
+	or continuing after an execution error terminates the design process.
+	The explanatory text of the error is printed in the debugger's
+	output area as well as in the XFaceMaker message window.
+
+Environment
+	
+	You can use this window to modify the environment variables of
+	the XFaceMaker processes, for example to add a directory to
+	the bitmaps path XBMLANGPATH.
+	
+	 You must first choose the environment variable you want to modify
+	using the option menu at the top. The menu contains a number of
+	pre-defined variables. You can select another variable using the
+	`Other...' entry and then typing the variable name in the text field
+	on the right.
+	
+	 If you selected a variable with a name ending with `PATH', a list
+	appears with each entry containing an element of the path. You can
+	add a path entry by typing a value in the bottom text field and clicking
+	in the `Add' button (the new entry is inserted after the selected entry
+	in the list, or at the end if no entry is selected). The `Delete' button
+	removes the selected entry from the list.
+	
+	 If the variable is not a path, only the bottom text field appears.
+	
+	 The `Select...' button pops the file selector, thus allowing you to
+	choose a directory name which will be put in the text field.
+	
+	 The `Apply' button sets the selected environment variable to the
+	currently displayed value. For a path variable, the items in the
+	list are concatenated and separated with `:'. The environment variable
+	is changed using the `putenv' function in both the XFaceMaker process
+	and the design process. Environment variables changed using this window
+	are saved in the `.xfm.startup' file when the `Save Prefs' command is
+	called.
+	
+	 The `OK' button does an `Apply' and unmaps the window.
+	
+	 The `Close' button only unmaps the window, leaving the environment
+	unchanged (since the last `Apply').
+	
+	 `Help' displays this text.
+
+Make Output
+	
+	When the `Make Appli' command is used, the output from
+	the command launched to build your application is redirected
+	to this window. The default build command is `make', but you can
+	customize the build process by providing an executable file
+	called `xfmmkappli' either in the current directory, in your home
+	directory or in the system-wide directory containing XFaceMaker
+	data files (usually `/usr/lib/X11/xfm').
+	
+	 If your application fails to build correctly, make sure you have
+	generated the application files using the `Save' or `Save As' command
+	with both the `Save C Code Also' and `Save Appli Files Also' options.
+	Application files include the C code of the interface (Name.c),
+	the main C file of the application (NameMain.c), the include file
+	containing the function and active values declarations (NameApp.h),
+	the C file containing the skeletons of the functions called from
+	your FACE scripts (NameApp.c), and the Makefile used to build the
+	whole application (Makefile).
+	
+	 You can edit NameMain.c, NameApp.c and Makefile using the commands
+	`Edit Main', `Edit Functions' and `Edit Makefile'. XFaceMaker will
+	launch the editor designated by the FMEDITOR environment variable
+	(yb default `xedit'): this can be changed using the Environment
+	window.
+	
+	 You can close the window using the `Close' button (but the window
+	will pop up again every time new input will be read from the build
+	command), and clear the existing output with the `Clear' button.
+	
+Active Values
+	
+	The Active Values box is used to create and modify the active
+	values associated to an object.
+	
+	Active values are a very important concept in XFaceMaker. They are
+	used to exchange data between the user interface and the application
+	code, but also to define widget class resources, C++ class members
+	and methods, and Drag&Drop side-effects. Each of these usages
+	corresponds to a toggle button in the Active Values box. When
+	a particular toggle is set, the Active Values boxe's appearance
+	adapts to the particular needs of the selected usage.
+	
+	To edit active values for communicating between the interface and the application,
+	see `Interface active values'.
+	
+	To edit active values for defining new resources in a widget class,
+	see `Class active values'.
+	
+	To edit active values for defining members and methods in a C++ class,
+	see `C++ active values'.
+	
+	To edit active values for defining drag source targets,
+	see `Drag active values'.
+	
+	To edit active values for defining drop site targets,
+	see `Drop active values'.
+	
+Interface active values
+	
+	An active value whose usage is set as "interface" is used to share data 
+	with the application, or to define a script, a pseudo-resource, or a method. 
+	
+	The box has the following fields:
+	
+	"Usage"  Specify the usage for the active value.
+		
+	"Active Value Name" Enter a name to identify the active value. 
+	The name must begin with an alphabetic character.
+	
+	"Type" Enter a type of variable for the active value. If no type is 
+	specified, the type is "Any". The ellipsis pops up a type selection box.
+	
+	"Value" If storage is per widget and allocated automatically by XFaceMaker, 
+	you may enter an initial value for the active value here.
+	
+	"Storage" Specify data storage and how it is allocated. There are three choices:
+		
+	-- "global": if the entire interface may always use the same data.
+		
+	-- "per widget": if you want separate storage locations for each widget in the interface
+	that uses the active value.
+		
+	-- "per call": use this if you want to define interface set scripts that can be
+	called with arguments. XFaceMaker will allocate storage each time it 
+	calls the active value's set script---and then de-allocate it after the 
+	script is executed.
+	
+	"Allocate automatically" When this is set, XFaceMaker will allocate storage for
+	the active value if storage has not already been allocated. 
+	
+	"Access" You must decide whether your FACE script will refer to the contents 
+	of the active value via the @ special variable, or by its immediate 
+	value using $. If by immediate value, select the checkbutton marked 
+	"immediate".
+	"A list of active values"  Only active values that have the same usage appear in 
+	this field, if you are using "new style" active values (version 3.0 
+	and later). However, older .fm files with "old style" active values will 
+	display all the active values of the widget, regardless of their usage.
+		
+	"Custom Editor"  Opens the editor you specified using the FMEDITOR environment variable. 
+	
+	"Clear" Clears the editing field.
+	
+	"Get/Set Script"  Enter get and set scripts for the active value. By 
+	convention, the get script updates the active value's data to reflect the 
+	interface's current setting. The set script tells the interface that the 
+	data has changed so that the interface can change its presentation.
+	
+	"Add" Defines the active value for the current widget and registers the changes.
+	
+	"Replace"  Replaces the active value selected  in the display box with the newly
+	defined active value.
+	
+	"Delete" Deletes the selected active value and its get and set scripts.
+	
+	The "up" and "down" arrows move the selected active value one position
+	up or down in the active values list.
+	
+	"Close"  Closes the  window. If you have added (by clicking 
+	on the Add button) an active value to the widget you are editing, the 
+	active value is applied to the widget. If not, clicking Close merely closes 
+	the window without changing the widget.
+Class active values
+	
+	An active value whose usage is set to "widget class" defines a resource for 
+	a widget class. To edit an active value of this kind, you must first select 
+	the top level widget of the class. Specify the class name and class icon--
+	they are associated to the widget. Then define as many resources as you 
+	like for this class, and do one overall "Save". (You can also save your class 
+	using the commands in the Classes sub-menu of the Modules menu.)
+	
+	This box has the following fields:
+	
+	"Usage"  Specify the usage for the active value.
+	
+	"Class Name" Specify the name of the class being defined or edited. 
+	The ellipsis opens a list of already-defined classes from which to choose. 
+	
+	"New Resource Name" Enter the resource name when you are defining a 
+	new resource, editing an existing resource, or deleting a resource.
+	
+	"Edit" This button pops up the Class Name box from which you may select the 
+	class name that you want to edit.
+	
+	"Class Icon" Enter the name of a pixmap to represent the class in the 
+	widgetstore. The ellipsis pops up the Pixmap editor for defining a pixmap.
+	
+	"Type" Used to specify the active value's type. in the "Type" field, or click 
+	the ellipsis to pop up the Type Selector box. Choose a type from the list 
+	or enter one in the "Resource type" text field, then click OK. 
+	
+	"Value" Enter a default value for the new resource being defined in the 
+	"Value" field. Or click on the ellipsis to open an editing window for that 
+	type of resource. Enter a value, then click on the Add button. Or click 
+	on the List button to return to the Active Values box without specifying
+	a value.
+	
+	"Methods..." Pops up a list of methods available for your widget class. You 
+	can select a method name from the list or enter a name directly in the 
+	text field of the Method Selector box. Then click the OK button.
+	"A list of active values"  Only active values that have the same usage appear in 
+	this field, if you are using "new style" active values (version 3.0 
+	and later). However, older .fm files with "old style" active values will 
+	display all the active values of the widget, regardless of their usage.
+		
+	"Custom Editor"  Opens the editor you specified using the FMEDITOR environment variable. 
+	
+	"Clear" Clears the editing field.
+	
+	"Get/Set Script"  Enter get and set scripts for the active value. By 
+	convention, the get script updates the active value's data to reflect the 
+	interface's current setting. The set script tells the interface that the 
+	data has changed so that the interface can change its presentation.
+	
+	"Add" Defines the active value for the current widget and registers the changes.
+	
+	"Replace"  Replaces the active value selected  in the display box with the newly
+	defined active value.
+	
+	"Delete" Deletes the selected active value and its get and set scripts.
+	
+	The "up" and "down" arrows move the selected active value one position
+	up or down in the active values list.
+	
+	"Close"  Closes the  window. If you have added (by clicking 
+	on the Add button) an active value to the widget you are editing, the 
+	active value is applied to the widget. If not, clicking Close merely closes 
+	the window without changing the widget.
+C++ active values
+	
+	A C++ class is defined from a widget tree, characterized by its 
+	top widget. You must select the top widget of the class in order to define
+	active values for the class. A "C++ class" active value defines a "data member" or
+	a "member function" for the C++ class. "Data members" are active
+	values with "per object" storage, and "member functions" are active values with
+	"per call" storage. 
+		
+	"Usage"  Specify the usage for the active value.
+	
+	"Member Name" Enter the name of the member here.
+	
+	"Members"  This box displays existing members of the C++ class.
+	
+	"Type"   This depends on the "Member Kind": data or function. For "data" types, 
+	enter the FACE type of the data member. For "function" types, the "type" of a 
+	member function is a user-defined argument structure that defines the return 
+	type and the parameters of the function. Enter the name of the structure in 
+	the "type" field and define it in the set script of the function. The 
+	structure's fields will be interpreted as follows:
+		
+	-- The first field corresponds to the value returned by the function. 
+		
+	-- Its type (a FACE type) is the return type of the function. Its 
+	name will be used to specify the return value (unless the return 
+	type is None, which corresponds to the C++ void type).
+		
+	-- The remaining fields correspond to the arguments of the function. 
+	The order in which they appear in the structure will be 
+	their order in the argument list of the C++ member function. 
+	Each type is a FACE type, whose C++ counterpart will be used 
+	in the actual definition of the function.
+	
+	"Value" This depends on the "Member Kind": data or function. For a data member, 
+	enter the initial value here. For a member function, this field is not used and 
+	will be grayed out so that it is not editable.
+	
+	"Member Kind" There are two choices: "data" to edit data members, and 
+	"function" -- to edit member functions.
+	
+	"Generate access functions"  When set, XFaceMaker will generate two 
+	public member functions for read and write access. The 
+	names of these functions will be built by concatenating "set" and "get"  
+	with the capitalized name of the member.
+		
+	"Access" There are three choices of access level for the member: "public", 
+	"protected", and "private". They correspond to C++ access levels.
+	"A list of active values"  Only active values that have the same usage appear in 
+	this field, if you are using "new style" active values (version 3.0 
+	and later). However, older .fm files with "old style" active values will 
+	display all the active values of the widget, regardless of their usage.
+		
+	"Custom Editor"  Opens the editor you specified using the FMEDITOR environment variable. 
+		
+	"Clear" Clears the editing field.
+	
+	"Get/Set Script"  Enter get and set scripts for the active value. By 
+	convention, the get script updates the active value's data to reflect the 
+	interface's current setting. The set script tells the interface that the 
+	data has changed so that the interface can change its presentation.
+	
+	"Add" Defines the active value for the current widget and registers the changes.
+	
+	"Replace"  Replaces the active value selected  in the display box with the newly
+	defined active value.
+	
+	"Delete" Deletes the selected active value and its get and set scripts.
+	
+	The "up" and "down" arrows move the selected active value one position
+	up or down in the active values list.
+	
+	"Close"  Closes the  window. If you have added (by clicking 
+	on the Add button) an active value to the widget you are editing, the 
+	active value is applied to the widget. If not, clicking Close merely closes 
+	the window without changing the widget.
+Drag active values
+	
+	An active value whose usage is set to "drag source" defines a target the 
+	widget can export. You will define a get script for each target which will
+	store the data to be transferred into the @ argument. Clicking on the ellipsis
+	opens an edit box for multi-line scripts. 
+	
+	The box has the following fields:
+		
+	"Usage"  Specify the usage for the active value.
+		
+	"Icon Pixmap" Enter the name of a pixmap that the pointer changes to
+	when you start a drag operation. The ellipsis pops up the Pixmap 
+	editor for defining a pixmap.
+		
+	"Drag Type Name" Enter the type of target that the selected widget 
+	can export. The List... button pops up the Drag Target Selector 
+	which contains list of commonly accepted selection targets defined in 
+	the ICCCM. Select a drag target from the list, then click on the OK 
+	button. A widget can have more than one target.
+	"A list of active values"  Only active values that have the same usage appear in 
+	this field, if you are using "new style" active values (version 3.0 
+	and later). However, older .fm files with "old style" active values will 
+	display all the active values of the widget, regardless of their usage.
+	
+	"Custom Editor"  Opens the editor you specified using the FMEDITOR environment variable. 
+	
+	"Clear" Clears the editing field.
+	
+	"Get/Set Script"  Enter get and set scripts for the active value. By 
+	convention, the get script updates the active value's data to reflect the 
+	interface's current setting. The set script tells the interface that the 
+	data has changed so that the interface can change its presentation.
+	
+	"Add" Defines the active value for the current widget and registers the changes.
+	
+	"Replace"  Replaces the active value selected  in the display box with the newly
+	defined active value.
+	
+	"Delete" Deletes the selected active value and its get and set scripts.
+	
+	The "up" and "down" arrows move the selected active value one position
+	up or down in the active values list.
+	
+	"Close"  Closes the  window. If you have added (by clicking 
+	on the Add button) an active value to the widget you are editing, the 
+	active value is applied to the widget. If not, clicking Close merely closes 
+	the window without changing the widget.	
+Drop active values
+	
+	An active value whose usage is set as "drop site" names a target accepted 
+	by the widget as a drop site. You will define the set script for the target.
+	It  should read the data received in the @ argument, and 
+	use it as needed. Clicking on the ellipsis opens an edit box for multi-
+	line scripts.
+	
+	The box has the following fields:
+	
+	"Usage"  Specify the usage for the active value.
+	
+	"Drop Targets" This box lists the targets specified as drop sites for 
+	the selected widget. 
+	
+	"Drop Target Name" Specify the name of a target accepted by the 
+	selected widget as a drop site. 
+	
+	"List..." Pops up the Drop Target Selector.
+	Select a drop site from a 
+	list of commonly accepted selection targets as defined in the "Inter-Client 
+	Communication Convention Manual" by the X Consortium.
+	Selecting one enters it in the "Drop Target Name" field. 
+	"A list of active values"  Only active values that have the same usage appear in 
+	this field, if you are using "new style" active values (version 3.0 
+	and later). However, older .fm files with "old style" active values will 
+	display all the active values of the widget, regardless of their usage.
+	
+	"Custom Editor"  Opens the editor you specified using the FMEDITOR environment variable. 
+	
+	"Clear" Clears the editing field.
+	
+	"Get/Set Script"  Enter get and set scripts for the active value. By 
+	convention, the get script updates the active value's data to reflect the 
+	interface's current setting. The set script tells the interface that the 
+	data has changed so that the interface can change its presentation.
+	
+	"Add" Defines the active value for the current widget and registers the changes.
+	
+	"Replace"  Replaces the active value selected  in the display box with the newly
+	defined active value.
+	
+	"Delete" Deletes the selected active value and its get and set scripts.
+	
+	The "up" and "down" arrows move the selected active value one position
+	up or down in the active values list.
+	
+	"Close"  Closes the  window. If you have added (by clicking 
+	on the Add button) an active value to the widget you are editing, the 
+	active value is applied to the widget. If not, clicking Close merely closes 
+	the window without changing the widget.
+		

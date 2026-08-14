@@ -1,0 +1,68 @@
+Xfm*background:		khaki
+Xfm*foreground:		black
+Xfm*selectColor:	blue
+
+Xfm*xfmVersionBB.labelXFM.foreground:	blue
+
+Xfm.XmDialogShell*XmText.background:		ivory
+Xfm.TopLevelShell*XmText.background:		ivory
+Xfm.XmDialogShell*XmTextField.background:	ivory
+Xfm.TopLevelShell*XmTextField.background:	ivory
+
+
+Xfm*XmMainWindow.XmRowColumn*background:		navajowhite
+Xfm*XmMainWindow*try.selectColor:			green
+Xfm*XmMainWindow*listform.scroller.XmList*background:	lightskyblue
+Xfm*XmMainWindow*listform.XmTextField*background:	ivory
+Xfm*XmMainWindow*treescroller.Tree*background:		palegreen
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	white
+Xfm*XmMainWindow*treescroller.ClipWindow*background: palegreen
+
+Xfm.Alert*background:		plum
+
+Xfm.TopLevelShell*background:			lightskyblue
+Xfm.TopLevelShell*parentName.background:	lightskyblue
+Xfm.TopLevelShell*bb*background:		khaki
+Xfm.TopLevelShell*bb.XmTextField.background:	ivory
+Xfm.TopLevelShell*listScroller.ClipWindow*background: khaki
+Xfm.TopLevelShell*fastListScroller*background: khaki
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: ivory
+Xfm.TopLevelShell*selection.background:		gold
+Xfm.TopLevelShell*selectColor:			gold
+Xfm.TopLevelShell*current.selectColor:		hotpink
+Xfm.TopLevelShell*curline.topShadowColor:	pink1
+Xfm.TopLevelShell*curline.bottomShadowColor:	pink4
+
+Xfm.activevalue*background:		lavender
+Xfm.activevalue*XmText.background:	ivory
+Xfm.activevalue*XmTextField.background:	ivory
+Xfm.activevalue*selectColor:		green
+
+Xfm.MenuEditor.form.name.background:	navajowhite
+Xfm.MenuEditor*background:		navajowhite
+Xfm.MenuEditor*XmText.background:	ivory
+Xfm.MenuEditor*XmTextField.background:	ivory
+
+Xfm.Environment*background:		palegreen
+Xfm.Environment*XmText.background:	ivory
+Xfm.Environment*XmTextField.background:	ivory
+
+Xfm.FaceDebugger*message_text.background:	khaki
+Xfm.FaceDebugger*widget_text.background:	khaki
+Xfm.FaceDebugger*script_text.background:	khaki
+Xfm.FaceDebugger*source_text.background:	khaki
+Xfm.FaceDebugger*output_text.background:	khaki
+
+Xfm.Fileselector*background:			gold
+Xfm.Fileselector*XmText.background:		white
+Xfm.Fileselector*XmTextField.background:	white
+
+Xfm.Help*background:		paleturquoise
+Xfm.Functions*background:	paleturquoise
+Xfm.iconhelp*background:	paleturquoise
+
+Xfm.coptions*command.background:	khaki
+Xfm.rdboptions*command.background:	khaki
+Xfm.msgoptions*command.background:	khaki
+Xfm.uiloptions*command.background:	khaki
+Xfm.printoptions*command.background:	khaki

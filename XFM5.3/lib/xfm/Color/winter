@@ -1,0 +1,77 @@
+Xfm*background:		lightsteelblue
+Xfm*foreground:		black
+Xfm*selectColor:	lightpink
+
+Xfm*xfmVersionBB.labelXFM.foreground:	darkslateblue
+
+Xfm.XmDialogShell*XmText.background:		lightgrey
+Xfm.TopLevelShell*XmText.background:		lightgrey
+Xfm.XmDialogShell*XmTextField.background:	lightgrey
+Xfm.TopLevelShell*XmTextField.background:	lightgrey
+
+
+Xfm*XmMainWindow.XmRowColumn*background:		darkslateblue
+Xfm*XmMainWindow.XmRowColumn*foreground:		lightgrey
+Xfm*XmMainWindow.XmRowColumn*selectColor:		white
+Xfm*XmMainWindow*try.selectColor:			mediumaquamarine
+Xfm*XmMainWindow*listform.XmTextField.background:	lightgrey
+Xfm*XmMainWindow*listform.XmTextField.foreground:	black
+Xfm*XmMainWindow*listform.scroller.XmList*background:	thistle
+Xfm*XmMainWindow*treescroller.Tree*background:		mediumaquamarine
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	lightgrey
+Xfm*XmMainWindow*treescroller.ClipWindow*background: mediumaquamarine
+
+Xfm.Alert*background:		lightpink
+
+Xfm.TopLevelShell*background:			thistle
+Xfm.TopLevelShell*parentName.background:	thistle
+Xfm.TopLevelShell*bb*background:		lightsteelblue
+Xfm.TopLevelShell*bb.XmTextField.background:	lightgrey
+Xfm.TopLevelShell*listScroller.ClipWindow*background: lightsteelblue
+Xfm.TopLevelShell*fastListScroller*background: lightsteelblue
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: lightgrey
+Xfm.TopLevelShell*selection.background:		lightcyan
+Xfm.TopLevelShell*current.selectColor:		blue
+Xfm.TopLevelShell*curline.topShadowColor:	lightblue1
+Xfm.TopLevelShell*curline.bottomShadowColor:	lightblue4
+
+Xfm.activevalue*background:		mistyrose
+Xfm.activevalue*XmText.background:	lightgrey
+Xfm.activevalue*XmTextField.background:	lightgrey
+Xfm.activevalue*selectColor:		darkslateblue
+
+Xfm.MenuEditor*background:		darkslateblue
+Xfm.MenuEditor*foreground:		lightgrey
+Xfm.MenuEditor*XmText.background:	lightgrey
+Xfm.MenuEditor*XmText.foreground:	black
+Xfm.MenuEditor*XmTextField.background:	lightgrey
+Xfm.MenuEditor*XmTextField.foreground:	black
+Xfm.MenuEditor.form.name.background:	darkslateblue
+Xfm.MenuEditor.form.name.foreground:	lightgrey
+
+Xfm.Environment*background:		mediumaquamarine
+Xfm.Environment*XmText.background:	lightgrey
+Xfm.Environment*XmTextField.background:	lightgrey
+
+Xfm.FaceDebugger*message_text.background:	lightsteelblue
+Xfm.FaceDebugger*widget_text.background:	lightsteelblue
+Xfm.FaceDebugger*script_text.background:	lightsteelblue
+Xfm.FaceDebugger*source_text.background:	lightsteelblue
+Xfm.FaceDebugger*output_text.background:	lightsteelblue
+
+Xfm.Fileselector*background:			gray
+Xfm.Fileselector*XmText.background:		lightgrey
+Xfm.Fileselector*XmTextField.background:	lightgrey
+
+Xfm.Help*background:		steelblue
+Xfm.Help*foreground:		white
+Xfm.Functions*background:	steelblue
+Xfm.Functions*foreground:	white
+Xfm.iconhelp*background:	steelblue
+Xfm.iconhelp*foreground:	white
+
+Xfm.coptions*command.background:	lightsteelblue
+Xfm.rdboptions*command.background:	lightsteelblue
+Xfm.msgoptions*command.background:	lightsteelblue
+Xfm.uiloptions*command.background:	lightsteelblue
+Xfm.printoptions*command.background:	lightsteelblue

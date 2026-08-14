@@ -1,0 +1,185 @@
+widget XmDisplay {
+    flag {
+        autosize
+        autopos
+    }
+    resources {
+        dragInitiatorProtocolStyle = drag_preregister
+        dragReceiverProtocolStyle = drag_preregister
+    }
+} XmDisplay
+widget XmScreen {
+    flag {
+        autosize
+        autopos
+    }
+    resources {
+        moveOpaque = true
+    }
+} XmScreen
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 408
+        y = 175
+        width = 228
+        height = 159
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 228
+                height = 159
+            }
+            children {
+                widget XmScrollBar {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = STRING
+                        set = self:value = atoi(@);
+                        storage = object
+                        automatic = true
+                        usage = drop
+                    }
+                    activevalue {
+                        name = INTEGER
+                        get = @=self:value;
+                        storage = object
+                        automatic = true
+                        usage = drag
+                    }
+                    createproc {
+                        FmRegisterSimpleDropSite(self, "STRING");
+                    }
+                    resources {
+                        x = 28
+                        y = 38
+                        width = 24
+                        height = 80
+                        translations = #override\
+<Btn2Down>: eval("FmStartSimpleDrag(self, $, 'INTEGER', ConvertString(self, 'numbers.bm', 'Pixmap'));")
+                        foreground = black
+                    }
+                } XmScrollBar0
+                widget XmText {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = operationChangedCallback
+                        set = 
+	XmOperationChangedCallback cbs = $;
+	global Widget copy_icon;
+	global Widget move_icon;
+	if(cbs->operation == XmDROP_COPY)
+		icon = copy_icon;
+	else
+	if(cbs->operation == XmDROP_MOVE)
+		icon = move_icon;
+	else
+		icon = Widget(0);
+	Widget drag_context = XmGetDragContext(self, cbs->timeStamp);
+	drag_context:operationCursorIcon = icon;
+                        type = Callback
+                        usage = face
+                    }
+                    activevalue {
+                        name = dragMotionCallback
+                        set = 
+	XmDragMotionCallback cbs = $;
+	global Widget valid_icon;
+	global Widget invalid_icon;
+	if(cbs->dropSiteStatus == XmVALID_DROP_SITE)
+		icon = valid_icon;
+	else
+	if(cbs->dropSiteStatus == XmINVALID_DROP_SITE)
+		icon = invalid_icon;
+	else
+		icon = Widget(0);
+	Widget drag_context = XmGetDragContext(self, cbs->timeStamp);
+	drag_context:stateCursorIcon = icon;
+                        type = Callback
+                        usage = face
+                    }
+                    activevalue {
+                        name = INTEGER
+                        set = self:value = itoa(@);
+                        storage = object
+                        automatic = true
+                        usage = drop
+                    }
+                    activevalue {
+                        name = STRING
+                        get = @=self:value;
+                        storage = object
+                        automatic = true
+                        usage = drag
+                    }
+                    createproc {
+                        XmDropSiteUnregister(self);
+	FmRegisterSimpleDropSite(self, "operationChangedCallback,dragMotionCallback,INTEGER");
+	
+	function None StartDrag()
+	{
+		FmArgList arglist = FmNewArgList();
+		
+		FmAddArg(arglist, "pixmap", FmGetPixmap(self, "letters.bm"));
+		FmAddArg(arglist, "mask",   ConvertString(self, "letters_m.bm", "Bitmap"));
+		Widget source_icon = FmCreateDragIcon(self, "source", arglist);
+		FmClearArgList(arglist);
+		
+		global Widget copy_icon;
+		FmAddArg(arglist, "pixmap",     ConvertString(self, "copy.bm", "Bitmap"));
+		FmAddArg(arglist, "attachment", XmATTACH_SOUTH_EAST);
+		copy_icon = FmCreateDragIcon(self, "copy", arglist);
+		FmClearArgList(arglist);
+		
+		global Widget move_icon;
+		FmAddArg(arglist, "pixmap",     ConvertString(self, "move.bm", "Bitmap"));
+		FmAddArg(arglist, "attachment", XmATTACH_SOUTH_EAST);
+		move_icon = FmCreateDragIcon(self, "move", arglist);
+		FmClearArgList(arglist);
+		
+		global Widget valid_icon;
+		FmAddArg(arglist, "pixmap",     ConvertString(self, "valid.bm", "Bitmap"));
+		FmAddArg(arglist, "attachment", XmATTACH_SOUTH_WEST);
+		valid_icon = FmCreateDragIcon(self, "valid", arglist);
+		FmClearArgList(arglist);
+		
+		global Widget invalid_icon;
+		FmAddArg(arglist, "pixmap",     ConvertString(self, "invalid.bm", "Bitmap"));
+		FmAddArg(arglist, "attachment", XmATTACH_SOUTH_WEST);
+		invalid_icon = FmCreateDragIcon(self, "invalid", arglist);
+		FmClearArgList(arglist);
+		
+		FmAddArg(arglist, "sourcePixmapIcon",    source_icon);
+		FmAddArg(arglist, "sourceCursorIcon",    source_icon);
+		FmAddArg(arglist, "operationCursorIcon", move_icon);
+		FmAddArg(arglist, "stateCursorIcon",     invalid_icon);
+		FmDragStart(self, $, "STRING", arglist);
+		
+		FmFreeArgList(arglist);
+	}
+                    }
+                    resources {
+                        x = 93
+                        y = 32
+                        width = 104
+                        height = 34
+                        translations = #override\
+<Btn2Down>: eval("StartDrag();")
+                    }
+                } XmText0
+            }
+        } XmForm0
+    }
+} ApplicationShell0

@@ -1,0 +1,928 @@
+Laying Out Widgets
+	This is a general outline of how to lay out an interface, and
+	how to work with widgets; for example, how to
+	select, cut and paste, align widgets. You can resize
+	this help box to make it easier to read.
+	
+	When you lay out an interface, XFaceMaker must be in Build mode; i.e., the 
+	"Try" button in the main window must not be selected. Widgets are  
+	contained in separate widgetstores in the Toolkit: Shell, Composite, Primitive, 
+	Menu, etc. 
+	
+	LAYING OUT AN INTERFACE
+	
+	1.) Open the Toolkit pulldown menu in the main command window, then open  
+	a widgetstore by clicking on its name in the list.
+		
+	2.) Choose the widget type you want by clicking on its icon. The pointer 
+	changes to a cross. As you move the cursor over the icons, the name of each 
+	widget is displayed to the left.
+		
+	3.) Move the cross over the desktop and drag out the rubber band until the 
+	widget is the size you want, then release. 
+	
+	You can also create the widget by moving the cross over a widget in the interface, 
+	or its name in the Widget Tree or List, and clicking the Select mouse button. 
+	
+	NAMING WIDGETS
+	
+	XFaceMaker assigns a default name to every widget in your interface, 
+	and that default name remains until you change it. The widget name is 
+	not a resource, but is used within the interface and the application to 
+	identify and access the resources of the widget. 
+	
+	Any legal C language variable name is a legal widget name. XFaceMaker 
+	ensures that two sibling widgets do not have the same name by adding a 
+	numeric extension to a name if it already exists.
+	
+	You can change a widget's name in the Resources window or in the Widget Tree.
+	
+	THE WIDGET TREE AND WIDGET LIST
+	
+	The Widget Tree and  Widget List are useful for displaying and editing widgets. 
+	To display them, toggle the Tree and/or List icons in the main window, or select  
+	"Widget Tree" and/or "Widget List" in the Windows menu. Here are some of the things 
+	you can do using the Widget Tree and Widget List:
+	
+	-- Select a widget, or gadget by clicking on its name. 
+	
+	-- Add a widget to the hierarchy by clicking on its icon in the Toolkit, 
+	then moving the cursor to the Tree and clicking where you want the 
+	widget to be positioned in the hierarchy.
+		
+	-- Change the name of a widget by double-clicking on its name in the 
+	Widget Tree and entering the new name. Use Ctrl-Delete to delete the 
+	previous name.
+	
+	-- Add a widget to the interface. Select a widget type from a 
+	widgetstore, then place the cross cursor on the name of a parent 
+	widget in the Widget Tree and click.
+			
+	SELECTING WIDGETS
+		
+	Once you have created the interface, you may want to manipulate 
+	some of the widgets. To do this, you must first select them in one of
+	the following ways: 
+	
+	-- Drag a rubber band box around the widget.
+		
+	-- Click on the widget in the interface.
+		
+	-- Click on the widget's name in the Widget Tree or Widget List
+	
+	To select more than one widget, either drag the rubber band box around
+	all the widgets you want to select, or press Control and click on the widget
+	or its name in the Tree or List.
+	
+	When a widget is selected, its name is highlighted in the Widget Tree 
+	and List, and handles, (small boxes), appear at its four corners on the
+	interface. 
+	
+		
+	MOVING WIDGETS 
+	
+	You can move widgets in two ways:
+	
+	-- Press the Select mouse button on the widget in the interface, then
+	drag the widget to a new position. This changes the widget's geometry 
+	(its x,y, coordinates) in the interface. 
+	
+	-- Press the Select mouse button on the widget's name  in the Widget
+	Tree or Widget List, then drag the widget to a new position. This
+	changes the widget's place in the hierarchy, but not its x,y coordinates.
+	
+	CUTTING WIDGETS	
+	
+	When you cut a widget, it is removed from the interface, and a copy of
+	it is placed in the cut buffer for subsequent pasting. There are four 
+	ways to cut widgets. Start by selecting the widget or widgets. Then do one 
+	of the following:
+	
+	-- Enter Ctrl-X to cut the selection.
+		
+	-- Drag the widget selection over the Cut or the Copy icon in the Main 
+	Command window. Release the mouse button. 
+		
+	-- Choose "Cut" from the Edit menu. 
+		
+	-- Click on the Cut icon, move the icon shadow over the widget in the 
+	interface, then click the Select mouse button. This cuts a widget whether 
+	it is selected or not.
+	
+	COPYING WIDGETS	
+		
+	When you copy a widget, it remains on the interface, and a copy of it is 
+	placed in the widget cut buffer for subsequent pasting.There are four 
+	ways to copy widgets. Start by selecting the widget or widgets. Then do 
+	one of the following:
+		
+	-- Enter Ctrl-C to copy the selection.
+		
+	-- Drag the widget selection over the Copy icon in the Main Command 
+	window. Release the mouse button. 
+		
+	-- Choose "Copy" from the Edit menu. 
+		
+	-- Click on the Copy icon, move the icon shadow over the widget in the 
+	interface, then click the Select mouse button. This copies a widget 
+	whether it is selected or not.
+	
+	PASTING WIDGETS	
+		
+	To paste, there must first be a selection in the widget cut buffer; that
+	is, you must have previously cut or copied widgets, although several other 
+	actions may have occurred in the meantime. The last widget selection cut 
+	or copied from the interface will be pasted. There are three ways to paste 
+	widgets.
+	
+	-- Enter Ctrl-P. Move the widget outline over the interface and click.
+		
+	-- Select the Paste icon, drag its outline to the position on the interface
+	where you want the widget selection to be pasted, and click. 
+		
+	-- Choose the Edit/Paste command, drag the outline of the widget to the 
+	interface, and click.
+	
+	A copy of the last selection cut, copied, or pasted remains in the widget 
+	cut buffer until a new selection is cut or copied. You can re-paste as many 
+	times as you wish. 
+	
+	DUPLICATING WIDGETS	
+	
+	When you duplicate a widget, a copy of it is created just below and to the 
+	right of the original. To duplicate, select the widget(s), then:
+		
+	-- Enter Ctrl-D. The duplicate widget appears just below the original.
+	
+	-- Choose Edit/Duplicate.
+	
+	DELETING WIDGETS	
+	
+	Deleted widgets are removed from the interface, but are not placed in the 
+	widget cut buffer. There are four different ways to delete widgets.
+	
+	-- Select the widget(s) and enter Ctrl-K.
+		
+	-- Drag the widget over the Delete icon in the Command window, then 
+	release the Select button. 
+		
+	-- Select a widget, then click on Edit/Delete. 	
+	
+	RESIZING WIDGETS	
+	
+	You can resize a selected widget or gadget in two ways:
+			
+	-- To resize a widget using the mouse, place the pointer on one of the 
+	widget handles, and press Select. Drag the corner until the widget is the 
+	size you want, and release.
+		
+	-- To resize a widget using the Resources box, enter the values directly in 
+	the w and h fields of the Resources box and clicking Rebuild or Set Values.
+		
+	ALIGNING WIDGETS	
+		
+	The Alignment Box is used to align widgets relative to each other, or to a
+	parent  widget. It can also be used to apply a snap-on grid to a composite 
+	widget so that widgets are aligned to the grid as you create, move, or resize them.
+	Open the Alignment box by selecting "Align..." from the Edit menu. 
+		
+	To align widgets on your interface:
+		
+	1.) Select the widgets to be aligned.
+		
+	2.) Specify the "Reference" widget: First, Parent, or Edit.
+		
+	-- "First" ­ The selection will be aligned to the first widget that was 
+	selected, which must be a sibling. The first widget selected has solid handles.
+		
+	-- "Parent" ­ The selection will be aligned relative to the parent widget.
+		
+	-- "Edit" ­ The selection will be aligned with the last widget  
+	selected, called the Edit or the current widget, the one which has 
+	the x handles instead of the solid handles.
+		
+	3.) Choose to align the widget by "Position" or "Size".
+		
+	-- "Position" ­ The widget will move to a new position to align as specified.
+		
+	-- "Size" ­ The widget will change size to align as specified.
+		
+	4.) Select the Vertical or Horizontal choices. These specify the orientation of
+	the alignment.
+		
+	5.) Click on the Apply button in the Alignment window.
+		
+	Grid -- You can also display a grid on a composite widget to help you align widgets.
+	The grid will not exist in your interface, it is only a visual aid placed on the 
+	screen by XFaceMaker. The "Grid" field contains two items:
+		
+	-- a slider used to set the spacing between lines of the grid,
+		
+	-- the "Grid On"  toggle button. When "Grid On" is set, the grid is displayed 
+	and a child widget placed, moved, or resized on the composite widget 
+	will snap to the nearest grid line, both horizontally and vertically. When "Grid on" 
+	is not set, no grid is displayed. 
+Editing Resources
+	Resources are properties that define such things as a widget's position on 
+	the interface, its size, its color, or the type of font used for text. There are 
+	also "callback" resources, which determine how the widget 
+	behaves in response to events such as mouse clicks. In addition, 
+	 "active values" can act as user-defined resources. 
+			
+	The Widget Resources window displays all the resources available for 
+	the selected widget, and enables you to edit them.  You can display two different 
+	versions of this window: its default version, which includes icons that represent 
+	resource value types, or the "Fast" version, which does not include the 
+	icons, but which has a faster reaction time. (Set "Use Fast Resource List" in 
+	the Options menu.)
+			
+	To edit the resources of a selected widget:
+			
+	1.) Open a Widget Resources window. By default, the window displays the resources of 
+	the currently selected widget.  
+			
+	2.) Click to the right of the resource you wish to edit. 
+	This opens a text field to the right of the resource name. If you click 
+	on the resource name, the resource is selected---its name is highlighted. 
+		
+	3.) Enter a value or click on the ellipsis to pop up an editing window for that type of 
+	resource. 
+				
+	4.) Repeat steps 2 and 3 for all the resources you wish to modify.
+			
+	5.) Click on the Rebuild or the Set Values button, or press Return. This registers 
+	the changes to be written to the interface description file.
+				
+	-- The Rebuild option applies the resource list by re-creating the object being edited.
+				
+	-- The Set Values option applies the resources list to the edited object 
+	by setting the values. The changes may not be immediately displayed.
+			
+	-- Pressing Return applies the resource list, including the x, y, w, and h fields, 
+	by setting the values; i.e. as if you had pressed the Set Values button. However, 
+	if you simply clear the text field and press Return, the resource is reset to 
+	its default value by rebuilding the object. 
+			
+	The window icon, which was "open" while you were editing the 
+	resource, is now displayed in a "closed" state to indicate that the 
+	resource list has been applied.
+			
+	You can search for a resource in the list in two ways. 
+			
+	-- Enter the first few letters of its name in the Search field and press Return. 
+			
+	-- Place the pointer in the resource list and type the first letter of the 
+	resource name. If your keyboard focus policy is "pointer", place the 
+	pointer in the list outside of the text field. If your keyboard focus policy
+	 is "explicit", the focus must be on the icon to the left of the text 
+	field. You can also use the arrow keys to move up and down the list.
+			
+	You can also drag and drop widgets and resource values between the interface
+	and the list using mouse Button 2. 
+Writing FACE Scripts
+	XFaceMaker scripts are written in FACE, a simple, X-toolkit-oriented 
+	language similar to C. A brief description follows. See the XFaceMaker 
+	Reference Manual for complete details on the FACE language.
+	FACE supports the following statements as in C:
+			
+	assignment statement
+	
+	function call	
+	
+	if ... else
+	
+	while
+	
+	for
+		
+	FACE supports the following operators:
+	
+	Assignment operator   =
+	
+	Unary operator	   -
+	
+	Arithmetic operators	   +	 -	 *	 /
+	
+	Logical operators    &&	 ||	 !
+	
+	Relational operators   ==	 !=	 <=	 >=	 <	 >
+		
+	All arithmetic operations work on integer or floating-point operands. If 
+	any of the operands is a floating-point value, then the operator performs 
+	a floating-point operation, but the other operands are not converted automatically 
+	to a floating-point type (you must use the function citof). Expressions 
+	can be parenthesized and operator precedence is as in C.
+		
+	Comments are, as in C, enclosed between /* and */.
+		
+	Some important differences between FACE and C:
+	
+	-- Assignment statements may not be used as expressions.
+		
+	-- Values are not automatically converted from int to floating point.
+		
+	-- Integer constants must be decimal.
+		
+	-- There are no character constants.
+		
+	-- Both single quotes (') and double quotes (") delimit strings.
+		
+	-- In strings, a backslash (\) may escape only the quote character or another 
+	backlash. Furthermore, strings may contain newlines.
+		
+	An unknown identifier is treated as a string.
+	
+	FACE automatically creates a variable when assigning it a value. The 
+	variable has the same type as the expression to which it is assigned.You 
+	may also use the local and global keywords to declare variables and 
+	assign them a specific type.
+		
+	FACE recognizes most types in the Xt Intrinsics and OSF/Motif libraries.
+	New types can be specified with the keyword "type".
+		
+	To refer to a widget, use one of the following special widget references:
+		
+	self	  The widget containing the script
+			
+	parent	  The widget's parent.
+		
+	root	  The application shell at the top of the widget tree.
+		
+	toplevel  The shell that contains the widget and that is a direct descendent 
+	of the root widget.
+		
+	You may descend the widget tree from any of these special names, or from 
+	a variable that contains a widget, by providing the names of descendents 
+	separated by either periods (.) or asterisks (*).
+	A period indicates an immediate descendent, and an asterisk indicates 
+	any descendent. You may also connect several parent references separated by 
+	periods to start from an ancestor other than the widget's immediate parent. 
+		
+	To refer to a widget's resource, follow its reference name by a colon (:), 
+	then the name of the resource. You may use the resource in expressions 
+	or in assignments, just as you would use any ordinary variable.
+		
+	When assigning a String to a new_String resource, the string is automatically 
+	converted to the appropriate type.
+	
+	The characters @ and $ introduce special variables in FACE. See the 
+	XFaceMaker Reference Manual for details.
+	
+	For a list of functions that can be called in FACE, see the XFaceMaker 
+	Reference Manual.
+	
+	CALLBACK SCRIPTS
+	
+	In the X window system, widgets have callback resources---functions 
+	which are called by a widget in response to external events such as mouse 
+	clicks. Callback resources do not specify visible properties of a widget 
+	such as a labelString or the width of the border. Instead, they define 
+	the name of a function which is called by the widget itself under certain 
+	circumstances. 
+	
+	Callback resources can be used to invoke one or several functions in the 
+	application program from the interface, as well as to change the state of 
+	interface elements using FACE statements. 
+	
+	CREATION SCRIPTS
+	
+	A creation script written in FACE can be attached to any widget. The 
+	script is called when a child widget is created, or for a parent, once all its 
+	children have been created. Creation scripts are used:
+	
+	-- For widgets which need to reference their children in order to initialize 
+	their own resources 
+	
+	-- To set those widget resources whose value can be specified only after 
+	the widget has been created. 
+	
+	To edit a creation script, select xfmCreateCallback from the Resource list. 
+	You can enter a script in the text field next to its name, or open the special 
+	edit box by clicking on the ellipsis button. xfmCreateCallback is not a 
+	genuine X resource, but XFaceMaker considers it as such to make it accessible for 
+	script editing.
+	
+	A creation script is executed any time the associated widget is created. 
+	Therefore the script will be called by XFaceMaker as you construct an in
+	terface as well as in the final application when that interface is used.  
+	A widget's createCallback is called after all the children of the widget have 
+	been created and managed. 
+Creating Menus
+	You can create menus using the Menu Editor or you can build the menu from 
+	scratch. Both are described below. There are several examples of menu building
+	in the Menus chapter of the XFaceMaker User's Guide.
+		
+	USING THE MENU EDITOR
+			
+	The Menu Editor provides a simplified interface for building menus. It 
+	contains: a representation field to display the menu during editing,
+	a dialog section to define resources, and a set of pushbuttons to apply your choices.
+	The editing fields displayed in this window change according to the type 
+	of menu or menu item being edited. 
+		
+	1.) Select the menu widget you wish to edit, then open the Menu Editor by clicking on 
+	that item in the Windows menu. 
+		
+	2.) Choose the "Menu Item Type" by clicking on its icon;
+	for example, if you are editing a menuBar widget, the type can be a Pulldown menu
+	or a Help menu.
+		
+	3.) Enter a label for the item in the "Label" field. Specify any other information,
+	such as fonts, mnemonics, in the appropriate fields.
+		
+	4.) Click the Add button. The item you are currently editing is displayed in 
+	the representation field at the top of the Editor, and is highlighted.
+		
+	To add another pulldown menu to the menuBar, select the first pulldown menu, select the 
+	Pulldown menu icon in the "Menu Item Type" field, click the Add button, edit its label and
+	other fields, then click on the Replace button.  
+		
+	To add an item to a pulldown menu, double-click on a pulldown menu in the representation field to open its corresponding pulldown menu.
+	Select a menu item type, edit its label and other fields, and click on the Add button.
+	Once you have created an item in the pulldown menu, you can easily add a second item.
+	With the first item still selected, click on the Add button. The newly added item is now
+	selected. Edit its label and any other fields, then click on the Replace button. 
+		
+	CREATING MENUS WITHOUT THE MENU EDITOR
+		
+	Menus created without the Menu Editor are different from other objects 
+	in that menu panes do not appear on the display as a menu is being built, 
+	but only when you are in Try mode. This restriction is due to the way 
+	menus are implemented in the Motif toolkit. 
+		
+	You can select any menu widget in the Widget List or the Widget Tree 
+	and then drag it to a tool icon, or edit it using the commands in the Edit menu. 
+		
+	To place a menu widget, select it, move it over another widget, (or over 
+	a widget name in the Tree or List), and click. Or drag out the widget 
+	on the interface. 
+		
+	To change the order of items in a menu, select an item and drag it to a 
+	new position. The only thing that cannot be done in the Widget List or the Widget Tree 
+	is to resize a widget within a menu pane.
+	
+Active Values
+	Use the Active Values window to define and edit active values for the currently selected widget.  
+	The options available in this window change according to the usage you select for 
+	the active value. Each different usage window is described in a separate section below.
+	
+	There are five choices for Usage: 
+	
+	-- "interface" The active value is used to share data with the application, or 
+	to define a script, a pseudo-resource, or a method.
+	
+	-- "drag source" The active value names a target the widget can drag.
+	
+	-- "drop site" The active value names a target accepted by the widget as a drop site.
+	
+	-- "widget class" The active value is a resource in a widget class described 
+	by the widget.
+	
+	-- "C++ class" The active value is a member of the C++ class generated in 
+	connection with the widget.
+	
+	The following fields appear in all the Active Values windows: 
+	
+	"A list of active values"  Only active values that have the same usage appear in 
+	this field, if you are using "new style" active values (version 3.0 
+	and later). However, older .fm files with "old style" active values will 
+	display all the active values of the widget, regardless of their usage.
+	
+	"Usage"  Specify the usage for the active value.
+	
+	"Custom Editor"  Opens the editor you specified using the FMEDITOR environment variable. 
+	
+	"Clear" Clears the editing field.
+	
+	"Get/Set Script"  Enter get and set scripts for the active value. By 
+	convention, the get script updates the active value's data to reflect the 
+	interface's current setting. The set script tells the interface that the 
+	data has changed so that the interface can change its presentation.
+	
+	"Add" Defines the active value for the current widget and registers the changes.
+	
+	"Replace"  Replaces the active value selected  in the display box with the newly
+	defined active value.
+	
+	"Delete" Deletes the selected active value and its get and set scripts.
+	
+	"Close"  Closes the  window. If you have added (by clicking 
+	on the Add button) an active value to the widget you are editing, the 
+	active value is applied to the widget. If not, clicking Close merely closes 
+	the window without changing the widget.
+	
+	USAGE: interface
+	
+	An active value whose usage is set as "interface" is used to share data 
+	with the application, or to define a script, a pseudo-resource, or a method. 
+	
+	The box has the following fields:
+	
+	"Active Value Name" Enter a name to identify the active value. 
+	The name must begin with an alphabetic character.
+	
+	"Type" Enter a type of variable for the active value. If no type is 
+	specified, the type is "Any". The ellipsis pops up a type selection box.
+	
+	"Value" If storage is per widget and allocated automatically by XFaceMaker, 
+	you may enter an initial value for the active value here.
+	
+	"Storage" Specify data storage and how it is allocated. There are three choices:
+		
+	-- "global": if the entire interface may always use the same data.
+		
+	-- "per widget": if you want separate storage locations for each widget in the interface
+	that uses the active value.
+		
+	-- "per call": use this if you want to define interface set scripts that can be
+	called with arguments. XFacemaker will allocate storage each time it 
+	calls the active value's set script---and then de-allocate it after the 
+	script is executed.
+	
+	"Allocate automatically" When this is set, XFaceMaker will allocate storage for
+	the active value if storage has not already been allocated. 
+	
+	"Access" You must decide whether your FACE script will refer to the contents 
+	of the active value via the @ special variable, or by its immediate 
+	value using $. If by immediate value, select the checkbutton marked 
+	"immediate".
+	
+	USAGE: drag source
+	
+	An active value whose usage is set to "drag source" defines a target the 
+	widget can export. You will define a get script for each target which will
+	store the data to be transferred into the @ argument. Clicking on the ellipsis
+	opens an edit box for multi-line scripts. 
+	
+	The box has the following fields:
+	
+	"Icon Pixmap" Enter the name of a pixmap that the pointer changes to
+	when you start a drag operation. The ellipsis pops up the Pixmap 
+	editor for defining a pixmap.
+	
+	"Drag Type Name" Enter the type of target that the selected widget 
+	can export. The List... button pops up the Drag Target Selector 
+	which contains list of commonly accepted selection targets defined in 
+	the ICCCM. Select a drag target from the list, then click on the OK 
+	button. A widget can have more than one target.
+	
+	USAGE: drop site
+	
+	An active value whose usage is set as "drop site" names a target accepted 
+	by the widget as a drop site. You will define the set script for the target.
+	It  should read the data received in the @ argument, and 
+	use it as needed. Clicking on the ellipsis opens an edit box for multi-
+	line scripts.
+	
+	The box has the following fields:
+	
+	"Drop Targets" This box lists the targets specified as drop sites for 
+	the selected widget. 
+	
+	"Drop Target Name" Specify the name of a target accepted by the 
+	selected widget as a drop site. 
+	
+	"List..." Pops up the Drop Target Selector.
+	Select a drop site from a 
+	list of commonly accepted selection targets as defined in the "Inter-Client 
+	Communication Convention Manual" by the X Consortium.
+	Selecting one enters it in the "Drop Target Name" field. 
+	
+	USAGE:  widget class
+	
+	An active value whose usage is set to "widget class" defines a resource for 
+	a widget class. To edit an active value of this kind, you must first select 
+	the top level widget of the class. Specify the class name and class icon--
+	they are associated to the widget. Then define as many resources as you 
+	like for this class, and do one overall "Save". (You can also save your class 
+	using the commands in the Classes sub-menu of the Modules menu.)
+	
+	This box has the following fields:
+	
+	"Class Name" Specify the name of the class being defined or edited. 
+	The ellipsis opens a list of already-defined classes from which to choose. 
+	
+	"New Resource Name" Enter the resource name when you are defining a 
+	new resource, editing an existing resource, or deleting a resource.
+	
+	"Edit" This button pops up the Class Name box from which you may select the 
+	class name that you want to edit.
+	
+	"Class Icon" Enter the name of a pixmap to represent the class in the 
+	widgetstore. The ellipsis pops up the Pixmap editor for defining a pixmap.
+	
+	"Type" Used to specify the active value's type. in the "Type" field, or click 
+	the ellipsis to pop up the Type Selector box. Choose a type from the list 
+	or enter one in the "Resource type" text field, then click OK. 
+	
+	"Value" Enter a default value for the new resource being defined in the 
+	"Value" field. Or click on the ellipsis to open an editing window for that 
+	type of resource. Enter a value, then click on the Add button. Or click 
+	on the List button to return to the Active Values box without specifying
+	a value.
+	
+	"Methods..." Pops up a list of methods available for your widget class. You 
+	can select a method name from the list or enter a name directly in the 
+	text field of the Method Selector box. Then click the OK button.
+	
+	USAGE: C++ class
+	 
+	A C++ class is defined from a widget tree, characterized by its 
+	top widget. You must select the top widget of the class in order to define
+	active values for the class. A "C++ class" active value defines a "data member" or
+	a "member function" for the C++ class. "Data members" are active
+	values with "per object" storage, and "member functions" are active values with
+	"per call" storage. 
+	
+	"Member Name" Enter the name of the member here.
+	
+	"Members"  This box displays existing members of the C++ class.
+	
+	"Type"   This depends on the "Member Kind": data or function. For "data" types, 
+	enter the FACE type of the data member. For "function" types, the "type" of a 
+	member function is a user-defined argument structure that defines the return 
+	type and the parameters of the function. Enter the name of the structure in 
+	the "type" field and define it in the set script of the function. The 
+	structure's fields will be interpreted as follows:
+		
+	-- The first field corresponds to the value returned by the function. 
+		
+	-- Its type (a FACE type) is the return type of the function. Its 
+	name will be used to specify the return value (unless the return 
+	type is None, which corresponds to the C++ void type).
+		
+	-- The remaining fields correspond to the arguments of the function. 
+	The order in which they appear in the structure will be 
+	their order in the argument list of the C++ member function. 
+	Each type is a FACE type, whose C++ counterpart will be used 
+	in the actual definition of the function.
+	
+	"Value" This depends on the "Member Kind": data or function. For a data member, 
+	enter the initial value here. For a member function, this field is not used and 
+	will be grayed out so that it is not editable.
+	
+	"Member Kind" There are two choices: "data" to edit data members, and 
+	"function" -- to edit member functions.
+	
+	"Generate access functions"  When set, XFaceMaker will generate two 
+	public member functions for read and write access. The 
+	names of these functions will be built by concatenating "set" and "get"  
+	with the capitalized name of the member.
+		
+	"Access" There are three choices of access level for the member: "public", 
+	"protected", and "private". They correspond to C++ access levels.
+Saving Your Work
+	There are a number of different ways to save your work. You can:
+		
+	-- Save all of the current interface as a simple .fm file using the 
+	File/Save command. All widgets in the interface will be saved whether they 
+	are selected or not. 
+		
+	-- Save a selected part of the interface as a separate .fm file using 
+	the File/Save Selected As... command. This saves the selected top-level widget 
+	and its sub-tree.
+		
+	-- Save several different interface files as a project using the command 
+	File/Save Project As. This saves the list of specified files as a 
+	single project file, given the suffix (.fmp). 
+		
+	-- Save groups, templates, and classes. See the Help on Templates and Classes.
+		
+	-- Of course, as with any file, you can save the full interface or an interface 
+	fragment under a different name by using the File/Save As... command. 
+		
+	There are a number of optional files you can tell XFaceMaker to generate at save time, 
+	such as C code, UIL, or RDB files.  Save options must be set before you give the 
+	save command.
+		
+	XFaceMaker remembers which file an object was saved into. Instead of 
+	saving all current objects in a single .fm file, the File/Save and 
+	File/Save As... commands look at all the loaded files, and save the objects to 
+	their corresponding files. Groups, templates, and classes are saved into 
+	the corresponding group, template, or class file, not into the main interface file.
+				
+	Opening Files
+		
+	When you launch XFaceMaker, you can specify that one or several files 
+	be loaded by using the command line: xfm <options> <fmfile>. If you 
+	don't specify an interface file to load, an empty Design process is launched, 
+	whose default name is unnamed.fm. You can then do any of the following:
+		
+	-- build a new interface by selecting widgets from the Toolkit and laying 
+	them out on the screen.
+		
+	-- open an existing interface file using the File/Open... command. 
+	(Change directories by selecting File/Change Directory).
+		
+	-- open an existing project (.fmp) file using the File/Open... command. 
+	This opens files that were saved using the File/Save Project As... command.
+		
+	Once an interface is open, you can do the following:
+		
+	-- insert another file into the interface using File/Read. 
+		
+	-- clear the existing interface to work on a new one, using the File/New command.
+				
+	Exiting XFaceMaker
+			
+	To quit XFaceMaker, select Exit in the File menu.
+	If the interface has been modified since the last time it was saved, an 
+	Alert box will warn you. This allows you to cancel the Exit command if 
+	you want to save the changes before exiting. 
+		
+Generating an Application
+	XFaceMaker enables you to generate, compile, and test a working application 
+	interactively and easily. You can modify the application files directly using 
+	a customizable text editor. Applications can be built using make.
+	
+	XFaceMaker generates the application files by applying the information 
+	that is specific to your interface to a set of file patterns. These patterns 
+	contain special comments which describe what must be output for each 
+	kind of object, such as application functions, active values, etc. The patterns 
+	can be modified to suit specific needs on a per-user, project-wide or 
+	system-wide basis.
+	
+	The XFaceMaker application pattern format allows the programmer to 
+	modify some parts of the generated files, but still be able to re-generate 
+	the file when the interface is changed; for example, if a new function is 
+	added. This is achieved by saving the generation information in the file 
+	as comments.
+	
+	To generate the application files for an interface, use the "Save Appli Files Also"
+	item in the File menu.	To generate code which does not contain the code 
+	preservation comments, and thus is easier to read, make sure that the "Preserve User Code"
+	option in the Options menu is not set. This is the default case.	 
+	
+	You can also generate the application files from the command-line, with 
+	the -genappli option. Thus, the command:
+	
+	xfm -gen Example.fm 
+	
+	will generate the application files for the interface contained in Example.fm. 
+	
+	XFaceMaker generates four files:
+		
+	-- a C file called <Name>Main.c, containing the main function of the application;
+		
+	-- a C file called <Name>App.c, containing the skeletons of the application functions as well as the active value variables.
+		
+	-- a C include file called <Name>App.h, containing the declarations of 
+	the application functions and active value variables;
+		
+	--a Makefile called <Name>Make, contains rules to build the application.
+		
+	THE MAIN FILE
+	
+	The main file contains the calls to:
+		
+	-- initialize the X Toolkit and the XFaceMaker library,
+		
+	-- attach the application functions (in interpreted mode),
+		
+	-- attach the active values,
+		
+	--load and map the interface modules (in interpreted mode), or call the 
+	creation functions (in compiled mode),
+		
+	-- enter the main loop, or call the FmCallEditor function to build an extended XFaceMaker.
+		
+	THE FUNCTIONS FILE
+	
+	The functions file contains:
+		
+	-- the declarations of the active value variables corresponding to global 
+	active values of your interface. New-style active values attached to an 
+	object are not saved in the application file. If an active value is typed, 
+	the corresponding C type is used when generating the application file; 
+	otherwise XtArgVal is used.
+		
+	-- the skeletons of the application functions declared in the FACE scripts 
+	of the interface using the function keyword. If the argument names 
+	were specified in the function declaration, they are used when generating the skeletons.
+		
+	The include file contains the external declarations of the variables and 
+	functions in the functions file.
+		
+	THE MAKEFILE
+	
+	The Makefile contains the rules to build three programs:
+		
+	-- the interpreted version of the application, called i<name>, is linked 
+	with the libFm.a library.
+		
+	-- the compiled version of the application, called c<name>, is linked with 
+	the compiled interface modules and the libFm_c.a library.
+		
+	-- the "editable" version of the application, called e<name>, is linked 
+	with the libFm_e.a, calls the FmCallEditor function, and can be 
+	used as a Design process when launched with the -client option.
+			
+	THE PATTERN FILES
+	
+	The pattern files used to generate the four application files are: Patt
+	Main.c, PattApp.c, PattApp.h, PattMake. These pattern files are 
+	located using the XFaceMaker data file search rules in the GenAppli 
+	sub-directory. If the XFaceMaker files are installed in /usr/lib/X11/
+	xfm, the pattern files will be /usr/lib/X11/xfm/GenAppli/Patt*. 
+		
+	You can modify a copy of the pattern files and store them in $HOME/
+	GenAppli/Patt*, or in ./GenAppli/Patt*. 
+		
+	BUILDING THE APPLICATION
+	
+	The application files can be compiled immediately to build a running application, 
+	although of course you will later have to add your application code.
+	To build the application, you can run make in an xterm window:
+		
+	make -f <Name>Make 
+		
+	The default target in the Makefile builds three versions of your application: 
+	interpreted, compiled, and editable. 
+	You can also build the editable version of your application directly from 
+	XFaceMaker, using the Build Appli command in the `File' menu. The 
+	output of the make command will be displayed in an XFaceMaker window 
+	which pops up automatically. You can customize the make command line 
+	by creating an executable file called xfmmkappli in the current directory, 
+	your home directory or in the XFaceMaker data files directory (by default 
+	/usr/lib/X11/xfm). If this file is present, it will be executed 
+	instead of make with the same arguments.
+	
+	You may have to modify the generated Makefile to compile and/or link 
+	your application if your system requires special compilation flags or libraries. 
+	However, the generated Makefile includes a platform-specific file 
+	which redefines macros such as include and library paths, special compilation 
+	flags and compiler options, etc. Application files generated on one 
+	of the reference platforms (i.e. platforms for which the NSL CD-ROM contains 
+	a distribution) can be compiled immediately on that platform with
+	out modifying the Makefile. 
+			
+	To compile the application on another platform, you must either modify 
+	the Makefile manually, or redefine the macros XFM_TARGET_OS or 
+	XFM_TARGET_MK as appropriate: XFM_TARGET_OS is the name of the target 
+	operating system prepended with a ``-''; XFM_TARGET_MK is the full 
+	path name of the include file for the target operating system. 
+		
+	Include files exist in the standard distribution for the following operating systems: 
+	aixv3, hpux, irix-5.2, osf1, sco, solaris, sunos. The corresponding include 
+	files have names beginning with Mk- and are installed in the same directory
+	as the pattern files. 
+		
+	For example, the following commands would generate and compile an 
+	application on a Sun system, then compile it again on an HP-UX system, 
+	assuming the platform-specific files are installed in the same location:
+		
+	sunos % xfm -gen Test.fm
+		
+	sunos % make -f TestMake
+		
+	hpux % make -f TestMake XFM_TARGET_OS=-hpux
+	
+	If the configuration files were installed in different directories, the following 
+	should be used:
+		
+	hpux % make -f TestMake \
+		
+	XFM_TARGET_MK=/nsl/hpux/lib/xfm/GenAppli/Mk-hpux
+		
+	The application files take into account the various options with which the 
+	interface was saved. For example, if the Save RDB Also option was set, 
+	the Makefile will load the .fm_rdb files instead of the .fm files, and an 
+	application defaults file will be generated from the .rdb files. The Save 
+	UIL Also option is handled as well. 
+		
+	If a project file was saved for the application, it is used in the Makefile to 
+	re-generate all files: C code files, UIL files, RDB files. Note that, since 
+	project files include C code and RDB options, the options in the project file 
+	override the options in the Makefile. 
+	So, when you change the  options, you must save your project file again, 
+	or re-generate the application files if you don't use a project file.
+		
+	The Makefile contains targets to build an application in interpreted, compiled, 
+	or editor mode as follows: 
+		
+	`make -f XyzMake interpreted' 
+		
+	makes the interpreted version of the application (i.e. ixyz plus all the files 
+	it needs like application defaults files). 
+		
+	`make -f XyzMake compiled' 
+		
+	makes the compiled version of the application (i.e. cxyz plus all the files 
+	it needs like application defaults files and UID files).
+		
+	`make -f XyzMake cleanall' 
+		
+	removes all the files generated by XFaceMaker including C code files 
+		
+	made from .fm files. The target `all' does not make the ``editor'' version 
+	of the application any more: to compile it, use `make -f XyzMake exyz'.
+	If the interface was created using xfmwf and uses additional NSL or XRT 
+	widgets (for example XnslDraw, XRT/Graph, etc), the Makefile will contain 
+	the appropriate libraries and include paths to compile the application properly, 
+	and the necessary initialisation function will be called in 
+	the main file. As a result, applications can usually be compiled without 
+	modifying the application files.
+		
+	You can modify the application file patterns if you want to change permanently 
+	the way XFaceMaker generates the application files on your system. 
+	

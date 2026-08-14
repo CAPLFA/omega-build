@@ -1,0 +1,34 @@
+BuildOptions
+	Controls how resource modifications are applied
+	when the Apply button is clicked.
+	
+	Rebuild on every resource change
+		New instances of each object implied in the
+		resource change are created for each resource 
+		modification. In this mode, the effect of
+		changes is immediately visible, for all resources.
+		This is the default mode. It is slower than the
+		others, but easier to use.
+	
+	SetValues on every resource change
+		Resource values are updated on existing objects.
+		Though most resource changes are directly visible,
+		some changes, for some widgets, are not. Some resources
+		cannot be changed by SetValues and for these,
+		an error message is generated which may be ignored.
+		In addition, it is not possible to observe the return
+		of resources to their default values when changes are
+		removed. All changes become effective when the Apply
+		button is clicked in the Resources Box.
+		This mode is faster than the default mode but can
+		prove misleading for inexperienced users.
+	
+	Rebuild on resources window Apply
+		None of the widget's resources are updated until
+		the Apply button is clicked in the Resources Box.
+		In this mode, none of the changes can be observed
+		immediately, but there is a significant gain in
+		speed of operation.
+		Meant for experienced users, this is the fastest
+		of the three modes.
+		

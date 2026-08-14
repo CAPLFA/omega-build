@@ -1,0 +1,97 @@
+widget XmMainWindow {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_ATTACHCHILDREN
+        get = script get_MFCMainWindow_MFC_ATTACHCHILDREN:
+		FacePragma("ignore");
+		Widget mb = self:menuBar;
+		Widget cw = self:commandWindow;
+		Widget mw = self:messageWindow;
+		Widget ws = self:workWindow;
+		Widget top;
+		Widget bottom;
+		if(mb){
+			mb:@MFC_SCROLLED_CHILD = "";
+		}
+		if(cw){
+			cw:@MFC_A_leftAttachment = "XmATTACH_FORM";
+			cw:@MFC_A_rightAttachment = "XmATTACH_FORM";
+			if(self:commandWindowLocation == XmCOMMAND_ABOVE_WORKSPACE)
+				top = mb;
+			else if(ws)
+				top = Widget(0);
+			else
+				top  = mb;
+			if(top){
+				cw:@MFC_A_topAttachment = "XmATTACH_WIDGET";
+				cw:@MFC_A_topWidget = XtName(top);
+			} else {
+				cw:@MFC_A_topAttachment = "XmATTACH_FORM";
+			}
+		}
+		if(ws){
+			ws:@MFC_A_leftAttachment = "XmATTACH_FORM";
+			ws:@MFC_A_rightAttachment = "XmATTACH_FORM";
+			if(self:commandWindowLocation == XmCOMMAND_BELOW_WORKSPACE)
+				top = mb;
+			else if(cw)
+				top = cw;
+			else
+				top = mb;
+			if(top){
+				ws:@MFC_A_topAttachment = "XmATTACH_WIDGET";
+				ws:@MFC_A_topWidget = XtName(top);
+			} else {
+				ws:@MFC_A_topAttachment = "XmATTACH_FORM";
+			}
+			if(self:commandWindowLocation == XmCOMMAND_BELOW_WORKSPACE)
+				bottom = cw;
+			else if(mw)
+				bottom = mw;
+			else
+				bottom = Widget(0);
+			if(bottom){
+				ws:@MFC_A_bottomAttachment = "XmATTACH_WIDGET";
+				ws:@MFC_A_bottomWidget = XtName(bottom);
+			} else {
+				ws:@MFC_A_bottomAttachment = "XmATTACH_FORM";
+			}
+		}
+		if(mw){
+			mw:@MFC_A_leftAttachment = "XmATTACH_FORM";
+			mw:@MFC_A_rightAttachment = "XmATTACH_FORM";
+			mw:@MFC_A_bottomAttachment = "XmATTACH_FORM";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCMainWindow_MFC_CLASS:
+		FacePragma("ignore");
+		if(self:scrollingPolicy == XmAUTOMATIC){
+			if(!self:commandWindow
+			&& !self:messageWindow){
+				@ = "CXfmScrolledWnd";
+			} else {
+				printf("XFM/Win warning: in template MFCMainWindow for widget %s:\n\tthe work area of a MainWindow cannot be scrolled\n\tif a Message or Command window is present.\n",
+						XtName(self));
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+        autoget = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} button

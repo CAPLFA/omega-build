@@ -1,0 +1,24 @@
+widget XmScrolledWindow {
+    flag {
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 585
+        height = 332
+    }
+    children {
+        widget XmText {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 566
+                height = 313
+                editMode = multi_line_edit
+            }
+        } ScrolledText
+    }
+} MyScrolledText

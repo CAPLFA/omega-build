@@ -1,0 +1,105 @@
+Xfm*background:		dimgray
+Xfm*foreground:		magenta
+Xfm*selectColor:	cyan
+
+Xfm*xfmVersionBB.labelXFM.foreground:		cyan
+Xfm*xfmVersionBB.labelVersion.foreground:	orange
+Xfm*xfmVersionBB.hourglass.foreground:		yellow
+Xfm*xfmVersionBB.loading.foreground:		white
+Xfm*xfmVersionBB.labelNames.foreground:		green
+
+Xfm.XmDialogShell*XmText.background:		gray
+Xfm.XmDialogShell*XmText.foreground:		black
+Xfm.TopLevelShell*XmText.background:		gray
+Xfm.TopLevelShell*XmText.foreground:		black
+Xfm.XmDialogShell*XmTextField.background:	gray
+Xfm.XmDialogShell*XmTextField.foreground:	black
+Xfm.TopLevelShell*XmTextField.background:	gray
+Xfm.TopLevelShell*XmTextField.foreground:	black
+
+
+Xfm*XmMainWindow.XmRowColumn*foreground:		hotpink
+Xfm*XmMainWindow*try.selectColor:			green
+Xfm*XmMainWindow*listform.scroller.XmList*background:	midnightblue
+Xfm*XmMainWindow*listform.scroller.XmList*foreground:	cyan
+Xfm*XmMainWindow*listform.XmTextField*background:	gray
+Xfm*XmMainWindow*listform.XmTextField*foreground:	black
+Xfm*XmMainWindow*treescroller.Tree*background:		darkgreen
+Xfm*XmMainWindow*treescroller.Tree*foreground:		green
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	gray
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.foreground:	black
+Xfm*XmMainWindow*treescroller.ClipWindow*background: darkgreen
+Xfm*XmMainWindow*treescroller.ClipWindow*foreground: green
+
+Xfm.Alert*foreground:		red
+
+Xfm.TopLevelShell*foreground:			cyan
+Xfm.TopLevelShell*parentName.background:	dimgray
+Xfm.TopLevelShell*parentName.foreground:	cyan
+Xfm.TopLevelShell*bb*background:		midnightblue
+Xfm.TopLevelShell*bb*foreground:		magenta
+Xfm.TopLevelShell*bb.XmTextField.background:	gray
+Xfm.TopLevelShell*bb.XmTextField.foreground:	black
+Xfm.TopLevelShell*listScroller.ClipWindow*background: midnightblue
+Xfm.TopLevelShell*listScroller.ClipWindow*foreground: magenta
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: gray
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.foreground: black
+Xfm.TopLevelShell*fastListScroller*background: midnightblue
+Xfm.TopLevelShell*selection.background:		cyan
+Xfm.TopLevelShell*selectColor:			red
+Xfm.TopLevelShell*current.selectColor:		yellow
+Xfm.TopLevelShell*curline.topShadowColor:	yellow
+Xfm.TopLevelShell*curline.bottomShadowColor:	yellow4
+
+Xfm.activevalue*foreground:		orange
+Xfm.activevalue*XmText.background:	gray
+Xfm.activevalue*XmText.foreground:	black
+Xfm.activevalue*XmTextField.background:	gray
+Xfm.activevalue*XmTextField.foreground:	black
+
+Xfm.MenuEditor*foreground:		hotpink
+Xfm.MenuEditor.form.name.background:	dimgray
+Xfm.MenuEditor.form.name.foreground:	hotpink
+Xfm.MenuEditor*XmText.background:	gray
+Xfm.MenuEditor*XmText.foreground:	black
+Xfm.MenuEditor*XmTextField.background:	gray
+Xfm.MenuEditor*XmTextField.foreground:	black
+Xfm.MenuEditor*selectColor:		yellow
+
+Xfm.Environment*foreground:		green
+Xfm.Environment*XmText.background:	gray
+Xfm.Environment*XmText.foreground:	black
+Xfm.Environment*XmTextField.background:	gray
+Xfm.Environment*XmTextField.foreground:	black
+
+Xfm.FaceDebugger*message_text.background:	dimgray
+Xfm.FaceDebugger*message_text.foreground:	magenta
+Xfm.FaceDebugger*widget_text.background:	dimgray
+Xfm.FaceDebugger*widget_text.foreground:	magenta
+Xfm.FaceDebugger*script_text.background:	dimgray
+Xfm.FaceDebugger*script_text.foreground:	magenta
+Xfm.FaceDebugger*source_text.background:	dimgray
+Xfm.FaceDebugger*source_text.foreground:	magenta
+Xfm.FaceDebugger*output_text.background:	dimgray
+Xfm.FaceDebugger*output_text.foreground:	magenta
+
+Xfm.Fileselector*foreground:			blue
+Xfm.Fileselector*XmText.background:		gray
+Xfm.Fileselector*XmText.foreground:		black
+Xfm.Fileselector*XmTextField.background:	gray
+Xfm.Fileselector*XmTextField.foreground:	black
+
+Xfm.Help*foreground:		yellow
+Xfm.Functions*foreground:	yellow
+Xfm.iconhelp*foreground:	yellow
+
+Xfm.coptions*command.background:	dimgray
+Xfm.coptions*command.foreground:	magenta
+Xfm.rdboptions*command.background:	dimgray
+Xfm.rdboptions*command.foreground:	magenta
+Xfm.msgoptions*command.background:	dimgray
+Xfm.msgoptions*command.foreground:	magenta
+Xfm.uiloptions*command.background:	dimgray
+Xfm.uiloptions*command.foreground:	magenta
+Xfm.printoptions*command.background:	dimgray
+Xfm.printoptions*command.foreground:	magenta

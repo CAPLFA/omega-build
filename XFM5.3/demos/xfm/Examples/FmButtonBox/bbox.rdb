@@ -1,0 +1,24 @@
+*background: grey
+*bbox*background: white
+*bform.height: 575
+*bbox.width: 450
+*bbox.height: 65
+*fontList: -*-helvetica-medium-r-*-*-*-140-*-*-*-*-*-*
+*infolabel*fontList:-*-helvetica-bold-r-*-*-*-140-*-*-*-*-*-*
+*infolabel.marginWidth: 10
+*infolabel.marginHeight: 10
+*boxSizeLabel.labelString: XmNequalSize
+*fillOptionLabel.labelString: XmNfillOption
+*widLabel.labelString: XmNmarginWidth
+*htLabel.labelString: XmNmarginHeight
+*orientLabel.labelString: XmNorientation
+*toggle1.labelString: True
+*toggle2.labelString: False
+*toggle3.labelString: XmHORIZONTAL
+*toggle4.labelString: XmVERTICAL
+*resform*XmPushButton.labelString: Explain...
+*resform*nonePB.labelString: XmFillNone
+*resform*minorPB.labelString: XmFillMinor
+*resform*majorPB.labelString: XmFillMajor
+*resform*allPB.labelString: XmFillAll 
+*quitPB.labelString: Quit

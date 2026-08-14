@@ -1,0 +1,28 @@
+widget XmScrolledWindow {
+    flag {
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 244
+        height = 249
+    }
+    children {
+        widget XmList {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 244
+                height = 249
+                items = one_very_long_one,two,three,four,five,six,seven,eight,nine,ten
+                itemCount = 10
+                visibleItemCount = 10
+                listSizePolicy = constant
+                selectionPolicy = single_select
+            }
+        } SList
+    }
+} MyScrolledList

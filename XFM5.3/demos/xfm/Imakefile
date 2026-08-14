@@ -1,0 +1,20 @@
+#$Id: Imakefile 3 2002-10-21 13:28:25Z ab $
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+        SUBDIRS = Examples
+
+MakeSubdirs($(SUBDIRS))
+
+config boot world World clib Clib::
+	config/boot
+
+bootxfm::
+	cd config; $(MAKE) -f Makefile.ini clean; $(MAKE) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"
+	-$(MV) Makefile Makefile.bak
+	config/imake $(IMAKE_DEFINES) -Iconfig/
+	$(MAKE) Makefile
+	$(MAKE) Makefiles
+
+RcsFiles(Imakefile README)

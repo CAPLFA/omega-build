@@ -1,0 +1,282 @@
+widget ApplicationShell {
+    flag {
+        mapped
+        autosize
+    }
+    resources {
+        x = 165
+        y = 113
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                horizontalSpacing = 3
+                verticalSpacing = 3
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        Widget w;
+	w = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);
+	XtUnmanageChild(w);
+                    }
+                    resources {
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                        marginHeight = 3
+                        marginWidth = 3
+                        buttonFontList = *adobe-helvetica-bold-r-*-12-*
+                        okCallback = Exit(0);
+                        cancelCallback = Exit(1);
+                    }
+                } article_mb
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-18-*
+                        topAttachment = attach_form
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                    }
+                } Articles
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        rightAttachment = attach_form
+                        leftAttachment = attach_form
+                        topAttachment = attach_widget
+                        topWidget = Articles
+                    }
+                } sep0
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = parent.sep0
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.article_mb
+                        horizontalSpacing = 3
+                        verticalSpacing = 3
+                    }
+                    children {
+                        widget XmSeparator {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                leftAttachment = attach_form
+                                topAttachment = attach_position
+                                topPosition = 20
+                                rightAttachment = attach_form
+                                separatorType = no_line
+                            }
+                        } sep1
+                        widget XmSeparator {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                topAttachment = attach_position
+                                topPosition = 40
+                                rightAttachment = attach_form
+                                leftAttachment = attach_form
+                                separatorType = no_line
+                            }
+                        } sep2
+                        widget XmSeparator {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                orientation = vertical
+                                topAttachment = attach_position
+                                bottomAttachment = attach_form
+                                topPosition = 40
+                                leftAttachment = attach_position
+                                leftPosition = 30
+                                separatorType = no_line
+                            }
+                        } sep3
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                alignment = alignment_end
+                                fontList = *helvetica-bold-r-*-12-*
+                                leftAttachment = attach_form
+                                topAttachment = attach_form
+                                bottomAttachment = attach_widget
+                                bottomWidget = parent.sep1
+                                rightAttachment = attach_widget
+                                rightWidget = parent.sep3
+                            }
+                        } Name
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                fontList = *helvetica-bold-r-*-12-*
+                                rightAttachment = attach_form
+                                topAttachment = attach_form
+                                bottomAttachment = attach_widget
+                                bottomWidget = parent.sep1
+                                leftAttachment = attach_widget
+                                leftWidget = parent.sep3
+                            }
+                        } NameText
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                alignment = alignment_end
+                                fontList = *helvetica-bold-r-*-12-*
+                                topAttachment = attach_widget
+                                topWidget = parent.sep1
+                                leftAttachment = attach_form
+                                bottomAttachment = attach_widget
+                                bottomWidget = parent.sep2
+                                rightAttachment = attach_widget
+                                rightWidget = parent.sep3
+                            }
+                        } Type
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                fontList = *helvetica-bold-r-*-12-*
+                                translations = #override\
+<KeyPress>F2 : eval("Show(toplevel.SelectType);\nWarpPointer(toplevel.SelectType);\n")
+                                topAttachment = attach_widget
+                                topWidget = parent.sep1
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_widget
+                                bottomWidget = parent.sep2
+                                leftAttachment = attach_widget
+                                leftWidget = parent.sep3
+                                value = Press F2 for Selection
+                                editable = false
+                                cursorPositionVisible = false
+                            }
+                        } TypeText
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                alignment = alignment_end
+                                fontList = *helvetica-bold-r-*-12-*
+                                leftAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = parent.sep2
+                                rightAttachment = attach_widget
+                                rightWidget = parent.sep3
+                            }
+                        } Description
+                        widget XmText {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                fontList = *helvetica-bold-r-*-12-*
+                                rows = 5
+                                editMode = multi_line_edit
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = sep2
+                                leftAttachment = attach_widget
+                                leftWidget = sep3
+                            }
+                        } DescrText
+                    }
+                } Form2
+            }
+        } Form
+        widget XmDialogShell {
+            flag {
+                popup
+                autosize
+                autopos
+            }
+            resources {
+                deleteResponse = do_nothing
+            }
+            children {
+                widget XmSelectionBox {
+                    flag {
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        Widget W;
+	w = XmSelectionBoxGetChild(self, XmDIALOG_HELP_BUTTON);
+	XtUnmanageChild(w);
+	w = XmSelectionBoxGetChild(self, XmDIALOG_APPLY_BUTTON);
+	XtUnmanageChild(w);
+                    }
+                    resources {
+                        textFontList = *helvetica-bold-r-*-12-*
+                        buttonFontList = *helvetica-bold-r-*-12-*
+                        labelFontList = *helvetica-bold-r-*-12-*
+                        okCallback = text = parent.parent.Form.Form2.TypeText;
+	text:value = GetString(self:textString);
+	Hide(parent);
+	WarpPointer(text);
+                        cancelCallback = text = parent.parent.Form.Form2.TypeText;
+	Hide(parent); 
+	WarpPointer(text); 
+                        listItems = screen,keyboard,book,food
+                        listItemCount = 4
+                    }
+                } Box
+            }
+        } SelectType
+    }
+} article

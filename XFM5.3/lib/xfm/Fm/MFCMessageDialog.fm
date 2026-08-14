@@ -1,0 +1,877 @@
+widget XmBulletinBoard {
+    flag {
+        mapped
+        autosize
+    }
+    activevalue {
+        name = MFC_W
+        get = script get_MFCMessageDialog_MFC_W:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self.form, "width"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+        default_type = String
+        default_value = 350
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCMessageDialog_MFC_H:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self.form, "height"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+        default_type = String
+        default_value = 144
+    }
+    activevalue {
+        name = MFC_R_okCallback
+        get = script get_MFCMessageDialog_MFC_R_okCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "okCallback")){
+			@ = "okCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_cancelCallback
+        get = script get_MFCMessageDialog_MFC_R_cancelCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "cancelCallback")){
+			@ = "cancelCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_helpCallback
+        get = script get_MFCMessageDialog_MFC_R_helpCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "helpCallback")){
+			@ = "helpCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = messageString
+        get = @ = FmCreateXmString(self.form.label:labelString);
+        set = if (!XtIsManaged(self.form.label)) FmShowWidget(self.form.label); self.form.label:labelString = FmGetString(@);
+        type = XmString
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = okLabelString
+        get = @ = FmCreateXmString(self.form.ok:labelString);
+        set = self.form.ok:labelString = FmGetString(@);
+        type = XmString
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = cancelLabelString
+        get = @ = FmCreateXmString(self.form.cancel:labelString);
+        set = self.form.cancel:labelString = FmGetString(@);
+        type = XmString
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = helpLabelString
+        get = @ = FmCreateXmString(self.form.help:labelString);
+        set = self.form.help:labelString = FmGetString(@);
+        type = XmString
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = dialogType
+        set = 
+		FmHideWidget(form.warning);
+		FmHideWidget(form.question);
+		FmHideWidget(form.information);
+		FmHideWidget(form.error);
+		FmHideWidget(form.working);
+		Widget icon;
+		if(@ == XmDIALOG_MESSAGE)
+			icon = Widget(0);
+		else
+		if(@ == XmDIALOG_QUESTION)
+			icon = form.question;
+		else
+		if(@ == XmDIALOG_INFORMATION)
+			icon = form.information;
+		else
+		if(@ == XmDIALOG_WARNING)
+			icon = form.warning;
+		else
+		if(@ == XmDIALOG_ERROR)
+			icon = form.error;
+		else
+		if(@ == XmDIALOG_WORKING)
+			icon = form.working;
+		if(icon){
+			if (!XtIsManaged(form.label))
+				FmShowWidget(form.label);
+			FmShowWidget(icon);
+			form.label:leftWidget = icon;
+			form.label:leftAttachment = XmATTACH_WIDGET;
+		} else {
+			form.label:leftAttachment = XmATTACH_FORM;
+			XmString xmstr = form.label:labelString;
+			String s = FmGetString(xmstr);
+			if(strcmp(s, "") != 0){
+				if (!XtIsManaged(form.label))
+					FmShowWidget(form.label);
+			}else{
+				if (XtIsManaged(form.label))
+					FmHideWidget(form.label);
+			}
+			XtFree(s);
+			XmStringFree(xmstr);
+		}
+        type = Int
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = MFC_PR_dialogType
+        get = script get_MFCMessageDialog_MFC_PR_dialogType:
+		FacePragma("ignore");
+		dialog_type = self:dialogType;
+		if(dialog_type == XmDIALOG_MESSAGE)
+			@ = "XmDIALOG_MESSAGE";
+		else
+		if(dialog_type == XmDIALOG_QUESTION)
+			@ = "XmDIALOG_QUESTION";
+		else
+		if(dialog_type == XmDIALOG_INFORMATION)
+			@ = "XmDIALOG_INFORMATION";
+		else
+		if(dialog_type == XmDIALOG_WARNING)
+			@ = "XmDIALOG_WARNING";
+		else
+		if(dialog_type == XmDIALOG_ERROR)
+			@ = "XmDIALOG_ERROR";
+		else
+		if(dialog_type == XmDIALOG_WORKING)
+			@ = "XmDIALOG_WORKING";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = GetChild
+        set = 
+		struct GetChildArgs {
+			Widget ret;
+			Int id;
+		};
+		GetChildArgs a = @;
+		if(a->id == XmDIALOG_OK_BUTTON)
+			a->ret = self.form.ok;
+		else
+		if(a->id == XmDIALOG_CANCEL_BUTTON)
+			a->ret = self.form.cancel;
+		else
+		if(a->id == XmDIALOG_HELP_BUTTON)
+			a->ret = self.form.help;
+		else
+		if(a->id == XmDIALOG_DEFAULT_BUTTON)
+			a->ret = self:defaultButton;
+		else
+		if(a->id == XmDIALOG_MESSAGE_LABEL)
+			a->ret = self.form.label;
+		else
+		if(a->id == XmDIALOG_SEPARATOR)
+			a->ret = self.form.sep;
+		else
+		if(a->id == XmDIALOG_SYMBOL_LABEL){
+			dialog_type = self:dialogType;
+			if(dialog_type == XmDIALOG_QUESTION)
+				a->ret = self.form.question;
+			else
+			if(dialog_type == XmDIALOG_INFORMATION)
+				a->ret = self.form.information;
+			else
+			if(dialog_type == XmDIALOG_WARNING)
+				a->ret = self.form.warning;
+			else
+			if(dialog_type == XmDIALOG_ERROR)
+				a->ret = self.form.error;
+			else
+			if(dialog_type == XmDIALOG_WORKING)
+				a->ret = self.form.working;
+			else
+				a->ret = self.form.warning;
+		}
+		else
+			a->ret = Widget(0);
+        type = GetChildArgs
+        storage = none
+        automatic = true
+        usage = face
+    }
+    templates {
+        MFCCommon = -Fm/MFCCommon.fm
+    }
+    resources {
+        x = 0
+        y = 0
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            activevalue {
+                name = MFC_A_topAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_A_bottomAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_A_leftAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_A_rightAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_N_WM_SHOWWINDOW
+                get = script get_MFCMessageDialog_MFC_N_WM_SHOWWINDOW:
+			FacePragma("ignore");
+			@ = _FmConcatString(@, "#void ::OnShowWindow(BOOL show, UINT status)#show == TRUE?$FmWDoLayout(%self);$none", "|");
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = xfmGeometryManager
+                set = 
+			struct XfmMessageDialogGeometryManagerArgs {
+				int stop;
+			};
+			XfmMessageDialogGeometryManagerArgs a = @;
+			a->stop = 0;
+			
+			Widget menu_bar = Widget(0);
+			Widget work_area = Widget(0);
+			
+			Int hoffset = self.sep:leftOffset;
+			Int voffset = self.sep:bottomOffset;
+			
+			Widget managed[Int] = new_array();
+			Int m = 0;
+			if(XtIsManaged(self.ok)){
+				managed[m] = self.ok; m = m+1;
+			}
+			Int max_btn_width = ok:width;
+			Int max_btn_height = ok:height;
+			Int n = parent:numChildren;
+			if(n > 1){
+				Widget children[Int] = new_c_array(Pointer(parent:children), n);
+				for(i = 0; i < n; i = i+1){
+					Widget w = children[i];
+					if(w != self && XtIsManaged(w)){
+						if(!menu_bar && _FmIsOfSubClass(w, "XmMenuBar")){
+							menu_bar = w;
+						}
+						else
+						if(_FmIsOfSubClass(w, "XmPushButton") || _FmIsOfSubClass(w, "XmDrawnButton") ){
+							managed[m] = w; m = m+1;
+							if (max_btn_width < w:width)
+								max_btn_width = w:width;
+							if (max_btn_height < w:height)
+								max_btn_height = w:height;
+						}
+						else
+						if(!work_area){
+							work_area = w;
+						}
+					}
+				}
+				destroy(children);
+			}
+			if(XtIsManaged(self.cancel)){
+				managed[m] = self.cancel; m = m+1;
+				if (max_btn_width < self.cancel:width)
+					max_btn_width = self.cancel:width;
+				if (max_btn_height < self.cancel:height)
+					max_btn_height = self.cancel:height;
+			}
+			if(XtIsManaged(self.help)){
+				managed[m] = self.help; m = m+1;
+				if (max_btn_width < self.help:width)
+					max_btn_width = self.help:width;
+				if (max_btn_height < self.help:height)
+					max_btn_height = self.help:height;
+			}
+			
+			/* Let the message label compute its size. */
+			
+			if(XtIsManaged(self.label)){
+				FmWRecomputeSize(self.label);
+			}
+			
+			Widget icon = XmMessageBoxGetChild(parent, XmDIALOG_SYMBOL_LABEL);
+			
+			if(label:height < 35)
+				label:height = 35;
+			Int total_width = m * (max_btn_width + 4) + (m + 2) * hoffset;
+			Int total_height = sep:height + max_btn_height + 4 * voffset;
+			Int message_width = 3*hoffset;
+			
+			if(XtIsManaged(self.label)){
+				message_width = message_width + label:width;
+				total_height = total_height + label:height;
+			}
+			if(XtIsManaged(icon)){
+				message_width = message_width + icon:width + hoffset;
+			}
+			
+			if(message_width > total_width)
+				total_width = message_width;
+			
+			if(menu_bar){
+				menu_bar:topAttachment = XmATTACH_FORM;
+				menu_bar:leftAttachment = XmATTACH_FORM;
+				menu_bar:rightAttachment = XmATTACH_FORM;
+				if(XtIsManaged(icon)){
+					icon:topOffset = menu_bar:height;
+				}
+				label:topOffset = menu_bar:height;
+				total_height = total_height + menu_bar:height;
+			}
+			if(work_area){
+				work_area:topAttachment = XmATTACH_FORM;
+				Int off = voffset;
+				/*
+				if(menu_bar)
+					off = off + menu_bar:height;
+				 */
+				if(XtIsManaged(self.label))
+					off = off + label:height + 2 * voffset;
+				work_area:topOffset = off;
+				work_area:bottomAttachment = XmATTACH_FORM;
+				work_area:bottomOffset = parent:height - sep:y + voffset;
+				work_area:leftAttachment = XmATTACH_FORM;
+				if(XtIsManaged(icon) && !XtIsManaged(self.label))
+					work_area:leftOffset = icon:width + 2 * hoffset;
+				else
+					work_area:leftOffset = hoffset;
+				work_area:rightAttachment = XmATTACH_FORM;
+				work_area:rightOffset = voffset;
+				Int wah =  work_area:height + 2 * voffset;
+				total_height = total_height +wah;
+				Int waw = work_area:width + 2 * hoffset;
+				if(waw > total_width)
+					total_width = waw;
+				icon:bottomAttachment = XmATTACH_NONE;
+				icon:height = label:height + voffset;
+				label:bottomAttachment = XmATTACH_NONE;
+			} else {
+				icon:bottomAttachment = XmATTACH_WIDGET;
+				label:bottomAttachment = XmATTACH_WIDGET;
+			}
+			
+			if(_FmIsOfSubClass(parent.parent, "Shell")){
+				
+				parent.parent:width = total_width;
+				if(!work_area || total_height > parent.parent:height)
+					parent.parent:height = total_height;
+			} else {
+				parent:width = total_width;
+				if(!work_area || total_height > parent:height)
+					parent:height = total_height;
+			}
+			
+			if(m == 1){
+				Widget w = managed[0];
+				w:leftPosition = 50;
+				w:leftOffset = -w:width/2;
+				w:leftAttachment = XmATTACH_POSITION;
+				w:rightAttachment = XmATTACH_NONE;
+				w:bottomAttachment = XmATTACH_FORM;
+				w:bottomOffset = voffset;
+			}
+			else
+			if(m > 1)
+			{
+				Widget w = managed[0];
+				w:width = max_btn_width;
+				w:height = max_btn_height;
+				w:leftOffset = hoffset + 2;
+				w:leftAttachment = XmATTACH_FORM;
+				w:rightAttachment = XmATTACH_NONE;
+				w:bottomAttachment = XmATTACH_FORM;
+				w:bottomOffset = voffset;
+				
+				Widget w = managed[m-1];
+				w:width = max_btn_width;
+				w:height = max_btn_height;
+				w:rightOffset = hoffset + 2;
+				w:rightAttachment = XmATTACH_FORM;
+				w:leftAttachment = XmATTACH_NONE;
+				w:bottomAttachment = XmATTACH_FORM;
+				w:bottomOffset = voffset;
+				
+				if(m == 3){
+					Widget w = managed[1];
+					w:width = max_btn_width;
+					w:height = max_btn_height;
+					w:leftPosition = 50;
+					w:leftOffset = -w:width/2;
+					w:leftAttachment = XmATTACH_POSITION;
+					w:rightAttachment = XmATTACH_NONE;
+					w:bottomAttachment = XmATTACH_FORM;
+					w:bottomOffset = voffset;
+				}
+				else
+				if(m > 3){
+					Widget leftw = managed[0];
+					Widget rightw = managed[m-1];
+					Int pwidth = self:width;
+					Int leftx = hoffset + max_btn_width + 4;
+					Int rightx = pwidth - (hoffset + max_btn_width + 4);
+					Int total = rightx - leftx;
+					Int width = max_btn_width;
+					Int height = max_btn_height;
+					Int spacing = (total - (m-2)*width) / (m-1);
+					for(i = 1; i < m-1; i = i+1){
+						Widget w = managed[i];
+						w:width = width;
+						w:height = height;
+						Int x = leftx + spacing + (i-1)*(width+spacing) + width/2;
+						w:leftPosition = (x*100)/pwidth;
+						w:leftOffset = -width/2;
+						w:leftAttachment = XmATTACH_POSITION;
+						w:rightAttachment = XmATTACH_NONE;
+						w:bottomAttachment = XmATTACH_FORM;
+						w:bottomOffset = voffset;
+					}
+				}
+			}
+			destroy(managed);
+                storage = none
+                automatic = true
+                usage = face
+            }
+            templates {
+                MFCCommon = -Fm/MFCCommon.fm
+            }
+            resources {
+                x = 10
+                y = 10
+                width = 351
+                height = 167
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = MFC_W
+                        get = script get_MFCMessageDialog_OK_MFC_W:
+				FacePragma("ignore");
+				Widget w = XmMessageBoxGetChild(parent.parent, XmDIALOG_OK_BUTTON);
+				Int margin = 2*w:defaultButtonShadowThickness + w:shadowThickness + 2;
+				Int width = w:width;
+				if (width < 70)
+					width = 70;
+				@ = width - 2 * margin;
+                        type = Int
+                        storage = object
+                        automatic = true
+                        autoget = true
+                        genvalue = true
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			
+			parent.parent:defaultButton = self;
+			
+			XmString xmstr = parent.parent:okLabelString;
+			String s = FmGetString(xmstr);
+			if(strcmp(s, "OK") != 0)
+				self:labelString = xmstr;
+			XmStringFree(xmstr);
+			XtFree(s);
+                    }
+                    templates {
+                        MFCPushButton = -Fm/MFCPushButton.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 117
+                        width = 70
+                        height = 40
+                        labelString = OK
+                        recomputeSize = false
+                        bottomAttachment = attach_form
+                        leftAttachment = attach_form
+                        activateCallback = \
+XmAnyCallback cbs = new_struct(XmAnyCallback);\
+cbs->reason = XmCR_OK;\
+cbs->event = Any(0);\
+XtCallCallbacks(parent.parent, "okCallback", Pointer(cbs));\
+XtFree(String(cbs));
+                        defaultButtonShadowThickness = 1
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = MFC_W
+                        get = script get_MFCMessageDialog_CANCEL_MFC_W:
+				FacePragma("ignore");
+				Widget w = XmMessageBoxGetChild(parent.parent, XmDIALOG_CANCEL_BUTTON);
+				Int margin = 2*w:defaultButtonShadowThickness + w:shadowThickness + 2;
+				Int width = w:width;
+				if (width < 70)
+					width = 70;
+				@ = width - 2 * margin;
+                        type = Int
+                        storage = object
+                        automatic = true
+                        autoget = true
+                        genvalue = true
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			XmString xmstr = parent.parent:cancelLabelString;
+			String s = FmGetString(xmstr);
+			if(strcmp(s, "Cancel") != 0)
+				self:labelString = xmstr;
+			XmStringFree(xmstr);
+			XtFree(s);
+                    }
+                    templates {
+                        MFCPushButton = -Fm/MFCPushButton.fm
+                    }
+                    resources {
+                        x = 131
+                        y = 117
+                        width = 70
+                        height = 40
+                        labelString = Cancel
+                        recomputeSize = false
+                        bottomAttachment = attach_form
+                        activateCallback = \
+XmAnyCallback cbs = new_struct(XmAnyCallback);\
+cbs->reason = XmCR_CANCEL;\
+cbs->event = Any(0);\
+XtCallCallbacks(parent.parent, "cancelCallback", Pointer(cbs));\
+XtFree(String(cbs));
+                        defaultButtonShadowThickness = 1
+                        leftAttachment = attach_position
+                        leftOffset = -35
+                        leftPosition = 50
+                    }
+                } cancel
+                widget XmSeparator {
+                    flag {
+                        mapped
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			HorizontalDimension mw = parent.parent:marginWidth;
+			self:leftOffset = mw;
+			self:rightOffset = mw;
+			self:bottomOffset = parent.parent:marginHeight;
+                    }
+                    templates {
+                        MFCMenuSeparator = -Fm/MFCMenuSeparator.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 106
+                        width = 331
+                        height = 6
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.ok
+                    }
+                } sep
+                widget XmLabel {
+                    flag {
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			HorizontalDimension mh = parent.parent:marginHeight;
+			self:leftOffset = parent.parent:marginWidth;
+			self:topOffset = mh;
+			self:bottomOffset = mh;
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 30
+                        height = 30
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.sep
+                        labelType = pixmap
+                        labelPixmap = xm_warning
+                        recomputeSize = false
+                    }
+                } warning
+                widget XmLabel {
+                    flag {
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			HorizontalDimension mh = parent.parent:marginHeight;
+			self:leftOffset = parent.parent:marginWidth;
+			self:topOffset = mh;
+			self:bottomOffset = mh;
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 30
+                        height = 30
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.sep
+                        labelType = pixmap
+                        labelPixmap = xm_question
+                        recomputeSize = false
+                    }
+                } question
+                widget XmLabel {
+                    flag {
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			HorizontalDimension mh = parent.parent:marginHeight;
+			self:leftOffset = parent.parent:marginWidth;
+			self:topOffset = mh;
+			self:bottomOffset = mh;
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 30
+                        height = 30
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.sep
+                        labelType = pixmap
+                        labelPixmap = xm_information
+                        recomputeSize = false
+                    }
+                } information
+                widget XmLabel {
+                    flag {
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			HorizontalDimension mh = parent.parent:marginHeight;
+			self:leftOffset = parent.parent:marginWidth;
+			self:topOffset = mh;
+			self:bottomOffset = mh;
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 30
+                        height = 30
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.sep
+                        labelType = pixmap
+                        labelPixmap = xm_error
+                        recomputeSize = false
+                    }
+                } error
+                widget XmLabel {
+                    flag {
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			HorizontalDimension mh = parent.parent:marginHeight;
+			self:leftOffset = parent.parent:marginWidth;
+			self:topOffset = mh;
+			self:bottomOffset = mh;
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 30
+                        height = 30
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.sep
+                        labelType = pixmap
+                        labelPixmap = xm_working
+                        recomputeSize = false
+                    }
+                } working
+                widget XmLabel {
+                    flag {
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			XmString s = parent.parent:messageString;
+			if(s)
+				self:labelString = s;
+			self:alignment = parent.parent:messageAlignment;
+			HorizontalDimension mh = parent.parent:marginHeight;
+			HorizontalDimension mw = parent.parent:marginWidth;
+			self:leftOffset = mw;
+			self:rightOffset = mw;
+			self:topOffset = mh;
+			self:bottomOffset = mh;
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 331
+                        height = 86
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        topAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.sep
+                    }
+                } label
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = MFC_W
+                        get = script get_MFCMessageDialog_HELP_MFC_W:
+				FacePragma("ignore");
+				Widget w = XmMessageBoxGetChild(parent.parent, XmDIALOG_HELP_BUTTON);
+				Int margin = 2*w:defaultButtonShadowThickness + w:shadowThickness + 2;
+				Int width = w:width;
+				if (width < 70)
+					width = 70;
+				@ = width - 2 * margin;
+                        type = Int
+                        storage = object
+                        automatic = true
+                        autoget = true
+                        genvalue = true
+                    }
+                    activevalue {
+                        name = MFC_AUTO_UNMANAGE
+                        type = Boolean
+                        storage = object
+                        automatic = true
+                        autoget = true
+                        genvalue = true
+                        default_type = String
+                        default_value = false
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			XmString xmstr = parent.parent:helpLabelString;
+			String s = FmGetString(xmstr);
+			if(strcmp(s, "Help") != 0)
+				self:labelString = xmstr;
+			XmStringFree(xmstr);
+			XtFree(s);
+                    }
+                    templates {
+                        MFCPushButton = -Fm/MFCPushButton.fm
+                    }
+                    resources {
+                        x = 251
+                        y = 117
+                        width = 70
+                        height = 40
+                        labelString = Help
+                        recomputeSize = false
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_form
+                        activateCallback = \
+XmAnyCallback cbs = new_struct(XmAnyCallback);\
+cbs->reason = XmCR_HELP;\
+cbs->event = Any(0);\
+XtCallCallbacks(parent.parent, "helpCallback", Pointer(cbs));\
+XtFree(String(cbs));
+                        defaultButtonShadowThickness = 1
+                    }
+                } help
+            }
+        } form
+    }
+} message

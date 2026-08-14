@@ -1,0 +1,2248 @@
+widget XtXrtGraph {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_CLASS
+        type = String
+        storage = object
+        automatic = true
+        genvalue = true
+        default_type = String
+        default_value = CChart2D
+    }
+    activevalue {
+        name = MFC_CAPTION
+        get = script get_MFCChart2D_MFC_CAPTION:
+		FacePragma("ignore");
+		@ = XtName(self);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDoubleBuffer
+        get = script get_MFCChart2D_MFC_R_xrtDoubleBuffer:
+		FacePragma("ignore");
+		function None _FmWinXrtGetBoolean(String name)
+		{
+			String s = _FmGetNonDefaultResourceValue(self, name);
+			if(s){
+				if(strcmp(s, "true") == 0
+				|| strcmp(s, "True") == 0
+				|| strcmp(s, "TRUE") == 0)
+					@ = "TRUE";
+				else
+					@ = "FALSE";
+				XtFree(s);
+			}
+		}
+		_FmWinXrtGetBoolean("xrtDoubleBuffer");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendShow
+        get = script get_MFCChart2D_MFC_R_xrtLegendShow:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtLegendShow");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisShow
+        get = script get_MFCChart2D_MFC_R_xrtXAxisShow:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXAxisShow");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisShow
+        get = script get_MFCChart2D_MFC_R_xrtYAxisShow:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYAxisShow");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisShow
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisShow:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2AxisShow");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtInvertOrientation
+        get = script get_MFCChart2D_MFC_R_xrtInvertOrientation:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtInvertOrientation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtTransposeData
+        get = script get_MFCChart2D_MFC_R_xrtTransposeData:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtTransposeData");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMarkerShow
+        get = script get_MFCChart2D_MFC_R_xrtXMarkerShow:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXMarkerShow");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYMarkerShow
+        get = script get_MFCChart2D_MFC_R_xrtYMarkerShow:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYMarkerShow");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtAxisBoundingBox
+        get = script get_MFCChart2D_MFC_R_xrtAxisBoundingBox:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtAxisBoundingBox");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisLogarithmic
+        get = script get_MFCChart2D_MFC_R_xrtXAxisLogarithmic:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXAxisLogarithmic");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisLogarithmic
+        get = script get_MFCChart2D_MFC_R_xrtYAxisLogarithmic:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYAxisLogarithmic");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisLogarithmic
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisLogarithmic:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2AxisLogarithmic");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisReversed
+        get = script get_MFCChart2D_MFC_R_xrtXAxisReversed:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXAxisReversed");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisReversed
+        get = script get_MFCChart2D_MFC_R_xrtYAxisReversed:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYAxisReversed");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisReversed
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisReversed:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2AxisReversed");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDebug
+        get = script get_MFCChart2D_MFC_R_xrtDebug:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtDebug");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtUsePropertyEditor
+        get = script get_MFCChart2D_MFC_R_xrtUsePropertyEditor:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtUsePropertyEditor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtRepaint
+        get = script get_MFCChart2D_MFC_R_xrtRepaint:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtRepaint");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphX
+        get = script get_MFCChart2D_MFC_R_xrtGraphX:
+		FacePragma("ignore");
+		function None _FmWinXrtGetInt(String name)
+		{
+			@ = _FmGetNonDefaultResourceValue(self, name);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphY
+        get = script get_MFCChart2D_MFC_R_xrtGraphY:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphY");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphWidth
+        get = script get_MFCChart2D_MFC_R_xrtGraphWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphHeight
+        get = script get_MFCChart2D_MFC_R_xrtGraphHeight:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphHeight");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderX
+        get = script get_MFCChart2D_MFC_R_xrtHeaderX:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtHeaderX");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderY
+        get = script get_MFCChart2D_MFC_R_xrtHeaderY:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtHeaderY");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderWidth
+        get = script get_MFCChart2D_MFC_R_xrtHeaderWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtHeaderWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderHeight
+        get = script get_MFCChart2D_MFC_R_xrtHeaderHeight:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtHeaderHeight");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterX
+        get = script get_MFCChart2D_MFC_R_xrtFooterX:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtFooterX");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterY
+        get = script get_MFCChart2D_MFC_R_xrtFooterY:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtFooterY");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterWidth
+        get = script get_MFCChart2D_MFC_R_xrtFooterWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtFooterWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterHeight
+        get = script get_MFCChart2D_MFC_R_xrtFooterHeight:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtFooterHeight");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendX
+        get = script get_MFCChart2D_MFC_R_xrtLegendX:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtLegendX");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendY
+        get = script get_MFCChart2D_MFC_R_xrtLegendY:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtLegendY");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendWidth
+        get = script get_MFCChart2D_MFC_R_xrtLegendWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtLegendWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendHeight
+        get = script get_MFCChart2D_MFC_R_xrtLegendHeight:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtLegendHeight");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXPrecision
+        get = script get_MFCChart2D_MFC_R_xrtXPrecision:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtXPrecision");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYPrecision
+        get = script get_MFCChart2D_MFC_R_xrtYPrecision:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtYPrecision");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Precision
+        get = script get_MFCChart2D_MFC_R_xrtY2Precision:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtY2Precision");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtPieMinSlices
+        get = script get_MFCChart2D_MFC_R_xrtPieMinSlices:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtPieMinSlices");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMarkerSet
+        get = script get_MFCChart2D_MFC_R_xrtXMarkerSet:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtXMarkerSet");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMarkerPoint
+        get = script get_MFCChart2D_MFC_R_xrtXMarkerPoint:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtXMarkerPoint");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderBorderWidth
+        get = script get_MFCChart2D_MFC_R_xrtHeaderBorderWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtHeaderBorderWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterBorderWidth
+        get = script get_MFCChart2D_MFC_R_xrtFooterBorderWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtFooterBorderWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphBorderWidth
+        get = script get_MFCChart2D_MFC_R_xrtGraphBorderWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphBorderWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendBorderWidth
+        get = script get_MFCChart2D_MFC_R_xrtLegendBorderWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtLegendBorderWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtBarClusterOverlap
+        get = script get_MFCChart2D_MFC_R_xrtBarClusterOverlap:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtBarClusterOverlap");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtBarClusterWidth
+        get = script get_MFCChart2D_MFC_R_xrtBarClusterWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtBarClusterWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphDepth
+        get = script get_MFCChart2D_MFC_R_xrtGraphDepth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphDepth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphRotation
+        get = script get_MFCChart2D_MFC_R_xrtGraphRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphInclination
+        get = script get_MFCChart2D_MFC_R_xrtGraphInclination:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphInclination");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginBottom
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginBottom:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphMarginBottom");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginLeft
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginLeft:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphMarginLeft");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginRight
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginRight:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphMarginRight");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginTop
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginTop:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtGraphMarginTop");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtBorderWidth
+        get = script get_MFCChart2D_MFC_R_xrtBorderWidth:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtBorderWidth");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtMarkerDataset
+        get = script get_MFCChart2D_MFC_R_xrtMarkerDataset:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtMarkerDataset");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtTimeBase
+        get = script get_MFCChart2D_MFC_R_xrtTimeBase:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtTimeBase");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtBackgroundColor
+        get = script get_MFCChart2D_MFC_R_xrtBackgroundColor:
+		FacePragma("ignore");
+		function None _FmWinXrtGetString(String name)
+		{
+			String s = _FmGetNonDefaultResourceValue(self, name);
+			if(s)
+				@ = _FmWinQuoteString(s);
+		}
+		_FmWinXrtGetString("xrtBackgroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtForegroundColor
+        get = script get_MFCChart2D_MFC_R_xrtForegroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtForegroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphBackgroundColor
+        get = script get_MFCChart2D_MFC_R_xrtGraphBackgroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtGraphBackgroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphForegroundColor
+        get = script get_MFCChart2D_MFC_R_xrtGraphForegroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtGraphForegroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderBackgroundColor
+        get = script get_MFCChart2D_MFC_R_xrtHeaderBackgroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtHeaderBackgroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderForegroundColor
+        get = script get_MFCChart2D_MFC_R_xrtHeaderForegroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtHeaderForegroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterBackgroundColor
+        get = script get_MFCChart2D_MFC_R_xrtFooterBackgroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtFooterBackgroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterForegroundColor
+        get = script get_MFCChart2D_MFC_R_xrtFooterForegroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtFooterForegroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendBackgroundColor
+        get = script get_MFCChart2D_MFC_R_xrtLegendBackgroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtLegendBackgroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendForegroundColor
+        get = script get_MFCChart2D_MFC_R_xrtLegendForegroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtLegendForegroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDataAreaBackgroundColor
+        get = script get_MFCChart2D_MFC_R_xrtDataAreaBackgroundColor:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtDataAreaBackgroundColor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtType
+        get = script get_MFCChart2D_MFC_R_xrtType:
+		FacePragma("ignore");
+		function None _FmWinXrtGetEnum(String name)
+		{
+			String s = _FmGetNonDefaultResourceValue(self, name);
+			if(s){
+				@ = _FmConvertEnumValue("XRT_", s);
+				XtFree(s);
+			}
+		}
+		_FmWinXrtGetEnum("xrtType");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtType2
+        get = script get_MFCChart2D_MFC_R_xrtType2:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtType2");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderAdjust
+        get = script get_MFCChart2D_MFC_R_xrtHeaderAdjust:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtHeaderAdjust");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterAdjust
+        get = script get_MFCChart2D_MFC_R_xrtFooterAdjust:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtFooterAdjust");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtPieOrder
+        get = script get_MFCChart2D_MFC_R_xrtPieOrder:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtPieOrder");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtPieThresholdMethod
+        get = script get_MFCChart2D_MFC_R_xrtPieThresholdMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtPieThresholdMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendAnchor
+        get = script get_MFCChart2D_MFC_R_xrtLegendAnchor:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtLegendAnchor");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendOrientation
+        get = script get_MFCChart2D_MFC_R_xrtLegendOrientation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtLegendOrientation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderBorder
+        get = script get_MFCChart2D_MFC_R_xrtHeaderBorder:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtHeaderBorder");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterBorder
+        get = script get_MFCChart2D_MFC_R_xrtFooterBorder:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtFooterBorder");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendBorder
+        get = script get_MFCChart2D_MFC_R_xrtLegendBorder:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtLegendBorder");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphBorder
+        get = script get_MFCChart2D_MFC_R_xrtGraphBorder:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtGraphBorder");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAnnotationMethod
+        get = script get_MFCChart2D_MFC_R_xrtXAnnotationMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtXAnnotationMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAnnotationMethod
+        get = script get_MFCChart2D_MFC_R_xrtYAnnotationMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtYAnnotationMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AnnotationMethod
+        get = script get_MFCChart2D_MFC_R_xrtY2AnnotationMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtY2AnnotationMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAnnoPlacement
+        get = script get_MFCChart2D_MFC_R_xrtXAnnoPlacement:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtXAnnoPlacement");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAnnoPlacement
+        get = script get_MFCChart2D_MFC_R_xrtYAnnoPlacement:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtYAnnoPlacement");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXNumMethod
+        get = script get_MFCChart2D_MFC_R_xrtXNumMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtXNumMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYNumMethod
+        get = script get_MFCChart2D_MFC_R_xrtYNumMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtYNumMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2NumMethod
+        get = script get_MFCChart2D_MFC_R_xrtY2NumMethod:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtY2NumMethod");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXOriginPlacement
+        get = script get_MFCChart2D_MFC_R_xrtXOriginPlacement:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtXOriginPlacement");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYOriginPlacement
+        get = script get_MFCChart2D_MFC_R_xrtYOriginPlacement:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtYOriginPlacement");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtTimeUnit
+        get = script get_MFCChart2D_MFC_R_xrtTimeUnit:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtTimeUnit");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXTitleRotation
+        get = script get_MFCChart2D_MFC_R_xrtXTitleRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtXTitleRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYTitleRotation
+        get = script get_MFCChart2D_MFC_R_xrtYTitleRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtYTitleRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2TitleRotation
+        get = script get_MFCChart2D_MFC_R_xrtY2TitleRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtY2TitleRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAnnotationRotation
+        get = script get_MFCChart2D_MFC_R_xrtXAnnotationRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtXAnnotationRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAnnotationRotation
+        get = script get_MFCChart2D_MFC_R_xrtYAnnotationRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtYAnnotationRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AnnotationRotation
+        get = script get_MFCChart2D_MFC_R_xrtY2AnnotationRotation:
+		FacePragma("ignore");
+		_FmWinXrtGetEnum("xrtY2AnnotationRotation");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFrontDataset
+        get = script get_MFCChart2D_MFC_R_xrtFrontDataset:
+		FacePragma("ignore");
+		_FmWinXrtGetInt("xrtFrontDataset");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXTitle
+        get = script get_MFCChart2D_MFC_R_xrtXTitle:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtXTitle");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYTitle
+        get = script get_MFCChart2D_MFC_R_xrtYTitle:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtYTitle");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Title
+        get = script get_MFCChart2D_MFC_R_xrtY2Title:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtY2Title");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtOtherLabel
+        get = script get_MFCChart2D_MFC_R_xrtOtherLabel:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtOtherLabel");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtTimeFormat
+        get = script get_MFCChart2D_MFC_R_xrtTimeFormat:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtTimeFormat");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtName
+        get = script get_MFCChart2D_MFC_R_xrtName:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtName");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderFont
+        get = script get_MFCChart2D_MFC_R_xrtHeaderFont:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtHeaderFont");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterFont
+        get = script get_MFCChart2D_MFC_R_xrtFooterFont:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtFooterFont");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendFont
+        get = script get_MFCChart2D_MFC_R_xrtLegendFont:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtLegendFont");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtOtherDataStyle
+        get = script get_MFCChart2D_MFC_R_xrtOtherDataStyle:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtOtherDataStyle");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtMarkerDataStyle
+        get = script get_MFCChart2D_MFC_R_xrtMarkerDataStyle:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtMarkerDataStyle");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXGridDataStyle
+        get = script get_MFCChart2D_MFC_R_xrtXGridDataStyle:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtXGridDataStyle");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYGridDataStyle
+        get = script get_MFCChart2D_MFC_R_xrtYGridDataStyle:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtYGridDataStyle");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtAxisFont
+        get = script get_MFCChart2D_MFC_R_xrtAxisFont:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtAxisFont");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMin
+        get = script get_MFCChart2D_MFC_R_xrtXMin:
+		FacePragma("ignore");
+		function None _FmWinXrtGetFloat(String name)
+		{
+			String s = _FmGetNonDefaultResourceValue(self, name);
+			if(s){
+				@ = XtMalloc(8+strlen(s));
+				strcpy(@, "(float)");
+				strcat(@, s);
+				XtFree(s);
+			}
+		}
+		_FmWinXrtGetFloat("xrtXMin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYMin
+        get = script get_MFCChart2D_MFC_R_xrtYMin:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYMin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Min
+        get = script get_MFCChart2D_MFC_R_xrtY2Min:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtY2Min");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMax
+        get = script get_MFCChart2D_MFC_R_xrtXMax:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXMax");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYMax
+        get = script get_MFCChart2D_MFC_R_xrtYMax:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYMax");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Max
+        get = script get_MFCChart2D_MFC_R_xrtY2Max:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtY2Max");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXNum
+        get = script get_MFCChart2D_MFC_R_xrtXNum:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXNum");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYNum
+        get = script get_MFCChart2D_MFC_R_xrtYNum:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYNum");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Num
+        get = script get_MFCChart2D_MFC_R_xrtY2Num:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtY2Num");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXTick
+        get = script get_MFCChart2D_MFC_R_xrtXTick:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXTick");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYTick
+        get = script get_MFCChart2D_MFC_R_xrtYTick:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYTick");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Tick
+        get = script get_MFCChart2D_MFC_R_xrtY2Tick:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtY2Tick");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXOrigin
+        get = script get_MFCChart2D_MFC_R_xrtXOrigin:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXOrigin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYOrigin
+        get = script get_MFCChart2D_MFC_R_xrtYOrigin:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYOrigin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtPieThresholdValue
+        get = script get_MFCChart2D_MFC_R_xrtPieThresholdValue:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtPieThresholdValue");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMarker
+        get = script get_MFCChart2D_MFC_R_xrtXMarker:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXMarker");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYMarker
+        get = script get_MFCChart2D_MFC_R_xrtYMarker:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYMarker");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXGrid
+        get = script get_MFCChart2D_MFC_R_xrtXGrid:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXGrid");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYGrid
+        get = script get_MFCChart2D_MFC_R_xrtYGrid:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYGrid");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisMax
+        get = script get_MFCChart2D_MFC_R_xrtXAxisMax:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXAxisMax");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisMax
+        get = script get_MFCChart2D_MFC_R_xrtYAxisMax:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYAxisMax");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisMax
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisMax:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtY2AxisMax");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisMin
+        get = script get_MFCChart2D_MFC_R_xrtXAxisMin:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtXAxisMin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisMin
+        get = script get_MFCChart2D_MFC_R_xrtYAxisMin:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYAxisMin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisMin
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisMin:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtY2AxisMin");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisMult
+        get = script get_MFCChart2D_MFC_R_xrtYAxisMult:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYAxisMult");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisConst
+        get = script get_MFCChart2D_MFC_R_xrtYAxisConst:
+		FacePragma("ignore");
+		_FmWinXrtGetFloat("xrtYAxisConst");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDataStyles
+        get = script get_MFCChart2D_MFC_R_xrtDataStyles:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtDataStyles");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDataStyles2
+        get = script get_MFCChart2D_MFC_R_xrtDataStyles2:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtDataStyles2");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtSetLabels
+        get = script get_MFCChart2D_MFC_R_xrtSetLabels:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtSetLabels");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtSetLabels2
+        get = script get_MFCChart2D_MFC_R_xrtSetLabels2:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtSetLabels2");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtPointLabels
+        get = script get_MFCChart2D_MFC_R_xrtPointLabels:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtPointLabels");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtPointLabels2
+        get = script get_MFCChart2D_MFC_R_xrtPointLabels2:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtPointLabels2");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderStrings
+        get = script get_MFCChart2D_MFC_R_xrtHeaderStrings:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtHeaderStrings");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterStrings
+        get = script get_MFCChart2D_MFC_R_xrtFooterStrings:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtFooterStrings");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXLabels
+        get = script get_MFCChart2D_MFC_R_xrtXLabels:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtXLabels");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYLabels
+        get = script get_MFCChart2D_MFC_R_xrtYLabels:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtYLabels");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2Labels
+        get = script get_MFCChart2D_MFC_R_xrtY2Labels:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtY2Labels");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphXUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphXUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphXUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphYUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphYUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphYUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphWidthUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphWidthUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphWidthUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphHeightUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphHeightUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphHeightUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderXUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtHeaderXUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtHeaderXUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtHeaderYUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtHeaderYUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtHeaderYUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterXUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtFooterXUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtFooterXUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtFooterYUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtFooterYUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtFooterYUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendXUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtLegendXUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtLegendXUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtLegendYUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtLegendYUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtLegendYUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMaxUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXMaxUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXMaxUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYMaxUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYMaxUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYMaxUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2MaxUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2MaxUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2MaxUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXMinUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXMinUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXMinUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYMinUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYMinUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYMinUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2MinUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2MinUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2MinUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXTickUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXTickUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXTickUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYTickUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYTickUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYTickUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2TickUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2TickUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2TickUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXNumUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXNumUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXNumUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYNumUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYNumUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYNumUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2NumUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2NumUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2NumUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXOriginUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXOriginUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXOriginUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYOriginUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYOriginUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYOriginUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDataStylesUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtDataStylesUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtDataStylesUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtDataStyles2UseDefault
+        get = script get_MFCChart2D_MFC_R_xrtDataStyles2UseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtDataStyles2UseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtOtherDataStyleUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtOtherDataStyleUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtOtherDataStyleUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtMarkerDataStyleUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtMarkerDataStyleUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtMarkerDataStyleUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXGridDataStyleUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXGridDataStyleUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXGridDataStyleUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYGridDataStyleUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYGridDataStyleUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYGridDataStyleUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXGridUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXGridUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXGridUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYGridUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYGridUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYGridUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXPrecisionUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXPrecisionUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXPrecisionUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYPrecisionUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYPrecisionUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYPrecisionUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2PrecisionUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2PrecisionUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2PrecisionUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginBottomUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginBottomUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphMarginBottomUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginLeftUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginLeftUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphMarginLeftUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginRightUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginRightUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphMarginRightUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtGraphMarginTopUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtGraphMarginTopUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtGraphMarginTopUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisMaxUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXAxisMaxUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXAxisMaxUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisMaxUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYAxisMaxUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYAxisMaxUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisMaxUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisMaxUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2AxisMaxUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtXAxisMinUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtXAxisMinUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtXAxisMinUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtYAxisMinUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtYAxisMinUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtYAxisMinUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtY2AxisMinUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtY2AxisMinUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtY2AxisMinUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtTimeFormatUseDefault
+        get = script get_MFCChart2D_MFC_R_xrtTimeFormatUseDefault:
+		FacePragma("ignore");
+		_FmWinXrtGetBoolean("xrtTimeFormatUseDefault");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtData
+        get = script get_MFCChart2D_MFC_R_xrtData:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtData");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_xrtData2
+        get = script get_MFCChart2D_MFC_R_xrtData2:
+		FacePragma("ignore");
+		_FmWinXrtGetString("xrtData2");
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} xrtgraph

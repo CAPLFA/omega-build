@@ -1,0 +1,99 @@
+Xfm*background:		saddlebrown
+Xfm*foreground:		wheat
+Xfm*selectColor:	mediumturquoise
+
+Xfm*xfmVersionBB.labelXFM.foreground:	mediumturquoise
+Xfm*xfmVersionBB.hourglass.foreground:	black
+Xfm*xfmVersionBB.loading.foreground:	yellow
+
+Xfm.XmDialogShell*XmText.background:		palegoldenrod
+Xfm.XmDialogShell*XmText.foreground:		black
+Xfm.TopLevelShell*XmText.background:		palegoldenrod
+Xfm.TopLevelShell*XmText.foreground:		black
+Xfm.XmDialogShell*XmTextField.background:	palegoldenrod
+Xfm.XmDialogShell*XmTextField.foreground:	black
+Xfm.TopLevelShell*XmTextField.background:	palegoldenrod
+Xfm.TopLevelShell*XmTextField.foreground:	black
+
+
+Xfm*XmMainWindow.XmRowColumn*background:		darkorange
+Xfm*XmMainWindow.XmRowColumn*foreground:		black
+Xfm*XmMainWindow*try.selectColor:			forestgreen
+Xfm*XmMainWindow*listform.scroller.XmList*background:	goldenrod
+Xfm*XmMainWindow*listform.XmTextField*background:	palegoldenrod
+Xfm*XmMainWindow*treescroller.Tree*background:		forestgreen
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	palegoldenrod
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.foreground:	black
+Xfm*XmMainWindow*treescroller.ClipWindow*background: forestgreen
+
+Xfm.Alert*background:		tomato
+Xfm.Alert*foreground:		black
+
+Xfm.TopLevelShell*background:			goldenrod
+Xfm.TopLevelShell*foreground:			black
+Xfm.TopLevelShell*parentName.background:	goldenrod
+Xfm.TopLevelShell*bb*background:		saddlebrown
+Xfm.TopLevelShell*bb.XmTextField.background:	palegoldenrod
+Xfm.TopLevelShell*bb.XmTextField.foreground:	black
+Xfm.TopLevelShell*listScroller.ClipWindow*background: saddlebrown
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: palegoldenrod
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.foreground: black
+Xfm.TopLevelShell*fastListScroller*background: saddlebrown
+Xfm.TopLevelShell*selection.background:		darkorange
+Xfm.TopLevelShell*current.selectColor:		indianred
+Xfm.TopLevelShell*curline.topShadowColor:	indianred
+Xfm.TopLevelShell*curline.bottomShadowColor:	indianred4
+
+Xfm.activevalue*background:		maroon
+Xfm.activevalue*XmText.background:	palegoldenrod
+Xfm.activevalue*XmText.foreground:	black
+Xfm.activevalue*XmTextField.background:	palegoldenrod
+Xfm.activevalue*XmTextField.foreground:	black
+
+Xfm.MenuEditor*background:		darkorange
+Xfm.MenuEditor*foreground:		black
+Xfm.MenuEditor.form.name.background:	darkorange
+Xfm.MenuEditor*XmText.background:	palegoldenrod
+Xfm.MenuEditor*XmTextField.background:	palegoldenrod
+Xfm.MenuEditor*selectColor:		forestgreen
+
+Xfm.Environment*background:		forestgreen
+Xfm.Environment*XmText.background:	palegoldenrod
+Xfm.Environment*XmText.foreground:	black
+Xfm.Environment*XmTextField.background:	palegoldenrod
+Xfm.Environment*XmTextField.foreground:	black
+
+Xfm.FaceDebugger*message_text.background:	saddlebrown
+Xfm.FaceDebugger*message_text.foreground:	palegoldenrod
+Xfm.FaceDebugger*widget_text.background:	saddlebrown
+Xfm.FaceDebugger*widget_text.foreground:	palegoldenrod
+Xfm.FaceDebugger*script_text.background:	saddlebrown
+Xfm.FaceDebugger*script_text.foreground:	palegoldenrod
+Xfm.FaceDebugger*source_text.background:	saddlebrown
+Xfm.FaceDebugger*source_text.foreground:	palegoldenrod
+Xfm.FaceDebugger*output_text.background:	saddlebrown
+Xfm.FaceDebugger*output_text.foreground:	palegoldenrod
+
+Xfm.Fileselector*background:			chocolate
+Xfm.Fileselector*XmText.background:		palegoldenrod
+Xfm.Fileselector*XmText.foreground:		black
+Xfm.Fileselector*XmTextField.background:	palegoldenrod
+Xfm.Fileselector*XmTextField.foreground:	black
+
+Xfm.Help*background:		burlywood
+Xfm.Help*foreground:		black
+Xfm.Functions*background:	burlywood
+Xfm.Functions*foreground:	black
+Xfm.iconhelp*background:	burlywood
+Xfm.iconhelp*foreground:	black
+
+Xfm.coptions*command.background:	saddlebrown
+Xfm.coptions*command.foreground:	palegoldenrod
+Xfm.rdboptions*command.background:	saddlebrown
+Xfm.rdboptions*command.foreground:	palegoldenrod
+Xfm.msgoptions*command.background:	saddlebrown
+Xfm.msgoptions*command.foreground:	palegoldenrod
+Xfm.uiloptions*command.background:	saddlebrown
+Xfm.uiloptions*command.foreground:	palegoldenrod
+Xfm.printoptions*command.background:	saddlebrown
+Xfm.printoptions*command.foreground:	palegoldenrod

@@ -1,0 +1,69 @@
+Xfm*background:		dodgerblue
+Xfm*foreground:		black
+Xfm*selectColor:	yellow
+
+Xfm*xfmVersionBB.labelXFM.foreground:	yellow
+
+Xfm.XmDialogShell*XmText.background:		white
+Xfm.TopLevelShell*XmText.background:		white
+Xfm.XmDialogShell*XmTextField.background:	white
+Xfm.TopLevelShell*XmTextField.background:	white
+
+
+Xfm*XmMainWindow.XmRowColumn*background:		mediumturquoise
+Xfm*XmMainWindow*try.selectColor:			orange
+Xfm*XmMainWindow*listform.scroller.XmList*background:	yellow
+Xfm*XmMainWindow*listform.XmTextField*background:	white
+Xfm*XmMainWindow*treescroller.Tree*background:		limegreen
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	white
+Xfm*XmMainWindow*treescroller.ClipWindow*background: limegreen
+
+Xfm.Alert*background:		tomato
+
+Xfm.TopLevelShell*background:			yellow
+Xfm.TopLevelShell*parentName.background:	yellow
+Xfm.TopLevelShell*bb*background:		dodgerblue
+Xfm.TopLevelShell*bb.XmTextField.background:	white
+Xfm.TopLevelShell*listScroller.ClipWindow*background: dodgerblue
+Xfm.TopLevelShell*fastListScroller*background: dodgerblue
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: white
+Xfm.TopLevelShell*selection.background:		paleturquoise
+Xfm.TopLevelShell*selectColor:			mediumpurple
+Xfm.TopLevelShell*current.selectColor:		limegreen
+Xfm.TopLevelShell*curline.topShadowColor:	limegreen
+Xfm.TopLevelShell*curline.bottomShadowColor:	palegreen4
+
+Xfm.activevalue*background:		orange
+Xfm.activevalue*XmText.background:	white
+Xfm.activevalue*XmTextField.background:	white
+Xfm.activevalue*selectColor:		orchid
+
+Xfm.MenuEditor*background:		mediumturquoise
+Xfm.MenuEditor.form.name.background:	mediumturquoise
+Xfm.MenuEditor*XmText.background:	white
+Xfm.MenuEditor*XmTextField.background:	white
+Xfm.MenuEditor*selectColor:		hotpink
+
+Xfm.Environment*background:		limegreen
+Xfm.Environment*XmText.background:	white
+Xfm.Environment*XmTextField.background:	white
+
+Xfm.FaceDebugger*message_text.background:	dodgerblue
+Xfm.FaceDebugger*widget_text.background:	dodgerblue
+Xfm.FaceDebugger*script_text.background:	dodgerblue
+Xfm.FaceDebugger*source_text.background:	dodgerblue
+Xfm.FaceDebugger*output_text.background:	dodgerblue
+
+Xfm.Fileselector*background:			hotpink
+Xfm.Fileselector*XmText.background:		white
+Xfm.Fileselector*XmTextField.background:	white
+
+Xfm.Help*background:		paleturquoise
+Xfm.Functions*background:	paleturquoise
+Xfm.iconhelp*background:	paleturquoise
+
+Xfm.coptions*command.background:	dodgerblue
+Xfm.rdboptions*command.background:	dodgerblue
+Xfm.msgoptions*command.background:	dodgerblue
+Xfm.uiloptions*command.background:	dodgerblue
+Xfm.printoptions*command.background:	dodgerblue

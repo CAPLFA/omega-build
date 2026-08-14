@@ -1,0 +1,20 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- SCO ODT 5.2
+#
+
+     SYS_LIBS = -lmalloc -lsocket -lPW
+   SYS_CFLAGS = -DSYSV -Dsco -Dsco_5_2
+ XLIB_LIBNAME = -lXmu -lX11
+
+
+# We cant use shared libs yet
+# because xrt_auth does not support ELF binaries.
+#
+#      HAS_SHLIBS = true		# replace with true if shared libs are supported.
+#    SHLIB_SUFFIX = .so		# replace with appropriate suffix
+#  SHLIB_LD_FLAGS = -G -z text 	# replace with appropriate ld flag(s) for building a shared object
+#   SHLIB_C_FLAGS = -K pic	# replace with compiler flags for producing PIC code if any
+#  SHLIB_DEP_LIBS = false	# replace with false if shared libs dont require dep. libs
+#SHLIB_EXTRA_LIBS = -lc		# add additional libs for making shared objets if any

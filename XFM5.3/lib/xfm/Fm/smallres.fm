@@ -1,0 +1,15 @@
+widget XmToggleButton {
+    flag {
+        mapped
+        autosize
+        autopos
+        gadget
+    }
+    resources {
+        labelString = RESOURCE_TOGGLE_LABEL
+        marginHeight = 0
+        marginWidth = 0
+        spacing = 2
+        indicatorSize = INDICATOR_SIZE
+    }
+} NAME

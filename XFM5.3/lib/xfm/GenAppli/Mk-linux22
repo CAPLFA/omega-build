@@ -1,0 +1,50 @@
+
+XPMLIB= -lXpm
+SHELL=/bin/sh
+RANLIB = ranlib
+MACHDEFINES   = 
+PROJECTDEFINE = -DNO_ROUND -DNO_IRINT -DMOTIF_2_1
+
+# shared library things
+SHAREDCFLAGS=	-fPIC -DSHAREDCODE
+SOSUFF=	.so
+SODIRT=	lib*.so
+SHAREDLIBDIRS=	LibSh LibShP
+
+SHAREDLIBS=	$(_SHPLIBDIR)/$(_LIBNAME).a \
+		$(_SHLIBDIR)/$(_LIBNAME).a
+
+STATICLDFLAGS=	
+SHAREDBINSUFF=	.shr
+
+SHAREDLD=gcc
+SHAREDLIBFLAGS=-shared -Wl,-soname,$@
+DOSHARED=1
+
+XHOME = /usr/X11R6
+
+MOTIFLIBDIR=	-L$(MOTIFHOME)/lib
+XLIBDIR=	-L$(XHOME)/lib
+XTINCLUDES=	-I$(XHOME)/include
+XINCLUDES=	-I$(XHOME)/include
+MOTIFINCLUDES=	-I$(MOTIFHOME)/include
+
+LDFLAGS = #-R$(MOTIFHOME)/lib:$(XHOME)/lib
+
+#$(LIBSUFF)$(SOSUFF):
+#	$(RM) *.o
+#	@if [ x$(DOSO) != x ] ; then						\
+#		$(DOSO) $? ; 							\
+#	else									\
+#		$(ARX) $? ;							\
+#		(set -x ; $(SHAREDLD) $(SHAREDLIBFLAGS) $(LDFLAGS) -o $@ *.o	\
+#		$(SHAREDLDLIBS))						\
+#	fi ;
+#	$(RM) *.o
+
+CO=		/bin/true
+COARGS=	
+CI=		/bin/true
+CIARGS=		
+RCSDIFF=	/bin/true
+LIBXT=		-lXt -lSM -lICE

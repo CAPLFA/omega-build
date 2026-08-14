@@ -1,0 +1,645 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    createproc {
+        if(self.pane.scrollw.ClipWindow.outline_widget:autoClose)\
+self.pane.big_rc.rc_1.autoclose_tog:set = set;\
+else\
+self.pane.big_rc.rc_1.autoclose_tog:set = unset;\
+\
+if(self.pane.scrollw.ClipWindow.outline_widget:connectNodes)\
+self.pane.big_rc.rc_1.connect_tog:set = set;\
+else\
+self.pane.big_rc.rc_1.connect_tog:set = unset;
+    }
+    resources {
+        x = 452
+        y = 152
+        width = 650
+        height = 747
+        title = Outline Demo
+        allowShellResize = true
+    }
+    children {
+        widget XmPanedWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 650
+                height = 747
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 644
+                        height = 169
+                        labelString = The OpenMotif Outline Widget displays hierarchical data in an outline layout with a Motif\
+look and feel. The Outline widget displayed below has several Motif PushButtons (the\
+Outline can accept any type of widget); press one to add a new child.\
+\
+The Outline Widget uses "constraints" to arrange the children with the right layout.\
+To see the code to generate the tree below, press "Show Layout Code...".\
+\
+The toggles below set different resources on the Outline widget itself.\
+\
+Press "Other Resources..." for more information on the various resources.
+                        marginHeight = 10
+                        marginWidth = 10
+                        alignment = alignment_beginning
+                    }
+                } hypelabel
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 180
+                        width = 644
+                        height = 516
+                        scrollingPolicy = automatic
+                    }
+                    children {
+                        widget XmOutline {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                width = 331
+                                height = 422
+                                nodeStateCallback = if(parent.parent.big_rc.rc_1.callback_tog:set==XmSET){\
+XmHierarchyNodeStateData data= $;\
+String str;\
+String buf;\
+buf = XtMalloc(100);\
+Widget w;\
+w = data->widget;\
+str = w:labelString;\
+\
+if(data->state == XmOpen)
+	sprintf(buf, "%s has switched to the XmOpen state.", str);\
+else if (data->state == XmClosed)
+	sprintf(buf, "%s has switched to the XmClosed state.", str);\
+else if (data->state == XmAlwaysOpen)
+	sprintf(buf, "%s has switched to the XmAlwaysOpen state.", str);\
+else if (data->state == XmHidden)
+	sprintf(buf, "%s has switched to the XmHidden state.", str);\
+else
+	sprintf(buf, "%s has switched node state.", str);\
+\
+parent.parent.parent.xmDialogShell0.nodechange:messageString = buf;\
+}
+                            }
+                            children {
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 28
+                                        y = 2
+                                        nodeState = Open
+                                    }
+                                } Widgets
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 58
+                                        y = 32
+                                        nodeState = Open
+                                        parentNode = parent.Widgets
+                                        labelString = Writing Widgets
+                                    }
+                                } Writing_Widgets
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 62
+                                        y = 62
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.Writing_Widgets
+                                        labelString = Widget Data Structures
+                                    }
+                                } Widget_Data_Structures
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 88
+                                        y = 92
+                                        nodeState = Open
+                                        parentNode = parent.Writing_Widgets
+                                        labelString = Writing Header Files
+                                    }
+                                } Writing_Header_Files
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 122
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.Writing_Header_Files
+                                        labelString = Writing Private Header Files
+                                    }
+                                } Writing_Private_Header_Files
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 152
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.Writing_Header_Files
+                                        labelString = Writing Public Header Files
+                                    }
+                                } Writing_Public_Header_Files
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 182
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.Writing_Header_Files
+                                        labelString = Internal Header Files
+                                    }
+                                } Internal_Header_Files
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 88
+                                        y = 212
+                                        nodeState = Open
+                                        parentNode = parent.Writing_Widgets
+                                        labelString = Widget Data Structures
+                                    }
+                                } The_Base_Widget_Classes
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 242
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.The_Base_Widget_Classes
+                                        labelString = The Core Class Structure
+                                    }
+                                } The_Core_Class_Structure
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 272
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.The_Base_Widget_Classes
+                                        labelString = The Core Class Structure
+                                    }
+                                } The_Core_Instance_Structure
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 302
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.The_Base_Widget_Classes
+                                        labelString = The Composite Class Structure
+                                    }
+                                } The_Composite_Class_Structure
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 332
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.The_Base_Widget_Classes
+                                        labelString = The Composite Instance Structure
+                                    }
+                                } The_Composite_Instance_Structure
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 362
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.The_Base_Widget_Classes
+                                        labelString = The Constraint Class Structure
+                                    }
+                                } The_Constraint_Class_Structure
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 92
+                                        y = 392
+                                        nodeState = AlwaysOpen
+                                        parentNode = parent.The_Base_Widget_Classes
+                                        labelString = The Constraint Instance Structure
+                                    }
+                                } The_Constraint_Instance_Structure
+                                widget XmDialogShell {
+                                    flag {
+                                        popup
+                                    }
+                                    resources {
+                                        x = 8
+                                        y = 342
+                                        width = 362
+                                        height = 412
+                                    }
+                                    children {
+                                        widget XmMessageBox {
+                                            flag {
+                                            }
+                                            createproc {
+                                                temp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+UnmanageChild(temp);\
+temp = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+UnmanageChild(temp);
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 0
+                                                width = 362
+                                                height = 412
+                                                dialogTitle = Explanation
+                                                messageString = The OpenMotif Tree and Outline widget actually derive behavior from the\
+Hierarchy Widget. The Hierarchy widget provides resources that specify\
+the relationships between children.\
+\
+XmNautoClose specifies whether the Tree or Outline automatically closes\
+any nodes if a parent node is closed. To see the behavior, press the Auto\
+Close toggle, then close and reopen the Core.\
+\
+XmNnodeState is a constraint resource on a child of the Tree or Outline.\
+It determines whether a node is Open, Closed, Hidden, or Always Visible.\
+Use "Show Layout Code..." to see how this demo used this resource.\
+\
+XmNparentNode specifies this node's parent. This resource determines the\
+node's logical parent (the widget instance tree says the node is a child of\
+the Tree or Outline, but the parentNode will specify where on the layout\
+the node will appear. Use "Show Layout Code..." to see how this demo used\
+this resource.\
+\
+XmNnodeStateCallback provides a way to receive feedback when any node is\
+opened or closed. To use this callback, press the Node State Callback toggle.
+                                            }
+                                        } explain
+                                    }
+                                } xmDialogShell0_2
+                                widget XmDialogShell {
+                                    flag {
+                                        popup
+                                    }
+                                    resources {
+                                        x = 0
+                                        y = 374
+                                        width = 555
+                                        height = 348
+                                        allowShellResize = true
+                                    }
+                                    children {
+                                        widget XmMessageBox {
+                                            flag {
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 0
+                                                width = 555
+                                                height = 348
+                                                dialogType = dialog_template
+                                                dialogTitle = Show Code...
+                                                okLabelString = OK
+                                            }
+                                            children {
+                                                widget XmScrolledWindow {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 11
+                                                        y = 11
+                                                        width = 533
+                                                        height = 260
+                                                    }
+                                                    children {
+                                                        widget XmText {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                width = 514
+                                                                height = 241
+                                                                columns = 60
+                                                                rows = 20
+                                                                editable = false
+                                                                value = void\
+BuildHierarchy(Widget parent)\
+{\
+    Widget outline, hierarchy, w1, w2, w3;\
+\
+    outline = XtCreateManagedWidget("outline_widget", xmOutlineWidgetClass,\
+              parent, NULL, (Cardinal) 0);\
+\
+    w1 = CreateNode(outline, NULL, "Widgets", XmOpen);\
+\
+    w2 = CreateNode(outline, w1, "Writing Widgets", XmOpen);\
+\
+    {\
+        (void) CreateNode(outline, w2, "Widget Data Structures", XmAlwaysOpen);\
+        (void) CreateNode(outline, w2, "Structure Naming Conventions", XmAlwaysOpen);\
+        w3 = CreateNode(outline, w2, "Writing Header Files", XmOpen);\
+    }\
+\
+    (void) CreateNode(outline, w3, "Writing Private Header Files", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "Writing Public Header Files", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "Internal Header Files", XmAlwaysOpen);\
+\
+    w3 = CreateNode(outline, w2, "The Base Widget Classes", XmOpen);\
+    (void) CreateNode(outline, w3, "The Core Class Structure", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "The Core Instance Structure", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "The Composite Class Structure", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "The Composite Instance Structure", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "The Constraint Class Structure", XmAlwaysOpen);\
+    (void) CreateNode(outline, w3, "The Constraint Instance Structure", XmAlwaysOpen);\
+}\
+\
+Widget\
+CreateNode(Widget w_parent, Widget parent_node, char * name, \
+           XmHierarchyNodeState state)\
+{\
+    Arg args[10];\
+    Cardinal num_args;\
+    Widget w;\
+    XmString xmstring;\
+\
+    xmstring = XmStringCreateSimple(name);\
+    \
+    num_args = 0;\
+    XtSetArg(args[num_args], XmNlabelString, xmstring); num_args++;\
+    XtSetArg(args[num_args], XmNnodeState, state); num_args++;\
+    XtSetArg(args[num_args], XmNparentNode, parent_node); num_args++;\
+    \
+    w = XtCreateManagedWidget(name, xmPushButtonWidgetClass,\
+                              w_parent, args, num_args);\
+\
+    XmStringFree(xmstring);\
+    return(w);\
+}
+                                                                editMode = multi_line_edit
+                                                            }
+                                                        } show_text
+                                                    }
+                                                } xmScrolledWindow0
+                                            }
+                                        } show_code
+                                    }
+                                } xmDialogShell1
+                            }
+                        } outline_widget
+                    }
+                } scrollw
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 704
+                        width = 644
+                        height = 40
+                        packing = pack_tight
+                        orientation = vertical
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 3
+                                width = 441
+                                height = 34
+                                orientation = horizontal
+                                packing = pack_tight
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 109
+                                        height = 28
+                                        valueChangedCallback = if(self:set==XmSET){\
+parent.callback_lab:labelString = "Added";\
+}\
+else\
+{\
+parent.callback_lab:labelString  = "Not Added";\
+}
+
+                                    }
+                                } callback_tog
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 115
+                                        y = 3
+                                        width = 84
+                                        height = 28
+                                    }
+                                } callback_lab
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 202
+                                        y = 3
+                                        width = 1
+                                        height = 28
+                                    }
+                                } sep_two
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 205
+                                        y = 3
+                                        width = 119
+                                        height = 28
+                                        valueChangedCallback = if(self:set ==XmSET)\
+parent.parent.parent.scrollw.ClipWindow.outline_widget:autoClose = true;\
+else\
+parent.parent.parent.scrollw.ClipWindow.outline_widget:autoClose = false;
+                                    }
+                                } autoclose_tog
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 327
+                                        y = 3
+                                        width = 1
+                                        height = 28
+                                    }
+                                } sep_two_2
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 330
+                                        y = 3
+                                        width = 108
+                                        height = 28
+                                        valueChangedCallback = if(self:set == XmSET)\
+parent.parent.parent.scrollw.ClipWindow.outline_widget:connectNodes = true;\
+else \
+parent.parent.parent.scrollw.ClipWindow.outline_widget:connectNodes = false;
+                                    }
+                                } connect_tog
+                            }
+                        } rc_1
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 447
+                                y = 3
+                                width = 194
+                                height = 34
+                                orientation = horizontal
+                                packing = pack_tight
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 70
+                                        height = 28
+                                        activateCallback = show(parent.parent.parent.scrollw.ClipWindow.outline_widget.xmDialogShell1.show_code);
+                                    }
+                                } show_pb
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 76
+                                        y = 3
+                                        width = 81
+                                        height = 28
+                                        activateCallback = show(parent.parent.parent.scrollw.ClipWindow.outline_widget.xmDialogShell0_2.explain);
+                                    }
+                                } explain_pb
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 34
+                                        width = 59
+                                        height = 28
+                                        activateCallback = exit(0);
+                                    }
+                                } quit_pb
+                            }
+                        } rc_2
+                    }
+                } big_rc
+            }
+        } pane
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 162
+                y = 438
+                width = 362
+                height = 180
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    createproc {
+                        temp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+UnmanageChild(temp);\
+temp = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+UnmanageChild(temp);
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 362
+                        height = 180
+                        dialogTitle = Node State Changed
+                    }
+                } nodechange
+            }
+        } xmDialogShell0
+    }
+} Treedemo

@@ -1,0 +1,12 @@
+widget XmPushButton {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    resources {
+        labelString = ColorItemColor
+        background = ColorItemColor
+        activateCallback = parent.parent.imagescroller.image:drawColor = self:background;
+    }
+} item_ColorItemColor

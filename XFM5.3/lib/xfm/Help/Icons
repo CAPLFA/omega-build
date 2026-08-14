@@ -1,0 +1,132 @@
+introduction
+	The main window icons provide quick and easy \
+	access to useful interface commands.  \
+	Each icon has an equivalent menu command.
+	
+	The descriptions below contain the sequence of \
+	menu selections to perform the same function as \
+	the icon button.\
+
+delete
+	Delete the selected widgets.\
+delete menu
+	Edit, Delete\
+
+hide
+	Hide (unmap) the selected widgets.\
+hide menu
+	View, Hide, Selection\
+
+raise
+	Raise the selected widgets.\
+raise menu
+	View, Raise\
+
+lower
+	Lower the selected widgets.\
+lower menu
+	View, Lower\
+
+cut
+	Remove the selected widgets and save them in the cut buffer.\
+cut menu
+	View, Cut\
+
+copy
+	Copy the selected widgets into the cut\
+	buffer.\
+copy menu
+	View, Copy\
+
+paste
+	Paste the contents of the cut buffer.\
+paste menu
+	View, Paste\
+
+list
+	Toggle the widget list.  If it is hidden, show it.  \
+	If it is shown, hide it, then show the widget tree \
+	if it was not visible.\
+list menu
+	Windows, Widget List\
+
+tree
+	Toggle the widget tree.  If it is hidden, show it.  \
+	If it is shown, hide it, then show the widget list \
+	if it was not visible.\
+tree menu
+	Windows, Widget Tree\
+
+track
+	Select a widget with the mouse, and place \
+	its fully-qualified name into the text cut buffer.\
+track menu
+	Edit, Track\
+
+expand
+	Expand the selected widgets in the widget list and the widget tree.\
+expand menu
+	View, Expand\
+
+shrink
+	Shrink the selected widgets in the widget list and the widget tree.\
+shrink menu
+	View, Shrink\
+
+print tree
+	Print the widget tree to a PostScript file.\
+print tree menu
+	File, Print, Tree\
+no print tree
+	The Print Tree icon takes this form when the widget \
+	tree is not visible.\
+
+print window
+	Select a window to print to a PostScript file.\
+print window menu
+	File, Print, Window\
+
+reslist introduction
+	For every resource in the resource list, an icon \
+	indicates if the resource has been modified by the user, \
+	and if so how it will be saved in the interface files.
+	The icon is located between the resource name and the \
+	resource value. \
+	\
+	If the `Use Fast Resource List' option is set, \
+	the icons are replaced by characters in square brackets. \
+	The character corresponding to each icon is shown in \
+	this window after the explanation text.
+
+resdflt
+	This resource has not been modified, and its default \
+	value can be displayed as a character string.
+resdflt char
+	[d]
+
+resnone
+	This resource has not been modified, and its default \
+	value cannot be displayed as a character string.
+resnone char
+	[-]
+
+resset
+	This resource has been modified by the user. Its value \
+	will be saved in the .fm file, so it cannot be modified \
+	by the end-user of the application.
+resset char
+	[S]
+
+resrdb
+	This resource has been modified by the user. Its value \
+	will be saved in a resource file (.rdb), so it can be \
+	overriden by the end-user of the application.
+resrdb char
+	[R]
+
+restmpl
+	This resource is inherited from a template and has not \
+	been modified. It will not be saved in the .fm file \
+	containing this widget, but only in the template file.
+restmpl char
+	[T]

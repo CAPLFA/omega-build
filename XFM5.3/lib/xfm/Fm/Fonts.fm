@@ -1,0 +1,658 @@
+widget XmForm {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set =
+		XmProcessTraversal (self.familyscroller.list,XmTRAVERSE_CURRENT);
+		XtManageChild(self.miscscroller.list);
+    }
+    activevalue {
+        name = FontList
+        set = 
+	
+	local Boolean already;\
+	if (!already) {
+		p = _FmFontFamilyNames(); 
+		w = self.familyscroller;
+		_FmListFill (w.list,p);
+		w:width = w.list:width + 40;
+		XtFree (p);
+		p = _FmMiscellaneousFonts();
+		w = self.miscscroller;
+		XtUnmanageChild(w.list);
+		_FmListFill (w.list,p);
+		w:width = w.list:width + 40;
+		XtFree (p);
+		already = True;
+		w = self.detailForm.weightLabel;
+		FmHideWidget (w); FmShowWidget (w);\
+	}
+	
+	global _fm_font_tag;
+	if(_fm_font_tag){
+		XtFree(_fm_font_tag);
+		_fm_font_tag = String(0);
+	}
+	String font = XtMalloc(1000);
+	String tag = XtMalloc(1000);
+	String fontname;
+	if(sscanf($, "%[^=]=%s", font, tag) == 2){
+		if(strcmp(tag, "FONTLIST_DEFAULT_TAG_STRING") != 0)
+			_fm_font_tag = tag;
+		fontname = font;
+	} else {
+		XtFree(font);
+		XtFree(tag);
+		fontname = XtNewString($);
+	}
+	
+	self.name:value = fontname;
+	if (strcmp (fontname,"") != 0) {
+		if(_FmSetFontList (fontname,self.familyscroller.list,
+				self.detailForm.weightButton,
+				self.detailForm.styleButton,
+				self.detailForm.sizeButton,
+				self.miscscroller.list)){
+			_FmRebuildFontName (self);
+		} else {
+			_FmSetFontListSelection (self,self.familyscroller.list,"");
+			_FmFillFontOptionMenu(self.detailForm.weightButton, "");
+			_FmSetFontOptionMenuItem(self.detailForm.weightButton, "");
+			_FmFillFontOptionMenu(self.detailForm.styleButton, "");
+			_FmSetFontOptionMenuItem(self.detailForm.styleButton, "");
+			_FmFillFontOptionMenu(self.detailForm.sizeButton, "");
+			_FmSetFontOptionMenuItem(self.detailForm.sizeButton, "");
+		}
+	}
+	XtFree(fontname);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = 
+		global _fm_font_tag;
+		s = self.name:value;
+		if(_fm_font_tag){
+			sprintf($, "%s=%s", s, _fm_font_tag);
+			XtFree(_fm_font_tag);
+			_fm_font_tag = String(0);
+		} else
+			strcpy ($,s);
+		XtFree (s);
+    }
+    createproc {
+        FmListAllowKeySelection (self.familyscroller.list,True,String (0),True);\
+FmListAllowKeySelection (self.miscscroller.list,True,String (0),True);\
+function void _FmSetFontItem (Widget w,String value) {
+	s = String (w:userData);
+	if (s != 0)
+		XtFree(s);
+	if (value != 0)
+		w:userData = Pointer (value);
+	else
+		w:userData = Pointer (0);\
+}\
+function void _FmFillFontOptionMenu (Widget menu,String list) {
+	pulldown = menu:subMenuId;
+	was = menu:menuHistory;
+	if (was == pulldown.any)
+		name = String (0);
+	else {
+		xms = was:labelString;
+		name = FmGetString (xms);
+		XmStringFree (xms);
+	}
+	FmFillOptionMenu (menu,list);
+	menu:menuHistory = pulldown.any;
+	_FmSetFontItem (menu,String (0));
+	if (name != 0) {
+		FmSetOptionMenu (menu,name);
+		if (menu:menuHistory != pulldown.any)
+			_FmSetFontItem (menu,name);
+		else
+			XtFree (name);
+	}\
+}\
+function void _FmSetFontOptionMenu (Widget menu,XmRowColumnCallback cb) {
+	w = cb->widget;
+	pulldown = menu:subMenuId;
+	if (w != pulldown.any) {
+		xms = w:labelString;
+		s = FmGetString (xms);
+		XmStringFree (xms);
+	} else
+		s = String (0);
+	_FmSetFontItem (menu,s);\
+}\
+function void _FmSetFontOptionMenuItem (Widget menu,String value) {
+	pulldown = menu:subMenuId;
+	any = pulldown.any;
+	s = String (0);
+	if (value != 0)
+		if (strcmp (value,"") != 0)
+			s = value;
+	menu:menuHistory = any;
+	if (s != 0)
+		FmSetOptionMenu (menu,value);
+	if (menu:menuHistory != any)
+		s = XtNewString (value);
+	else
+		s = String (0);
+	_FmSetFontItem (menu,s);\
+}\
+function void _FmRebuildFontName (Widget form) {
+	name = String (form.familyscroller.list:userData);
+	if (name == 0)
+		return();
+	_FmSetFontItem (form.miscscroller.list,String (0));
+	XmListDeselectAllItems (form.miscscroller.list);
+	weight = String (form.detailForm.weightButton:userData);
+	style = String (form.detailForm.styleButton:userData);
+	size = String (form.detailForm.sizeButton:userData);
+	font = XtMalloc(512);
+	n = _FmBuildFontName(name, weight, style, size, font);
+	form.name:value = font;
+	if(n <= 0){
+		form.samplescroller.sample:fontList = form.nameLabel:fontList;
+		form.samplescroller.sample:labelString = Internationalize("%MSG%150%928 This font does not exist on this server.");
+	} else {
+		form.samplescroller.sample:fontList = String(font);\
+		form.samplescroller.sample:labelString = Internationalize("%MSG%150%929 abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!#$%&()*+,-./0123456789<>");
+	}\
+}\
+function Int _FmSetFontListSelection (Widget form,Widget list,String value) {
+	XmListDeselectAllItems (list);
+	Int pos = 0;
+	if (strlen (value) > 0) {
+		xms = CreateXmString (value);
+		pos = XmListItemPos(list, xms);
+		XmStringFree (xms);
+		if(pos > 0){
+			top = list:topItemPosition;
+			if(pos < top
+			|| pos >= top + list:visibleItemCount - 1){
+				list:topItemPosition = Any(pos);
+			}
+			XmListSelectPos (list,pos,False);
+		}
+		s = XtNewString (value);
+	} else {
+		s = String(0);
+	}
+	_FmSetFontItem (list,s);\
+	return(pos);\
+}\
+function void _FmSetFontMenuColumns (Widget menu) {
+	n = (menu:numChildren + 4) / 5;
+	if (n < 1)
+		n = 1;
+	menu:numColumns = n;\
+}
+    }
+    resources {
+    }
+    children {
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%930 Font Families:
+                marginHeight = 0
+                marginWidth = 0
+                topAttachment = attach_form
+                topOffset = 3
+                leftAttachment = attach_form
+            }
+        } familyLabel
+        widget XmScrolledWindow {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                scrollingPolicy = automatic
+                height = 80
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                rightOffset = 2
+                bottomAttachment = attach_form
+                width = 433
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%931 abcdefghijklmnopqrstuvwxyz \
+ABCDEFGHIJKLMNOPQRSTUVWXYZ \
+ !#$%&()*+,-./0123456789<>
+                        alignment = alignment_center
+                    }
+                } sample
+            }
+        } samplescroller
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%932 Name:
+                marginWidth = 0
+                marginHeight = 0
+                leftAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomOffset = 8
+                bottomWidget = samplescroller
+            }
+        } nameLabel
+        widget XmTextField {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                marginHeight = 1
+                marginWidth = 3
+                bottomAttachment = attach_widget
+                bottomOffset = 3
+                bottomWidget = samplescroller
+                leftAttachment = attach_widget
+                leftWidget = nameLabel
+                rightAttachment = attach_form
+            }
+        } name
+        widget XmScrolledWindow {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_widget
+                topOffset = 2
+                topWidget = familyLabel
+                leftAttachment = attach_form
+                rightAttachment = attach_position
+                rightPosition = 40
+                bottomAttachment = attach_widget
+                bottomOffset = 3
+                bottomWidget = name
+            }
+            children {
+                widget XmList {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _FmFontFamilyItem
+                        set = _FmSetFontListSelection (parent.parent,self,$);
+                    }
+                    resources {
+                        listSizePolicy = resize_if_possible
+                        browseSelectionCallback = local XmListCallback cb;\
+cb = $;\
+if (cb->item_position > 0) {
+	name = FmGetString(cb->item);
+	s = _FmGetFontWeights(name);
+	_FmFillFontOptionMenu(parent.parent.detailForm.weightButton,s);
+	XtFree(s);
+	s = _FmGetFontStyles(name);
+	_FmFillFontOptionMenu(parent.parent.detailForm.styleButton,s);
+	XtFree(s);
+	s = _FmGetFontSizes(name);
+	_FmFillFontOptionMenu(parent.parent.detailForm.sizeButton,s);
+	_FmSetFontMenuColumns (parent.parent.detailForm.sizeMenu);
+	XtFree(s);\
+} else
+	name = String(0);\
+_FmSetFontItem (self,name);\
+if (name)
+	_FmRebuildFontName(parent.parent);
+                    }
+                } list
+            }
+        } familyscroller
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_form
+                leftAttachment = attach_widget
+                leftWidget = familyscroller
+                bottomAttachment = attach_widget
+                bottomWidget = parent.name
+                bottomOffset = 3
+                topOffset = 3
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%933 Weight:
+                        alignment = alignment_beginning
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_form
+                        leftAttachment = attach_form
+                        leftOffset = 6
+                    }
+                } weightLabel
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        menu_pulldown
+                    }
+                    resources {
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 0
+                        entryCallback = _FmSetFontOptionMenu (parent.weightButton,$);\
+_FmRebuildFontName (parent.parent);
+                    }
+                    children {
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                marginWidth = 3
+                                marginHeight = 1
+                            }
+                        } any
+                    }
+                } weightMenu
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        menu_option
+                    }
+                    activevalue {
+                        name = _FmFontWeightList
+                        set = _FmFillFontOptionMenu (self,$);
+                    }
+                    activevalue {
+                        name = _FmFontWeightItem
+                        set = _FmSetFontOptionMenuItem (self,$);
+                    }
+                    resources {
+                        subMenuId = parent.weightMenu
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topWidget = weightLabel
+                        leftAttachment = attach_form
+                        spacing = 0
+                        labelString = <null>
+                    }
+                } weightButton
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%934 Style:
+                        marginWidth = 0
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topOffset = 5
+                        topWidget = weightButton
+                        leftAttachment = attach_form
+                        leftOffset = 6
+                    }
+                } styleLabel
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        menu_pulldown
+                    }
+                    resources {
+                        adjustMargin = True
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 0
+                        entryCallback = _FmSetFontOptionMenu (parent.styleButton,$);\
+_FmRebuildFontName (parent.parent);
+                    }
+                    children {
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                marginWidth = 3
+                                marginHeight = 1
+                            }
+                        } any
+                    }
+                } styleMenu
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        menu_option
+                    }
+                    activevalue {
+                        name = _FmFontStyleList
+                        set = _FmFillFontOptionMenu (self,$);
+                    }
+                    activevalue {
+                        name = _FmFontStyleItem
+                        set = _FmSetFontOptionMenuItem (self,$);
+                    }
+                    resources {
+                        subMenuId = parent.styleMenu
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topWidget = styleLabel
+                        leftAttachment = attach_none
+                        spacing = 0
+                        labelString = <null>
+                    }
+                } styleButton
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%935 Size:
+                        alignment = alignment_beginning
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topOffset = 5
+                        topWidget = styleButton
+                        leftAttachment = attach_form
+                        leftOffset = 6
+                    }
+                } sizeLabel
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        menu_pulldown
+                    }
+                    resources {
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 0
+                        packing = pack_column
+                        entryAlignment = alignment_end
+                        entryCallback = _FmSetFontOptionMenu (parent.sizeButton,$);\
+_FmRebuildFontName (parent.parent);
+                    }
+                    children {
+                        widget XmPushButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                marginWidth = 3
+                                marginHeight = 1
+                            }
+                        } any
+                    }
+                } sizeMenu
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        menu_option
+                    }
+                    activevalue {
+                        name = _FmFontSizeList
+                        set = _FmFillFontOptionMenu (self,$);\
+_FmSetFontMenuColumns (self:subMenuId);
+                    }
+                    activevalue {
+                        name = _FmFontSizeItem
+                        set = _FmSetFontOptionMenuItem (self,$);
+                    }
+                    resources {
+                        subMenuId = parent.sizeMenu
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topWidget = sizeLabel
+                        leftAttachment = attach_none
+                        spacing = 0
+                        labelString = <null>
+                    }
+                } sizeButton
+            }
+        } detailForm
+        widget XmSeparator {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                orientation = vertical
+                topAttachment = attach_form
+                leftAttachment = attach_widget
+                leftWidget = detailForm
+                leftOffset = 10
+                bottomAttachment = attach_widget
+                bottomOffset = 3
+                bottomWidget = name
+            }
+        } sep
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%936 Miscellaneous Fonts:
+                marginHeight = 0
+                marginWidth = 0
+                topAttachment = attach_form
+                leftAttachment = attach_widget
+                leftOffset = 10
+                leftWidget = sep
+            }
+        } miscLabel
+        widget XmScrolledWindow {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_widget
+                topOffset = 2
+                topWidget = familyLabel
+                leftAttachment = attach_widget
+                leftOffset = 10
+                leftWidget = sep
+                rightAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomWidget = name
+                bottomOffset = 3
+            }
+            children {
+                widget XmList {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _FmFontMiscellaneousItem
+                        set = _FmSetFontListSelection (parent.parent,self,$);
+                    }
+                    resources {
+                        listSizePolicy = constant
+                        browseSelectionCallback = local XmListCallback cb;\
+cb = $;\
+if (cb->item_position > 0)
+	name = FmGetString(cb->item);\
+else
+	name = String(0);\
+_FmSetFontItem (self,name);\
+if (name) {
+	form = parent.parent;
+	_FmSetFontItem (form.familyscroller.list,String (0));
+	XmListDeselectAllItems (form.familyscroller.list);
+	form.name:value = name;
+	form.samplescroller.sample:fontList = String (name);\
+}
+                    }
+                } list
+            }
+        } miscscroller
+    }
+} form

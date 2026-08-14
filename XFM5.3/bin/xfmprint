@@ -1,0 +1,502 @@
+#!/bin/sh
+# This script parses a given FM file and outputs the result
+# according to the command line options.
+# History:
+# 11:01:92	created 	[cmc]
+# 13:01:92	added -av 	[cmc]
+# 18:01:92	changes for DEC nawk(?) which cannot handle:
+# 		if ( a && b ) it must be: if a { if b }	[cmc]
+# 17:11:92	added -face and removed me macros
+#
+# NOTE: This script is NOT supported by NSL.
+
+NAME=$0
+
+if [ -f /bin/nawk ]
+then
+	AWK=nawk
+else
+	AWK=awk
+fi
+
+$AWK '  # You May Need To Change This To awk or nawk As Appropriate.
+BEGIN {
+    if (ARGC == 1) {
+	printf("usage : '$NAME' [-av] [-face] [-tbl] [-tab] [-d] file.fm\n\n")
+	printf("\t-av active value cross reference\n") 
+	printf("\t-face output face scripts\n")
+	printf("\tdefault: widget name cross reference\n\n") 
+	
+	printf("\t-tbl output tbl commands\n")
+	printf("\t-tab output tab separated fields\n")
+	printf("\tdefault: plain text\n\n") 
+	
+	printf("\t-d debug\n")
+	exit
+    } else {
+	wid = 1				# default: widget name cross reference
+	plain = 1			# default: plain text	
+	face = 0			# -face output face scripts
+	av = 0				# -av active value cross reference
+	for ( i = 1 ; i < ARGC; i ++){
+		if (ARGV[i] == "-tbl") {
+			tbl = 1	
+			tab = 0
+			plain = 0
+			ARGV[i] = ""
+		} else {
+		    if (ARGV[i] == "-tab") {
+			tab = 1	
+			tbl = 0
+			plain = 0
+			ARGV[i] = ""
+		    } else {
+		    	if (ARGV[i] == "-av") {
+			   av = 1	
+			   wid = 0
+			   ARGV[i] = ""
+		        } else {
+		    	    if (ARGV[i] == "-face") {
+				face = 1		
+				wid = 0
+				ARGV[i] = ""
+		            } else {
+				if (ARGV[i] == "-d") {
+				    debug = 5	# 0 = none 10 = max
+				    ARGV[i] = ""
+				} else {
+				    if (ARGV[i] !~ /.fm/) {
+					printf("Unknown argument: %s\n", ARGV[i])
+					ARGV[i] = ""
+		    	    	    } else {
+					ok = 1
+					if (face && tab){
+					    tab = 0
+					    printf("No -tab option with -face option\n")
+					}
+			   	    }
+			  	}
+			    }
+			}
+		    }
+		}
+	}
+	
+# internal initalization
+	endchild = 0		# end of children block
+	totalavs = 0
+	braket = 0
+# go for it!
+	numwidgets = nextw(0)   	# main()
+    }
+} # end BEGIN
+
+# If You Get: "awk: syntax error" Here you have old awk not nawk! 
+function nextw(parent) {
+	
+	while (getline) {
+		
+		if ($0 ~ /widget /){
+			level ++ 		# parser desends one level
+			num = level		# cout total num widgets
+			Wparent[num] = parent   # remember parent
+			endchild = 0		# can not be end of child block
+			wtype($0, level)	# extract widget class type
+			nextw(parent) 		# recursive call for next widget
+		} else { 
+		   if ($0 ~ /children {/){	# 
+			parent = level		# save original level
+			if (debug > 2)
+				printf(" children: parent = %d\n", parent)
+		   }
+		   flag($0, num)		# parse flag block
+		   activevalues($0, num)	# parse active value block(s)
+		   createproc($0, num)		# parse createproc block
+		   resources($0, num)		# parse resources block
+		   if ($0 ~ /}/){		# end of a block
+			if (isname($2)) {	# end of widget block?
+				name = getthename($0)	#  extract widgets name
+				if (debug)
+					printf("wname:%s %d %d\n", name, level, endchild);
+				num = level
+				if (endchild) { 	# end of children block 
+					num = parent	# go back to original level
+				}
+				Wname[num]=name		# remember widgets name
+				endchild = 1
+				return level
+			}
+		   }
+		}
+	}
+	return level 		# for numwidgets number widgets.
+}
+
+function wtype(line, n) {
+	if (debug)
+		printf("wtype:%s %d\n",$2, n);
+	Wtype[n] = $2
+}
+function isendofblock(line) {
+	if ($0 ~ /}/) { 			# contains end bracket
+		#if ($0 !~ /\=/) { 		# dosent contain assignment
+		#	if ( !$2)  {            # no extra field (widget name)
+		#		return 1	# must be end of a block
+		#	}
+		#}
+		braket--
+	}
+	if ($0 ~ /{/) { 			# contains open bracket
+		braket++
+	}
+	if (braket <= 0){
+		 return 1
+	}
+	return 0
+}
+function isname(field) {
+	if  (field) {    			#
+		if  (field != "else") { 	# not bracket in script
+			if (field !~/\\/ ) { 	# not end of script
+				return 1
+			}
+		}
+	}
+	return 0
+}
+function getthename(line) { 			# get widget names in quotes
+	if (line ~ /}/) {
+		if ($2) {			# must be better ways!
+			na = $2
+			if ( NF > 2) {
+				for ( e = 3; e <= NF; e++)
+				 	na = na" "$e
+			}
+			return na
+		}
+	}
+	return "NoName"
+}
+
+function flag(line, n) {
+	if (line ~ /flag {/){
+		if (debug > 9)		
+			printf("flag\n")
+		while (getline) {
+			if ( isendofblock($0))
+				break
+		}
+	}
+}
+
+# Problem: Callbacks are not in a block of their own but are in resources
+# So the end of a Callback face script is:
+# 1) a line not ending with a \ (backslash)
+# 2) a line not followed by a tab
+#
+# If we get a line "extra" it is either 
+# 1) end of block - leave resources block
+# 2) start of another callback - search for 1 or 3
+# 3) some other resourse - throw away line and search for 1 or 2
+
+function resources(line, n) {
+ if (line ~ /resources {/){
+	if (debug > 8)
+	    printf("resources\n")	
+    braket = 1			# set block braket flag
+    bs = 0			# reset backslash flag
+    incallback = 0		# reset in callback script flag
+    
+    while (getline) {
+	if (isendofblock($0)) {
+	    if (incallback && (debug > 4))
+		printf("C:%s:%s %s\n", ncname, Wcallface[ncname], $0)
+	    break				
+	}
+	if (incallback && isendofcall($0, bs)){	# search end this Callback
+	    incallback = 0
+	    if (debug > 4)
+		printf("C:%s:%s %s\n", ncname, Wcallface[ncname], $0)
+	}
+	if (incallback) {
+	    oldline = Wcallface[ncname]	
+	    Wcallface[ncname] = oldline"\n"$0
+	}
+	if ($0 ~ /Callback = /){
+	    bs = 0			# reset backslash flag
+    	    incallback = 1		# set in callback script flag
+	    cname = $1
+	    oldcname = Wcall[n]
+	    Wcall[n]  = (oldcname) ? oldcname" "cname : cname
+	    if (debug > 4)
+	    	printf("Callback: %s %s\n", cname, $0)	
+	    # store each callback face script by num+name
+	    ncname = n""cname
+	    # store script stripping leading spaces + callback name
+	    Wcallface[ncname] = substr($0, index($0, "=") +2, length($0))
+	}
+	if ( incallback && ($0 ~ /\\$/ )) {
+		bs = 1
+	} else
+		bs = 0
+    }
+ }
+}
+
+function isendofcall(line, bs) {
+	if (match(line, /\t/) == 1)  {	# line begines with tab - in script
+		return 0
+	}   
+	if (bs) {			# line did not begin with tab
+		return 0		# but last line had  backslash
+	}
+	return 1			# neither so end of script 
+}
+
+
+function activevalues(line, n) {
+    if (line ~ /  activevalue {/){	
+    	braket = 1		# each av is a separate block
+    	while (getline) {
+    	    if (isendofblock($0)){	# search end this av block
+	             break	
+            }
+	    if ($0 ~ /  name = /){
+                name = $3
+                oldname = Wactive[n] 	# stored by number use n
+                Wactive[n] = (oldname) ? oldname" "name : name
+                if (debug > 2)
+                    printf("activevalue %s %d\n", name, n)
+            } else {        		# store each face script by av name
+	        navname = n""name	# join number plus name
+                str = $0
+                if ($0 ~ /  get = /)
+                    str = substr($0, index($0, "get"), length($0))
+                if ($0 ~ /  set = /)
+                    str = substr($0, index($0, "set"), length($0))
+                oldline = Wavface[navname]    # stored by name use n+name
+                Wavface[navname] = (oldline) ? oldline"\n"str : str
+                if (debug > 0)
+                    printf("av: %s\n", Wavface[navname])
+            }
+        }
+    }
+}
+
+function createproc(line, n) {
+	if (line ~ / createproc {/){
+		braket = 1
+		Wcall[n] = "xfmCreateCallback"		# always first callback
+		if (debug > 0)
+			printf("createproc %s %d\n", $1, n)	
+		while (getline) {
+			if (isendofblock($0)) {
+				break				
+			}
+			oldline = Wcpface[n] 	# only one face create script per widget
+						# store by widget number
+			Wcpface[n] = (oldline) ? oldline"\n"$0 : strip($0)
+		}
+		if (debug > 0)
+			printf("cp: %s\n", Wcpface[n])
+	} 
+}
+
+function strip(line) {			#strip spaces at begining of a line
+	match(line, / +/)
+	text = substr(line, RLENGTH +1, length(line))
+	return text
+}
+function getavs() {
+	for ( i = 1; i <= numwidgets; i ++) {
+		isav =  Wactive[i]
+		if (isav) {
+		        splitn = split(Wactive[i], avarray, " ")
+			totalavs = totalavs + splitn
+			for ( m = 1; m <= splitn; m++) {
+				oldwid = Aav[avarray[m]]
+				Aav[avarray[m]] = (oldwid) ? oldwid" "Wname[i] : Wname[i]
+			}
+		}
+	}
+	return totalavs
+}
+
+################## output functions ####################################################
+
+function widoutput() {			# widget cross ref. output
+
+	if (plain) {			# plain text
+	     printf("File: %s  Number of widgets: %d\n\n", FILENAME, numwidgets)
+	     printf("%.3s %.3s %-20s %-18s %-14s %s\n\n", "Widget", "Parent", "Widget Name","Class","Active Values", "Callbacks")
+	     for ( i = 1 ; i <= numwidgets; i ++)
+		     printf("%-3d %-3s %-20s %-18s %s %s\n", i, Wparent[i], Wname[i], Wtype[i], Wactive[i], Wcall[i])
+	} else {
+	     if (tab) { 
+		     printf("%s\t%s\t%s\t%s\t%s\t%s\n", "Widget", "Parent","Widget Name","Class","Active Values", "Callbacks")
+		     for ( i = 1 ; i <= numwidgets; i ++)
+			     printf("%d\t%s\t%s\t%s\t%s\t%s\n", i, Wparent[i], Wname[i], Wtype[i], Wactive[i], Wcall[i])
+	     }
+	     if (tbl) {
+	             printf("Widgets in file: %d\nNumber of active values: %d\n\n", numwidgets, totalavs)
+		     print ".TS H"
+		     print "l1 l1 l1 l1 l1 l"
+		     print "n n l l l l."
+		     printf("Widget\tParent\tWidget Name\tClass\tActive Values\tCallbacks\n")
+		     print "_"
+		     print ".TH"
+	     
+		     for ( i = 1 ; i <= numwidgets; i ++) {
+			     n1 = split(Wcall[i], calls, " ")
+			     n2 = split(Wactive[i], avs, " ")
+			     printf("%d\t%s\t%s\t%s\t%s\t%s\n", i, Wparent[i], Wname[i], Wtype[i], avs[1], calls[1])
+			     maxn = ( n1 >= n2) ? n1 : n2
+			     for ( j = 2 ; j <= maxn; j ++)
+				     printf("\t\t\t\t%s\t%s\n", avs[j], calls[j])
+		     }
+		     print ".TE"
+	     }
+	}
+}			# end of widoutput()
+
+function avoutput() {				# av cross reference output
+
+	totalavs = getavs()
+	
+	if (plain) {				# plain output
+	    printf("File: %s \nNumber of active values: %d\nWidgets in file: %d\n\n", FILENAME,totalavs, numwidgets)
+	    printf("%-20s %-18s\n\n","Active Value", "Widget Names")
+
+	    for (avname in Aav)
+		printf("%-20s %s\n", avname, Aav[avname] )
+        } 
+	if (tab) { 
+		printf("%-20s %-18s\n\n","Active Value", "Widget Names")
+		for (avname in Aav)
+			printf("%s\t%s\n", avname, Aav[avname] )
+	}
+	if (tbl) {
+	        printf("Widgets in file: %d\nNumber of active values: %d\n\n", numwidgets, totalavs)	
+		print ".TS H"
+		print "l5  l"
+		print " l l."
+		printf("Active Value\tWidget Names\n")
+		print "_"
+		print ".TH"
+
+		for (avname in Aav) {
+			nwid = split(Aav[avname], arraywid, " ")
+			printf("%s\t%s\n", avname, arraywid[1])
+			for ( j = 2 ; j <= nwid; j ++)
+				printf("\t%s\n",arraywid[j])
+		}
+		print ".TE"
+	} # end tbl
+   
+} #  end av cross reference
+
+function faceoutput() {				# face scripts output
+
+	totalavs = getavs()
+
+	if (plain) { 			# plain output
+	    printf("File: %s \nNumber of active values: %d\nWidgets in file: %d\n", FILENAME,totalavs, numwidgets)
+	} else {
+	    printf("Widgets in file: %d\nNumber of active values: %d\n\n", numwidgets, totalavs)	
+	    if (tbl)
+    		print ".LL\n"
+	}
+	for ( i = 1 ; i <= numwidgets; i ++) {
+	    if (Wactive[i] || Wcall[i]) {
+		if (tbl)
+		    print ".ft B\n"
+		printf("%s %-3d %s %-3s %s  %-18s %s %s\n\n", 
+			    "Widget:", i, "Parent:", Wparent[i], "Class:", Wtype[i], "Name:", Wname[i])			
+		if (tbl)
+		    print ".ft\n"
+	    	if (Wcpface[i]) {
+			if (tbl)
+			    print ".ul\n"
+		    printf("xfmCallback:\n%s\n\n", botch(Wcpface[i]))
+	    	}
+	    	if (Wcall[i]) {
+		    splitn = split(Wcall[i], calls, " ")
+		    	for ( m = 1; m <= splitn; m++) {
+			    if ( index(calls[m], "xfmCreateCallback")) {
+				break			# create done already					
+			    }
+			    nc = i""calls[m]
+			    if (tbl)
+		    		print ".ul\n"
+			    printf("%s:\n%s\n\n", calls[m], botch(Wcallface[nc]))
+		    	}
+	    	}
+		if (Wactive[i]) {
+		    splitn = split(Wactive[i], avar, " ")
+			for ( m = 1; m <= splitn; m++) {
+			    idx = i""avar[m]
+			    if (tbl)
+				print ".ul\n"
+			    printf("active value: %s\n%s\n\n", avar[m], botch(Wavface[idx]))
+		        }
+	        }
+	    	if (tbl)
+    		    print ".LL\n"
+	    } 		
+	}
+    
+} #  end faceoutput()
+
+function outmacros() {
+
+print "\\\" File produced with xfmprint(1) from NSL"
+print ""
+print "\\\" XFM2 troff macros "
+print ".de PH		\\\" Page Header Macro PH "
+print ".ev 1"
+print ".ft B"
+printf(".tl :%s:\\n(dy.\\n(mo.19\\n(yr:Page %%\n", FILENAME)
+print ".sp 2"
+print ".ev"
+print ".."
+print ""
+print ".de LL		\\\"Draw Long Line Macro "
+print "\\\l'"'"'\\\\n\(.lu'"'"'"
+#print "\\\l'"'"'\\\\n(.lu - '"'"'\n"
+#printf("\\\l %c(.l - %c\n", 0x27, 0x27 )
+print ".."
+print ""
+print ".wh 0 PH"
+print ""
+print ".na"
+print ".nf"
+print ".nh"
+print ""
+print ".PH"
+
+}
+
+function botch(str) {	# what a botch!
+	if (tbl) {	# troff eats (backslash)(newline)  no verbatum mode ?
+		gsub(/\\\n/, "\\\\\n", str)
+	}
+	return str
+}
+
+################## output  ####################################################
+
+END {
+    if (ok) {				# parced argv ok
+	if (tbl)
+		outmacros()
+	if (wid) {			# output name widget cross ref.
+		widoutput()		
+	}
+	if(av) {			# av cross reference
+		avoutput()
+	} 
+	if (face) {
+		faceoutput()		# face scripts output
+	}
+    }		# end ok?
+} ' $*

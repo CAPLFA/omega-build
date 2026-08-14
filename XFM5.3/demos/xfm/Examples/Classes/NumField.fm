@@ -1,0 +1,114 @@
+widget XmForm {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = value
+        set = if (@ > self:maximum) 
+			{@ = self:maximum; self:value = @;}
+		else if (@ < self:minimum) 
+	{@ = self:minimum; self:value = @;}
+	self.scale:value = @;
+	String buf = XtMalloc(40);
+	sprintf(buf, "%d", @);
+	self.text:value = buf;
+	XtFree(buf);
+	if (@ != @1){
+		XtCallCallbacks(self,"valueChangedCallback",$); }
+        type = Int
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = 0
+    }
+    activevalue {
+        name = minimum
+        set = self.scale:minimum = @;
+        type = Int
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = 0
+    }
+    activevalue {
+        name = valueChangedCallback
+        type = Callback
+        storage = object
+        automatic = true
+        usage = class
+    }
+    activevalue {
+        name = foreground
+        set = self.scale:foreground = @;
+        type = Pixel
+        storage = object
+        automatic = true
+        usage = class
+    }
+    activevalue {
+        name = background
+        set = self.scale:background = @;
+        type = Pixel
+        storage = object
+        automatic = true
+        usage = class
+    }
+    activevalue {
+        name = fontList
+        set = self.text:fontList = @;
+        type = FontList
+        storage = object
+        automatic = true
+        usage = class
+    }
+    activevalue {
+        name = maximum
+        set = self.scale:maximum = @;
+        type = Int
+        storage = object
+        automatic = true
+        usage = class
+        default_type = String
+        default_value = 100
+    }
+    resources {
+    }
+    children {
+        widget XmScale {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                orientation = horizontal
+                bottomAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                valueChangedCallback = parent:value = self:value;    
+                dragCallback = parent:value = self:value;
+            }
+        } scale
+        widget XmTextField {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                rightAttachment = attach_form
+                topAttachment = attach_form
+                leftAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomOffset = 10
+                bottomWidget = scale
+                columns = 10
+                activateCallback = 
+	 parent:value = atoi(self:value);
+            }
+        } text
+    }
+} Form

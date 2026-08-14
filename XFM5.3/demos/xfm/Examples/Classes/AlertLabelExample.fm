@@ -1,0 +1,48 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 402
+        y = 60
+        width = 312
+        height = 222
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 312
+                height = 222
+            }
+            children {
+                widget XnslAlertLabel {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 93
+                        y = 41
+                    }
+                } Alert1
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 114
+                        y = 118
+                        labelString = alert
+                        valueChangedCallback = parent.Alert1:alertOn = self:set;
+                    }
+                } XmToggleButton0
+            }
+        } XmBulletinBoard0
+    }
+} ApplicationShell1

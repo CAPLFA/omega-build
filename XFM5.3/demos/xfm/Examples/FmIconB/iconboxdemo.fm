@@ -1,0 +1,542 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 419
+        y = 396
+        width = 496
+        height = 355
+        title = Icon Box/Button Demo
+    }
+    children {
+        widget XmPaned {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 496
+                height = 355
+                orientation = horizontal
+            }
+            children {
+                widget XmFrame {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 205
+                        height = 349
+                    }
+                    children {
+                        widget XmIconBox {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 2
+                                y = 2
+                                width = 201
+                                height = 345
+                                minimumCellHeight = 48
+                                minimumCellWidth = 48
+                            }
+                            children {
+                                widget XmIconButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 4
+                                        y = 4
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        iconPlacement = icontop
+                                        pixmap = ../pixmaps/crab.xpm
+                                        activateCallback = function None showthisbutton(String className,String strplace,Widget w){\
+\
+String msg;\
+msg = String (XtMalloc(255));\
+\
+sprintf(msg,"This is an %s inside an Icon Box.\
+\
+It was created using the following resource settings:\
+\
+iconPlacement	= %s\
+cellX		= %d\
+cellY		= %d", className, strplace, w:cellX, w:cellY);\
+\
+parent.parent.parent.parent.xmDialogShell0.showcode:messageString = msg;\
+\
+show(parent.parent.parent.parent.xmDialogShell0.showcode);\
+\
+XtFree(msg);\
+};\
+\
+function String getIconPlacement(Widget w){\
+XmIconPlacement place;\
+String strplace; \
+\
+place = w:iconPlacement;\
+\
+if(place==XmIconTop) strplace="XmIconTop";\
+else if(place==XmIconLeft) strplace="XmIconLeft";\
+else if(place==XmIconRight) strplace="XmIconRight";\
+else if(place==XmIconBottom) strplace="XmIconBottom";\
+else if(place==XmIconOnly) strplace="XmIconOnly";\
+else if(place==XmIconNone) strplace="XmIconNone";\
+\
+return (strplace);\
+};\
+\
+String strplace;\
+String className;\
+\
+strplace=getIconPlacement(self);\
+className="XmIconButton";\
+\
+showthisbutton(className,strplace,self);
+                                    }
+                                } XmIconTop
+                                widget XmIconButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 102
+                                        y = 4
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        iconPlacement = iconbottom
+                                        pixmap = ../pixmaps/crab.xpm
+                                        activateCallback = String strplace;\
+String className;\
+\
+strplace=getIconPlacement(self);\
+className="XmIconButton";\
+\
+showthisbutton(className,strplace,self);
+                                    }
+                                } XmIconBottom
+                                widget XmIconButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 102
+                                        y = 89
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        iconPlacement = iconleft
+                                        pixmap = ../pixmaps/crab.xpm
+                                        activateCallback = String strplace;\
+String className;\
+\
+strplace=getIconPlacement(self);\
+className="XmIconButton";\
+\
+showthisbutton(className,strplace,self);
+                                    }
+                                } XmIconLeft
+                                widget XmIconButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 102
+                                        y = 174
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        iconPlacement = iconright
+                                        pixmap = ../pixmaps/crab.xpm
+                                        activateCallback = String strplace;\
+String className;\
+\
+strplace=getIconPlacement(self);\
+className="XmIconButton";\
+\
+showthisbutton(className,strplace,self);
+                                    }
+                                } XmiconRight
+                                widget XmIconButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 102
+                                        y = 259
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        iconPlacement = icononly
+                                        pixmap = ../pixmaps/stopsign.xpm
+                                        activateCallback = String strplace;\
+String className;\
+\
+strplace=getIconPlacement(self);\
+className="XmIconButton";\
+\
+showthisbutton(className,strplace,self);
+                                    }
+                                } stop
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 4
+                                        y = 89
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        activateCallback = String strplace;\
+String className;\
+\
+strplace = "No applicatable";\
+className = "XmPushButton";\
+\
+showthisbutton(strplace, className, self);
+                                    }
+                                } Push
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 4
+                                        y = 174
+                                        width = 94
+                                        height = 81
+                                        cellX = -5
+                                        cellY = -5
+                                        labelString = PushMe!
+                                        valueChangedCallback = String strplace;\
+String className;\
+\
+strplace = "No applicable";\
+className = "XmToggleButton";\
+\
+showthisbutton(className,strplace,self);
+                                    }
+                                } PushMe
+                            }
+                        } iconBox
+                    }
+                } inconBoxframe
+                widget XmPaned {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 218
+                        y = 3
+                        width = 275
+                        height = 349
+                        orientation = vertical
+                        skipAdjust = false
+                        showSash = false
+                    }
+                    children {
+                        widget XmFrame {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 3
+                                width = 269
+                                height = 185
+                            }
+                            children {
+                                widget XmScrolledWindow {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 2
+                                        y = 2
+                                        width = 265
+                                        height = 181
+                                        scrollBarDisplayPolicy = as_needed
+                                        scrollingPolicy = automatic
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 0
+                                                alignment = alignment_beginning
+                                                labelString = This is a demo of two unique OpenMotif Widgets: the Icon Button and Icon Box.\
+\
+Labels, Push Buttons, and Toggle Buttons are limited because these\
+widgets only allow EITHER labels OR pixmaps on the face but NOT BOTH.\
+Icon Buttons relieve the developer of this restriction, allowing both, or either,\
+pixmaps and labels on its face.\
+\
+Row Column and Form from Motif make it difficult to produce "matrix", or \
+"cell oriented" layouts (in which the height and width are the same).\
+The Icon Box places a constraint on all of its children, making each child\
+the same width and height. Moreover, the Icon Box lets the developer\
+specify which cell in the Icon Box each child should go.
+                                            }
+                                        } infolabel
+                                    }
+                                } scrollExplain
+                            }
+                        } infoframe
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 198
+                                width = 269
+                                height = 31
+                                orientation = horizontal
+                                packing = pack_tight
+                                rowColumnType = work_area
+                                skipAdjust = true
+                                showSash = false
+                            }
+                            children {
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 64
+                                        height = 25
+                                    }
+                                } placelabel
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 70
+                                        y = 3
+                                        width = 72
+                                        height = 25
+                                        activateCallback = parent.parent.parent.parent.xmDialogShell0_2.explain:messageString="This is an IconButton resource.\
+\
+Specifies the location of the pixmap (icon) with respect\
+to the displayed text.\
+\
+This resource can take one of the following values: XmIconTop,\
+XmIconBottom, XmIconLeft, XmIconRight, XmIconNone, XmIconOnly.";\
+\
+show(parent.parent.parent.parent.xmDialogShell0_2.explain);
+                                    }
+                                } pushButton
+                            }
+                        } placeRC
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 239
+                                width = 269
+                                height = 31
+                                showSash = false
+                                skipAdjust = true
+                                orientation = horizontal
+                                packing = pack_tight
+                                rowColumnType = work_area
+                            }
+                            children {
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 40
+                                        height = 25
+                                    }
+                                } xLabel
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 46
+                                        y = 3
+                                        width = 78
+                                        height = 25
+                                        activateCallback = parent.parent.parent.parent.xmDialogShell0_2.explain:messageString = " This is an IconBox resource.\
+\
+ It specifies the location of a particular button in cell space\
+ in the x direction." ;\
+\
+show(parent.parent.parent.parent.xmDialogShell0_2.explain);
+                                    }
+                                } pushButton1
+                            }
+                        } xRC
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 280
+                                width = 269
+                                height = 31
+                                showSash = false
+                                skipAdjust = true
+                                orientation = horizontal
+                                packing = pack_tight
+                                rowColumnType = work_area
+                            }
+                            children {
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 3
+                                        y = 3
+                                        width = 40
+                                        height = 25
+                                    }
+                                } yLabel
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 46
+                                        y = 3
+                                        width = 78
+                                        height = 25
+                                        activateCallback = parent.parent.parent.parent.xmDialogShell0_2.explain:messageString = " This is an IconBox resource.\
+\
+ It specifies the location of a particular button in cell space\
+ in the y direction.";\
+show(parent.parent.parent.parent.xmDialogShell0_2.explain);
+                                    }
+                                } pushButton2
+                            }
+                        } yRC
+                        widget XmButtonBox {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 321
+                                width = 269
+                                height = 25
+                                equalSize = true
+                                fillOption = fillNone
+                                orientation = horizontal
+                                showSash = false
+                                skipAdjust = true
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 110
+                                        y = 0
+                                        width = 48
+                                        height = 25
+                                        activateCallback = exit(0);
+                                    }
+                                } quitPB
+                            }
+                        } buttonBox1
+                    }
+                } rightpane
+            }
+        } bull
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 494
+                y = 219
+                width = 318
+                height = 168
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    createproc {
+                        temp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+UnmanageChild(temp);\
+temp = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+UnmanageChild(temp);
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 318
+                        height = 168
+                        dialogTitle = Code Sample
+                        dialogType = dialog_information
+                    }
+                } showcode
+            }
+        } xmDialogShell0
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 719
+                y = 93
+                width = 340
+                height = 168
+            }
+            children {
+                widget XmMessageBox {
+                    flag {
+                    }
+                    createproc {
+                        temp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+UnmanageChild(temp);\
+temp = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+UnmanageChild(temp);
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 340
+                        height = 168
+                        dialogTitle = Explanation
+                        dialogType = dialog_information
+                    }
+                } explain
+            }
+        } xmDialogShell0_2
+    }
+} IconBox

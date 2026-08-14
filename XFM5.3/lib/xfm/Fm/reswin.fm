@@ -1,0 +1,3553 @@
+widget TopLevelShell {
+    flag {
+        mapped
+        popup
+    }
+    activevalue {
+        name = _FmResourceForm
+        get = @ = self.xfmResourceDialog;
+    }
+    activevalue {
+        name = _FmResourceSelection
+        get = @ = self.xfmResourceDialog.form.selection;\
+XtRealizeWidget (Widget (@));
+    }
+    activevalue {
+        name = _FmResourceEdit
+        get = @ = self.xfmResourceDialog.form.resourceEdit;
+    }
+    activevalue {
+        name = _FmResourceWindowIsCurrent
+        get = @ = Boolean(self.xfmResourceDialog.form.current:set);
+        set = XmToggleButtonSetState (self.xfmResourceDialog.form.current,@,True);
+    }
+    activevalue {
+        name = _FmResourceEditMode
+        set = form = self.xfmResourceDialog.form;\
+	w = Widget (form:userData);\
+	if (w != form.resourceList)
+		XtCallCallbacks (w.reset,"activateCallback",0);\
+	form = self.xfmResourceDialog.form.resourceList;\
+	if ((XtIsManaged (form:@listScroller) != 0) == (@ != 0))
+		XtCallCallbacks (form.mode,"activateCallback",0);
+    }
+    activevalue {
+        name = _FmResourceParent
+        set = function void _FmResourceSetText (Widget w,String s) {
+	e = w:editable;
+	if(e)
+		w:editable = False;
+	v = w:value;
+	if (strcmp (v,s) != 0) {
+		w:value = s;
+		XmTextSetInsertionPosition (w,XmTextGetLastPosition (w));
+	}
+	XtFree (v);
+	w:userData = Pointer (False);
+	/*FaceSetValues(w, 2, "columns", 10, "userData", False);*/
+	if(e)
+		w:editable = e;\
+}\
+_FmResourceSetText (self.xfmResourceDialog.form.parentName,$);
+    }
+    activevalue {
+        name = _FmResourceWidget
+        get = function void _FmResourceGetText (Widget w,String name) {
+	v = w:value;
+	_FmSysAvLocalCopy(name, v);
+	_FmSysAvStringCopy(name, v);
+	XtFree (v);\
+}\
+_FmResourceGetText (self.xfmResourceDialog.form.name,"_FmResourceWidget");
+        set = _FmResourceSetText (self.xfmResourceDialog.form.name,$);
+    }
+    activevalue {
+        name = _FmResourceClassText
+        get = @ = self.xfmResourceDialog.form.class;
+    }
+    activevalue {
+        name = _FmResourceClassTextValue
+        set = _FmResourceSetText (self.xfmResourceDialog.form.class,$);\
+self.xfmResourceDialog.form.class:userData = Pointer(True);\
+_FmResourceWindowSetModified (toplevel);
+    }
+    activevalue {
+        name = _FmResourceClass
+        get = _FmResourceGetText (self.xfmResourceDialog.form.class,"_FmResourceClass");
+        set = _FmResourceSetText (self.xfmResourceDialog.form.class,$);
+	name = XtNewString($);
+	_FmSetResourceClass (toplevel,name);
+	/*
+	Widget draw = self*resourceList.draw;
+	if (strcmp (name ,"XnslDraw") == 0){
+		FmShowWidget (draw);
+		if(draw:@CEConnection)
+			_FmCEOpen(draw:@CEConnection, "");
+	} else {
+		FmHideWidget (draw);
+		if(draw:@CEConnection)
+			_FmCEClose(draw:@CEConnection, "");
+	}
+	 */
+	XtFree (name);
+    }
+    activevalue {
+        name = _FmResourceTemplates
+        get = _FmResourceGetText (self*templates,"_FmResourceTemplates");
+        set = _FmResourceSetText (self*templates,$);
+    }
+    activevalue {
+        name = _FmResourceX
+        get = function int _FmResourceGetTextInt (Widget w) {
+	val = w:value;
+	n = atoi (val);
+	XtFree (val);
+	return n;\
+}\
+@ = _FmResourceGetTextInt (self*resourceList.x);
+        set = function void _FmResourceSetTextInt (Widget w,Int val,Boolean list) {
+	s = itoa (val);
+	_FmResourceSetText (w,s);
+	if(list)
+		_FmSetGeometryResource(toplevel, XtName(w), s);
+	Widget editbox = Widget(xfmResourceDialog.form.resourceEdit:userData);
+	if(equal(XtName(editbox), "attach") && XtIsManaged(editbox)){
+		FmSetActiveValue(editbox, "_FmUpdateAttachOffsets");
+	}
+	XtFree (s);\
+}\
+_FmResourceSetTextInt (self*resourceList.x,@,True);
+    }
+    activevalue {
+        name = _FmResourceY
+        get = @ = _FmResourceGetTextInt (self*resourceList.y);
+        set = _FmResourceSetTextInt (self*resourceList.y,@,True);
+    }
+    activevalue {
+        name = _FmResourceWidth
+        get = @ = _FmResourceGetTextInt (self*resourceList.width);
+        set = _FmResourceSetTextInt (self*resourceList.width,@,True);
+    }
+    activevalue {
+        name = _FmResourceHeight
+        get = @ = _FmResourceGetTextInt (self*resourceList.height);
+        set = _FmResourceSetTextInt (self*resourceList.height,@,True);
+    }
+    activevalue {
+        name = _FmResourceWindowEditor
+        set = 
+		Widget es = self*editScroller;
+		if(XtIsManaged(es)){
+			s = _FmGetResourceEditorText (toplevel);
+			Widget et = es.text;
+			Boolean old_editable = et:editable;
+			et:editable = False;
+			et:@editorText = s;
+			et:editable = old_editable;
+		}
+    }
+    activevalue {
+        name = _FmClearResourceWindow
+        set = form = self.xfmResourceDialog.form;\
+_FmResourceSetText (form.parentName,"");\
+_FmResourceSetText (form.name,"");\
+_FmResourceSetText (form.class,"");\
+_FmResourceSetText (form.templates,"");\
+form = self*resourceList;\
+_FmResourceSetTextInt (form.x,0,False);\
+_FmResourceSetTextInt (form.y,0,False);\
+_FmResourceSetTextInt (form.width,0,False);\
+_FmResourceSetTextInt (form.height,0,False);\
+function None _FmResWinObjChanged(String); _FmResWinObjChanged(String(0));
+    }
+    activevalue {
+        name = _FmResourceAutoPos
+        get = @ = Boolean(self*autopos:set);
+        set = form = self*resourceList;\
+toggle = form.autopos;\
+if (Boolean(toggle:set) != (@ != 0)) {
+	toggle:set = Set((@ != 0));
+	_FmResourceAutoToggle (toggle,form.x,form.y,False);\
+}
+    }
+    activevalue {
+        name = _FmResourceAutoSize
+        get = @ = Boolean(self*autosize:set);
+        set = form = self*resourceList;\
+toggle = form.autosize;\
+if (Boolean(toggle:set) != (@ != 0)) {
+	toggle:set = Set((@ != 0));
+	_FmResourceAutoToggle (toggle,form.width,form.height,False);\
+}
+    }
+    activevalue {
+        name = _FmResourcePopup
+        get = @ = Boolean(self*popup:set);
+        set = XmToggleButtonGadgetSetState (self*popup,@ != 0,False);
+    }
+    activevalue {
+        name = _FmResourceGadget
+        get = @ = Boolean(self*gadget:set);
+        set = XmToggleButtonGadgetSetState (self*gadget,@ != 0,False);
+    }
+    activevalue {
+        name = _FmResourceCanPopup
+        set = XtSetSensitive (self*popup,@ != 0);
+    }
+    activevalue {
+        name = _FmResourceCanGadget
+        set = XtSetSensitive (self*gadget,@ != 0);
+    }
+    activevalue {
+        name = _FmResourceCanAuto
+        set = 
+	Int sens;
+	sens = @ != 0;
+	XtSetSensitive (self*autosize, sens);
+	XtSetSensitive (self*autopos, sens);
+	XtSetSensitive (self*x, sens);
+	XtSetSensitive (self*y, sens);
+	XtSetSensitive (self*width, sens);
+	XtSetSensitive (self*height, sens);
+	XtSetSensitive (self*gadget, sens);
+    }
+    activevalue {
+        name = _FmResourceList
+        set = editor = self*editScroller;\
+editing = XtIsManaged (editor);\
+empty = strcmp ($,"") == 0;\
+_FmSetResourceList (toplevel,$,False);\
+if (editing) {
+	old_editable = editor.text:editable;
+	editor.text:editable = False;
+	if (empty)
+		s = "";
+	else
+		s = _FmGetResourceEditorText(toplevel);
+	editor.text:@editorText = s;
+	editor.text:editable = old_editable;\
+} else if (empty)
+	FmSetActiveValue (toplevel,"_FmClearResourceWindow");
+    }
+    activevalue {
+        name = _FmResourceListReset
+        set = 
+	function None _FmResWinObjChanged(String resname){
+		Widget w = Widget (self.xfmResourceDialog.form:userData);
+		if(w == self*resourceSort){
+			XtCallCallbacks (w.reset,"activateCallback",0);
+		}
+		else
+		if(w == self*resourceEdit){
+			Boolean visible;
+			if(resname)
+				visible = 1;
+			else
+				visible = 0;
+			Widget dialog = Widget(w:userData);
+			if(dialog){
+				if(visible)
+					_FmEditNamedWindowResource(toplevel, resname);
+				XtSetSensitive(dialog, visible);
+			}
+			XtSetSensitive(w.ok, visible);
+			XtSetSensitive(w.apply, visible);
+			XtSetSensitive(w.applyset, visible);
+			XtSetSensitive(w.set, visible);
+		}
+	}
+	_FmResWinObjChanged(String(@));
+    }
+    activevalue {
+        name = _FmResourceCallbackMenu
+        get = @ = self*callbacksPulldown;
+    }
+    activevalue {
+        name = _FmResourceListBB
+        get = @ = self*listScroller.bb;
+    }
+    activevalue {
+        name = _FmResourceListText
+        get = @ = self*listText;
+    }
+    activevalue {
+        name = _FmResourceWindowModified
+        set = w = self*resourceList;\
+XtSetSensitive (w.modified,@ != 0);
+    }
+    activevalue {
+        name = _FmResourceItemTextValue
+        get = w = self*resourceList:@listText;\
+s = w:value;\
+strcpy ($,s);\
+XtFree (s);
+        set = w = self*resourceList:@listText;\
+e = w:editable;\
+w:editable = False;\
+w:value = $;\
+w:editable = e;
+    }
+    activevalue {
+        name = _FmResourceEditor
+        get = s = self*editScroller.text:value;\
+strcpy ($,s);\
+XtFree (s);
+    }
+    activevalue {
+        name = _FmResourceListDots
+        get = @ = self*listDots;
+    }
+    activevalue {
+        name = _FmResourceFastList
+        get = @ = self*fastList;
+    }
+    activevalue {
+        name = _FmResourceFastListText
+        get = @ = self*fastListText;
+    }
+    activevalue {
+        name = _FmResourceFastListDots
+        get = @ = self*fastListDots;
+    }
+    activevalue {
+        name = _FmResourceSortBySubclass
+        get = @ = Boolean(self*bySubclass:set);
+        set = XmToggleButtonGadgetSetState (self*bySubclass,@,True);
+    }
+    activevalue {
+        name = _FmResourceSortBySuperclass
+        get = @ = Boolean(self*bySuperclass:set);
+        set = XmToggleButtonGadgetSetState (self*bySuperclass,@,True);
+    }
+    activevalue {
+        name = _FmResourceSortXfmTop
+        get = @ = Boolean(self*xfmTop:set);
+        set = XmToggleButtonGadgetSetState (self*xfmTop,@,False);\
+XmToggleButtonGadgetSetState (self*xfmBottom,!@,False);
+    }
+    activevalue {
+        name = _FmResourceSortAvTop
+        get = @ = Boolean(self*avTop:set);
+        set = XmToggleButtonGadgetSetState (self*avTop,@,False);\
+XmToggleButtonGadgetSetState (self*avBottom,!@,False);
+    }
+    activevalue {
+        name = _FmResourceSortGathered
+        get = @ = Boolean(self*gather:set);
+        set = self*gather:set = Set(@);
+    }
+    activevalue {
+        name = _FmResourceShowTemplate
+        get = @ = Boolean(self*showtmpl:set);
+        set = self*showtmpl:set = Set(@);
+    }
+    activevalue {
+        name = _FmResourceShowRestricted
+        get = @ = Boolean(self*showres:set);
+        set = self*showres:set = Set(@);
+    }
+    activevalue {
+        name = _FmResourceShowOnlyPreferences
+        get = @ = Boolean(self.xfmResourceDialog.form.resourceSort.only:set);
+        set = XmToggleButtonGadgetSetState (self.xfmResourceDialog.form.resourceSort.only,@,True);
+    }
+    activevalue {
+        name = _FmResourceTypeIcon
+        set = \
+menu = self.xfmResourceDialog.form.resourceList.listScroller.bb.type;\
+_FmResourceSetToggleIcon (toplevel,menu.unset,_Fm_rstate_unset);\
+_FmResourceSetToggleIcon (toplevel,menu.default,_Fm_rstate_default);\
+_FmResourceSetToggleIcon (toplevel,menu.template,_Fm_rstate_template);\
+_FmResourceSetToggleIcon (toplevel,menu.set,_Fm_rstate_set);\
+_FmResourceSetToggleIcon (toplevel,menu.rdb,_Fm_rstate_rdb);
+    }
+    activevalue {
+        name = _FmResourceRestricted
+        set = w = self*resourceList:@listText; w:editable = !@; w:verifyBell = !@;\
+XtSetSensitive (self*resourceList:@listDots,!@);
+    }
+    activevalue {
+        name = _FmResourceEditResource
+        set = list = self.xfmResourceDialog.form.resourceList;\
+editor = self.xfmResourceDialog.form.resourceEdit;\
+sorter = self.xfmResourceDialog.form.resourceSort;\
+if (XtIsManaged (editor)) {
+	xms = self.resource:labelString;
+	s = FmGetString (xms);
+	XmStringFree (xms);
+	if (strcmp ($,s) != 0)
+		XtCallCallbacks (editor.set,"activateCallback",NULL);\
+} else if (XtIsManaged (sorter))
+	XtCallCallbacks (sorter.reset,"activateCallback",NULL);\
+else if (XtIsManaged (list.editScroller))
+	XtCallCallbacks (list.mode,"activateCallback",NULL);\
+if (!XtIsManaged (editor)){
+	_FmResourceListEditName (self,$);
+	XtCallCallbacks (list:@listDots,"activateCallback",0);\
+}
+    }
+    activevalue {
+        name = _FmResourceEditResourceLine
+        set = text = self.xfmResourceDialog.form.resourceEdit.String.text;\
+pos = FmTextGetLineColumnPosition (text,@,0);\
+next = FmTextGetLineColumnPosition (text,@ + 1,0);\
+XmTextSetHighlight (text,pos,next,XmHIGHLIGHT_SECONDARY_SELECTED);\
+XmTextSetInsertionPosition (text,FmTextGetLineColumnPosition (text,@,0));
+    }
+    activevalue {
+        name = _FmResourcePreferenceList
+        get = sort = self.xfmResourceDialog.form.resourceSort;\
+if (XtIsManaged (sort))
+	@ = sort.scroller;\
+else
+	@ = NULL;
+    }
+    activevalue {
+        name = _FmStartupFile
+        set = 
+		Pointer f = @;
+		
+		fprintf(f, "Widget rw = root.%s;\n", XtName(self));
+		fprintf(f, "if(rw){\n");
+		
+		function String _FmBoolString (Boolean val) {
+			if (val)
+				return("True");
+			else
+				return("False");
+		}
+		
+		_FmSetResourceSortOptions(toplevel);
+		_FmSetResourcePreferences(toplevel,toplevel*resourceSort.scroller.list);
+		
+		if(Boolean(self*alphabetic:set)) fprintf(f, "	XmToggleButtonSetState(rw*alphabetic, True, True);\n");
+		else
+		if(Boolean(self*bySubclass:set)) fprintf(f, "	XmToggleButtonSetState(rw*bySubclass, True, True);\n");
+		else
+		if(Boolean(self*bySuperclass:set)) fprintf(f, "	XmToggleButtonSetState(rw*bySuperclass, True, True);\n");
+		
+		if(Boolean(self*xfmTop:set)) fprintf(f, "	XmToggleButtonSetState(rw*xfmTop, True, True);\n");
+		else
+		if(Boolean(self*xfmBottom:set)) fprintf(f, "	XmToggleButtonSetState(rw*xfmBottom, True, True);\n");
+		
+		if(Boolean(self*avTop:set)) 	fprintf(f, "	XmToggleButtonSetState(rw*avTop, True, True);\n");
+		else
+		if(Boolean(self*avBottom:set)) fprintf(f, "	XmToggleButtonSetState(rw*avBottom, True, True);\n");
+		
+		fprintf(f, "	XmToggleButtonSetState(rw*gather, %s, True);\n", _FmBoolString(Boolean(self*gather:set)));
+		fprintf(f, "	XmToggleButtonSetState(rw*showtmpl, %s, True);\n", _FmBoolString(Boolean(self*showtmpl:set)));
+		fprintf(f, "	XmToggleButtonSetState(rw*showres, %s, True);\n", _FmBoolString(Boolean(self*showres:set)));
+		
+		fprintf(f, "	_FmGetResourceSortOptions(rw);\n");
+		
+		String preferred_resources = _FmGetList(self*resourceSort.scroller.list);
+		if(preferred_resources
+		&& strcmp(preferred_resources, "") != 0){
+			fprintf(f, "	Widget l = rw*resourceSort.scroller.list;\n");
+			fprintf(f, "	if(l){\n");
+			fprintf(f, "		_FmListFill(l, '%s');\n", preferred_resources);
+			fprintf(f, "		_FmGetResourcePreferences(rw, l);\n");
+			fprintf(f, "	}\n");
+		}
+		
+		if(!IsManaged(self*resourceList:@listScroller))
+			fprintf(f, "
+	if(IsManaged(rw*resourceList:@listScroller))
+		XtCallCallbacks(rw*mode, activateCallback, 0);\n");
+		
+		fprintf(f, "}\n");
+		
+		@ = f;
+    }
+    createproc {
+        global String _FmResourceTitle;\
+if (_FmResourceTitle == String(0)) {
+	global String _FmResourceIconTitle;
+	global String _FmCurrentResourceTitle;
+	global String _FmCurrentResourceIconTitle;
+	_FmResourceTitle = XtNewString (self:title);
+	_FmResourceIconTitle = XtNewString (self:iconName);
+	_FmCurrentResourceTitle = "XFaceMaker: Current Widget Resources";
+	_FmCurrentResourceIconTitle = "Current";\
+}
+    }
+    resources {
+        geometry = -0-0
+        minWidth = 440
+        minHeight = 450
+        width = 440
+        height = 450
+        deleteResponse = unmap
+        title = %MSG%150%1016 XFaceMaker: Widget Resources
+        iconName = Resources
+        iconPixmap = XfmIcon
+        popupCallback = FmRaiseWidget(self.xfmResourceDialog.form);
+        popdownCallback = form = self.xfmResourceDialog.form;\
+w = Widget (form:userData);\
+if (w != form.resourceList) {
+	FmHideWidget (w);
+	FmShowWidget (form.resourceList);
+	form:userData = Pointer (form.resourceList);\
+}\
+_FmCloseResourceWindow (toplevel);
+        translations = #override \
+<Map>: eval("_FmResWinMapped (self,True);")\
+<Unmap>: eval("_FmResWinMapped (self,False);")
+        x = 123
+        y = 167
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                width = 420
+                height = 470
+                resizePolicy = resize_none
+            }
+            children {
+                widget XmFrame {
+                    flag {
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        shadowThickness = 3
+                        shadowType = shadow_out
+                        topAttachment = attach_form
+                        topOffset = 3
+                        leftAttachment = attach_form
+                        leftOffset = 3
+                        rightAttachment = attach_form
+                        rightOffset = 3
+                        bottomAttachment = attach_form
+                        bottomOffset = 3
+                    }
+                } curline
+                widget XmForm {
+                    flag {
+                        mapped
+                        autopos
+                    }
+                    createproc {
+                        function void _FmResourceAutoToggle (Widget toggle,Widget texta,Widget textb,Boolean changed) {
+	_FmResourceTextEdit (texta,!Boolean(toggle:set));
+	_FmResourceTextEdit (textb,!Boolean(toggle:set));
+	if (changed) {
+		_FmResourceWindowSetModified (toplevel);
+		if (Boolean(toggle:set)) {
+			_FmSetNamedWindowResource (toplevel,XtName (texta),String (0));
+			_FmSetNamedWindowResource (toplevel,XtName (textb),String (0));
+		} else {
+			s = texta:value;
+			_FmSetNamedWindowResource (toplevel,XtName (texta),s);
+			XtFree (s);
+			s = textb:value;
+			_FmSetNamedWindowResource (toplevel,XtName (textb),s);
+			XtFree (s);
+		}
+		if (XtIsManaged (parent:@listScroller))
+			_FmSortResourceWindow (toplevel);
+		else {
+			s = _FmGetResourceEditorText (toplevel);
+			parent.editScroller.text:@editorText = s;
+		}
+	}\
+}\
+/*\
+h = self.parentLabel:height;\
+n = self.parentName:height;\
+if (h > n)
+	self.parentName:marginHeight = (h - n) / 2;\
+else
+	self.parentLabel:marginHeight = (n - h) / 2;\
+*/\
+FmSetWidest (self.parentLabel,self.nameLabel,self.templateLabel,NULL);
+                    }
+                    resources {
+                        topAttachment = attach_form
+                        topOffset = 6
+                        leftAttachment = attach_form
+                        leftOffset = 6
+                        rightAttachment = attach_form
+                        rightOffset = 6
+                        bottomAttachment = attach_form
+                        bottomOffset = 6
+                        width = 408
+                        height = 458
+                    }
+                    children {
+                        widget XmSeparator {
+                            flag {
+                                autosize
+                                autopos
+                            }
+                            resources {
+                            }
+                        } selection
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%1017 Parent:
+                                marginWidth = 0
+                                marginHeight = 0
+                                alignment = alignment_beginning
+                                topAttachment = attach_form
+                                topOffset = 8
+                                leftAttachment = attach_form
+                                leftOffset = 8
+                            }
+                        } parentLabel
+                        widget XmText {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            createproc {
+                                XmTextSetInsertionPosition (self,XmTextGetLastPosition(self));
+                            }
+                            resources {
+                                columns = 10
+                                marginHeight = 1
+                                shadowThickness = 0
+                                highlightThickness = 0
+                                marginWidth = 1
+                                editable = false
+                                cursorPositionVisible = false
+                                highlightOnEnter = false
+                                traversalOn = false
+                                verifyBell = false
+                                topAttachment = attach_opposite_widget
+                                topOffset = -1
+                                topWidget = parentLabel
+                                leftAttachment = attach_widget
+                                leftOffset = 4
+                                leftWidget = parentLabel
+                                rightAttachment = attach_form
+                                rightOffset = 8
+                            }
+                        } parentName
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%1018 Name:
+                                marginWidth = 0
+                                marginHeight = 0
+                                alignment = alignment_beginning
+                                topAttachment = attach_widget
+                                topOffset = 12
+                                topWidget = parentLabel
+                                leftAttachment = attach_form
+                                leftOffset = 8
+                            }
+                        } nameLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                navigationType = none
+                                marginHeight = 1
+                                marginWidth = 1
+                                valueChangedCallback = if (self:editable)
+	_FmResourceWindowSetModified (toplevel);
+                                topAttachment = attach_opposite_widget
+                                topOffset = -5
+                                topWidget = nameLabel
+                                leftAttachment = attach_widget
+                                leftOffset = 2
+                                leftWidget = nameLabel
+                                rightAttachment = attach_position
+                                rightOffset = 8
+                                rightPosition = 50
+                                activateCallback = 
+	function None _FmResWinApply(Widget text)
+	{
+		Widget button;
+		if(text){
+			String v = text:value;
+			if(strcmp(v, "") == 0)
+				button = toplevel*resourceList.apply;
+			else
+				button = toplevel*resourceList.applyset;
+			XtFree(v);
+		} else {
+			button = toplevel*resourceList.apply;
+		}
+		XtCallActionProc(button, "ArmAndActivate", 0, 0, 0);
+	}
+	_FmResWinApply(Widget(0));
+                            }
+                        } name
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%1019 Class:
+                                marginWidth = 0
+                                marginHeight = 0
+                                alignment = alignment_beginning
+                                topAttachment = attach_opposite_widget
+                                topWidget = nameLabel
+                                leftAttachment = attach_position
+                                leftOffset = 5
+                                leftPosition = 50
+                            }
+                        } classLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                navigationType = none
+                                valueChangedCallback = if (self:editable)
+	_FmResourceWindowSetModified (toplevel);
+                                activateCallback = _FmResWinApply(Widget(0));
+                                topAttachment = attach_opposite_widget
+                                topOffset = -5
+                                topWidget = classLabel
+                                leftAttachment = attach_widget
+                                leftOffset = 2
+                                leftWidget = classLabel
+                                marginHeight = 1
+                                marginWidth = 1
+                                rightAttachment = attach_form
+                                rightOffset = 6
+                            }
+                        } class
+                        widget XmLabel {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = %MSG%150%1020 Templates:
+                                marginWidth = 0
+                                marginHeight = 0
+                                alignment = alignment_beginning
+                                topAttachment = attach_widget
+                                topOffset = 12
+                                topWidget = nameLabel
+                                leftAttachment = attach_form
+                                leftOffset = 8
+                            }
+                        } templateLabel
+                        widget XmTextField {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                navigationType = none
+                                valueChangedCallback = if (self:editable)
+	_FmResourceWindowSetModified (toplevel);
+                                activateCallback = _FmResWinApply(Widget(0));
+                                topAttachment = attach_opposite_widget
+                                topOffset = -5
+                                topWidget = templateLabel
+                                leftAttachment = attach_widget
+                                leftOffset = 2
+                                leftWidget = templateLabel
+                                marginHeight = 1
+                                marginWidth = 1
+                                rightAttachment = attach_form
+                                rightOffset = 6
+                                translations = #override \
+<FocusIn>: eval("FmRaiseWidget(self);")
+                            }
+                        } templates
+                        widget XmToggleButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = %MSG%150%1021 Current selection
+                                alignment = alignment_beginning
+                                marginWidth = 0
+                                marginHeight = 0
+                                spacing = 2
+                                topAttachment = attach_widget
+                                topOffset = 3
+                                topWidget = templateLabel
+                                leftAttachment = attach_form
+                                leftOffset = 6
+                                translations = #override \
+<FocusIn>: eval("FmRaiseWidget(self);")
+                                valueChangedCallback =
+	if (!_FmResourceSetCurrent (toplevel,Boolean(self:set)))
+		XmToggleButtonSetState(self, !Boolean(self:set), False);
+	else {
+		if (Boolean(self:set)) {
+			global String _FmCurrentResourceTitle;
+			global String _FmCurrentResourceIconTitle;
+			toplevel:title = _FmCurrentResourceTitle;
+			toplevel:iconName = _FmCurrentResourceIconTitle;
+			FmShowWidget (toplevel.xfmResourceDialog.curline);
+			FmRaiseWidget (toplevel.xfmResourceDialog.form);
+		} else {
+			global String _FmResourceTitle;
+			global String _FmResourceIconTitle;
+			toplevel:title = _FmResourceTitle;
+			toplevel:iconName = _FmResourceIconTitle;
+			FmHideWidget (toplevel.xfmResourceDialog.curline);
+		}
+	}
+                            }
+                        } current
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = listScroller
+                                type = Widget
+                                storage = object
+                                automatic = true
+                            }
+                            activevalue {
+                                name = listText
+                                type = Widget
+                                storage = object
+                                automatic = true
+                            }
+                            activevalue {
+                                name = listDots
+                                type = Widget
+                                storage = object
+                                automatic = true
+                            }
+                            createproc {
+                                
+	global Pixmap _FmResourceTopShadow;\
+	global Pixmap _FmResourceBottomShadow;\
+	function void _FmResourceTextEdit (Widget text,Boolean okay) {
+		if (_FmResourceTopShadow == Pixmap(0)) {
+			_FmResourceTopShadow = Pixmap(text:topShadowPixmap);
+			_FmResourceBottomShadow = Pixmap(text:bottomShadowPixmap);
+		}
+		if (okay) {
+			FmRaiseWidget (text);
+			text:topShadowPixmap = NoScalingDynamicPixmap(_FmResourceTopShadow);
+			text:bottomShadowPixmap = NoScalingDynamicPixmap(_FmResourceBottomShadow);
+			text:cursorPositionVisible = true;
+			text:editable = true;
+			text:verifyBell = true;
+		} else {
+			text:topShadowPixmap = "background";
+			text:bottomShadowPixmap = "background";
+			text:cursorPositionVisible = false;
+			text:editable = false;
+			text:verifyBell = false;
+		}\
+	}\
+	FmSetWidest (self.autopos,self.autosize,NULL);\
+	FmSetWidest (self.xLabel,self.widthLabel,NULL);\
+	FmSetWidest (self.yLabel,self.heightLabel,NULL);\
+	FmSetWidest (self.popup,self.gadget,NULL);\
+	parent:userData = Pointer (self);\
+	if(@_FmResourceFastListMode){
+		self:@listScroller = self.fastListScroller;
+		self:@listText = self.fastListText;
+		self:@listDots = self.fastListDots;
+		_FmSetFastListMode(toplevel, 1);
+		XtManageChild(self.fastListScroller);
+		XtUnmanageChild(self.listScroller);
+	} else {
+		self:@listScroller = self.listScroller;
+		self:@listText = self*listText;
+		self:@listDots = self*listDots;
+		_FmSetFastListMode(toplevel, 0);
+		XtUnmanageChild(self.fastListScroller);
+		XtManageChild(self.listScroller);
+	}
+                            }
+                            resources {
+                                navigationType = none
+                                topAttachment = attach_widget
+                                topWidget = current
+                                leftAttachment = attach_form
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_form
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    activevalue {
+                                        name = _FmResourceButtonScripts
+                                        get = script _FmEnterResourceButton:\
+parent.buttonLabel:labelString = XmString (self:userData);
+                                        set = script _FmLeaveResourceButton:\
+global XmString _FmBlankLabel;\
+parent.buttonLabel:labelString = _FmBlankLabel;
+                                    }
+                                    createproc {
+                                        global XmString _FmBlankLabel;\
+if (_FmBlankLabel == XmString(0))
+	_FmBlankLabel = FmCreateXmString (" ");\
+self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1127 Close this resource window.") ));\
+function void _FmSetResButtonTrans(Widget w) {
+	FmOverrideTranslations(w, '#override \n<Enter>: eval("script _FmEnterResourceButton;")\n<Leave>: eval("script _FmLeaveResourceButton;")');\
+}\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1022 Close
+                                        marginWidth = 5
+                                        activateCallback = _FmCloseResourceWindow (toplevel);
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 8
+                                    }
+                                } close
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer(CreateXmString(Internationalize("%MSG%150%1141 Apply all changes by rebuilding object.") ));
+					_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1023 Rebuild
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = close
+                                        leftAttachment = attach_widget
+                                        leftWidget = close
+                                        activateCallback = 
+	function void _FmResourceCheckText (Widget w) {
+		if (w:userData) {
+			s = w:value;
+			_FmSetNamedWindowResource (toplevel,XtName (w),s);
+			XtFree (s);
+		}\
+	}\
+	
+	_FmResourceCheckText (parent.x);\
+	_FmResourceCheckText (parent.y);\
+	_FmResourceCheckText (parent.width);\
+	_FmResourceCheckText (parent.height);\
+	_FmResourceWindowApplyToSelf (toplevel,False,True);
+                                    }
+                                } apply
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer(CreateXmString(Internationalize("%MSG%150%1142 Apply all changes by setting values.") ));
+					_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1024 Set Values
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = close
+                                        leftAttachment = attach_widget
+                                        leftWidget = apply
+                                        activateCallback = 
+	function void _FmResourceCheckText (Widget w) {
+		if (w:userData) {
+			s = w:value;
+			_FmSetNamedWindowResource (toplevel,XtName (w),s);
+			XtFree (s);
+		}\
+	}\
+	
+	_FmResourceCheckText (parent.x);\
+	_FmResourceCheckText (parent.y);\
+	_FmResourceCheckText (parent.width);\
+	_FmResourceCheckText (parent.height);\
+	_FmResourceWindowApplyToSelf (toplevel,False,False);
+                                    }
+                                } applyset
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1128 Apply changes with options.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = ...
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = close
+                                        leftAttachment = attach_widget
+                                        leftWidget = applyset
+                                        activateCallback = 
+	_FmResourceCheckText (parent.x);\
+	_FmResourceCheckText (parent.y);\
+	_FmResourceCheckText (parent.width);\
+	_FmResourceCheckText (parent.height);\
+	Widget os = toplevel*applyOptionsShell;
+	Widget of = os.applyOptionsForm;
+	/*
+	 * Reset option toggles to their default.
+	 */
+	XmToggleButtonSetState(of.applyRC.all, True, True);
+	XmToggleButtonSetState(of.byRC.create, True, True);
+	XmToggleButtonSetState(of.toRC.myself, True, True);
+	
+	FmShowWidget(of);
+	if(!FmPopupAndWait(os))
+		return();
+	
+	select = Boolean(of.applyRC.select:set);\
+	create = Boolean(of.byRC.create:set);\
+	if (Boolean(of.toRC.myself:set))
+		_FmResourceWindowApplyToSelf (toplevel,select,create);\
+	else if (Boolean(of.toRC.selection:set))
+		_FmResourceWindowApplyToSelection (toplevel,select,create);\
+	else if (Boolean(of.toRC.subtree:set))
+		_FmResourceWindowApplyToSubTree (toplevel,select,create);
+                                    }
+                                } applycustom
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        menu_bar
+                                    }
+                                    resources {
+                                        marginWidth = 0
+                                        marginHeight = 0
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = 2
+                                        topWidget = close
+                                        leftAttachment = attach_none
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                    }
+                                    children {
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                menu_pulldown
+                                            }
+                                            children {
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 3
+                                                        labelString = %MSG%150%1025 On Window ...
+                                                        activateCallback = s = FmGetHelp ( Internationalize("%MSG%150%1143 Windows") , Internationalize("%MSG%150%1144 Resource Window") );\
+_FmHelp ( Internationalize("%MSG%150%1145 Resource Window") ,s);\
+XtFree (s);
+                                                    }
+                                                } window
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 3
+                                                        labelString = %MSG%150%1026 On List ...
+                                                        activateCallback = s = FmGetHelp ( Internationalize("%MSG%150%1146 Resources") , Internationalize("%MSG%150%1147 Resource List") );\
+_FmHelp ( Internationalize("%MSG%150%1148 Resource List") ,s);\
+XtFree (s);
+                                                    }
+                                                } list
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 3
+                                                        labelString = %MSG%150%1027 On List Icons ...
+                                                        activateCallback =
+	if (@_FmUseHtmlHelp == 0)
+		Toggle (self,"listiconhelp",0);
+	else{
+		s = FmGetHelp ( Internationalize("%MSG%150%1149 Resources") , Internationalize("%MSG%150%533 Resource List Icons") );
+		_FmHelp ( Internationalize("%MSG%150%533 Resource List Icons") ,s);
+		XtFree (s);
+	}
+                                                    }
+                                                } icons
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 3
+                                                        labelString = %MSG%150%1028 On Specialized Editors ...
+                                                        activateCallback = s = FmGetHelp ( Internationalize("%MSG%150%1149 Resources") , Internationalize("%MSG%150%1150 Specialized Resource Editors") );\
+_FmHelp ( Internationalize("%MSG%150%1151 Specialized Resource Editors") ,s);\
+XtFree (s);
+                                                    }
+                                                } editor
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 3
+                                                        labelString = %MSG%150%1029 On Textual Editor ...
+                                                        activateCallback = s = FmGetHelp ( Internationalize("%MSG%150%1152 Resources") , Internationalize("%MSG%150%1153 Textual Resource Editor") );\
+_FmHelp ( Internationalize("%MSG%150%1154 Textual Resource Editor") ,s);\
+XtFree (s);
+                                                    }
+                                                } editor
+                                                widget XmPushButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 3
+                                                        labelString = %MSG%150%1030 On Sort ...
+                                                        activateCallback = s = FmGetHelp ( Internationalize("%MSG%150%1155 Resources") , Internationalize("%MSG%150%1156 Resource Sort") );\
+_FmHelp ( Internationalize("%MSG%150%1157 Resource Sort") ,s);\
+XtFree (s);
+                                                    }
+                                                } sort
+                                            }
+                                        } helpPulldown
+                                        widget XmCascadeButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            activevalue {
+                                                name = _FmResourceMenuButtonScripts
+                                                get = script _FmEnterResMenuButton:\
+parent.parent.buttonLabel:labelString = XmString (self:userData);
+                                                set = script _FmLeaveResMenuButton:\
+global XmString _FmBlankLabel;\
+parent.parent.buttonLabel:labelString = _FmBlankLabel;
+                                            }
+                                            createproc {
+                                                self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1129 Select help for resource windows.") ));\
+function void _FmSetResMenuButtonTrans (Widget w) {
+	FmOverrideTranslations(w, '#override \n<Enter>: eval("script _FmEnterResMenuButton;")\n<Leave>: eval("script _FmLeaveResMenuButton;")');\
+}\
+_FmSetResMenuButtonTrans(self);
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1031 Help
+                                                mnemonic = %MSG%150%1032 H
+                                                subMenuId = parent.helpPulldown
+                                                marginWidth = 5
+                                                shadowThickness = 0
+                                            }
+                                        } help
+                                    }
+                                } helpbar
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1130 Undo last change.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1033 Undo
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = close
+                                        rightAttachment = attach_widget
+                                        rightWidget = helpbar
+                                        activateCallback = Undo();
+                                    }
+                                } undo
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:leftOffset = - (self:width) / 2;\
+self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1131 Choose sort and view options for this resource window.") )); \
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1034 Sort
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = close
+                                        rightAttachment = attach_position
+                                        rightPosition = 75
+                                        activateCallback = _FmSetResourceSortOptions(toplevel);\
+sort = parent.parent.resourceSort;\
+_FmSetResourcePreferences(toplevel,sort.scroller.list);\
+FmHideWidget (parent.parent.resourceList);\
+FmShowWidget (sort);\
+toplevel.xfmResourceDialog.form:userData = Pointer (sort);
+                                    }
+                                } sort
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        global XmString _FmResEditLabel;\
+global XmString _FmResListLabel;\
+global XmString _FmResEditButton;\
+global XmString _FmResListButton;\
+global XmString _FmResEditTitle;\
+global XmString _FmResListTitle;\
+if (_FmResEditLabel == XmString (0)) {
+	_FmResEditLabel = FmCreateXmString (Internationalize("%MSG%150%1132 Switch to resource text editor.") );
+	_FmResListLabel = FmCreateXmString (Internationalize("%MSG%150%1133 Switch to resource list.") );
+	_FmResEditButton = FmCreateXmString (Internationalize("%MSG%150%1134 Edit") );
+	_FmResListButton = FmCreateXmString (Internationalize("%MSG%150%1135 List") );
+	_FmResEditTitle = FmCreateXmString (Internationalize("%MSG%150%1136 Resource Editor") );
+	_FmResListTitle = FmCreateXmString (Internationalize("%MSG%150%1137 Resource List") );\
+}\
+self:userData = Pointer (_FmResEditLabel);\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1035 Edit
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = close
+                                        leftAttachment = attach_none
+                                        rightAttachment = attach_widget
+                                        rightWidget = sort
+                                        activateCallback = global XmString _FmResEditLabel;\
+global XmString _FmResListLabel;\
+global XmString _FmResEditButton;\
+global XmString _FmResListButton;\
+global XmString _FmResEditTitle;\
+global XmString _FmResListTitle;\
+if (IsManaged (parent:@listScroller)) {
+	old_editable = parent.editScroller.text:editable;
+	parent.editScroller.text:editable = False;
+	s = _FmGetResourceEditorText (toplevel);
+	parent.editScroller.text:@editorText = s;
+	parent.editScroller.text:editable = old_editable;
+	/*
+	rc = parent.applyRC;
+	rc:userData = Pointer (Boolean(rc.all:set));
+	if (Boolean(rc.select:set))
+		XmToggleButtonGadgetSetState (rc.all,True,True);
+	XtSetSensitive (rc.select,False);
+	*/
+	parent.resourceLabel:labelString = _FmResEditTitle;
+	self:userData = Pointer (_FmResListLabel);
+	self:labelString = _FmResListButton;
+	FmHideWidget (parent:@listScroller);
+	FmHideWidget (parent:@listText);
+	FmHideWidget (parent:@listDots);
+	FmHideWidget (parent.callbackbar);
+	FmHideWidget (parent.searchsep);
+	FmHideWidget (parent.searchlabel);
+	FmHideWidget (parent.searchfield);
+	FmShowWidget (parent.editScroller);
+	FmShowWidget (parent.custombutton);
+	if(parent.editScroller.text:userData){
+		_FmCEOpen(parent.editScroller.text:userData, "");
+	}\
+} else {
+	s = parent.editScroller.text:value;
+	_FmSetResourceEditorText (toplevel,s);
+	XtFree (s);
+	/*
+	rc = parent.applyRC;
+	XtSetSensitive (rc.select,True);
+	if (!Boolean (rc:userData))
+		XmToggleButtonGadgetSetState (rc.select,True,True);
+	*/
+	parent.resourceLabel:labelString = _FmResListTitle;
+	self:userData = Pointer (_FmResEditLabel);
+	self:labelString = _FmResEditButton;
+	FmHideWidget (parent.editScroller);
+	FmShowWidget (parent.callbackbar);
+	FmShowWidget (parent.searchsep);
+	FmShowWidget (parent.searchlabel);
+	FmShowWidget (parent.searchfield);
+	FmShowWidget (parent:@listScroller);\
+	if(!(parent:@listScroller == parent.fastListScroller
+	 && parent.fastListScroller.fastList:itemCount == 0)){
+		FmShowWidget (parent:@listText);
+		FmShowWidget (parent:@listDots);
+	}
+	FmHideWidget (parent.custombutton);
+	if(parent.editScroller.text:userData){
+		_FmCEClose(parent.editScroller.text:userData, "");
+	}\
+}\
+parent.buttonLabel:labelString = XmString(self:userData);
+                                    }
+                                } mode
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    createproc {
+                                        global XmString _FmButtonBlank;\
+if (_FmButtonBlank == XmString(0))
+	_FmButtonBlank = self:labelString;
+                                    }
+                                    resources {
+                                        labelString = \ 
+                                        marginHeight = 0 
+                                        marginWidth = 0 
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        rightAttachment = attach_form
+                                        rightOffset = 5
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 3
+                                        bottomWidget = close
+                                    }
+                                } buttonLabel
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 0
+                                        rightAttachment = attach_form
+                                        rightOffset = 0
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 3
+                                        bottomWidget = buttonLabel
+                                    }
+                                } separator
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelType = pixmap
+                                        labelPixmap = resmod.bm.xpm
+                                        labelInsensitivePixmap = resunmod.bm.xpm
+                                        sensitive = false
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        topAttachment = attach_form
+                                        topOffset = 10
+                                        leftAttachment = attach_form
+                                        leftOffset = 3
+                                    }
+                                } modified
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1036 Auto position
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 2
+                                        alignment = alignment_beginning
+                                        topAttachment = attach_form
+                                        topOffset = 3
+                                        leftAttachment = attach_widget
+                                        leftWidget = modified
+                                        valueChangedCallback = _FmResourceAutoToggle (self,parent.x,parent.y,True);
+                                    }
+                                } autopos
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1037 x:
+                                        alignment = alignment_end
+                                        marginWidth = 0
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = 2
+                                        topWidget = autopos
+                                        leftAttachment = attach_widget
+                                        leftOffset = 20
+                                        leftWidget = autopos
+                                    }
+                                } xLabel
+                                widget XmTextField {
+                                    flag {
+                                        mapped
+                                        autopos
+                                        autosize
+                                    }
+                                    resources {
+                                        columns = 5
+                                        marginHeight = 1
+                                        marginWidth = 2
+                                        navigationType = none
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -3
+                                        topWidget = xLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 2
+                                        leftWidget = xLabel
+!                                        translations = #override \
+!<Leave>: eval("XtCallCallbacks (self,'activateCallback',0);")
+                                        valueChangedCallback = script _FmResTextChanged:\
+if (self:editable) {
+	self:editable = False;
+	self:userData = Pointer (True);
+	_FmResourceWindowSetModified (toplevel);
+	self:editable = True;\
+}
+                                        activateCallback = script _FmResTextActivate:\
+if (self:userData) {
+	s = self:value;
+	_FmSetNamedWindowResource (toplevel,XtName (self),s);
+	XtFree (s);\
+}
+	_FmResWinApply(self);
+                                    }
+                                } x
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1038 y:
+                                        alignment = alignment_end
+                                        marginWidth = 0
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = xLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 5
+                                        leftWidget = x
+                                    }
+                                } yLabel
+                                widget XmTextField {
+                                    flag {
+                                        mapped
+                                        autopos
+                                        autosize
+                                    }
+                                    resources {
+                                        columns = 5
+                                        marginHeight = 1
+                                        marginWidth = 2
+                                        navigationType = none
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -3
+                                        topWidget = yLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 2
+                                        leftWidget = yLabel
+!                                        translations = #override \
+!<Leave>: eval("XtCallCallbacks (self,'activateCallback',0);")
+                                        valueChangedCallback = script _FmResTextChanged;
+                                        activateCallback = script _FmResTextActivate;
+	_FmResWinApply(self);
+                                    }
+                                } y
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1039 Popup
+                                        alignment = alignment_beginning
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 2
+                                        sensitive = false
+                                        valueChangedCallback = _FmResourceWindowSetModified (toplevel);
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = autopos
+                                        leftAttachment = attach_none
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                    }
+                                } popup
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1040 Auto size
+                                        alignment = alignment_beginning
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 2
+                                        topAttachment = attach_widget
+                                        topOffset = 1
+                                        topWidget = x
+                                        leftAttachment = attach_widget
+                                        leftWidget = modified
+                                        valueChangedCallback = _FmResourceAutoToggle (self,parent.width,parent.height,True);
+                                    }
+                                } autosize
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1041 w:
+                                        alignment = alignment_end
+                                        marginWidth = 0
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = 2
+                                        topWidget = autosize
+                                        leftAttachment = attach_widget
+                                        leftOffset = 20
+                                        leftWidget = autopos
+                                    }
+                                } widthLabel
+                                widget XmTextField {
+                                    flag {
+                                        mapped
+                                        autopos
+                                        autosize
+                                    }
+                                    resources {
+                                        columns = 5
+                                        marginHeight = 1
+                                        marginWidth = 2
+                                        navigationType = none
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -3
+                                        topWidget = widthLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 2
+                                        leftWidget = widthLabel
+!                                        translations = #override \
+!<Leave>: eval("XtCallCallbacks (self,'activateCallback',0);")
+                                        valueChangedCallback = script _FmResTextChanged;
+                                        activateCallback = script _FmResTextActivate;
+	_FmResWinApply(self);
+                                    }
+                                } width
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1042 h:
+                                        alignment = alignment_end
+                                        marginWidth = 0
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = widthLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 5
+                                        leftWidget = width
+                                    }
+                                } heightLabel
+                                widget XmTextField {
+                                    flag {
+                                        mapped
+                                        autopos
+                                        autosize
+                                    }
+                                    resources {
+                                        columns = 5
+                                        marginHeight = 1
+                                        marginWidth = 2
+                                        navigationType = none
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -3
+                                        topWidget = heightLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 2
+                                        leftWidget = heightLabel
+!                                        translations = #override \
+!<Leave>: eval("XtCallCallbacks (self,'activateCallback',0);")
+                                        valueChangedCallback = script _FmResTextChanged;
+                                        activateCallback = script _FmResTextActivate;
+	_FmResWinApply(self);
+                                    }
+                                } height
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1043 Gadget
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 2
+                                        alignment = alignment_beginning
+                                        sensitive = false
+                                        valueChangedCallback = _FmResourceWindowSetModified (toplevel);
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = autosize
+                                        leftAttachment = attach_none
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                    }
+                                } gadget
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1044 Resource List
+                                        alignment = alignment_end
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        topAttachment = attach_widget
+                                        topOffset = 8
+                                        topWidget = autosize
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                    }
+                                } resourceLabel
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        menu_bar
+                                    }
+                                    resources {
+                                        marginWidth = 0
+                                        marginHeight = 0
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -4
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_none
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                    }
+                                    children {
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                menu_pulldown
+                                            }
+                                        } callbacksPulldown
+                                        widget XmCascadeButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            createproc {
+                                                self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1138 Select a Callback resource to edit.") ));\
+_FmSetResMenuButtonTrans(self);
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1045 Callbacks
+                                                mnemonic = %MSG%150%1046 C
+                                                subMenuId = parent.callbacksPulldown
+                                                marginHeight = 2
+                                                marginWidth = 3
+                                                shadowThickness = 0
+                                            }
+                                        } callbacks
+                                    }
+                                } callbackbar
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelPixmap = rpoint.bm.xpm
+                                        labelType = pixmap
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -2
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_widget
+                                        leftWidget = resourceLabel
+                                        leftOffset = 6
+                                    }
+                                } searchsep
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1047 Search:
+                                        marginWidth = 0
+                                        marginHeight = 0
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_widget
+                                        leftWidget = searchsep
+                                        leftOffset = 1
+                                    }
+                                } searchlabel
+                                widget XmText {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        marginWidth = 1
+                                        marginHeight = 1
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -5
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_widget
+                                        leftWidget = searchlabel
+                                        leftOffset = 2
+                                        rightAttachment = attach_widget
+                                        rightWidget = callbackbar
+                                        rightOffset = 5
+                                        activateCallback = 
+	String name = self:value;
+	if(!equal(name, ""))
+		_FmResourceListIncrSearch(toplevel, name);
+	XtFree(name);
+	XmProcessTraversal(self, XmTRAVERSE_CURRENT);
+                                    }
+                                } searchfield
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1139 Call personal editor to edit the resource text.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1048 Custom Editor
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = resourceLabel
+                                        topOffset = -8
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        activateCallback = 
+	Widget text = parent.editScroller.text;
+	if(text:userData)
+		return();
+	text:userData = _FmCustomEdit(text, "RESOURCES", String(0));
+	if(text:userData)
+		self:sensitive = False;
+                                    }
+                                } custombutton
+                                widget XmText {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        leftAttachment = attach_form
+                                        topAttachment = attach_form
+                                        editMode = multi_line_edit
+                                        navigationType = none
+                                        highlightThickness = 1
+                                        marginWidth = 1
+                                        marginHeight = 1
+                                        focusCallback = FmRaiseWidget(self);
+                                        activateCallback = _FmResWinApply(self);
+                                        valueChangedCallback = if (self:editable)
+	_FmResourceWindowTextModified (toplevel);
+                                        translations = #override \
+<Btn2Down>: eval("_FmDragResourceValue (toplevel,$,True);")\
+<Key>Return: activate() \
+<Key>Left: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfLeft: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>Right: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfRight: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>Up: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfUp: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>Down: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfDown: eval("_FmResourceListKey (toplevel,self,$);")
+                                    }
+                                } fastListText
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        FmOverrideTranslations (self,'<Key>: eval("_FmResourceListKey (toplevel,self,$);")');\
+self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1140 Use the special editing box to select a value for this resource.") ));\
+FmOverrideTranslations(self, '#override \n<Enter>: eval("script _FmEnterResFastDotsButton: parent.buttonLabel:labelString = XmString (self:userData);")\n<Leave>: eval("script _FmLeaveResFastDotsButton: global XmString _FmBlankLabel; parent.buttonLabel:labelString = _FmBlankLabel;")');
+                                    }
+                                    resources {
+                                        leftAttachment = attach_form
+                                        topAttachment = attach_form
+                                        labelString = ...
+                                        marginHeight = 0
+                                        marginWidth = 1
+                                        activateCallback = editor = toplevel*resourceEdit;\
+XtSetSensitive (editor.ok,True);\
+XtSetSensitive (editor.apply,True);\
+XtSetSensitive (editor.applyset,True);\
+XtSetSensitive (editor.set,True);\
+XtSetSensitive (editor.gls,True);\
+XtSetSensitive (editor.select,True);\
+w = _FmResourceTypeEditor (toplevel,editor,Widget (editor:userData));\
+if(w == 0 || XtParent(w) == root){				/* old-style box compatibility */\
+	return();						/* old-style box compatibility */\
+}								/* old-style box compatibility */\
+editor:userData = Pointer (w);\
+toplevel.xfmResourceDialog.form:userData = Pointer(editor);\
+editor.separator:userData = Pointer ("%MSG%150%1049 Resource Type");\
+FmHideWidget (toplevel.xfmResourceDialog.form.resourceList);\
+FmShowWidget (editor);
+                                    }
+                                } fastListDots
+                                widget XmScrolledWindow {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        topAttachment = attach_widget
+                                        topOffset = 7
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_form
+                                        leftOffset = 6
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 8
+                                        bottomWidget = separator
+                                    }
+                                    children {
+                                        widget XmList {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                scrollBarDisplayPolicy = static
+                                                selectionPolicy = extended_select
+                                                extendedSelectionCallback =
+	_FmResourceFastListSelect(toplevel, $);
+                                                defaultActionCallback =
+	XtCallCallbacks(toplevel*resourceList:@listDots, "activateCallback", 0);
+                                            }
+                                        } fastList
+                                    }
+                                } fastListScroller
+                                widget XmScrolledWindow {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        shadowThickness = 2
+                                        scrollingPolicy = automatic
+                                        topAttachment = attach_widget
+                                        topOffset = 7
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_form
+                                        leftOffset = 6
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 8
+                                        bottomWidget = separator
+                                        visualPolicy = constant
+                                    }
+                                    children {
+                                        widget XmBulletinBoard {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            createproc {
+                                                s = XtMalloc (2048);\
+strcpy (s,'<Btn1Down>: eval("_FmResourceListEdit (toplevel,$);")\n');\
+strcat (s,'<Btn1Up>(2): eval("XtCallCallbacks (toplevel*resourceList:@listDots,');\
+strcat (s,"'activateCallback'");\
+strcat (s,',0);")\n');\
+strcat (s,'<Btn3Down>: eval("_FmResourceListEdit (toplevel,$);');\
+strcat (s,'            ShowPopup ($,self.type);")\n');\
+strcat (s,'<Btn2Down>: eval("_FmResourceListEdit (toplevel,$);');\
+strcat (s,'            _FmDragResourceValue (toplevel,$,True);")\n');\
+strcat (s,'<Key>: eval("_FmResourceListKey (toplevel,self,$);")\n');\
+FmOverrideTranslations (self,s);\
+XtFree (s);
+                                            }
+                                            resources {
+                                                marginWidth = 2
+                                                marginHeight = 2
+                                                resizePolicy = resize_none
+                                            }
+                                            children {
+                                widget XmText {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        editMode = multi_line_edit
+                                        navigationType = none
+                                        highlightThickness = 1
+                                        marginWidth = 1
+                                        marginHeight = 1
+                                        focusCallback = FmRaiseWidget(self);
+                                        activateCallback = _FmResWinApply(self);
+                                        valueChangedCallback = if (self:editable)
+	_FmResourceWindowTextModified (toplevel);
+                                        translations = #override \
+<Btn2Down>: eval("_FmDragResourceValue (toplevel,$,True);")\
+<Key>Return: activate() \
+<Key>Left: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfLeft: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>Right: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfRight: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>Up: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfUp: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>Down: eval("_FmResourceListKey (toplevel,self,$);")\
+<Key>osfDown: eval("_FmResourceListKey (toplevel,self,$);")
+                                    }
+                                } listText
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        FmOverrideTranslations (self,'<Key>: eval("_FmResourceListKey (toplevel,self,$);")');\
+self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1050 Use the special editing box to select a value for this resource.") ));\
+FmOverrideTranslations(self, '#override \n<Enter>: eval("script _FmEnterResDotsButton: parent.parent.parent.buttonLabel:labelString = XmString (self:userData);")\n<Leave>: eval("script _FmLeaveResDotsButton: global XmString _FmBlankLabel; parent.parent.parent.buttonLabel:labelString = _FmBlankLabel;")');
+                                    }
+                                    resources {
+                                        labelString = ...
+                                        marginHeight = 0
+                                        marginWidth = 1
+                                        activateCallback = editor = toplevel*resourceEdit;\
+XtSetSensitive (editor.ok,True);\
+XtSetSensitive (editor.apply,True);\
+XtSetSensitive (editor.applyset,True);\
+XtSetSensitive (editor.set,True);\
+XtSetSensitive (editor.gls,True);\
+XtSetSensitive (editor.select,True);\
+w = _FmResourceTypeEditor (toplevel,editor,Widget (editor:userData));\
+if(w == 0 || XtParent(w) == root){ 				/* old-style box compatibility */\
+	return();						/* old-style box compatibility */\
+}								/* old-style box compatibility */\
+editor:userData = Pointer (w);\
+toplevel.xfmResourceDialog.form:userData = Pointer(editor);\
+editor.separator:userData = Pointer(Internationalize("%MSG%150%1051 Resource Type") );\
+FmHideWidget (toplevel.xfmResourceDialog.form.resourceList);\
+FmShowWidget (editor);
+                                    }
+                                } listDots
+                                                widget XmRowColumn {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        menu_popup
+                                                    }
+                                                    resources {
+                                                        mapCallback =
+	_FmResourceSetToggle (toplevel,self.unset,_Fm_rstate_unset);
+	_FmResourceSetToggle (toplevel,self.default,_Fm_rstate_default);
+	_FmResourceSetToggle (toplevel,self.template,_Fm_rstate_template);
+	_FmResourceSetToggle (toplevel,self.set,_Fm_rstate_set);
+	_FmResourceSetToggle (toplevel,self.rdb,_Fm_rstate_rdb);
+                                                    }
+                                                    children {
+                                                        widget XmLabel {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                                gadget
+                                                            }
+                                                            resources {
+                                                                labelString = %MSG%150%1052 Value Type
+                                                            }
+                                                        } title
+                                                        widget XmSeparator {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                                gadget
+                                                            }
+                                                            resources {
+                                                                separatorType = double_line
+                                                            }
+                                                        } sep
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                            }
+                                                            resources {
+                                                                labelString = %MSG%150%1053 unset
+                                                                activateCallback = _FmResourceSetType (toplevel,_Fm_rstate_unset);
+                                                            }
+                                                        } unset
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                            }
+                                                            resources {
+                                                                labelString = %MSG%150%1054 default
+                                                                activateCallback = _FmResourceSetType (toplevel,_Fm_rstate_default);
+                                                            }
+                                                        } default
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                            }
+                                                            resources {
+                                                                labelString = %MSG%150%1055 template
+                                                                activateCallback = _FmResourceSetType (toplevel,_Fm_rstate_template);
+                                                            }
+                                                        } template
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                            }
+                                                            resources {
+                                                                labelString = %MSG%150%1056 XFM file
+                                                                activateCallback = _FmResourceSetType (toplevel,_Fm_rstate_set);
+                                                            }
+                                                        } set
+                                                        widget XmPushButton {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                                autopos
+                                                            }
+                                                            resources {
+                                                                labelString = %MSG%150%1057 RDB file
+                                                                activateCallback = _FmResourceSetType (toplevel,_Fm_rstate_rdb);
+                                                            }
+                                                        } rdb
+                                                    }
+                                                } type
+                                            }
+                                        } bb
+                                    }
+                                } listScroller
+                                widget XmScrolledWindow {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        shadowThickness = 0
+                                        topAttachment = attach_widget
+                                        topWidget = resourceLabel
+                                        topOffset = 4
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 10
+                                        bottomWidget = separator
+                                    }
+                                    children {
+                                        widget XmText {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            activevalue {
+                                                name = _FmExiting
+                                                set = 
+	if(self:userData){
+		_FmCEDestroyConnection(self:userData);
+		self:userData = Pointer(0);
+	}
+                                            }
+                                            activevalue {
+                                                name = CONNECT
+                                                set = 
+	function None _FmLoadCustomEditResources(String s)
+	{
+		_FmCELoadString(self:userData, s);
+		String buf = XtMalloc(512);
+		String widgetname = toplevel.xfmResourceDialog.form.name:value;
+		if(equal(widgetname, "")){
+			XtFree(widgetname);
+			widgetname = XtNewString("<none>");
+		}
+		sprintf(buf, Internationalize("%MSG%150%1058 XFM: Resources of Widget %s"), widgetname);
+		XtFree(widgetname);
+		_FmCETitle(self:userData, buf);
+		XtFree(buf);
+	}
+	s = self:value;
+	_FmLoadCustomEditResources(s);
+	XtFree(s);
+	self:editable = False;
+                                                type = String
+                                                storage = object
+                                                automatic = true
+                                            }
+                                            activevalue {
+                                                name = DISCONNECT
+                                                set = 
+	self:userData = Pointer(0);
+	self:editable = True;
+	parent.parent.custombutton:sensitive = True;
+                                                type = String
+                                                storage = object
+                                                automatic = true
+                                            }
+                                            activevalue {
+                                                name = LOAD
+                                                set = 
+	s = _FmCEReadFile(@);
+	if(s){
+		self:value = s;
+		XtFree(s);
+	}
+                                                type = String
+                                                storage = object
+                                                automatic = true
+                                            }
+                                            activevalue {
+                                                name = MODIFIED
+                                                set = 
+	_FmResourceWindowEditModified (toplevel);
+                                                type = String
+                                                storage = object
+                                                automatic = true
+                                            }
+                                            activevalue {
+                                                name = CLEAR
+                                                set = 
+	self:value = "";
+                                                type = String
+                                                storage = object
+                                                automatic = true
+                                            }
+                                            activevalue {
+                                                name = editorText
+                                                set = 
+	self:value = @;
+	if(self:userData){
+		_FmLoadCustomEditResources(@);
+	}
+                                                type = String
+                                                storage = object
+                                                automatic = true
+                                            }
+                                            resources {
+                                                shadowThickness = 2
+                                                editMode = multi_line_edit
+                                                marginHeight = 2
+                                                marginWidth = 2
+                                                valueChangedCallback = if (self:editable)
+	_FmResourceWindowEditModified (toplevel);
+                                                translations = #override \
+<Leave>: eval("s = self:value; _FmSetResourceEditorText (toplevel,s); XtFree (s);")
+                                            }
+                                        } text
+                                    }
+                                } editScroller
+                            }
+                        } resourceList
+                        widget XmForm {
+                            flag {
+                                autosize
+                                autopos
+                            }
+                            activevalue {
+                                name = _FmResourceName
+                                set = self.resource:labelString = String (@);
+	global resource_name;			/* old-style box compatibility */
+	resource_name = String(@);		/* old-style box compatibility */
+                            }
+                            resources {
+                                navigationType = none
+                                topAttachment = attach_widget
+                                topWidget = current
+                                leftAttachment = attach_form
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_form
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1059 Apply new resource value and return to resource list.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1060 OK
+                                        marginWidth = 5
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 6
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 8
+                                        activateCallback = XtCallCallbacks (parent.set,"activateCallback",0);\
+XtCallCallbacks (parent.parent.resourceList.apply,"activateCallback",0);
+                                    }
+                                } ok
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1061 Apply changes by rebuilding and remain in this editor.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1062 Rebuild
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        leftAttachment = attach_widget
+                                        leftWidget = ok
+                                        activateCallback = _FmReturnCurrentResource (toplevel,True,False);\
+XtCallCallbacks (parent.parent.resourceList.apply,"activateCallback",0);
+                                    }
+                                } apply
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1063 Apply changes by setting values and remain in this editor.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1064 Set Values
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        leftAttachment = attach_widget
+                                        leftWidget = apply
+                                        activateCallback = _FmReturnCurrentResource (toplevel,True,False);\
+XtCallCallbacks (parent.parent.resourceList.applyset,"activateCallback",0);
+                                    }
+                                } applyset
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1065 Update value in resource list without applying and return to list.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1066 Set
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        leftAttachment = attach_widget
+                                        leftWidget = applyset
+                                        activateCallback = function void _FmResourceDoneItem () {
+	FmHideWidget (parent.gls);
+	FmHideWidget (parent.select);
+	FmHideWidget (parent);
+	w = Widget (parent:userData);
+	FmSetActiveValue (w,"_FmResourceEditUnmanage");
+	if(w)
+		XtSetSensitive(w, True);
+	w = parent.parent.resourceList;
+	toplevel.xfmResourceDialog.form:userData = Pointer (w);
+	FmShowWidget (w);
+	if (XtIsManaged (w:@listScroller))
+		w = w:@listText;
+	else
+		w = w.editScroller.text;
+	XmProcessTraversal (w,XmTRAVERSE_CURRENT);\
+}\
+_FmReturnCurrentResource (toplevel,True,True);\
+_FmResourceDoneItem();\
+_FmSortResourceWindow (toplevel);
+                                    }
+                                } set
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1067 Return to list without changing anything.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1068 Cancel
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        leftAttachment = attach_widget
+                                        leftWidget = set
+                                        activateCallback = _FmReturnCurrentResource (toplevel,False,True);\
+_FmResourceDoneItem();
+                                    }
+                                } reset
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1069 Display help on editing this resource.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1070 Help
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        activateCallback = 
+	Widget w = Widget(parent:userData);
+	String topic = XtMalloc(100);
+	if(w)
+		strcpy(topic, XtName(w));
+	else
+		strcpy(topic, Internationalize("%MSG%150%1071 Specialized") );
+	if(strcmp(topic, "attach") == 0)
+		strcpy(topic, "Attachment");
+	else
+	if(strcmp(topic, "Colors") == 0)
+		strcpy(topic, "Color");
+	else
+	if(strcmp(topic, "Images") == 0)
+		strcpy(topic, "Image");
+	else
+	if(strcmp(topic, "Fonts") == 0)
+		strcpy(topic, "Font");
+	strcat(topic, " Resource Editor");
+	s = FmGetHelp ("Resources",topic);\
+	_FmHelp ("Resource Editor",s);\
+	XtFree (s);
+	XtFree (topic);
+                                    }
+                                } help
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1072 Add internationalization marker.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1073 GLS
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        rightAttachment = attach_widget
+                                        rightWidget = help
+                                        activateCallback = text = parent.String.text;\
+s = text:value;\
+n = _FmScanIString (s);\
+if (n > 0)
+	XmTextReplace (text,0,n,"");\
+istr = _FmGiveIString();\
+XtFree (s);\
+XmTextReplace (text,0,0,istr);
+                                    }
+                                } gls
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1074 Select a widget's name for the cut buffer.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1075 Select
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        rightAttachment = attach_widget
+                                        rightWidget = help
+                                        activateCallback = name = _FmResourceWindowTrack (toplevel);\
+if (name != 0) {
+	if (strcmp (name,"") != 0) {
+		_FmSetResourceGroupAv (Widget (parent:userData),"CallbackList",
+				       "_FmSelectedName",name);
+	}\
+}
+                                    }
+                                } select
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = \ 
+                                        marginHeight = 0 
+                                        marginWidth = 0 
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        rightAttachment = attach_form
+                                        rightOffset = 5
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 3
+                                        bottomWidget = ok
+                                    }
+                                } buttonLabel
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        rightAttachment = attach_form
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 3
+                                        bottomWidget = buttonLabel
+                                    }
+                                } separator
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1076 Resource:
+                                        topAttachment = attach_form
+                                        topOffset = 8
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                    }
+                                } resourceLabel
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1077 xfmCreateCallback
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = resourceLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 4
+                                        leftWidget = resourceLabel
+                                    }
+                                } resource
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1078 Call personal editor to edit this resource value.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1079 Custom Editor
+                                        topAttachment = attach_form
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        activateCallback = 
+	Widget text = parent.String.text;
+	if(text:userData)
+		return();
+	text:userData = _FmCustomEdit(text, "RESOURCE", String(0));
+	if(text:userData)
+		self:sensitive = False;
+                                    }
+                                } custombutton
+                            }
+                        } resourceEdit
+                        widget XmForm {
+                            flag {
+                                autosize
+                                autopos
+                            }
+                            createproc {
+                                w = self.orderLabel:width;\
+rc = self.orderFrame.orderRC;\
+n = FmWidest (rc.alphabetic,rc.bySubclass,rc.bySuperclass,NULL) + 10;\
+if (w < n)
+	w = n;\
+rc = self.posForm;\
+n = FmWidest (rc.xfmLabel,rc.avLabel,NULL) + 4;\
+if (w < n)
+	w = n;\
+rc = self.checkRC;\
+n = FmWidest (rc.gather,rc.showtmpl,rc.showres,NULL);\
+if (w < n)
+	w = n;\
+self.orderLabel:width = w;\
+self.posForm:width = w;\
+self.orderFrame:width = w;\
+self.checkRC:width = w;
+                            }
+                            resources {
+                                navigationType = none
+                                topAttachment = attach_widget
+                                topWidget = current
+                                leftAttachment = attach_form
+                                rightAttachment = attach_form
+                                bottomAttachment = attach_form
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1080 Apply these options and return to resources.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1081 OK
+                                        marginWidth = 5
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 6
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 8
+                                        activateCallback = _FmGetResourcePreferences (toplevel,parent.scroller.list);\
+_FmGetResourceSortOptions (toplevel);\
+XtCallCallbacks (parent.reset,"activateCallback",0);
+                                    }
+                                } ok
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1082 Return to resources without changing options.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1083 Cancel
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        leftAttachment = attach_widget
+                                        leftOffset = 10
+                                        leftWidget = ok
+                                        activateCallback = FmHideWidget (parent);\
+w = parent.parent.resourceList;\
+toplevel.xfmResourceDialog.form:userData = Pointer (w);\
+FmShowWidget(w);\
+if (XtIsManaged (w:@listScroller))
+	w = w:@listText;\
+else
+	w = w.editScroller.text;\
+XmProcessTraversal (w,XmTRAVERSE_CURRENT);
+                                    }
+                                } reset
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:leftOffset = -(self:width / 2);\
+self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1084 Save these options for future resource windows.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1085 Set Default
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        leftAttachment = attach_position
+                                        leftPosition = 60
+                                        activateCallback = _FmGetResourcePreferences (toplevel,parent.scroller.list);\
+_FmGetResourceSortOptions (toplevel);\
+_FmSetResourceDefaultSortOptions (toplevel);
+                                    }
+                                } save
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        self:userData = Pointer (FmCreateXmString (Internationalize("%MSG%150%1086 Display help on sort and view options.") ));\
+_FmSetResButtonTrans(self);
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1087 Help
+                                        marginWidth = 5
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = ok
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                        activateCallback = s = FmGetHelp (Internationalize("%MSG%150%1088 Resources"), Internationalize("%MSG%150%1089 Resource Sort") );\
+_FmHelp(Internationalize("%MSG%150%1090 Resource Sort"),s);\
+XtFree (s);
+                                    }
+                                } help
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = \ 
+                                        marginHeight = 0 
+                                        marginWidth = 0 
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        rightAttachment = attach_form
+                                        rightOffset = 5
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 3
+                                        bottomWidget = ok
+                                    }
+                                } buttonLabel
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        rightAttachment = attach_form
+                                        bottomAttachment = attach_widget
+                                        bottomWidget = buttonLabel
+                                        bottomOffset = 3
+                                    }
+                                } separator
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        topAttachment = attach_form
+                                        topOffset = 5
+                                        leftAttachment = attach_form
+                                        rightAttachment = attach_form
+                                    }
+                                } topline
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1091 Sort Order
+                                        alignment = alignment_beginning
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        leftAttachment = attach_none
+                                        topAttachment = attach_widget
+                                        topOffset = 8
+                                        topWidget = topline
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                    }
+                                } orderLabel
+                                widget XmFrame {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        navigationType = none
+                                        topAttachment = attach_widget
+                                        topOffset = 1
+                                        topWidget = orderLabel
+                                        leftAttachment = attach_opposite_widget
+                                        leftWidget = orderLabel
+                                        rightAttachment = attach_form
+                                        rightOffset = 8
+                                    }
+                                    children {
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                radioBehavior = true
+                                                spacing = 0
+                                                marginHeight = 1
+                                                marginWidth = 3
+                                            }
+                                            children {
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1092 alphabetical
+                                                        set = true
+                                                    }
+                                                } alphabetic
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1093 by subclass
+                                                    }
+                                                } bySubclass
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1094 by superclass
+                                                    }
+                                                } bySuperclass
+                                            }
+                                        } orderRC
+                                    }
+                                } orderFrame
+                                widget XmForm {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        topAttachment = attach_widget
+                                        topOffset = 10
+                                        topWidget = orderFrame
+                                        leftAttachment = attach_opposite_widget
+                                        leftWidget = orderLabel
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1095 Place XFM resources at:
+                                                alignment = alignment_beginning
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                topAttachment = attach_form
+                                                leftAttachment = attach_form
+                                            }
+                                        } xfmLabel
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                radioBehavior = true
+                                                orientation = horizontal
+                                                packing = pack_tight
+                                                spacing = 3
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                topAttachment = attach_widget
+                                                topWidget = xfmLabel
+                                                leftAttachment = attach_form
+                                            }
+                                            children {
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1096 top
+                                                    }
+                                                } xfmTop
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1097 bottom
+                                                    }
+                                                } xfmBottom
+                                            }
+                                        } xfmRC
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1098 Place active values at:
+                                                alignment = alignment_beginning
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                topAttachment = attach_widget
+                                                topWidget = xfmRC
+                                                leftAttachment = attach_form
+                                            }
+                                        } avLabel
+                                        widget XmRowColumn {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                radioBehavior = true
+                                                orientation = horizontal
+                                                packing = pack_tight
+                                                spacing = 3
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                topAttachment = attach_widget
+                                                topWidget = avLabel
+                                                leftAttachment = attach_form
+                                            }
+                                            children {
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1099 top
+                                                    }
+                                                } avTop
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                        gadget
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        spacing = 2
+                                                        labelString = %MSG%150%1100 bottom
+                                                    }
+                                                } avBottom
+                                            }
+                                        } avRC
+                                    }
+                                } posForm
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        radioBehavior = false
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 0
+                                        topAttachment = attach_widget
+                                        topOffset = 15
+                                        topWidget = posForm
+                                        leftAttachment = attach_opposite_widget
+                                        leftWidget = orderLabel
+                                    }
+                                    children {
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1101 Gather set resources
+                                                alignment = alignment_beginning
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                spacing = 2
+                                            }
+                                        } gather
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1102 Show template resources
+                                                alignment = alignment_beginning
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                spacing = 2
+                                            }
+                                        } showtmpl
+                                        widget XmToggleButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                                gadget
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%1103 Show restricted resources
+                                                alignment = alignment_beginning
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                                spacing = 2
+                                                set = true
+                                            }
+                                        } showres
+                                    }
+                                } checkRC
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1104 Preferred Resources
+                                        marginWidth = 0
+                                        marginHeight = 0
+                                        alignment = alignment_beginning
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = orderLabel
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                    }
+                                } prefLabel
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1105 Show only preferred resources
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 4
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 8
+                                        bottomWidget = separator
+                                        valueChangedCallback = XtSetSensitive(parent.orderLabel,!Boolean(self:set));\
+XtSetSensitive(parent.orderFrame,!Boolean(self:set));\
+XtSetSensitive(parent.posForm,!Boolean(self:set));\
+XtSetSensitive(parent.checkRC,!Boolean(self:set));
+                                    }
+                                } only
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1106 Add
+                                        activateCallback = s = parent.resource:value;\
+	l = parent.scroller.list;
+	xms = CreateXmString (s);
+	if(XmListItemExists(l,xms))
+		XmListDeleteItem (l,xms);
+	XmListAddItem(l, xms, 0);
+	StringFree (xms);
+	XmListSelectPos (l,l:itemCount,True);\
+	XtFree (s);
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 5
+                                        bottomWidget = only
+                                        marginHeight = 1
+                                        marginWidth = 3
+                                    }
+                                } add
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1107 Replace
+                                        sensitive = false
+                                        activateCallback = s = parent.resource:value;\
+	l = parent.scroller.list;
+	xms = CreateXmString (s);
+	n = Int(l:userData);
+	XmListDeletePos (l,n);
+	XmListAddItem (l,xms,n);
+	StringFree (xms);
+	XmListSelectPos (l,n,True);\
+	XtFree (s);
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = add
+                                        leftAttachment = attach_widget
+                                        leftOffset = 3
+                                        leftWidget = add
+                                        marginHeight = 1
+                                        marginWidth = 3
+                                    }
+                                } replace
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1108 Delete
+                                        sensitive = false
+                                        activateCallback = l = parent.scroller.list;\
+XmListDeletePos (l,Int(l:userData));
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = add
+                                        leftAttachment = attach_widget
+                                        leftOffset = 3
+                                        leftWidget = replace
+                                        marginHeight = 1
+                                        marginWidth = 3
+                                    }
+                                } delete
+                                widget XmTextField {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        marginHeight = 1
+                                        activateCallback = l = parent.scroller.list;\
+	s = self:value;\
+	xms = CreateXmString (s);
+	if (XmListItemExists (l,xms))
+		XmListDeleteItem (l,xms);
+	XmListAddItem (l,xms,0);
+	XmListSelectPos (l,l:itemCount,True);
+	StringFree (xms);\
+	XtFree (s);
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        rightAttachment = attach_widget
+                                        rightOffset = 5
+                                        rightWidget = orderFrame
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 5
+                                        bottomWidget = add
+                                    }
+                                } resource
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1109 Resource Name or Type:
+                                        alignment = alignment_beginning
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                        bottomAttachment = attach_widget
+                                        bottomWidget = resource
+                                    }
+                                } resourceLabel
+                                widget XmScrolledWindow {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    activevalue {
+                                        name = _FmResourceAddPreference
+                                        set = xms = FmCreateXmString ($);\
+if (!XmListItemExists (self.list,xms))
+	XmListAddItem (self.list,xms,0);
+                                    }
+                                    resources {
+                                        shadowThickness = 2
+                                        topAttachment = attach_widget
+                                        topOffset = 1
+                                        topWidget = prefLabel
+                                        leftAttachment = attach_form
+                                        leftOffset = 8
+                                        rightAttachment = attach_widget
+                                        rightOffset = 8
+                                        rightWidget = orderLabel
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 5
+                                        bottomWidget = resourceLabel
+                                    }
+                                    children {
+                                        widget XmList {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                shadowThickness = 0
+                                                browseSelectionCallback = XmListCallback cb = $;\
+XtSetSensitive (parent.parent.replace,True);\
+XtSetSensitive (parent.parent.delete,True);\
+self:userData = Pointer(cb->item_position);\
+s = GetString (cb->item);\
+tx = parent.parent.resource;\
+tx:value = s;\
+XmTextFieldSetSelection (tx,0,XmTextFieldGetLastPosition (tx),Time(0));\
+XtFree (s);
+                                            }
+                                        } list
+                                    }
+                                } scroller
+                            }
+                        } resourceSort
+                    }
+                } form
+            }
+        } xfmResourceDialog
+widget XmDialogShell {
+        flag {
+            popup
+            autopos
+        }
+        resources {
+                        width = 400
+                        height = 110
+        }
+        children {
+            widget XmForm {
+                    flag {
+                        autopos
+                    }
+                    resources {
+                        width = 400
+                        height = 110
+                        verticalSpacing = 10
+                        horizontalSpacing = 10
+                        dialogTitle = Apply Options
+                        dialogStyle = dialog_full_application_modal
+                        autoUnmanage = false
+                    }
+                    createproc {
+                        FmSetWidest (self.applyLabel,self.byLabel,self.toLabel,NULL);
+                    }
+                    children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1110 OK
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 5
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        activateCallback =
+	FmReturn(self, "ok");
+	XtUnmanageChild(parent);
+                                    }
+                                } ok
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    createproc {
+                                        self:leftOffset = -self:width/2;
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1111 Cancel
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 5
+                                        leftAttachment = attach_position
+                                        leftPosition = 50
+                                        activateCallback =
+	FmReturn(self, String(0));
+	XtUnmanageChild(parent);
+                                    }
+                                } cancel
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1112 Help
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 5
+                                        rightAttachment = attach_form
+                                        rightOffset = 5
+                                        activateCallback =
+	s = FmGetHelp (Internationalize("%MSG%150%1113 Resources"), Internationalize("%MSG%150%1114 Apply Options") );\
+	GrabbingHelp (Internationalize("%MSG%150%1115 Resource Apply Options"),s);\
+	XtFree (s);	
+                                    }
+                                } help
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        bottomAttachment = attach_widget
+                                        bottomWidget = ok
+                                        bottomOffset = 5
+                                        rightAttachment = attach_form
+                                        rightOffset = 5
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                    }
+                                } separator
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1116 to:
+                                        alignment = alignment_end
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_form
+                                        leftOffset = 5
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 10
+                                        bottomWidget = separator
+                                    }
+                                } toLabel
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        function void _FmResourceLoadSmallToggle (Widget p,String name,String label) {
+	global Dimension _FmSmallResIndHeight;
+	if (_FmSmallResIndHeight == 0) {
+		tog = toplevel*autopos;
+		xms = tog:labelString;
+		fl = tog:fontList;
+		_FmSmallResIndHeight = (XmStringHeight(fl,xms) - 4) / 2 * 2 + 1;
+		if (_FmSmallResIndHeight < 11)
+			_FmSmallResIndHeight = _FmSmallResIndHeight + 2;
+		XmStringFree (xms);
+	}
+	s = XtMalloc(200);
+	sprintf (s,"NAME=%s,RESOURCE_TOGGLE_LABEL=%s,INDICATOR_SIZE=%d",name,label,_FmSmallResIndHeight);
+	CreateGroupInstance (p,"_FmSmallResourceButton","Fm/smallres.fm",s);
+	XtFree (s);\
+}\
+_FmResourceLoadSmallToggle (self,"myself","self");\
+_FmResourceLoadSmallToggle (self,"selection","selected widgets");\
+_FmResourceLoadSmallToggle (self,"subtree","selected sub-tree");\
+self.myself:set = Set(True);
+                                    }
+                                    resources {
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        orientation = horizontal
+                                        packing = pack_tight
+                                        radioAlwaysOne = true
+                                        radioBehavior = true
+                                        topAttachment = attach_opposite_widget
+                                        topWidget = toLabel
+                                        topOffset = -2
+                                        leftAttachment = attach_widget
+                                        leftOffset = 5
+                                        leftWidget = toLabel
+                                    }
+                                } toRC
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1117 by:
+                                        alignment = alignment_end
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_opposite_widget
+                                        leftWidget = toLabel
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 4
+                                        bottomWidget = toLabel
+                                    }
+                                } byLabel
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        _FmResourceLoadSmallToggle (self,"create","re-creating widgets");\
+_FmResourceLoadSmallToggle (self,"set","setting values");\
+self.create:set = Set(True);
+                                    }
+                                    resources {
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        orientation = horizontal
+                                        packing = pack_tight
+                                        radioAlwaysOne = true
+                                        radioBehavior = true
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -2
+                                        topWidget = byLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 5
+                                        leftWidget = byLabel
+                                    }
+                                } byRC
+                                widget XmLabel {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%1118 Apply:
+                                        alignment = alignment_end
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        topAttachment = attach_none
+                                        leftAttachment = attach_opposite_widget
+                                        leftWidget = toLabel
+                                        bottomAttachment = attach_widget
+                                        bottomOffset = 4
+                                        bottomWidget = byLabel
+                                    }
+                                } applyLabel
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        _FmResourceLoadSmallToggle (self,"all","all resources");\
+_FmResourceLoadSmallToggle (self,"select","selected resources");\
+self.all:set = Set(True);
+                                    }
+                                    resources {
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        orientation = horizontal
+                                        packing = pack_tight
+                                        radioAlwaysOne = true
+                                        radioBehavior = true
+                                        topAttachment = attach_opposite_widget
+                                        topOffset = -2
+                                        topWidget = applyLabel
+                                        leftAttachment = attach_widget
+                                        leftOffset = 5
+                                        leftWidget = applyLabel
+                                    }
+                                } applyRC
+                            }
+                    } applyOptionsForm
+            }
+} applyOptionsShell
+    }
+} resources

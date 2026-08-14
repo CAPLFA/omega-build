@@ -1,0 +1,13 @@
+widget XmPushButton {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    resources {
+        activateCallback = 
+	printf("%s\n", GetString(self:labelString));
+        background = black
+        labelString = black
+    }
+} black

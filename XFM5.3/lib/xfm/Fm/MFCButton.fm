@@ -1,0 +1,363 @@
+widget XmPushButton {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_ISMENUITEM
+        get = script get_MFCButton_MFC_ISMENUITEM:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmRowColumn")
+		&& (parent:rowColumnType == XmMENU_PULLDOWN
+		 || parent:rowColumnType == XmMENU_POPUP)){
+			@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISCOMBOBOXITEM
+        get = script get_MFCButton_MFC_ISCOMBOBOXITEM:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUITEM
+		&& !_FmIsOfSubClass(parent.parent, "XmMenuShell")
+		&& !(_FmIsOfSubClass(parent.parent, "XmRowColumn")
+		  && (parent.parent:rowColumnType == XmMENU_PULLDOWN
+		   || parent.parent:rowColumnType == XmMENU_BAR))
+		&& !(parent:rowColumnType == XmMENU_POPUP)){
+			@ = True;
+			self:@MFC_ISMENUITEM = False;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ISBITMAPBUTTON
+        get = script get_MFCButton_MFC_ISBITMAPBUTTON:
+		FacePragma("ignore");
+		if(!self:@MFC_ISMENUITEM && !self:@MFC_ISCOMBOBOXITEM
+		&& self:labelType == XmPIXMAP)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CAPTION
+        get = script get_MFCButton_MFC_CAPTION:
+		FacePragma("ignore");
+		if(!self:@MFC_ISBITMAPBUTTON){
+			@ = FmGetString(self:labelString);
+			if(!@ || strcmp(@, "") == 0)
+				@ = "_xfm_win_empty_caption_";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCButton_MFC_CLASS:
+		FacePragma("ignore");
+		if(self:@MFC_ISCOMBOBOXITEM){
+			@ = "CXfmWidget";
+		}
+		else
+		if(self:@MFC_ISBITMAPBUTTON){
+			@ = "CDrawnButton";
+		}
+		else
+		if(self:@MFC_ISMENUITEM){
+			@ = "CXfmMenuItem";
+		}
+		else
+		{
+			@ = "CButton";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUMNEMONIC
+        get = script get_MFCButton_MFC_MENUMNEMONIC:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUITEM){
+			@ = XKeysymToString(self:mnemonic);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUACCELERATOR
+        get = script get_MFCButton_MFC_MENUACCELERATOR:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUITEM){
+			@ = self:accelerator;
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_GRAYED
+        get = script get_MFCButton_MFC_GRAYED:
+		FacePragma("ignore");
+		@ = !self:sensitive;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_MENUITEMSTRING
+        get = script get_MFCButton_MFC_MENUITEMSTRING:
+		FacePragma("ignore");
+		if(self:@MFC_ISMENUITEM){
+			String label = FmGetString(self:labelString);
+			String m = self:@MFC_MENUMNEMONIC;
+			if(m && !equal(m, "")){
+				/*
+				 * Find the mnemonic character using sscanf,
+				 * and insert an & character before it.
+				 */
+				Int l = strlen(label);
+				if(strncmp(label, m, 1) == 0){
+					String newlabel = XtMalloc(l+2);
+					sprintf(newlabel, "&%s", label);
+					XtFree(label);
+					label = newlabel;
+				} else {
+					String left = XtMalloc(l+1);
+					String right = XtMalloc(l+1);
+					String fmt = XtMalloc(20);
+					sprintf(fmt, "%%[^%s]%s%%[a-zA-Z. ]", m, m);
+					Int n = Int(sscanf(label, fmt, left, right));
+					XtFree(fmt);
+					if(n == 2){
+						String newlabel = XtMalloc(l+2);
+						sprintf(newlabel, "%s&%s%s", left, m, right);
+						XtFree(label);
+						label = newlabel;
+					}
+					XtFree(left);
+					XtFree(right);
+				}
+			}
+			String a = FmGetString(self:acceleratorText);
+			if(a && !equal(a, "")){
+				String newlabel = XtMalloc(strlen(label) + 2 + strlen(a) + 1);
+				sprintf(newlabel, "%s\\\\t%s", label, a);
+				XtFree(label);
+				label = newlabel;
+			}
+			XtFree(a);
+			@ = label;
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_labelPixmap
+        get = script get_MFCButton_MFC_R_labelPixmap:
+		FacePragma("ignore");
+		if(self:@MFC_ISBITMAPBUTTON){
+			String s = _FmGetNonDefaultResourceValue(self, "labelPixmap");
+			if(s)
+				@ = _FmWinQuoteString(s);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_labelInsensitivePixmap
+        get = script get_MFCButton_MFC_R_labelInsensitivePixmap:
+		FacePragma("ignore");
+		if(self:@MFC_ISBITMAPBUTTON){
+			String s = _FmGetNonDefaultResourceValue(self, "labelInsensitivePixmap");
+			if(s)
+				@ = _FmWinQuoteString(s);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_shadowType
+        get = script get_MFCButton_MFC_R_shadowType:
+		FacePragma("ignore");
+		if(self:@MFC_ISBITMAPBUTTON){
+			if(_FmIsOfSubClass(self, "XmDrawnButton")){
+				s = _FmGetWidgetResourceValue(self, "shadowType");
+				if(s && strcmp(s, "") != 0)
+					@ = _FmWinQuoteString(s);
+				XtFree(s);
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_pushButtonEnabled
+        get = script get_MFCButton_MFC_R_pushButtonEnabled:
+		FacePragma("ignore");
+		if(self:@MFC_ISBITMAPBUTTON){
+			if(_FmIsOfSubClass(self, "XmPushButton")){
+				@ = "True";
+			}
+			else
+			if(_FmIsOfSubClass(self, "XmDrawnButton")){
+				if(self:pushButtonEnabled)
+					@ = "True";
+			}
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_OWNERDRAW
+        get = script get_MFCButton_MFC_S_BS_OWNERDRAW:
+		FacePragma("ignore");
+		if(self:@MFC_ISBITMAPBUTTON)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TRANS_WM_ARM
+        get = script get_MFCButton_MFC_TRANS_WM_ARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "armCallback")
+		&& !self:@MFC_ISCOMBOBOXITEM){
+			if(_FmIsOfSubClass(self, "XmDrawnButton"))
+				@ = "#void ::Arm(Widget w, XtPointer)#w == %self?$XmDrawnButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ARM); call_data = (XtPointer)&cbs;$armCallback";
+			else
+				@ = "#void ::Arm(Widget w, XtPointer)#w == %self?$XmPushButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_ARM); call_data = (XtPointer)&cbs;$armCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ARM
+        get = script get_MFCButton_MFC_ARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "armCallback")
+		&& !self:@MFC_ISCOMBOBOXITEM){
+			self:@MFC_TRANSLATIONS = _FmConcatString(
+				self:@MFC_TRANSLATIONS,
+				'WM_LBUTTONDOWN,"",0,::Arm,1',
+				"|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_armCallback
+        get = script get_MFCButton_MFC_R_armCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "armCallback")
+		&& self:@MFC_ISCOMBOBOXITEM){
+			@ = "armCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_TRANS_WM_DISARM
+        get = script get_MFCButton_MFC_TRANS_WM_DISARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "disarmCallback")
+		&& !self:@MFC_ISCOMBOBOXITEM){
+			if(_FmIsOfSubClass(self, "XmDrawnButton"))
+				@ = "#void ::Disarm(Widget w, XtPointer)#w == %self?$XmDrawnButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DISARM); call_data = (XtPointer)&cbs;$disarmCallback";
+			else
+				@ = "#void ::Disarm(Widget w, XtPointer)#w == %self?$XmPushButtonCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DISARM); call_data = (XtPointer)&cbs;$disarmCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_DISARM
+        get = script get_MFCButton_MFC_DISARM:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "disarmCallback")
+		&& !self:@MFC_ISCOMBOBOXITEM){
+			self:@MFC_TRANSLATIONS = _FmConcatString(
+				self:@MFC_TRANSLATIONS,
+				'WM_LBUTTONUP,"",0,::Disarm,1',
+				"|");
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_disarmCallback
+        get = script get_MFCButton_MFC_R_disarmCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "disarmCallback")
+		&& self:@MFC_ISCOMBOBOXITEM){
+			@ = "disarmCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+        MFCFont = Fm/MFCFont.fm
+        MFCTraversal = Fm/MFCTraversal.fm
+    }
+} button

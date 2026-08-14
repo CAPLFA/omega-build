@@ -1,0 +1,1109 @@
+widget XmForm {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = _FmGetResourceAttachAvs (toplevel,self,Int (self.typeRC:userData));\
+_FmResourceDontSaveValue();
+    }
+    activevalue {
+        name = _FmResourceName
+        set = /* -C- */\
+        function None _FmResourceSetAttachments (Widget w, Int side, String title) {\
+		@_FmResourceName = title;\
+		FmSetActiveValue (w,"_FmResourceName");\
+		att = w.attach;\
+		att.typeRC:userData = Pointer(side);\
+		att.widgetForm:userData = Pointer(False);\
+		XmListDeleteAllItems (att.widgetForm.scroller.list);\
+		_FmSetResourceAttachAvs (toplevel, att, side);\
+        }\
+	function None _FmResourceInitOffset(String off) {
+		String value = _FmGetNamedWindowResource(toplevel, off, False);\
+		if(value){\
+			offsetForm.defoffset:set = Set(False);\
+			_FmResourceTextEdit (offsetForm.offset,True);\
+			self.offsetForm.up:sensitive = True;\
+			self.offsetForm.down:sensitive = True;\
+		} else {\
+			offsetForm.defoffset:set = Set(True);\
+			offsetForm.offset:value = "";\
+			_FmResourceTextEdit (offsetForm.offset,False);\
+			self.offsetForm.up:sensitive = False;\
+			self.offsetForm.down:sensitive = False;\
+		}\
+	}\
+if (strncmp (@,"left",4) == 0){\
+	_FmResourceInitOffset("leftOffset");\
+	_FmResourceSetAttachments (parent,wref_left,"left attachment");\
+} else if (strncmp (@,"right",5) == 0){\
+	_FmResourceInitOffset("rightOffset");\
+	_FmResourceSetAttachments (parent,wref_right,"right attachment");\
+} else if (strncmp (@,"top",3) == 0){\
+	_FmResourceInitOffset("topOffset");\
+	_FmResourceSetAttachments (parent,wref_top,"top attachment");\
+} else if (strncmp (@,"bottom",6) == 0){\
+	_FmResourceInitOffset("bottomOffset");\
+	_FmResourceSetAttachments (parent,wref_bottom,"bottom attachment");\
+}\
+    }
+    activevalue {
+        name = _FmAttachment
+        set = if (@ == XmATTACH_FORM || @ == XmATTACH_OPPOSITE_FORM) {
+	XmToggleButtonGadgetSetState (self.typeRC.form,True,True);
+	XmToggleButtonGadgetSetState (self.opposite,@ == XmATTACH_OPPOSITE_FORM,True);\
+} else if (@ == XmATTACH_SELF) {
+	XmToggleButtonGadgetSetState (self.typeRC.myself,True,True);
+	XmToggleButtonGadgetSetState (self.opposite,False,True);\
+} else if (@ == XmATTACH_NONE) {
+	XmToggleButtonGadgetSetState (self.typeRC.none,True,True);
+	XmToggleButtonGadgetSetState (self.opposite,False,True);\
+} else if (@ == XmATTACH_POSITION) {
+	XmToggleButtonGadgetSetState (self.typeRC.position,True,True);
+	XmToggleButtonGadgetSetState (self.opposite,False,True);\
+} else if (@ == XmATTACH_WIDGET || @ == XmATTACH_OPPOSITE_WIDGET) {
+	XmToggleButtonGadgetSetState (self.typeRC.widget,True,True);
+	XmToggleButtonGadgetSetState (self.opposite,@ == XmATTACH_OPPOSITE_WIDGET,True);\
+} else printf ("attachment = %d?\n",@);
+    }
+    activevalue {
+        name = _FmAttachmentReturn
+        get = if (Boolean(self.typeRC.form:set)) {
+	if (Boolean(self.opposite:set))
+		strcpy ($,"attach_opposite_form");
+	else
+		strcpy ($,"attach_form");\
+} else if (Boolean(self.typeRC.myself:set))
+	strcpy ($,"attach_self");\
+else if (Boolean(self.typeRC.none:set))
+	strcpy ($,"attach_none");\
+else if (Boolean(self.typeRC.position:set))
+	strcpy ($,"attach_position");\
+else if (Boolean(self.typeRC.widget:set)) {
+	if (Boolean(self.opposite:set))
+		strcpy ($,"attach_opposite_widget");
+	else
+		strcpy ($,"attach_widget");\
+} else
+	_FmResourceDontSaveValue();
+    }
+    activevalue {
+        name = _FmAttachOffset
+        set = 
+	if(!Boolean(offsetForm.defoffset:set)){
+		s = itoa (@);
+		self.offsetForm.offset:value = s;
+		free (s);
+	} else {
+		self.offsetForm.offset:value = "";
+	}
+    }
+    activevalue {
+        name = _FmAttachOffsetReturn
+        get = a = Boolean(self.offsetForm.defoffset:set);\
+if (!a) {
+	s = self.offsetForm.offset:value;
+	strcpy ($,s);
+	free (s);\
+} /*else if (Boolean(self.typeRC.position:set) || Boolean(self.typeRC.widget:set) || Boolean(self.typeRC.form:set)) {
+	if (Boolean(self.typeRC.position:set)) {
+		s = self.posForm.position:value;
+		pos = atoi (s);
+		free (s);
+	} else
+		pos = 0;
+	if (Boolean(self.typeRC.widget:set)) {
+		s = self.widgetForm.widget:value;
+	} else
+		s = String (0);
+	n = _FmResourceWindowOffset (toplevel,s,Int(self.typeRC:userData),Boolean(self.typeRC.position:set),pos,Boolean(self.opposite:set),True);
+	if (s != 0)
+		free (s);
+	s = itoa (n);
+	strcpy ($,s);
+	free (s);\
+} */else
+	_FmResourceDontSaveValue();
+    }
+    activevalue {
+        name = _FmAttachPosition
+        set = if (Boolean(self.typeRC.position:set)) {
+	s = itoa (@);
+	self.posForm.position:value = s;
+	free (s);\
+} else
+	self.posForm.position:value = "";
+    }
+    activevalue {
+        name = _FmAttachPositionReturn
+        get = if (Boolean(self.typeRC.position:set)) {
+	s = self.posForm.position:value;
+	strcpy ($,s);
+	free (s);\
+} else
+	_FmResourceDontSaveValue();
+    }
+    activevalue {
+        name = _FmAttachWidget
+        set = if (Boolean(self.typeRC.widget:set)) {
+	list = self.widgetForm.scroller.list;
+	xms = CreateXmString ($);
+	if (XmListItemExists (list,xms))
+		XmListSelectItem (list,xms,False);
+	XmStringFree (xms);
+	if(strncmp($, "parent.", 7) == 0){
+		String name = XtNewString($);
+		sscanf($, "parent.%s", name);
+		self.widgetForm.widget:value = name;
+		XtFree(name);
+	} else {
+		self.widgetForm.widget:value = $;\
+	}\
+} else {
+	self.widgetForm.widget:value = "";\
+}
+    }
+    activevalue {
+        name = _FmAttachWidgetReturn
+        get = if (Boolean(self.typeRC.widget:set)) {
+	s = self.widgetForm.widget:value;
+	_FmCheckResourceWindowReference (toplevel,s);
+	strcpy ($,s);
+	free (s);\
+} else
+	_FmResourceDontSaveValue();
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = local Boolean already;\
+if (!already) {
+	already = True;
+	w = self.arrowForm;
+	hide (w.up); show (w.up);
+	w = self.posForm;
+	hide (w.position); show (w.position);
+	w = self.offsetForm;
+	hide (w.offset); show (w.offset);\
+}\
+if      ((Boolean)(self.typeRC.form:set))\
+	XmProcessTraversal(self.typeRC.form,     XmTRAVERSE_CURRENT);\
+else if ((Boolean)(self.typeRC.widget:set))\
+	XmProcessTraversal(self.typeRC.widget,   XmTRAVERSE_CURRENT);\
+else if ((Boolean)(self.typeRC.none:set))\
+	XmProcessTraversal(self.typeRC.none,     XmTRAVERSE_CURRENT);\
+else if ((Boolean)(self.typeRC.position:set))\
+	XmProcessTraversal(self.typeRC.position, XmTRAVERSE_CURRENT);\
+else if ((Boolean)(self.typeRC.myself:set))\
+	XmProcessTraversal(self.typeRC.myself,   XmTRAVERSE_CURRENT);\
+SetSysAv("DrawAttachments");\
+SetSysAv("AssignOffsets");
+
+    }
+    activevalue {
+        name = _FmUpdateAttachOffsets
+        set =
+		if (Boolean(self.typeRC.position:set)) {
+			s = self.posForm.position:value;
+			pos = atoi (s);
+			free (s);
+		} else if(Boolean(self.offsetForm.defoffset:set)){
+			return();
+		} else {
+			pos = 0;
+		}
+		if (Boolean(self.typeRC.widget:set)) {
+			s = self.widgetForm.widget:value;
+		} else
+			s = String (0);
+		n = _FmResourceWindowOffset (toplevel,s,Int(self.typeRC:userData),
+						Boolean(self.typeRC.position:set),
+						pos,Boolean(self.opposite:set),
+						False);
+		if(Boolean(self.typeRC.position:set))
+			text = self.posForm.position;
+		else
+			text = self.offsetForm.offset;
+		s = itoa (n);
+		olds = text:value;
+		if(!equal(s, olds))
+			text:value = s;
+		free(s);
+		free(olds);
+    }
+    createproc {
+        w = self.typeLabel:width;\
+n = self.offsetForm.offsetLabel:width;\
+if (w < n)
+	w = n;\
+n = self.posForm.posLabel:width;\
+if (w < n)
+	w = n;\
+n = self.widgetForm.widgetLabel:width;\
+if (w < n)
+	w = n;\
+self.typeLabel:width = w;\
+self.offsetForm.offsetLabel:width = w;\
+self.posForm.posLabel:width = w;\
+self.widgetForm.widgetLabel:width = w;
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            createproc {
+                self.topleft:width = self.left:width;\
+self.topleft:height = self.left:height;
+            }
+            resources {
+                topAttachment = attach_form
+                topOffset = 10
+                leftAttachment = attach_form
+            }
+            children {
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        separatorType = no_line
+                        topAttachment = attach_form
+                        leftAttachment = attach_form
+                    }
+                } topleft
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autopos
+                    }
+                    createproc {
+                        function None _FmAttachArrowHelp(Int enter)
+			{
+				Widget label = XtNameToWidget(parent.parent.parent, "buttonLabel");
+				if(!label)
+					return();
+				if(enter == 0){
+					if(!self:userData){
+						XmString b = XmStringCreateSimple(" ");
+						label:labelString = b;
+						XmStringFree(b);
+					} else
+						self:userData = Pointer(0);
+					return();
+				}
+				else
+				if(enter == 1)
+					start = Internationalize("%MSG%150%994 Click then s");
+				else {
+					start = Internationalize("%MSG%150%995 S");
+					self:userData = Pointer(1);
+				}
+				String buf = XtMalloc(256);
+				if(strcmp(XtName(self), "change") == 0){
+					sprintf(buf, Internationalize("%MSG%150%996 %select an arrow to change side"), start);
+				} else {
+					form = parent.parent;
+					pos = Boolean(form.typeRC.position:set);
+					off = !Boolean(form.offsetForm.defoffset:set);
+					if(strcmp(XtName(self), "up") == 0)
+						side = "top";
+					else
+					if(strcmp(XtName(self), "down") == 0)
+						side = "bottom";
+					else
+					if(strcmp(XtName(self), "left") == 0)
+						side = "left";
+					else
+					if(strcmp(XtName(self), "right") == 0)
+						side = "right";
+					if(pos)
+						sprintf(buf, Internationalize("%MSG%150%997 Click to set %s attachment by position"), side);
+					else {
+						if(off)
+							sprintf(buf, Internationalize("%MSG%150%998 %select a widget to set %s attachment with offset "), start, side);
+						else
+							sprintf(buf, Internationalize("%MSG%150%999 %select a widget to set %s attachment without offset "), start, side);
+					}
+				}
+				XmString xms = XmStringCreateSimple(buf);
+				label:labelString = xms;
+				XmStringFree(xms);
+				if(enter == 2)
+					XmUpdateDisplay(self);
+			}
+			
+			function None _FmInitAttachArrowHelp()
+			{
+				FmOverrideTranslations(self, '<Enter>: eval("script _fm_att_arr_e: _FmAttachArrowHelp(1);")\n<Leave>: eval("script _fm_att_arr_l: _FmAttachArrowHelp(0);")');
+			}
+			
+			_FmInitAttachArrowHelp();
+                    }
+                    resources {
+                        height = 29
+                        width = 29
+                        topAttachment = attach_form
+                        leftAttachment = attach_widget
+                        leftWidget = topleft
+                        activateCallback = function void _FmResourceWindowAttachArrow (Int side,String title,String res) {
+	form = parent.parent;
+	posok = Boolean(form.typeRC.position:set);
+	/*
+	if(!posok)
+		XmToggleButtonSetState(form.offsetForm.defoffset, False, True);
+	 */
+	if(!posok)
+		_FmAttachArrowHelp(2);
+	if (_FmResourceWindowAttach (toplevel,side,posok,0,Boolean(form.opposite:set),Boolean(form.offsetForm.defoffset:set))) {
+		_FmResourceSetAttachments (parent.parent.parent,side,title);
+		_FmResourceListSelectName (toplevel,res);
+	} else {
+		_FmEditNamedWindowResource(toplevel,res);
+	} \
+}\
+_FmResourceWindowAttachArrow (wref_top,"top attachment","topAttachment");
+                    }
+                } up
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autopos
+                    }
+                    createproc {
+                        _FmInitAttachArrowHelp();
+                    }
+                    resources {
+                        height = 29
+                        width = 29
+                        arrowDirection = arrow_left
+                        topAttachment = attach_widget
+                        topWidget = topleft
+                        leftAttachment = attach_form
+                        activateCallback = _FmResourceWindowAttachArrow (wref_left,"left attachment","leftAttachment");
+                    }
+                } left
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autopos
+                    }
+                    createproc {
+                        _FmInitAttachArrowHelp();
+                    }
+                    resources {
+                        height = 29
+                        width = 29
+                        arrowDirection = arrow_right
+                        topAttachment = attach_widget
+                        topWidget = up
+                        leftAttachment = attach_widget
+                        leftWidget = up
+                        activateCallback = _FmResourceWindowAttachArrow (wref_right,"right attachment","rightAttachment");
+                    }
+                } right
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autopos
+                    }
+                    createproc {
+                        _FmInitAttachArrowHelp();
+                    }
+                    resources {
+                        height = 29
+                        width = 29
+                        arrowDirection = arrow_down
+                        topAttachment = attach_widget
+                        topWidget = left
+                        leftAttachment = attach_widget
+                        leftWidget = left
+                        activateCallback = _FmResourceWindowAttachArrow (wref_bottom,"bottom attachment","bottomAttachment");
+                    }
+                } down
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autopos
+                        autosize
+                    }
+                    createproc {
+                        _FmInitAttachArrowHelp();
+                    }
+                    resources {
+                        fontList = cursor
+                        labelString = \020\064
+                        topAttachment = attach_widget
+                        topWidget = up
+                        leftAttachment = attach_widget
+                        leftWidget = left
+                        bottomAttachment = attach_widget
+                        bottomWidget = down
+                        rightAttachment = attach_widget
+                        rightWidget = right
+                        activateCallback =
+	_FmAttachArrowHelp(2);
+	Widget arrow = InterfTrackWidget("fleur");
+	if(arrow == parent.left)
+		_FmEditNamedWindowResource(toplevel, "leftAttachment");
+	else
+	if(arrow == parent.right)
+		_FmEditNamedWindowResource(toplevel, "rightAttachment");
+	else
+	if(arrow == parent.up)
+		_FmEditNamedWindowResource(toplevel, "topAttachment");
+	else
+	if(arrow == parent.down)
+		_FmEditNamedWindowResource(toplevel, "bottomAttachment");
+                    }
+                } change
+            }
+        } arrowForm
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%1000 Attach to:
+                alignment = alignment_beginning
+                marginHeight = 0
+                marginWidth = 0
+                topAttachment = attach_form
+                topOffset = 4
+                leftAttachment = attach_widget
+                leftOffset = 5
+                leftWidget = arrowForm
+            }
+        } typeLabel
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                marginWidth = 0
+                marginHeight = 0
+                spacing = 0
+                radioBehavior = true
+                orientation = horizontal
+                packing = pack_column
+                numColumns = 2
+                topAttachment = attach_opposite_widget
+                topOffset = -4
+                topWidget = typeLabel
+                leftAttachment = attach_widget
+                leftOffset = 5
+                leftWidget = typeLabel
+            }
+            children {
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1001 form
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 2
+                        disarmCallback = XmToggleButtonGadgetSetState (self, True, True);
+                        valueChangedCallback = function void _FmAttachType (Boolean opp,Boolean pos,Boolean wid) {
+	o = parent.parent.opposite;
+	if (o:sensitive != opp)
+		XtSetSensitive (parent.parent.opposite,opp);
+	p = parent.parent.posForm;
+	if (p:sensitive != pos) {
+		hide (p.up);		/* hide and show arrows */
+		hide (p.down);		/* because of Xm bug */
+		if(pos)
+			parent.parent.offsetForm.offset:value = "";
+		else
+			p.position:value = "";
+		XtSetSensitive (p,pos);
+		show (p.up);
+		show (p.down);
+	}
+	w = parent.parent.widgetForm;
+	if (w:sensitive != wid) {
+		XtSetSensitive (w,wid);
+		if (wid && !Boolean (w:userData)) {
+			w:userData = Pointer (True);
+			set = _FmListFill (w.scroller.list,_FmGetResourceWindowSiblings (toplevel));
+		}
+	}\
+	/* update offset and position value */
+	FmSetActiveValue(parent.parent, "_FmUpdateAttachOffsets");\
+}\
+if (Boolean(self:set))
+	_FmAttachType (True,False,False);
+                    }
+                } form
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1002 self
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 2
+                        disarmCallback = XmToggleButtonGadgetSetState (self, True, True);
+                        valueChangedCallback = if (Boolean(self:set))
+	_FmAttachType (False,False,False);
+                    }
+                } myself
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1003 none
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 2
+                        disarmCallback = XmToggleButtonGadgetSetState (self, True, True);
+                        valueChangedCallback = if (Boolean(self:set))
+	_FmAttachType (False,False,False);
+                    }
+                } none
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1004 position
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 2
+                        disarmCallback = XmToggleButtonGadgetSetState (self, True, True);
+                        valueChangedCallback = if (Boolean(self:set))
+	_FmAttachType (False,True,False);
+                    }
+                } position
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1005 widget
+                        marginWidth = 0
+                        marginHeight = 0
+                        spacing = 2
+                        disarmCallback = XmToggleButtonGadgetSetState (self, True, True);
+                        valueChangedCallback = if (Boolean(self:set))
+	_FmAttachType (True,False,True);
+                    }
+                } widget
+            }
+        } typeRC
+        widget XmToggleButton {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%1006 opposite edge
+                marginHeight = 0
+                marginWidth = 0
+                spacing = 2
+                topAttachment = attach_widget
+                topOffset = 2
+                topWidget = typeRC
+                leftAttachment = attach_opposite_widget
+                leftWidget = typeRC
+                valueChangedCallback =
+	/* update offset and position value */
+	FmSetActiveValue(parent, "_FmUpdateAttachOffsets");
+            }
+        } opposite
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_widget
+                topOffset = 5
+                topWidget = opposite
+                leftAttachment = attach_opposite_widget
+                leftWidget = typeLabel
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1007 Offset:
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_form
+                        topOffset = 5
+                        leftAttachment = attach_form
+                    }
+                } offsetLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        columns = 5
+                        marginHeight = 1
+                        marginWidth = 1
+                        topAttachment = attach_opposite_widget
+                        topOffset = -5
+                        topWidget = offsetLabel
+                        leftAttachment = attach_widget
+                        leftOffset = 5
+                        leftWidget = offsetLabel
+                    }
+                } offset
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _FmAttachArrow
+                        set = _FmTextArrow (parent.offset,1,True,self,100);
+                    }
+                    createproc {
+                        function void _FmTextArrow (Widget text,Int incr,Boolean neg,Widget arrow,Int delay) {
+	if (incr) {
+		s = text:value;
+		n = atoi (s);
+		free (s);
+		n = n + incr;
+		if (!neg && n < 0)
+			n = 0;
+		s = itoa (n);
+		text:value = s;
+		free (s);
+	}
+	type TimeOutClosure;
+	if (delay)
+		arrow:userData = Pointer (FmSetActiveValueTimeOut (arrow,"_FmAttachArrow",delay));
+	else
+		FmStopTimeOut(TimeOutClosure(arrow:userData));\
+}
+                    }
+                    resources {
+                        arrowDirection = arrow_up
+                        topAttachment = attach_opposite_widget
+                        topOffset = 1
+                        topWidget = offset
+                        leftAttachment = attach_widget
+                        leftWidget = offset
+                        sensitive = false
+                        armCallback = _FmTextArrow (parent.offset,1,True,self,500);
+                        disarmCallback = _FmTextArrow (parent.offset,0,True,self,0);
+                    }
+                } up
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _FmAttachArrow
+                        set = _FmTextArrow (parent.offset,-1,True,self,100);
+                    }
+                    resources {
+                        arrowDirection = arrow_down
+                        topAttachment = attach_opposite_widget
+                        topOffset = 1
+                        topWidget = offset
+                        leftAttachment = attach_widget
+                        leftWidget = up
+                        sensitive = false
+                        armCallback = _FmTextArrow (parent.offset,-1,True,self,500);
+                        disarmCallback = _FmTextArrow (parent.offset,0,True,self,0);
+                    }
+                } down
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        set = true
+                        labelString = %MSG%150%1008 no offset
+                        marginHeight = 0
+                        marginWidth = 0
+                        spacing = 2
+                        topAttachment = attach_form
+                        topOffset = 2
+                        leftAttachment = attach_widget
+                        leftOffset = 10
+                        leftWidget = down
+                        valueChangedCallback = 
+	if(Boolean(self:set))
+		parent.offset:value = "";\
+	_FmResourceTextEdit (parent.offset,!Boolean(self:set));\
+	if(!Boolean(self:set)){
+		FmSetActiveValue(parent.parent, "_FmUpdateAttachOffsets");
+	}
+	parent.up:sensitive = !Boolean(self:set);\
+	parent.down:sensitive = !Boolean(self:set);
+                    }
+                } defoffset
+            }
+        } offsetForm
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_widget
+                topWidget = offsetForm
+                leftAttachment = attach_opposite_widget
+                leftWidget = typeLabel
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1009 Position:
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_form
+                        topOffset = 5
+                        leftAttachment = attach_form
+                    }
+                } posLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        columns = 5
+                        marginHeight = 1
+                        marginWidth = 1
+                        topAttachment = attach_opposite_widget
+                        topOffset = -5
+                        topWidget = posLabel
+                        leftAttachment = attach_widget
+                        leftOffset = 5
+                        leftWidget = posLabel
+                    }
+                } position
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _FmAttachArrow
+                        set = _FmTextArrow (parent.position,1,False,self,100);
+                    }
+                    resources {
+                        arrowDirection = arrow_up
+                        topAttachment = attach_opposite_widget
+                        topOffset = 1
+                        topWidget = position
+                        leftAttachment = attach_widget
+                        leftWidget = position
+                        armCallback = _FmTextArrow (parent.position,1,False,self,500);
+                        disarmCallback = _FmTextArrow (parent.position,0,False,self,0);
+                    }
+                } up
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _FmAttachArrow
+                        set = _FmTextArrow (parent.position,-1,False,self,100);
+                    }
+                    resources {
+                        arrowDirection = arrow_down
+                        topAttachment = attach_opposite_widget
+                        topOffset = 1
+                        topWidget = position
+                        leftAttachment = attach_widget
+                        leftWidget = up
+                        armCallback = _FmTextArrow (parent.position,-1,False,self,500);
+                        disarmCallback = _FmTextArrow (parent.position,0,False,self,0);
+                    }
+                } down
+            }
+        } posForm
+        widget XmForm {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_widget
+                topWidget = posForm
+                leftAttachment = attach_opposite_widget
+                leftWidget = typeLabel
+                rightAttachment = attach_form
+                bottomAttachment = attach_form
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1010 Widget:
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        marginWidth = 0
+                        topAttachment = attach_form
+                        topOffset = 5
+                        leftAttachment = attach_form
+                    }
+                } widgetLabel
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%1011 Select
+                        marginHeight = 1
+                        marginWidth = 3
+                        topAttachment = attach_opposite_widget
+                        topOffset = -5
+                        topWidget = widgetLabel
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        activateCallback = s = _FmResourceWindowAttachWidget (toplevel);\
+if(s){
+	parent.widget:value = s;\
+	XtCallCallbacks(parent.widget, "activateCallback", 0);\
+}
+                    }
+                } select
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        marginHeight = 1
+                        marginWidth = 3
+                        topAttachment = attach_opposite_widget
+                        topOffset = -5
+                        topWidget = widgetLabel
+                        leftAttachment = attach_widget
+                        leftOffset = 5
+                        leftWidget = widgetLabel
+                        rightAttachment = attach_widget
+                        rightOffset = 2
+                        rightWidget = select
+                        activateCallback =
+	FmSetActiveValue(parent.parent, "_FmUpdateAttachOffsets");
+                    }
+                } widget
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 2
+                        topWidget = widget
+                        leftAttachment = attach_opposite_widget
+                        leftOffset = 2
+                        leftWidget = widget
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_form
+                    }
+                    children {
+                        widget XmList {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                selectionPolicy = browse_select
+                                browseSelectionCallback = XmListCallback cb;\
+cb = $;\
+if (cb->item_position > 0) {
+	s = GetString (cb->item);
+	parent.parent.widget:value = s;
+	XtCallCallbacks(parent.parent.widget, "activateCallback", 0);\
+	free (s);\
+} else {\
+	parent.parent.widget:value = "";\
+	XtCallCallbacks(parent.parent.widget, "activateCallback", 0);\
+}
+                            }
+                        } list
+                    }
+                } scroller
+            }
+        } widgetForm
+        widget XmToggleButton {
+            flag {
+                mapped
+                autopos
+                autosize
+            }
+            activevalue {
+                name = AssignOffsets
+                get = @ = Boolean(self:set);
+                set = self:set = Set(@);
+            }
+            resources {
+                leftAttachment = attach_form
+                labelString = %MSG%150%1012 Update Offsets
+                bottomAttachment = attach_position
+                bottomPosition = 70
+                alignment = alignment_beginning
+                valueChangedCallback =
+	UpdateWidgetAv(self);
+	SetSysAv("AssignOffsets");
+                translations = #override
+	<MapNotify>: eval("script _fm_raise_attach_button: FmRaiseWidget(self);")
+            }
+        } setoffsets
+        widget XmToggleButton {
+            flag {
+                mapped
+                autopos
+                autosize
+            }
+            activevalue {
+                name = DrawAttachments
+                get = @ = Boolean(self:set);
+                set = self:set = Set(@);
+            }
+            resources {
+                leftAttachment = attach_form
+                labelString = %MSG%150%1013 Draw Attachments
+                bottomAttachment = attach_position
+                bottomPosition = 80
+                alignment = alignment_beginning
+                valueChangedCallback = UpdateWidgetAv(self);\
+			SetSysAv("DrawAttachments");\
+			ClearForms();
+                translations = #override
+	<MapNotify>: eval("script _fm_raise_attach_button: FmRaiseWidget(self);")
+            }
+        } drawattach
+        widget XmPushButton {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                width = 150
+                leftAttachment = attach_form
+                labelString = %MSG%150%1014 Detach This Side
+                bottomAttachment = attach_position
+                bottomPosition = 90
+                activateCallback = 
+			function None _FmResetAttWin(Int side)
+			{
+				if(side == wref_left)
+					res = "leftAttachment";
+				else
+				if(side == wref_right)
+					res = "rightAttachment";
+				else
+				if(side == wref_top)
+					res = "topAttachment";
+				else
+				if(side == wref_bottom)
+					res = "bottomAttachment";
+				else
+					res = "leftAttachment";
+				_FmEditNamedWindowResource(toplevel, res);
+			}
+			Int side = Int(parent.typeRC:userData);
+			_FmDetachResourceWindowObject(toplevel, side);
+			_FmResetAttWin(side);
+                translations = #override
+	<MapNotify>: eval("script _fm_raise_attach_button: FmRaiseWidget(self);")
+            }
+        } detachone
+        widget XmPushButton {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                width = 150
+                leftAttachment = attach_form
+                labelString = %MSG%150%1015 Detach All Sides
+                bottomAttachment = attach_position
+                bottomPosition = 100
+                activateCallback = 
+			Int side = Int(parent.typeRC:userData);
+			_FmDetachResourceWindowObject(toplevel, wref_all);
+			_FmResetAttWin(side);
+                translations = #override
+	<MapNotify>: eval("script _fm_raise_attach_button: FmRaiseWidget(self);")
+            }
+        } detachall
+    }
+} attach

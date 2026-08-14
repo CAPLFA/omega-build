@@ -1,0 +1,15 @@
+#!/bin/sh
+# $HEADER$
+# This script uses ptroff a nroff to postscript converter.
+# You may need to change this according to your printer.
+# Note that the output of ptroff is set automatically to the 
+# printer.
+# This script is NOT supported by NSL
+
+xfmprint -av -tbl $1 | tbl | ptroff 
+
+
+# alternatively if you do not have ptroff
+# you may have to adjust this for local page sizes
+
+# xfmprint  -av -tbl $1 | tbl | nroff | col | lpr

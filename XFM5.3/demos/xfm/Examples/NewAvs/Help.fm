@@ -1,0 +1,117 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    resources {
+        x = 330
+        y = 228
+        width = 505
+        height = 493
+    }
+    children {
+        widget XmForm {
+            flag {
+            }
+            activevalue {
+                name = helpSubject
+                set = 
+	String buf = XtMalloc(1024);
+	sprintf(buf, "Help On: %s", String(@));
+	self:dialogTitle = buf;
+	XtFree(buf);
+                type = String
+                storage = object
+                automatic = TRUE
+            }
+            activevalue {
+                name = helpText
+                set = 
+	self*help_text:value = String(@);
+	XtManageChild(self);
+                type = String
+                storage = object
+                automatic = TRUE
+            }
+            activevalue {
+                name = Help
+                set = struct HelpArgs {
+	Int ret;
+	String subject;
+	String text;\
+};\
+HelpArgs a = @;\
+self:@helpSubject = a->subject;\
+self:@helpText = a->text;
+                type = HelpArgs
+                storage = none
+                automatic = TRUE
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 505
+                height = 493
+                defaultPosition = false
+                dialogTitle = Help
+                verticalSpacing = 5
+                horizontalSpacing = 5
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    createproc {
+                        self:leftOffset = -self:width/2;
+                    }
+                    resources {
+                        x = 203
+                        y = 463
+                        width = 100
+                        height = 25
+                        bottomAttachment = attach_form
+                        leftAttachment = attach_position
+                        leftPosition = 50
+                        labelString = OK
+                        activateCallback = XtUnmanageChild(parent);
+                    }
+                } help_ok
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 495
+                        height = 453
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.help_ok
+                    }
+                    children {
+                        widget XmText {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                width = 476
+                                height = 434
+                                editMode = multi_line_edit
+                                editable = false
+                                cursorPositionVisible = false
+                                marginHeight = 10
+                                marginWidth = 20
+                                wordWrap = true
+                            }
+                        } help_text
+                    }
+                } help_scroll
+            }
+        } help_box
+    }
+} help_shell

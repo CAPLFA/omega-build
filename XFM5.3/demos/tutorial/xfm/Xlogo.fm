@@ -1,0 +1,42 @@
+widget XmBulletinBoard {
+    flag {
+        autopos
+    }
+    resources {
+        marginHeight = 2
+        marginWidth = 2
+        height = 112
+        width = 72
+    }
+    children {
+        widget XmLabel {
+            flag {
+                mapped
+                gadget
+            }
+            resources {
+                labelType = pixmap
+                labelPixmap = xlogo64
+                x = 2
+                y = 2
+                height = 68
+                width = 68
+            }
+        } pixmap
+        widget XmLabel {
+            flag {
+                mapped
+                gadget
+            }
+            resources {
+                x = 2
+                y = 68
+                labelString = Window\
+System
+                fontList = *adobe-times-bold-i-*-18-*
+                height = 42
+                width = 68
+            }
+        } name
+    }
+} xlogo

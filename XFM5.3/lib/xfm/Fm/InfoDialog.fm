@@ -1,0 +1,32 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    resources {
+        x = 816
+        y = 77
+        width = 179
+        height = 101
+        allowShellResize = true
+    }
+    children {
+        widget XmMessageBox {
+            flag {
+                mapped
+            }
+            createproc {
+                UnmanageChild (MessageBoxGetChild (self,XmDIALOG_HELP_BUTTON));
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 179
+                height = 101
+                messageString = Information Here
+                textFontList = *helvetica-bold-r-*-12-*
+                dialogType = dialog_information
+                dialogStyle = dialog_modeless
+            }
+        } InfoDialog
+    }
+} MyInfoDialog

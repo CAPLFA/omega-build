@@ -1,0 +1,509 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 175
+        y = 177
+        width = 684
+        height = 595
+    }
+    children {
+        widget XmMainWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 684
+                height = 595
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    createproc {
+                        /* DO NOT EDIT THIS LINE */ self:menuHelpWidget = self.help;
+
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 684
+                        height = 31
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = New
+                                        mnemonic = N
+                                        activateCallback = extern function None newFolder();\
+newFolder();
+                                    }
+                                } new
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Open
+                                        mnemonic = O
+                                        activateCallback = show(parent.parent.parent.parent.xmDialogShell0.gotoDialog);
+                                    }
+                                } open
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Delete To Trash
+                                        accelerator = <Key>osfDelete
+                                        acceleratorText = Delete
+                                        mnemonic = D
+                                        activateCallback = extern function None deleteItem();\
+deleteItem();
+                                    }
+                                } deleteToTrash
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Exit
+                                        mnemonic = E
+                                        activateCallback = extern function None quitCB();\
+quitCB();
+                                    }
+                                } exit
+                            }
+                        } SelectedPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Selected
+                                mnemonic = S
+                                subMenuId = parent.SelectedPulldown
+                            }
+                        } Selected
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                                radioBehavior = False
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        menu_pulldown
+                                    }
+                                    children {
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                labelString = Large
+                                                mnemonic = L
+                                                activateCallback = function None fixViewerSize(Widget w, XtPointer p1, XtPointer p2);\
+parent.parent.parent.parent.xmForm0.sw.ClipWindow.container:layoutType = XmSPATIAL;\
+parent.parent.parent.parent.xmForm0.sw.ClipWindow.container:entryViewType = XmLARGE_ICON;\
+fixViewerSize(parent.parent.parent.parent.xmForm0.sw,XtPointer(0),XtPointer(0));\
+XmContainerRelayout(parent.parent.parent.parent.xmForm0.sw.ClipWindow.container);
+                                            }
+                                        } large
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                labelString = Small
+                                                mnemonic = S
+                                                activateCallback = parent.parent.parent.parent.xmForm0.sw.ClipWindow.container:layoutType = spatial;\
+parent.parent.parent.parent.xmForm0.sw.ClipWindow.container:entryViewType = small_icon;\
+fixViewerSize(parent.parent.parent.parent.xmForm0.sw,XtPointer(0),XtPointer(0));\
+XmContainerRelayout(parent.parent.parent.parent.xmForm0.sw.ClipWindow.container);
+                                            }
+                                        } small
+                                        widget XmPushButton {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                labelString = Detail
+                                                mnemonic = D
+                                                activateCallback = parent.parent.parent.parent.xmForm0.sw.ClipWindow.container:layoutType = detail;\
+parent.parent.parent.parent.xmForm0.sw.ClipWindow.container:entryViewType = small_icon;\
+fixViewerSize(parent.parent.parent.parent.xmForm0.sw,XtPointer(0),XtPointer(0));\
+XmContainerRelayout(parent.parent.parent.parent.xmForm0.sw.ClipWindow.container);
+                                            }
+                                        } detail
+                                    }
+                                } changeViewPulldown
+                                widget XmCascadeButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Change View
+                                        mnemonic = C
+                                        subMenuId = parent.parent.changeViewPulldown
+                                    }
+                                } changeView
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        indicatorType = n_of_many
+                                        visibleWhenOff = True
+                                        labelString = show_hidden
+                                        mnemonic = V
+                                        valueChangedCallback = extern function None showHiddenCB();
+                                    }
+                                } show_hidden
+                            }
+                        } viewPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = View
+                                mnemonic = V
+                                activateCallback = extern function None deleteItem();
+                                subMenuId = parent.viewPulldown
+                            }
+                        } view
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Overview
+                                        mnemonic = O
+                                        activateCallback = extern function None manageCB();
+                                    }
+                                } overview
+                            }
+                        } helpPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Help
+                                mnemonic = H
+                                subMenuId = parent.helpPulldown
+                            }
+                        } help
+                    }
+                } menuBar0
+                widget XmForm {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 0
+                        y = 31
+                        rubberPositioning = false
+                        resizePolicy = resize_any
+                        width = 684
+                        height = 564
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l0
+                                        mnemonic = V
+                                    }
+                                } l0
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l1
+                                        mnemonic = V
+                                    }
+                                } l1
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l2
+                                        mnemonic = V
+                                    }
+                                } l2
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l3
+                                        mnemonic = V
+                                    }
+                                } l3
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l4
+                                        mnemonic = V
+                                    }
+                                } l4
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l5
+                                        mnemonic = V
+                                    }
+                                } l5
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l6
+                                        mnemonic = V
+                                    }
+                                } l6
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l7
+                                        mnemonic = V
+                                    }
+                                } l7
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l8
+                                        mnemonic = V
+                                    }
+                                } l8
+                                widget XmPushButton {
+                                    flag {
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = l9
+                                        mnemonic = V
+                                    }
+                                } l9
+                                widget XmPushButton {
+                                    flag {
+                                        gadget
+                                    }
+                                    resources {
+                                        x = 2
+                                        y = 212
+                                        width = 86
+                                        height = 21
+                                        activateCallback = function None readdirCB(Widget w, XtPointer p1, XtPointer p2);\
+\
+readdirCB(self, $, XtPointer("/"));
+                                    }
+                                } lroot
+                            }
+                        } dirMenu
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                menu_option
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                subMenuId = parent.dirMenu
+                                leftAttachment = attach_form
+                                topAttachment = attach_form
+                                resizable = true
+                                width = 116
+                                height = 35
+                                labelString = Directory
+                            }
+                        } dirOM
+                        widget XmLabel {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 146
+                                y = 0
+                                width = 52
+                                height = 35
+                                leftAttachment = attach_widget
+                                leftWidget = dirOM
+                                leftOffset = 30
+                                topAttachment = attach_opposite_widget
+                                topOffset = 0
+                                topWidget = dirOM
+                                bottomAttachment = attach_opposite_widget
+                                bottomWidget = dirOM
+                            }
+                        } Where
+                        widget XmScrolledWindow {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 5
+                                y = 40
+                                width = 674
+                                height = 519
+                                leftAttachment = attach_form
+                                rightAttachment = attach_form
+                                topAttachment = attach_widget
+                                topWidget = dirOM
+                                topOffset = 5
+                                leftOffset = 5
+                                rightOffset = 5
+                                bottomAttachment = attach_form
+                                bottomOffset = 5
+                                scrollBarDisplayPolicy = static
+                                scrollingPolicy = automatic
+                                scrolledWindowMarginHeight = 5
+                                scrolledWindowMarginWidth = 5
+                            }
+                            children {
+                                widget XmContainer {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        detailColumnHeading = Filename,Owner,Permission,Size
+                                        detailColumnHeadingCount = 4
+                                        x = 0
+                                        y = 0
+                                        width = 1
+                                        height = 1
+                                        spatialIncludeModel = append
+                                        spatialStyle = grid
+                                        spatialResizeModel = grow_minor
+                                        spatialSnapModel = center
+                                        defaultActionCallback = extern function None selectCB();
+                                        outlineChangedCallback = extern function None outlineCB();
+                                    }
+                                } container
+                            }
+                        } sw
+                    }
+                } xmForm0
+            }
+        } xmMainWindow0
+        widget XmDialogShell {
+            flag {
+                popup
+            }
+            resources {
+                x = 486
+                y = 169
+                width = 305
+                height = 291
+            }
+            children {
+                widget XmSelectionBox {
+                    flag {
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 305
+                        height = 291
+                        dialogType = dialog_prompt
+                        selectionLabelString = Enter new directory
+                        okLabelString = Goto
+                        okCallback = readdirCB(self, self:textString,XtPointer(0));
+                    }
+                } gotoDialog
+            }
+        } xmDialogShell0
+    }
+} sessionShell0

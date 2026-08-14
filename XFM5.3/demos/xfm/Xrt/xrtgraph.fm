@@ -1,0 +1,424 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 248
+        y = 51
+        width = 407
+        height = 403
+        title = XRT/graph Example
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 407
+                height = 403
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = New Array
+                        marginHeight = 3
+                        marginWidth = 5
+                        fontList = *helvetica-bold-r-*-14-*
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 10
+                        bottomAttachment = attach_form
+                        bottomOffset = 10
+                        activateCallback = XrtDataHandle data_handle;\
+data_handle = XrtDataHandle(parent.graph:xrtData);\
+if (data_handle != NULL) {
+	parent.graph:xrtData = NULL;
+	XrtDataDestroy (data_handle);\
+}\
+s = parent.set:value;\
+n = atoi (s);\
+free (s);\
+if (n < 1)
+	 n = 1;\
+parent.graph:xrtData = XrtData(XrtDataCreate (XRT_DATA_ARRAY, n, 0));
+                    }
+                } array
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = New General
+                        marginHeight = 3
+                        marginWidth = 5
+                        fontList = *helvetica-bold-r-*-14-*
+                        topAttachment = attach_opposite_widget
+                        topWidget = array
+                        leftAttachment = attach_widget
+                        leftOffset = 10
+                        leftWidget = array
+                        activateCallback = XrtDataHandle data_handle;\
+data_handle = XrtDataHandle(parent.graph:xrtData);\
+if (data_handle != NULL) {
+	parent.graph:xrtData = NULL;
+	XrtDataDestroy (data_handle);\
+}\
+s = parent.set:value;\
+n = atoi (s);\
+free (s);\
+if (n < 1)
+	 n = 1;\
+parent.graph:xrtData = XrtData(XrtDataCreate (XRT_DATA_GENERAL, n, 0));
+                    }
+                } general
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = Draw
+                        marginHeight = 3
+                        marginWidth = 5
+                        fontList = *helvetica-bold-r-*-14-*
+                        topAttachment = attach_opposite_widget
+                        topWidget = array
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        rightOffset = 10
+                        activateCallback = XrtResetDefaultPS() ; XrtFmDrawPS (parent.graph,"xrtoutput.ps",True);
+                    }
+                } draw
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = Save
+                        marginHeight = 3
+                        marginWidth = 5
+                        fontList = *helvetica-bold-r-*-14-*
+                        topAttachment = attach_opposite_widget
+                        topWidget = array
+                        leftAttachment = attach_none
+                        rightAttachment = attach_widget
+                        rightOffset = 10
+                        rightWidget = draw
+                        activateCallback = XrtDataHandleOutputData (XrtDataHandle(parent.graph:xrtData),"outputdata",True);
+                    }
+                } save
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 10
+                        bottomWidget = array
+                    }
+                } sep
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = Add
+                        marginHeight = 1
+                        marginWidth = 3
+                        fontList = *helvetica-bold-r-*-12-*
+                        topAttachment = attach_none
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        rightOffset = 10
+                        bottomAttachment = attach_widget
+                        bottomOffset = 13
+                        bottomWidget = sep
+                        activateCallback = s = parent.x:value;\
+x = ConvertString (parent.graph,s,"Float");\
+free (s);\
+XrtDataHandle data_handle;\
+data_handle = XrtDataHandle(parent.graph:xrtData);\
+if (XrtDataGetType (data_handle) == XRT_DATA_ARRAY) {
+	s = parent.y:value;\
+	y = ConvertString (parent.graph,s,"Float");\
+	free (s);\
+	Float the_y [Int];\
+	the_y = new_array();\
+	Int i;\
+	for (i = 0 ; i < XrtDataGetNSets(data_handle) ; i = i + 1 )
+		the_y [i] = y;\
+	if (!XrtArrDataAppendPts (data_handle,Float(x),FloatTable(data(the_y))))
+		printf ("failed\n");\
+	destroy(the_y);\
+} else {
+	s = parent.set:value;\
+	n = atoi(s);\
+	free (s);\
+	s = parent.y:value;\
+	y = ConvertString (parent.graph,s,"Float");\
+	free (s);\
+	if (!XrtGenDataAppendPt (data_handle,n,Float(x),Float(y)))
+		printf ("failed\n");\
+}\
+parent.graph:xrtData = XrtData(data_handle);\
+parent.x:value = "";\
+parent.y:value = "";
+                    }
+                } add
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = set:
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 10
+                        bottomAttachment = attach_widget
+                        bottomWidget = sep
+                        bottomOffset = 15
+                        fontList = *charter-medium-r-*-15-*
+                    }
+                } setLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_widget
+                        leftWidget = setLabel
+                        leftOffset = 3
+                        rightAttachment = attach_position
+                        rightOffset = 10
+                        rightPosition = 20
+                        bottomAttachment = attach_widget
+                        bottomWidget = sep
+                        bottomOffset = 10
+                        fontList = *courier-medium-r-*-12-*
+                    }
+                } set
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = x:
+                        topAttachment = attach_none
+                        leftAttachment = attach_position
+                        leftOffset = 10
+                        leftPosition = 20
+                        bottomAttachment = attach_widget
+                        bottomWidget = sep
+                        bottomOffset = 15
+                        fontList = *charter-medium-r-*-15-*
+                    }
+                } xLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_widget
+                        leftWidget = xLabel
+                        leftOffset = 3
+                        rightAttachment = attach_position
+                        rightOffset = 5
+                        rightPosition = 50
+                        bottomAttachment = attach_widget
+                        bottomWidget = sep
+                        bottomOffset = 10
+                        fontList = *courier-medium-r-*-12-*
+                    }
+                } x
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = y:
+                        topAttachment = attach_none
+                        leftAttachment = attach_position
+                        leftOffset = 5
+                        leftPosition = 50
+                        bottomAttachment = attach_widget
+                        bottomWidget = sep
+                        bottomOffset = 15
+                        fontList = *charter-medium-r-*-15-*
+                    }
+                } yLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_widget
+                        leftOffset = 3
+                        leftWidget = yLabel
+                        rightAttachment = attach_widget
+                        rightOffset = 10
+                        rightWidget = add
+                        bottomAttachment = attach_widget
+                        bottomWidget = sep
+                        bottomOffset = 10
+                        fontList = *courier-medium-r-*-12-*
+                    }
+                } y
+                widget XtXrtGraph {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    createproc {
+                        global text;\
+global handle;\
+global text_visible;\
+text = 0;\
+handle = 0;\
+text_visible = 0;
+                    }
+                    resources {
+                        xrtYMax = 400.00
+                        xrtYMin = 0
+                        xrtXPrecision = 0
+                        xrtXNum = 1
+                        xrtYNum = 100.00
+                        xrtYTick = 20
+                        topAttachment = attach_form
+                        topOffset = 10
+                        leftAttachment = attach_form
+                        leftOffset = 10
+                        rightAttachment = attach_form
+                        rightOffset = 10
+                        bottomAttachment = attach_widget
+                        bottomOffset = 10
+                        bottomWidget = x
+                        shadowThickness = 0
+                        xrtGraphBorder = Border3dIn
+                        translations = #override\
+<Btn1Down> : eval("global grabbed;
+	global movingset;
+	global movingpoint;
+	where = XrtPickEvent (self,XRT_DATASET1,$,XrtPickResult (0),XRT_POINTFOCUS);
+	if (where == XRT_RGN_IN_GRAPH && XrtPickDistance (XrtPickResult (0)) < 5) {
+		if (FmGrabPointer (self,True,True,'crosshair',$) == GrabSuccess) {
+			grabbed = True;
+			movingset = XrtPickSet (XrtPickResult (0));
+			movingpoint = XrtPickPoint (XrtPickResult (0));
+		}
+	}\n")\
+<Btn1Up> : eval("global grabbed;
+	global movingset;
+	global movingpoint;
+	if (grabbed) {
+		FmUngrabPointer (self,$);
+		grabbed = False;
+		where = XrtMapEvent (self,XRT_DATASET1,$,XrtMapResult (0));
+		if (where == XRT_RGN_IN_GRAPH) {
+			XrtDataHandle data_handle = XrtDataHandle(self:xrtData);
+			if (XrtDataHandleSetPoint (data_handle,movingset,movingpoint,
+					 XrtMapXValue (XrtMapResult (0)),
+					 XrtMapYValue (XrtMapResult (0))))
+				self:xrtData = XrtData(data_handle);
+		}
+	}
+	")\
+<Btn3Down> : eval("global Boolean text_visible;
+	global XrtTextHandle text_handle;
+	if (text_handle == 0) {
+		text_handle = XrtTextAreaCreate(self);
+		String the_strings[Int];
+		the_strings = new_array();
+		the_strings[0] = 'Set this text';
+		the_strings[1] = 'with Button 3';
+		the_strings[3] = NULL;
+		XrtProperty prop;
+		XrtTextAreaSetValues(text_handle, XRT_TEXT_STRINGS, data(the_strings), NULL);
+		destroy(the_strings);
+	}
+	r = XrtPickEvent (self,XRT_DATASET1,$,XrtPickResult(0),XRT_POINTFOCUS);
+	if (r == XRT_RGN_IN_GRAPH && XrtPickDistance (XrtPickResult (0)) <= 5) {
+		XrtTextAreaSetValues(text_handle, 
+				XRT_TEXT_ATTACH_TYPE, XRT_TEXT_ATTACH_DATA, 
+				XRT_TEXT_ATTACH_DATASET, XRT_DATASET1, 
+				XRT_TEXT_ATTACH_SET, XrtPickSet (XrtPickResult (0)), 
+				XRT_TEXT_ATTACH_POINT, XrtPickPoint (XrtPickResult (0)), 
+				NULL);
+		if (!text_visible) {
+			text_visible = True;
+			XrtTextAreaSetValues(text_handle, XRT_TEXT_IS_SHOWING, text_visible, NULL);
+		}
+	} else {
+		if (text_visible) {
+			text_visible = False;
+			XrtTextAreaSetValues(text_handle, XRT_TEXT_IS_SHOWING, text_visible, NULL);
+		}
+	}
+	
+	")\
+<Btn1Motion> : eval("global grabbed;
+	global movingset;
+	global movingpoint;
+	if (grabbed) {
+		where = XrtMapEvent (self,XRT_DATASET1, $, XrtMapResult (0));
+		if (where == XRT_RGN_IN_GRAPH) {
+			XrtDataHandle data_handle = XrtDataHandle(self:xrtData);
+			if (XrtDataHandleSetPoint (data_handle, movingset, movingpoint,
+					 XrtMapXValue (XrtMapResult (0)),
+					 XrtMapYValue (XrtMapResult (0))))
+				self:xrtData = XrtData(data_handle);
+		}
+	}
+	")
+                        xrtData = xrtgraph.data
+                        xrtXTick = 1
+                    }
+                } graph
+            }
+        } XmForm0
+    }
+} ApplicationShell1

@@ -1,0 +1,10 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- IBM RS/6000 AIX V3.2 configuration.
+#
+
+        CC = xlc
+
+SYS_CFLAGS = -D_ALL_SOURCE -Dibm -Daixv3 -qnoro
+

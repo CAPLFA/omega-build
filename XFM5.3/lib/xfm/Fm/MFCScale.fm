@@ -1,0 +1,528 @@
+widget XmScale {
+    flag {
+    }
+    resources {
+    }
+    activevalue {
+        name = value
+        get = @ = scrollbar:value;
+        set = 
+		scrollbar:value = @;
+		function None _FmWinShowScaleValue(Int v, Widget label, Int dp)
+		{
+			String s;
+			if(dp <= 0){
+				s = itoa(v);
+			} else {
+				Int p = 1;
+				Int dp;
+				for(i = 0; i < dp; i = i+1)
+					p = p * 10;
+				Int l = v / p;
+				Int r = v - (l * p);
+				s = XtMalloc(100);
+				if(l == 0)
+					sprintf(s, ".%0*d", dp, r);
+				else
+					sprintf(s, "%d.%0*d", l, dp, r);
+			}
+			label:labelString = s;
+			XtFree(s);
+		}
+		_FmWinShowScaleValue(@, self.label, self:decimalPoints);
+        type = Int
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = minimum
+        get = @ = scrollbar:minimum;
+        set = scrollbar:minimum = @;
+        type = Int
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = maximum
+        get = @ = scrollbar:maximum;
+        set = scrollbar:maximum = @;
+        type = Int
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = titleString
+        set = 
+		String s;
+		if(@)
+			s = FmGetString(@);
+		else
+			s = String(0);
+		if(s && strcmp(s, "") != 0){
+			title:labelString = @;
+			XtManageChild(self.title);
+			if(scrollbar:orientation == XmVERTICAL){
+				scrollbar:rightAttachment = XmATTACH_WIDGET;
+				scrollbar:rightWidget = self.title;
+			} else {
+				scrollbar:bottomAttachment = XmATTACH_WIDGET;
+				scrollbar:bottomWidget = self.title;
+			}
+		} else {
+			XtUnmanageChild(self.title);
+			if(scrollbar:orientation == XmVERTICAL){
+				scrollbar:rightAttachment = XmATTACH_FORM;
+			} else {
+				scrollbar:bottomAttachment = XmATTACH_FORM;
+			}
+		}
+		if(s)
+			XtFree(s);
+        type = XmString
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = MFC_PR_titleString
+        get = script get_MFCScale_MFC_R_titleString:
+		FacePragma("ignore");
+		XmString xms = self:titleString;
+		if(xms){
+			String s = FmGetString(xms);
+			XmStringFree(xms);
+			@ = _FmWinQuoteString(s);
+			XtFree(s);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = showValue
+        set = 
+		if(@){
+			XtManageChild(self.label);
+		} else {
+			XtUnmanageChild(self.label);
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = MFC_PR_showValue
+        get = script get_MFCScale_MFC_R_showValue:
+		FacePragma("ignore");
+		if(self:showValue)
+			@ = "True";
+		else
+			@ = "False";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = decimalPoints
+        set = self:value = self:value;
+        type = Int
+        storage = object
+        automatic = true
+    }
+    activevalue {
+        name = MFC_PR_decimalPoints
+        get = script get_MFCScale_MFC_R_decimalPoints:
+		FacePragma("ignore");
+		Int dp = self:decimalPoints;
+		if(dp > 0)
+			@ = itoa(dp);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_dragCallback
+        get = script get_MFCScale_MFC_R_dragCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "dragCallback")){
+			@ = "dragCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_valueChangedCallback
+        get = script get_MFCScale_MFC_R_valueChangedCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "valueChangedCallback")){
+			@ = "valueChangedCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+    children {
+        widget XmLabel {
+            flag {
+            }
+            createproc {
+                FacePragma("ignore");
+		XmString s = parent:titleString;
+		if(s){
+			self:labelString = s;
+			XmStringFree(s);
+		}
+            }
+            activevalue {
+                name = MFC_A_topAttachment
+                get = script get_MFCScale_title_MFC_A_topAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_bottomAttachment
+                get = script get_MFCScale_title_MFC_A_bottomAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_leftAttachment
+                get = script get_MFCScale_title_MFC_A_leftAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_rightAttachment
+                get = script get_MFCScale_title_MFC_A_rightAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_R_foreground
+                get = script get_MFCScale_MFC_R_foreground:
+	FacePragma("ignore");
+	String colorname = _FmGetNonDefaultResourceValue(parent, "foreground");
+	if(colorname && strcmp(colorname, "")){
+		@ = _FmWinQuoteString(colorname);
+	}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_R_background
+                get = script get_MFCScale_MFC_R_background:
+	FacePragma("ignore");
+	String colorname = _FmGetNonDefaultResourceValue(parent, "background");
+	if(colorname && strcmp(colorname, "")){
+		@ = _FmWinQuoteString(colorname);
+	}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            resources {
+            }
+            templates {
+                MFCStatic = Fm/MFCStatic.fm
+            }
+        } title
+        widget XmScrollBar {
+            flag {
+                mapped
+            }
+            createproc {
+                FacePragma("ignore");
+		self:orientation = parent:orientation;
+		FaceSetValues(self, 3,
+			"minimum", parent:minimum,
+			"maximum", parent:maximum,
+			"value", parent:value);
+            }
+            activevalue {
+                name = MFC_W
+                get = script get_MFCScale_MFC_W:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = 15;
+			else
+				@ = atoi(_FmGetWidgetResourceValue(self, "width"));
+                type = Int
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_H
+                get = script get_MFCScale_MFC_H:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = 15;
+			else
+				@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+                type = Int
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_topAttachment
+                get = script get_MFCScale_sb_MFC_A_topAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_bottomAttachment
+                get = script get_MFCScale_sb_MFC_A_bottomAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL
+			&& parent:titleString){
+				@ = "XmATTACH_WIDGET";
+			} else {
+				@ = "XmATTACH_FORM";
+			}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_bottomWidget
+                get = script get_MFCScale_sb_MFC_A_bottomWidget:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL
+			&& parent:titleString){
+				@ = "title";
+			}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_leftAttachment
+                get = script get_MFCScale_sb_MFC_A_leftAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_rightAttachment
+                get = script get_MFCScale_sb_MFC_A_rightAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL
+			&& parent:titleString){
+				@ = "XmATTACH_WIDGET";
+			} else {
+				@ = "XmATTACH_FORM";
+			}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_rightWidget
+                get = script get_MFCScale_sb_MFC_A_rightWidget:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL
+			&& parent:titleString){
+				@ = "title";
+			}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            resources {
+                dragCallback = 
+	_FmWinShowScaleValue(self:value, parent.label, parent:decimalPoints);
+	XtCallCallbacks(parent, "dragCallback", $);
+                valueChangedCallback =
+	_FmWinShowScaleValue(self:value, parent.label, parent:decimalPoints);
+	XtCallCallbacks(parent, "valueChangedCallback", $);
+            }
+            templates {
+                MFCScrollBar = Fm/MFCScrollBar.fm
+            }
+        } scrollbar
+        widget XmLabel {
+            flag {
+                mapped
+            }
+            createproc {
+                FacePragma("ignore");
+		self:labelString = "0000";
+		self:recomputeSize = False;
+		_FmWinShowScaleValue(parent.scrollbar:value, self, parent:decimalPoints);
+            }
+            activevalue {
+                name = MFC_A_topAttachment
+                get = script get_MFCScale_label_MFC_A_topAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_bottomAttachment
+                get = script get_MFCScale_label_MFC_A_bottomAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = "XmATTACH_WIDGET";
+			else
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_leftAttachment
+                get = script get_MFCScale_label_MFC_A_leftAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_rightAttachment
+                get = script get_MFCScale_label_MFC_A_rightAttachment:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = "XmATTACH_WIDGET";
+			else
+				@ = "XmATTACH_FORM";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_bottomWidget
+                get = script get_MFCScale_label_MFC_A_bottomWidget:
+			FacePragma("ignore");
+			if(parent:orientation == XmHORIZONTAL)
+				@ = "scrollbar";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_A_rightWidget
+                get = script get_MFCScale_label_MFC_A_rightWidget:
+			FacePragma("ignore");
+			if(parent:orientation == XmVERTICAL)
+				@ = "scrollbar";
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_R_foreground
+                get = script get_MFCScale_MFC_R_foreground:
+	FacePragma("ignore");
+	String colorname = _FmGetNonDefaultResourceValue(parent, "foreground");
+	if(colorname && strcmp(colorname, "")){
+		@ = _FmWinQuoteString(colorname);
+	}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            activevalue {
+                name = MFC_R_background
+                get = script get_MFCScale_MFC_R_background:
+	FacePragma("ignore");
+	String colorname = _FmGetNonDefaultResourceValue(parent, "background");
+	if(colorname && strcmp(colorname, "")){
+		@ = _FmWinQuoteString(colorname);
+	}
+                type = String
+                storage = object
+                automatic = true
+                autoget = true
+                genvalue = true
+            }
+            resources {
+            }
+            templates {
+                MFCStatic = Fm/MFCStatic.fm
+            }
+        } label
+    }
+} scale

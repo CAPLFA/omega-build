@@ -1,0 +1,510 @@
+Resource List
+	The resources of the selected widget and their values are
+	listed here.
+	
+	You can control the way resources are listed with the `Sort'
+	button (see Help/Resource Sort).
+	
+	You can use a `pretty' resource list which displays resources
+	with pretty fonts and icons, or a `fast' resource list which
+	uses fixed width fonts and characters instead of icons.
+	See `Help/On List Icons...' for an explanation on the various
+	resource icons.
+	
+	Selecting a line in the list moves a text field on top of the
+	value. You can edit the resource value in this text field, or
+	use the `...' button on the right (or double-click in the
+	resource name) to pop an appropriate resource
+	editor (see Help/On Specialized Resource Editors).
+	
+	Typing Return in the text field of the current resource activates
+	the `Set Values' button, except if the value is empty in which
+	case the `Rebuild' button is activated.
+	
+Apply Options
+	This box lets you choose how the resources set for the widget
+	in the resource list will be applied.
+	
+	
+	- `Apply' lets you select which resources will be applied:
+	
+	--- `all resources' applies all set resources (i.e. resources
+	for which a value was specified by the user, not only
+	resources that have been modified since the last apply),
+	
+	--- `selected resources' applies only resources that are
+	selected in the resource list;
+	
+	- `by' lets you select how the resources will be applied:
+	
+	--- `re-creating widgets' destroys and re-creates widgets
+	with the new resource values,
+	
+	--- `setting values' calls XtSetValues to apply new resource
+	values;
+	
+	- `to' selects which widgets the resources will be applied
+	to:
+	
+	--- `self' applies only to the widget edited in this
+	resource window,
+	
+	--- `selected widgets' applies to all currently selected
+	widgets,
+	
+	--- `selected sub-tree' applies to the currently selected
+	widget and all its descendants.
+	
+	
+	Once you have selected the desired options, click `OK'
+	to apply the resources. Click `Cancel' to unmap the
+	window without applying resources.
+	
+	NOTE: Clicking the `Rebuild' button is equivalent to 
+	clicking `...' and clicking `OK'. Clicking the `Set Values'
+	button is equivalent to clicking `...', selecting
+	`setting values' and clicking `OK'.
+
+Resource Sort
+	The `Sort' button displays a sub-window with which you can
+	control the way resources are displayed in the resource list.
+	
+	
+	The `Preferred Resources' area is a list of resources that
+	will be displayed at the top of the resource list, You can enter
+	either resource names or resource types (e.g. XmString). If
+	the `Show only preferred resources' toggle is set, only these
+	resources will be displayed in the list.
+	
+	
+	The `Sort Order' area lets you choose the order in which
+	resources are sorted:
+	
+	- `alphabetical' sorts resources in alphabetical order,
+	
+	- `by subclass' sorts resources inherited from superclasses
+	first, starting from Core down to the widget's class.
+	
+	- `by superclass' sorts resources defined by subclasses first,
+	starting from the widget's class down to Core.
+	
+	
+	The next toggles let you place XFaceMaker resources (i.e. the
+	xfmCreateCallback) at the top or at the bottom of the list.
+	
+	Similarly, you can place XFaceMaker active values at the top
+	or at the bottom.
+	
+	
+	If `Gather set resources' is checked, the resources that you
+	modified will be placed at the top of the list.
+	
+	If `Show template resources' is checked, resources inherited
+	from templates (and not modified) will be displayed, otherwise
+	they will be hidden.
+	
+	If `Show restricted resources' is checked, resources that are
+	not valid or that you may not modify using XFaceMaker will
+	be displayed, otherwise they will be hidden.
+	
+	
+	The `OK' button applies the changes you have made to this
+	resource list.
+	
+	The `Cancel' button goes back to the list
+	without changing the sorting policy.
+	
+	The `Set Default' button makes the choices currently displayed
+	the default sort options for other resource windows that you
+	will open later.
+	
+	The `Help' button displays this text.
+	
+	
+	The resource list sorting options are saved to the .xfm.startup
+	file when you use the `File/Save Prefs' command.
+
+Specialized Resource Editors
+	
+	XFaceMaker provides specialized dialog boxes to edit
+	many types of widget resources more efficiently.
+	Standard specialized editors include a color editor,
+	a font editor, a translation table editor, an enumeration
+	editor, and many others. Specialized editors can be
+	defined by the user (as a .fm file) and added to a
+	customized version of XFaceMaker using the FmAddResourceType
+	function (see the documentation).
+	
+	Specialized editors are displayed by clicking in the `...'
+	button at the right of the current resource, or by
+	double-clicking in the resource name.
+	
+	Once an editor is popped, you can edit the value using
+	the appropriate controls. For details on a particular
+	editor, click in the `Help' button when this editor is
+	mapped.
+	
+	Once you are done editing the resource value, click `OK'
+	to apply the resource change. The `OK' button records the
+	new resource value, unmaps the editor (i.e. goes back to
+	the resource list) and rebuilds the widget.
+	
+	You can also use the `Rebuild' and `Set Values' buttons,
+	which have the same effect as when the resource list is
+	displayed (see `Help/On Window...'). These buttons do
+	not unmap the editor (i.e. do no go back to the list):
+	they are useful to see the effect of a resource change
+	while continuing to edit the resource.
+	
+	The `Set' button records the new resource value in the
+	resource list and unmaps the editor, but does not apply
+	the change to the widget: you must do a `Rebuild' or a
+	`Set Values' later to apply changes. This is useful to
+	set several resources which must be applied simultaneoulsy.
+	
+	The `Cancel' button unmaps the editor and goes back to the
+	list without changing any resource value.
+	
+	The `Help' button displays help on the editor currently
+	displayed.
+	
+	Additional buttons may appear depending on the editor
+	displayed. For example, for String resources, a `GLS'
+	button lets you add the XFaceMaker internationalization
+	prefix to the string.
+
+Textual Resource Editor
+	The textual Resource Editor lets you examine and edit
+	the resources of the widget in a purely textual form.
+	To map the textual Editor, click in the `Edit' button
+	at the bottom of the resource window. Afterwards, click
+	in `List' to go back to the resource list.
+	
+	The textual resource editor is useful to see
+	a summary of the resources set so far. It can also be
+	used by experimented users to quickly edit
+	resource values.
+	
+	In this editor, each resource is specified with the format
+	`name = value'. If `value' is a multi-line value, line
+	breaks must be escaped by backslash (\) characters, or
+	the first character of the next line must be a Tab. In
+	other words, values end just before the first newline
+	character not followed by a Tab and not preceeded by a
+	backslash.
+	
+	The `Custom Editor' button above the text lets you call
+	your favorite text editor to modify the resources. The
+	resources will be transferred to the editor, where they
+	can be edited. Every time you save your work, the resources
+	are transferred back to the XFaceMaker window. You can
+	choose the editor you want to use by setting the
+	FMEDITOR environment variable using the Environment box
+	of XFaceMaker. For example, set FMEDITOR to `vi' to use
+	vi, or to `wx242' to use NSL's X11 editor Wx 2.4.2 or
+	later.
+	
+	The use of this editor is not recommended to new users
+	because it
+	is easy to make mistakes while typing multi-line resources.
+	If you forget a continuation character, the beginning
+	of the next line will be considered as a new resource
+	and will be listed as a `non-existing' resource in the
+	resource list. If you think part of your resource has
+	disappeared, make sure the `Show restricted resources'
+	toggle is set so that erroneous resources are not hidden
+	by XFaceMaker.
+	
+Attachment Resource Editor
+	The Attachment Editor helps you set the attachment resources for
+	the children of a Form widget. It can be popped by clicking on
+	the `...' button in any of the attachment contraint resources
+	for a child of a Form widget. It can also be popped directly
+	using the command `Edit/Attachments'.
+	
+	There are basically 2 ways you can use this editor:
+	
+	1. You can use the arrows on the left of the editor. To use the arrows,
+	do the following:
+	
+	- set the `position' toggle if you want the widget to be attached by position,
+	otherwise set any other toggle in the same radio box;
+	
+	- unset the `no offset' toggle if you want XFaceMaker to automatically set
+	the offset so that the widget stays at its present position, otherwise set it;
+	
+	- click on the arrow corresponding to the direction for which you want to define
+	the attachment;
+	
+	- if you have set the `position' toggle, XFaceMaker attaches the widget to its
+	present position; otherwise, the cursor changes to a question arrow, and you can
+	select the widget to which you want to attach the current widget (thsi can be either
+	the parent Form an a sibling of the widget): XFaceMaker sets the attachment resources
+	according to your choice.
+	
+	2. You can use only the buttons and fields on the left, and then click on `Apply'
+	at the bottom of the editor to apply your choices. When appropriate, the `offset'
+	and `position' fields are automatically updated according to the current widget
+	position.
+	
+	The button at the middle of the arrow pad can be used to select another direction
+	for which you want to edit attachments: click on the button, then on the arrow
+	corresponding to the new direction.
+
+String Resource Editor
+	The specialized String resource editor lets you edit resources of type String, or
+	resources for which there is no special editor. It is
+	also popped to edit Callback resources: in that case,
+	you can type a FACE script which will be called by the
+	callback.
+	
+	You can type multi-line values without escaping line
+	breaks: this will be done automatically by XFaceMaker.
+	
+	The `Custom Editor' button above the text lets you call
+	your favorite text editor to modify the resources. The
+	resources will be transferred to the editor, where they
+	can be edited. Every time you save your work, the resources
+	are transferred back to the XFaceMaker window. You can
+	choose the editor you want to use by setting the
+	FMEDITOR environment variable using the Environment box
+	of XFaceMaker. For example, set FMEDITOR to `vi' to use
+	vi, or to `wx242' to use NSL's X11 editor Wx 2.4.2 or
+	later.
+	
+	If you are editing a callback, a `Select' button appears
+	at the bottom of the window. When clicked, it allows you
+	to select a widget in your interface, in the widget tree
+	or in the widget list. The path of the selected widget
+	will be inserted in the text.
+	
+	A `GLS'	button lets you add the XFaceMaker internationalization
+	prefix to the string.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+	
+Color Resource Editor
+	The specialized Colors resource editor lets you edit resources of type Pixel.
+	
+	On black and white screens, you can choose either
+	`Black' or `White' using toggles.
+	
+	On color screens, you can choose a color from the palette
+	by clicking on
+	a small square, or click the `RGB...' button and define
+	your own color using either Red/Green/Blue or
+	Hue/Saturation/Value components.
+	
+	The palette displays the colors contained in the file
+	`.xfm.colors' in XFaceMaker's library directory,
+	in your home directory or in the current directory. You
+	can change the colors you want displayed in the palette
+	by editing the file. Note that the colors displayed in
+	the palette are approximated using a dithering algorithm,
+	so as not to use too many colormap entries. To see the
+	actual color, select the square in the palette and click
+	the `RGB' button.
+	
+	If you define a new color, XFaceMaker will ask you if
+	you want to save it to a .xfm.colors file. This file
+	will be read the next time you launch XFaceMaker, and
+	the new color will be added to the palette automatically.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+	
+Integer Resource Editor
+	The specialized Integer resource editor lets you edit integer resources.
+	
+	Use the scrollbar to define the value. The minimum
+	and maximum values can be changed by clicking in the
+	buttons in which they are displayed: the left mouse
+	button divides the value by ten, the right mouse button
+	multiplies the value by ten.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Boolean Resource Editor
+	The specialized Boolean resource editor lets you edit boolean resources.
+	
+	Click `True' or `False'.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Enumeration Resource Editor
+	The specialized Enumeration resource editor lets you edit enumerated resources, i.e
+	resources accepting a fixed set of scalar values.
+	
+	The choices are displayed in a list, with the current
+	setting highlighted. You can select another choice and
+	click `Rebuild' or `Set Values'. You can also double-click
+	on a choice, which activates the `Rebuild' button.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Font Resource Editor
+	The specialized Font resource editor lets you edit font resources.
+	
+	The font editor lets you select a font name conforming
+	to the X Logical Font Description format by choosing
+	the font family, weight, style, and size. When you select
+	a font family, the weight, style and size menus are
+	filled automatically with the available choices for that
+	family. Note that the foundry names are listed together
+	with the family names.
+	
+	You can also choose a font name not conforming to the
+	XLFD format using the `Miscellaneous Fonts' list on the
+	right.
+	
+	An example of the currently selected font is displayed
+	in a text field at the bottom of the editor. If you
+	selected an invalid combination, a warning message is
+	displayed instead of the font sample.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Image Resource Editor
+	The specialized Image resource editor lets you edit Pixmap and Bitmap resources.
+	
+	You can select an image in one of three ways:
+	
+	- You can select a predefined bitmap from the scrolled
+	area on the right, which displays bitmaps contained in
+	the directory /usr/include/X11/bitmaps.
+	
+	- You can load a file using the `Open...' button.
+	You can select either a bitmap (.bm) file, or a color
+	Pixmap file in the X Window Dump (XWD) format.
+	
+	- You can draw an image yourself using the ImageEdit
+	widget, which lets you draw in free-hand mode or define
+	simple geometric objects. You can select the current color
+	with an option menu.
+	
+	In all cases, the selected image is displayed in the
+	ImageEdit widget and also in a sample field at the bottom
+	right of the editor.
+	
+	You can save modified images using the `Save...' button.
+	The image will be saved in bitmap format if it contains
+	only two colors. Otherwise, it will be saved in XWD format.
+	
+	The `New' button creates a new blank image that you can
+	edit. You must enter the size of the image in the `width'
+	and `height' fields before using the `New' button.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Translations Resource Editor
+	The specialized Translations resource editor lets you edit translation tables.
+	
+	The `Translation Table' list displays the translations
+	currently defined. Note that the X Toolkit provides no
+	mechanism for printing an existing translation table, so
+	XFaceMaker cannot display the default value of a translation
+	table, but only a value that has been defined previously
+	using XFaceMaker.
+	
+	To edit a particular translation, select a line in the
+	list: the translation is displayed in the `Translation'
+	text field. You can edit it manually, or use the `Event
+	type' and `Actions' lists at the bottom to select another
+	event type or action. If you select the `Eval...' action,
+	a text editor pops up and lets you enter a FACE script
+	that will be executed instead of a predefined action.
+	The `eval' action lets you define complex actions inside
+	XFaceMaker. The event parameter passed to the action
+	is available through the `$' parameter of the FACE script.
+	
+	You can `show' the details of the event to XFaceMaker
+	using the keyboard/mouse icon. For example, to specify
+	the event `Ctrl<ButtonPress>Button2':
+	
+	- select `ButtonPress' in the `Event type' list,
+	
+	- click the mouse button 2 in the keyboard/mouse icon while
+	holding the Control key: the desired event is replaced
+	in the edited translation.
+	
+	To specify a key press event, you must first move the
+	keyboard focus to the keyboard/mouse icon, by clicking
+	in it for instance.
+	
+	The `Add' button adds the translation to the table. If the
+	same event if already present, the translation is replaced.
+	
+	The `Replace' button replaces the currently selected translation
+	by the edited translation.
+	
+	The `Delete' button deletes the selected translation.
+	
+	The `override', `augment' and `replace' toggles insert
+	the `#override', `#augment' or `#replace' keyword
+	respectively at the beginning of the translation table.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+	
+Float Resource Editor
+	The specialized Float resource editor lets you edit
+	floating-point resources.
+	
+	A scale widget lets you define the value between a
+	minimum and maximum value. The minimum and maximum can
+	be changed using the arrows at each side of the text
+	field. The left arrow divides the value by 10, the right
+	arrow multiplies the value by 10.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Table Resource Editor
+	The specialized Table resource editor lets you edit resources which accept arrays
+	of values, for example the items of a list.
+	
+	The list displays the elements of the list. Select
+	an element of the list to edit it in the text field
+	below. You can also type a new value to add it to the
+	list.
+	
+	If a specialized editor is available for the list items,
+	a `...' button appears at the right of the text field.
+	Clicking in this `...' button pops the specialized editor.
+	Clicking `OK' in the editor inserts the value in the
+	table editor's text field.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.
+
+Widget Resource Editor
+	The specialized Widget resource editor lets you edit resources pointing to other
+	widgets.
+	
+	You can type the path of the widget using the FACE script
+	syntax (e.g. parent.filePulldown), or simply the name
+	of a widget which is then assumed to be a sibling widget,
+	for example `filePulldown'.
+	
+	The `Select' button lets you select a widget in the interface
+	or in the widget tree with the mouse.
+	
+	For a general help on how to use specialized resource
+	editors, go back to the resource list (e.g. click `Cancel')
+	and see `Help/On Specialized Editors'.

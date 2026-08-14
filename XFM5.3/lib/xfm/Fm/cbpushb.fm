@@ -1,0 +1,19 @@
+widget XmPushButton {
+    flag {
+        autosize
+        autopos
+        gadget
+    }
+    activevalue {
+        name = _FmCallbackPushButton
+        set = xms = XmStringCreateSimple($);\
+self:labelString = xms;\
+XmStringFree (xms);
+    }
+    resources {
+        marginHeight = 1
+        marginWidth = 3
+        activateCallback = _FmResourceListEditName (toplevel,XtName(self));\
+XtCallCallbacks (parent.parent.parent:@listDots,"activateCallback",0);
+    }
+} tktoggle

@@ -1,0 +1,367 @@
+widget XmRowColumn {
+    flag {
+        menu_bar
+    }
+    createproc {
+        self:menuHelpWidget=MenuWidget(self.HelpButton);
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 375
+        height = 33
+        topAttachment = attach_form
+        leftAttachment = attach_form
+        rightAttachment = attach_form
+    }
+    children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_pulldown
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 92
+                height = 102
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 82
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = O
+                        labelString = Open . . .
+                    }
+                } Open
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 28
+                        width = 82
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = S
+                        labelString = Save
+                    }
+                } Save
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 51
+                        width = 82
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = A
+                        labelString = Save As . . .
+                    }
+                } SaveAs
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        x = 5
+                        y = 74
+                        width = 82
+                        height = 23
+                        mnemonic = E
+                    }
+                } Exit
+            }
+        } PulldownMenu0
+        widget XmCascadeButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 5
+                y = 5
+                width = 36
+                height = 23
+                subMenuId = parent.PulldownMenu0
+                labelString = File
+                fontList = *helvetica-bold-r-*-12-*
+                mnemonic = F
+            }
+        } CButton0
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_pulldown
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 169
+                height = 129
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 159
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = U
+                        acceleratorText = Alt+Backspace
+                        accelerator = Alt <KeyPress>Backspace
+                    }
+                } Undo
+                widget XmSeparator {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 28
+                        width = 159
+                        height = 2
+                    }
+                } Separator0
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 30
+                        width = 159
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = t
+                        acceleratorText = Shift+Del
+                        accelerator = Shift <KeyPress>Delete
+                    }
+                } Cut
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 53
+                        width = 159
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = C
+                        acceleratorText = Ctrl+Ins
+                        accelerator = Ctrl <KeyPress>Ins
+                    }
+                } Copy
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 76
+                        width = 159
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = P
+                        acceleratorText = Shift+Ins
+                        accelerator = Shift <KeyPress>Ins
+                    }
+                } Paste
+                widget XmSeparator {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 99
+                        width = 159
+                        height = 2
+                    }
+                } Separator1
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 101
+                        width = 159
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = D
+                    }
+                } Delete
+            }
+        } PulldownMenu1
+        widget XmCascadeButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 41
+                y = 5
+                width = 39
+                height = 23
+                subMenuId = parent.PulldownMenu1
+                labelString = Edit
+                fontList = *helvetica-bold-r-*-12-*
+                mnemonic = E
+            }
+        } CButton1
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_pulldown
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 80
+                height = 56
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 70
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = A
+                    }
+                } All
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 28
+                        width = 70
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = P
+                        labelString = Partial . . .
+                    }
+                } Partial
+            }
+        } PulldownMenu2
+        widget XmCascadeButton {
+            flag {
+                mapped
+            }
+            resources {
+                labelString = View
+                fontList = *helvetica-bold-r-*-12-*
+                mnemonic = V
+                x = 80
+                y = 5
+                width = 45
+                height = 23
+                subMenuId = parent.PulldownMenu2
+            }
+        } CButton2
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_pulldown
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 64
+                height = 33
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 54
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = O
+                    }
+                } Option1
+            }
+        } PulldownMenu3
+        widget XmCascadeButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 125
+                y = 5
+                width = 62
+                height = 23
+                labelString = Options
+                fontList = *helvetica-bold-r-*-12-*
+                mnemonic = O
+                subMenuId = parent.PulldownMenu3
+            }
+        } CButton3
+        widget XmRowColumn {
+            flag {
+                mapped
+                menu_pulldown
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 85
+                height = 33
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 5
+                        y = 5
+                        width = 75
+                        height = 23
+                        fontList = *helvetica-bold-r-*-12-*
+                        mnemonic = C
+                    }
+                } "On Context"
+            }
+        } PulldownMenu4
+        widget XmCascadeButton {
+            flag {
+                mapped
+            }
+            resources {
+                x = 328
+                y = 5
+                width = 42
+                height = 23
+                subMenuId = parent.PulldownMenu4
+                labelString = Help
+                fontList = *helvetica-bold-r-*-12-*
+                mnemonic = H
+            }
+        } HelpButton
+    }
+} MyMenuBar

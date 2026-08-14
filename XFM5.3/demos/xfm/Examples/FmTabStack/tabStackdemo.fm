@@ -1,0 +1,653 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    createproc {
+        XmTabSide a;\
+a = self*xmTabStack0:tabSide;\
+if(a == XmTABS_ON_TOP)\
+self*top:set = set;\
+else if(a == XmTABS_ON_BOTTOM)\
+self*bottom:set = set;\
+else if(a == XmTABS_ON_LEFT)\
+self*left:set = set;\
+else if(a == XmTABS_ON_RIGHT)\
+self*right:set = set;\
+\
+TabStyle b;\
+b = self*xmTabStack0:tabStyle;\
+if( b == XmTABS_BEVELED)\
+self*beveled:set = set;\
+else if( b == XmTABS_ROUNDED)\
+self*rounded:set = set;\
+else if( b == XmTABS_SQUARED)\
+self*squared:set = set;\
+\
+TabOrientation c;\
+c = self*xmTabStack0:tabOrientation;\
+if(c == XmTAB_ORIENTATION_DYNAMIC)\
+self*orientationdynamic:set=set;\
+else if(c == XmTABS_RIGHT_TO_LEFT)\
+self*right2left:set=set;\
+else if(c == XmTABS_LEFT_TO_RIGHT)\
+self*left2right:set=set;\
+else if(c == XmTABS_TOP_TO_BOTTOM)\
+self*top2bottom:set=set;\
+else if(c == XmTABS_BOTTOM_TO_TOP)\
+self*bottom2top:set=set;\
+\
+TabMode d;\
+d = self*xmTabStack0:tabMode;\
+if(d == XmTABS_BASIC)\
+self*basic:set = set;\
+else if(d == XmTABS_STACKED)\
+self*stacked:set = set;\
+else if(d == XmTABS_STACKED_STATIC)\
+self*stacked_static:set = set;
+    }
+    resources {
+        x = 243
+        y = 92
+        width = 580
+        height = 682
+    }
+    children {
+        widget XmPanedWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 580
+                height = 682
+                orientation = vertical
+            }
+            children {
+                widget XmPanedWindow {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 574
+                        height = 639
+                        orientation = horizontal
+                    }
+                    children {
+                        widget XmForm {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 3
+                                width = 337
+                                height = 633
+                            }
+                            children {
+                                widget XmTabStack {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 20
+                                        y = 20
+                                        width = 297
+                                        height = 593
+                                        topAttachment = attach_form
+                                        topOffset = 20
+                                        leftAttachment = attach_form
+                                        leftOffset = 20
+                                        bottomAttachment = attach_form
+                                        bottomOffset = 20
+                                        rightAttachment = attach_form
+                                        rightOffset = 20
+                                        tabMode = stacked_static
+                                    }
+                                    children {
+                                        widget XmForm {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 12
+                                                y = 41
+                                                width = 273
+                                                height = 540
+                                            }
+                                        } xmForm2
+                                        widget XmForm {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = -273
+                                                y = 41
+                                                width = 273
+                                                height = 540
+                                            }
+                                        } xmForm3
+                                        widget XmForm {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = -273
+                                                y = 41
+                                                width = 273
+                                                height = 540
+                                            }
+                                        } xmForm4
+                                    }
+                                } xmTabStack0
+                            }
+                        } xmForm1
+                        widget XmFrame {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 348
+                                y = 3
+                                width = 223
+                                height = 633
+                            }
+                            children {
+                                widget XmForm {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 2
+                                        y = 2
+                                        width = 219
+                                        height = 629
+                                    }
+                                    children {
+                                        widget XmFrame {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 0
+                                                width = 219
+                                                height = 80
+                                                leftAttachment = attach_form
+                                                topAttachment = attach_form
+                                                rightAttachment = attach_form
+                                            }
+                                            children {
+                                                widget XmForm {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 2
+                                                        y = 2
+                                                        width = 215
+                                                        height = 76
+                                                    }
+                                                    children {
+                                                        widget XmLabel {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                leftAttachment = attach_form
+                                                                topAttachment = attach_form
+                                                                labelString = Tab Side :
+                                                            }
+                                                        } tabside
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 17
+                                                                width = 215
+                                                                height = 59
+                                                                leftAttachment = attach_form
+                                                                rightAttachment = attach_form
+                                                                bottomAttachment = attach_form
+                                                                topAttachment = attach_widget
+                                                                topWidget = parent.tabside
+                                                                packing = pack_column
+                                                                radioBehavior = true
+                                                                isHomogeneous = true
+                                                                numColumns = 2
+                                                            }
+                                                            children {
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 3
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabSide = XmTABS_ON_TOP;\
+}
+                                                                    }
+                                                                } top
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 31
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabSide = XmTABS_ON_BOTTOM;\
+}
+                                                                    }
+                                                                } bottom
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 67
+                                                                        y = 3
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabSide = XmTABS_ON_LEFT;\
+}
+                                                                    }
+                                                                } left
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 67
+                                                                        y = 31
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabSide = XmTABS_ON_RIGHT;\
+}
+                                                                    }
+                                                                } right
+                                                            }
+                                                        } xmRowColumn0
+                                                    }
+                                                } xmForm1
+                                            }
+                                        } xmFrame0
+                                        widget XmFrame {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 80
+                                                width = 219
+                                                height = 78
+                                                leftAttachment = attach_form
+                                                topAttachment = attach_widget
+                                                rightAttachment = attach_form
+                                                topWidget = parent.xmFrame0
+                                            }
+                                            children {
+                                                widget XmForm {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 2
+                                                        y = 2
+                                                        width = 215
+                                                        height = 74
+                                                    }
+                                                    children {
+                                                        widget XmLabel {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                leftAttachment = attach_form
+                                                                topAttachment = attach_form
+                                                                labelString = Tab Style :
+                                                            }
+                                                        } TabStyle
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 17
+                                                                leftAttachment = attach_form
+                                                                rightAttachment = attach_form
+                                                                bottomAttachment = attach_form
+                                                                topAttachment = attach_widget
+                                                                topWidget = TabStyle
+                                                                packing = pack_column
+                                                                radioBehavior = true
+                                                                isHomogeneous = true
+                                                                numColumns = 2
+                                                            }
+                                                            children {
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 3
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabStyle = XmTABS_BEVELED;\
+}
+                                                                    }
+                                                                } beveled
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 31
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabStyle = XmTABS_SQUARED;\
+}
+                                                                    }
+                                                                } squared
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 73
+                                                                        y = 3
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabStyle = XmTABS_ROUNDED;\
+}
+                                                                    }
+                                                                } rounded
+                                                            }
+                                                        } xmRowColumn0
+                                                    }
+                                                } xmForm1
+                                            }
+                                        } xmFrame0_2
+                                        widget XmFrame {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 158
+                                                width = 219
+                                                height = 135
+                                                leftAttachment = attach_form
+                                                topAttachment = attach_widget
+                                                rightAttachment = attach_form
+                                                topWidget = xmFrame0_2
+                                            }
+                                            children {
+                                                widget XmForm {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 2
+                                                        y = 2
+                                                        width = 215
+                                                        height = 131
+                                                    }
+                                                    children {
+                                                        widget XmLabel {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                leftAttachment = attach_form
+                                                                topAttachment = attach_form
+                                                                labelString = Tab Orientation:
+                                                            }
+                                                        } Taborientation
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 17
+                                                                leftAttachment = attach_form
+                                                                rightAttachment = attach_form
+                                                                bottomAttachment = attach_form
+                                                                topAttachment = attach_widget
+                                                                topWidget = Taborientation
+                                                                packing = pack_column
+                                                                radioBehavior = true
+                                                                isHomogeneous = true
+                                                                numColumns = 2
+                                                            }
+                                                            children {
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 3
+                                                                        labelString = Orientation\
+dynamic
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabOrientation = XmTAB_ORIENTATION_DYNAMIC;\
+}
+                                                                    }
+                                                                } orientationdynamic
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 40
+                                                                        labelString = Right to\
+left
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabOrientation = XmTABS_RIGHT_TO_LEFT;\
+}
+                                                                    }
+                                                                } right2left
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 77
+                                                                        labelString = Top to\
+Bottom
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabOrientation = XmTABS_TOP_TO_BOTTOM;\
+}
+                                                                    }
+                                                                } top2bottom
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 97
+                                                                        y = 3
+                                                                        labelString = Buttom to \
+Top
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabOrientation =XmTABS_BOTTOM_TO_TOP;\
+}
+                                                                    }
+                                                                } bottom2top
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 97
+                                                                        y = 40
+                                                                        labelString = Left to\
+right
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabOrientation = XmTABS_LEFT_TO_RIGHT;\
+}
+                                                                    }
+                                                                } left2right
+                                                            }
+                                                        } xmRowColumn0
+                                                    }
+                                                } xmForm1
+                                            }
+                                        } xmFrame0_3
+                                        widget XmFrame {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 293
+                                                width = 219
+                                                height = 98
+                                                leftAttachment = attach_form
+                                                topAttachment = attach_widget
+                                                rightAttachment = attach_form
+                                                topWidget = xmFrame0_3
+                                            }
+                                            children {
+                                                widget XmForm {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 2
+                                                        y = 2
+                                                        width = 215
+                                                        height = 94
+                                                    }
+                                                    children {
+                                                        widget XmLabel {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                leftAttachment = attach_form
+                                                                topAttachment = attach_form
+                                                                labelString = Tab Mode :
+                                                            }
+                                                        } TabMode
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 17
+                                                                leftAttachment = attach_form
+                                                                rightAttachment = attach_form
+                                                                bottomAttachment = attach_form
+                                                                topAttachment = attach_widget
+                                                                topWidget = TabMode
+                                                                packing = pack_column
+                                                                radioBehavior = true
+                                                                isHomogeneous = true
+                                                                numColumns = 2
+                                                            }
+                                                            children {
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 3
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabMode = XmTABS_BASIC;\
+}
+                                                                    }
+                                                                } basic
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 3
+                                                                        y = 44
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabMode = XmTABS_STACKED;\
+}
+                                                                    }
+                                                                } stacked
+                                                                widget XmToggleButton {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 79
+                                                                        y = 3
+                                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.parent.parent.xmForm1.xmTabStack0:tabMode = XmTABS_STACKED_STATIC;\
+}
+                                                                        labelString = stacked \
+static
+                                                                    }
+                                                                } stacked_static
+                                                            }
+                                                        } xmRowColumn0
+                                                    }
+                                                } xmForm1
+                                            }
+                                        } xmFrame0_4
+                                    }
+                                } xmForm0
+                            }
+                        } xmFrame0
+                    }
+                } xmPanedWindow1
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 650
+                        width = 574
+                        height = 29
+                        activateCallback = exit(0);
+                    }
+                } Quit
+            }
+        } xmPanedWindow0
+    }
+} sessionShell0

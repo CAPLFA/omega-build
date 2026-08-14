@@ -1,0 +1,305 @@
+#
+# 	XFaceMaker 5-3 Application Makefile.
+#
+
+#### begin pattern interface
+#### set global RDBMODE = RDBMODE
+#### set global UILMODE = UILMODE
+#### set global PRESERVEMODE = PRESERVEMODE
+#### set global BASEFILES = `'
+#### set global MAINCFILE = `'
+#### end pattern interface
+
+#### begin pattern module
+#### 	begin if [ FILE right 3 == ".fm" ]
+#### 		set local BASEFILE = [ FILE left (length FILE - 3) ]
+#### 	ifelse
+#### 		set local BASEFILE = FILE
+#### 	end if
+#### 	begin if [ BASEFILES == "" ]
+#### 		set global BASEFILES = BASEFILE
+#### 	ifelse
+#### 		set global BASEFILES = BASEFILES BASEFILE
+#### 	end if
+#### 	begin if [ MAINCFILE == "" ]
+#### 		set global MAINCFILE = BASEFILE.c
+#### 	end if
+#### end pattern module
+
+#### begin pattern interface
+####           XFM = XFMNAME
+####     XFMCFLAGS = -cflags "##COPTIONS##"
+####    XFMCLFLAGS = -cflags "##COPTIONS##g"
+#### end pattern interface
+
+#### 					begin pattern interface
+#### 						set global XTRA_DIRS =
+#### 						set global EXT_LIB_NAME = `'
+#### 						set global XT_C_LIB = `'
+#### 						set global XT_E_LIB = `'
+#### 						set global EXT_E_FUNC = `'
+#### 						set global XTRA_LIBS = `'
+#### 						set global XTRA_C_LIBS = `'
+#### 						set global XTRA_E_LIBS = `'
+#### 						set global XTRA_OBJS = 
+#### 						set global XTRA_SRCS =
+#### 						set global XTRA_INCPATH = `'
+#### 						set global XTRA_LIBPATH = `'
+#### 						set global XTRA_BUILD_CMD = `'
+#### 					end pattern interface
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_DIR) == _XFM_EXT_BUILD_DIR ]
+#### 						begin if [ ! (VALUE { XTRA_DIRS) ]
+#### 							set global XTRA_DIRS = XTRA_DIRS`VALUE'
+#### 						end if
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME ==  _XFM_EXT_LIB_NAME_ ]
+#### 						set global EXT_LIB_NAME = VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_INCLUDE_PATH) == _XFM_EXT_BUILD_INCLUDE_PATH ]
+#### 						set global XTRA_INCPATH = XTRA_INCPATH` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_LIBRARY_PATH) == _XFM_EXT_BUILD_LIBRARY_PATH ]
+#### 						set global XTRA_LIBPATH = XTRA_LIBPATH` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_C_LIBRARY) == _XFM_EXT_C_LIBRARY ]
+#### 						set global XT_C_LIB = VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_E_LIBRARY) == _XFM_EXT_E_LIBRARY ]
+#### 						set global XT_E_LIB = VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_LIBRARIES) == _XFM_EXT_BUILD_LIBRARIES ]
+#### 						set global XTRA_LIBS = XTRA_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_C_LIBRARIES) == _XFM_EXT_BUILD_C_LIBRARIES ]
+#### 						set global XTRA_C_LIBS = XTRA_C_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_E_LIBRARIES) == _XFM_EXT_BUILD_E_LIBRARIES ]
+#### 						set global XTRA_E_LIBS = XTRA_E_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_OBJECTS) == _XFM_EXT_BUILD_OBJECTS && VARNAME right (length EXT_LIB_NAME) == EXT_LIB_NAME ]
+#### 						set local OBJS = VALUE
+#### 						set local OBJ = [ OBJS left " " ]
+#### 						set local OBJS = [ OBJS right " " ]
+#### 						begin while [ OBJ != "" ]
+#### 							set global XTRA_OBJS = XTRA_OBJS OBJ
+#### 							set local OBJ = [ OBJS left " " ]
+#### 							set local OBJS = [ OBJS right " " ]
+#### 						end while
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_SOURCES) == _XFM_EXT_BUILD_SOURCES && VARNAME right (length EXT_LIB_NAME) == EXT_LIB_NAME ]
+#### 						set local SRCS = VALUE
+#### 						set local SRC = [ SRCS left " " ]
+#### 						set local SRCS = [ SRCS right " " ]
+#### 						begin while [ SRC != "" ]
+#### 							set global XTRA_SRCS = XTRA_SRCS SRC
+#### 							set local SRC = [ SRCS left " " ]
+#### 							set local SRCS = [ SRCS right " " ]
+#### 						end while
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_COMMAND) == _XFM_EXT_BUILD_COMMAND ]
+#### 						set global XTRA_BUILD_CMD = VALUE
+#### 					end pattern define
+      LIBTOOL = libtool
+      LIBTOOL_COMPILE = $(LIBTOOL) --mode=compile
+      LIBTOOL_LINK    = $(LIBTOOL) --mode=link
+      LIBTOOL_EXEC    = $(LIBTOOL) --mode=execute
+      LIBTOOL_CLEAN   = $(LIBTOOL) --mode=clean
+      LIBTOOL_INSTALL = $(LIBTOOL) --mode=install
+       LIBDIR = /opt/NSL/XFM5.3/lib
+
+MOTIF_INCPATH = -I/usr/include
+MOTIF_LIBPATH = -L/usr/lib
+MOTIF_LIBNAME = -lXm
+
+#### begin pattern interface [ UILMODE == 1 ]
+####   MRM_INCPATH = -I/usr/include
+####   MRM_LIBPATH = -L/usr/lib 
+####   MRM_LIBNAME = -lMrm
+#### end pattern interface
+
+   XT_INCPATH = 
+   XT_LIBPATH = 
+   XT_LIBNAME = -lXt  -lSM -lICE
+
+ XLIB_INCPATH = 
+ XLIB_LIBPATH = 
+ XLIB_LIBNAME = -lX11 
+
+ XEXT_INCPATH = 
+ XEXT_LIBPATH = 
+ XEXT_LIBNAME = -lXext
+
+#### begin pattern interface
+#### 	begin if [ COPTIONS } S ]
+#### XFM_C_LIBNAME =
+#### XNSLCTRL_LIBNAME =
+#### 	ifelse
+#### XFM_C_LIBNAME = -lFm_c
+#### XNSLCTRL_LIBNAME = -lXnsl
+#### 	end if
+#### end pattern interface
+XFM_E_LIBNAME = -lFm_e
+
+#### 					begin pattern interface
+#### 						begin if [ XT_C_LIB != "" ]
+####     EXT_C_LIB = lib`XT_C_LIB'.la
+#### 						ifelse
+####     EXT_C_LIB = 
+#### 						end if
+#### 						begin if [ XT_E_LIB != "" ]
+####     EXT_E_LIB = lib`XT_E_LIB'.la
+#### 						ifelse
+####     EXT_E_LIB = 
+#### 						end if
+#### EXTRA_INCPATH = ##-I`XTRA_DIRS'# # XTRA_INCPATH $(LOC_INCPATH)
+#### EXTRA_LIBPATH = ##-L`XTRA_DIRS'# # XTRA_LIBPATH $(LOC_LIBPATH)
+####  EXTRA_C_LIBS = XTRA_C_LIBS XTRA_LIBS
+####  EXTRA_E_LIBS = XTRA_E_LIBS XTRA_LIBS
+####  EXTRA_C_OBJS = ##c`XTRA_OBJS'# #
+####  EXTRA_E_OBJS = ##e`XTRA_OBJS'# #
+####    EXTRA_SRCS = ##XTRA_SRCS# #
+#### 					end pattern interface
+
+   XM_INCPATH = $(MRM_INCPATH) $(MOTIF_INCPATH) $(XT_INCPATH) $(XEXT_INCPATH) $(XLIB_INCPATH)
+
+    A_INCPATH = -I. $(EXTRA_INCPATH) $(XM_INCPATH)
+    E_INCPATH = -I. $(EXTRA_INCPATH) $(XM_INCPATH)
+       X_LIBS =  $(XT_LIBPATH) $(XT_LIBNAME) $(XEXT_LIBPATH) $(XEXT_LIBNAME) $(XLIB_LIBPATH) $(XLIB_LIBNAME)
+   MOTIF_LIBS =  $(MRM_LIBPATH) $(MRM_LIBNAME) $(MOTIF_LIBPATH) $(MOTIF_LIBNAME) $(X_LIBS)
+
+     SYS_LIBS =
+
+   SYS_CFLAGS =  -DMOTIF_1_2 -DMOTIF_2_1 -DMOTIF_2_2 -D__GLIBC_2_3_2__ -DHAS_GLS -DINTERNATIONALIZATION
+  SYS_LDFLAGS =
+  CDEBUGFLAGS =
+
+#### begin pattern interface
+#### 	begin if [ COPTIONS } S ]
+####     CCODEOPTS = -DCCODE -DSTANDALONE
+#### 	ifelse
+####     CCODEOPTS = -DCCODE
+#### 	end if
+#### end pattern interface
+
+     STD_LIBS = $(MOTIF_LIBS) -lm $(SYS_LIBS)
+
+    A_LIBPATH = -L. $(EXTRA_LIBPATH)
+    E_LIBPATH = -L. $(EXTRA_LIBPATH)
+
+   XFM_C_LIBS = $(XFM_C_LIBNAME) $(XNSLCTRL_LIBNAME) 
+   XFM_E_LIBS = $(XFM_E_LIBNAME)
+
+   ALL_C_LIBS = $(EXTRA_C_LIBS) $(XFM_C_LIBS) $(STD_LIBS)
+   ALL_E_LIBS = $(EXTRA_E_LIBS) $(XFM_E_LIBS) $(STD_LIBS)
+
+     A_CFLAGS = $(A_INCPATH) $(SYS_CFLAGS) $(CDEBUGFLAGS)
+     E_CFLAGS = $(A_INCPATH) $(SYS_CFLAGS) $(CDEBUGFLAGS)
+       CFLAGS = $(E_CFLAGS)
+
+    A_LDFLAGS = $(SYS_LDFLAGS) $(CDEBUGFLAGS)
+    E_LDFLAGS = $(SYS_LDFLAGS) $(CDEBUGFLAGS)
+
+           RM = rm -rf
+           CP = cp
+           LN = ln -s
+ 
+#### begin pattern interface
+#### 	begin if [ "TARGETMACH" != "" && "TARGETMACHFILE" != "" ]
+#### 		set local MAKEINCLPATH = [ TARGETMACHFILE left (length TARGETMACHFILE - length TARGETMACH) ]
+#### XFM_TARGET_OS = `TARGETMACH'
+#### XFM_TARGET_MK = `MAKEINCLPATH'$(XFM_TARGET_OS)
+#### include $(XFM_TARGET_MK)
+#### 	end if
+#### 
+#### all: $(EXT_E_LIB) $(EXT_C_LIB) 
+#### 
+#### 						begin if [ XT_E_LIB != "" ]
+#### $(EXT_E_LIB): $(EXTRA_SRCS) e`NAME'LibExt.lo $(EXTRA_E_OBJS)
+#### 	$(LIBTOOL_LINK) $(CC) $(LDFLAGS) -o $(EXT_E_LIB) -rpath $(LIBDIR) e`NAME'LibExt.lo $(EXTRA_E_OBJS)
+#### 						end if
+#### 
+#### 						begin if [ XT_C_LIB != "" ]
+#### $(EXT_C_LIB): $(EXTRA_SRCS) c`NAME'LibExt.lo $(EXTRA_C_OBJS)
+#### 	$(LIBTOOL_LINK) $(CC) $(LDFLAGS) -o $(EXT_C_LIB) -rpath $(LIBDIR) c`NAME'LibExt.lo $(EXTRA_C_OBJS)
+#### 						end if
+#### 
+#### c`NAME'LibExt.lo: `NAME'LibExt.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(A_CFLAGS) $(CCODEOPTS) -o $@ -c `NAME'LibExt.c
+#### 
+#### e`NAME'LibExt.lo: `NAME'LibExt.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(A_CFLAGS) -DCALLEDITOR -o $@ -c `NAME'LibExt.c
+#### 
+#### 
+#### 					set global XTRA_OBJS = `'XTRA_OBJS
+#### 					set local I = 2
+#### 					set local OBJ = [ XTRA_OBJS [ I ]
+#### 					begin while [ OBJ != "" ]
+#### 						set local SRC = [ OBJ left ".lo" ]
+#### 						set local SRC = SRC`.c'
+#### c`OBJ': SRC
+#### 	$(LIBTOOL_COMPILE) $(CC) $(A_CFLAGS) $(CCODEOPTS) -o $@ -c SRC
+#### 	
+#### e`OBJ': SRC
+#### 	$(LIBTOOL_COMPILE) $(CC) $(E_CFLAGS) -DCALLEDITOR -o $@ -c SRC
+#### 	
+#### 	
+#### 						set local I = [ I + 1 ]
+#### 						set local OBJ = [ XTRA_OBJS [ I ]
+#### 					end while
+#### 
+#### 					set global XTRA_SRCS = `'XTRA_SRCS
+#### 					set local I = 2
+#### 					set local SRC = [ XTRA_SRCS [ I ]
+#### 					begin while [ SRC != "" ]
+#### SRC:
+#### 	@for d in ##XTRA_DIRS# # $(NSLHOME)/lib/xfm/Extensions/* ; 	\\
+#### 	do								\\
+#### 						set local D = [ SRC left "/" ]
+#### 						begin if [ D == SRC ]
+#### 							set local D = "."
+#### 							set local S = SRC
+#### 						ifelse
+#### 							set local S = [ SRC right "/" ]
+#### 		if [ ! -d D ] ; 					\\
+#### 		then 							\\
+#### 			echo mkdir D ; 					\\
+#### 			mkdir D ; 					\\
+#### 		fi ;							\\
+#### 						end if
+#### 		if [ -d $$d -a -f $$d/S ] ; 				\\
+#### 		then 							\\
+#### 			if expr $$d : '/.*' > /dev/null 2>&1 ;				\\
+#### 			then 						\\
+#### 				echo ln -s $$d/S D ; 			\\
+#### 				ln -s $$d/S D ; 			\\
+#### 			else						\\
+#### 				`cwd=`pwd | sed -e "s|/tmp_mnt/automount||" -e "s|/automount||"` ;' \\
+#### 				echo ln -s $$cwd/$$d/S D ;	 	\\
+#### 				ln -s $$cwd/$$d/S D ;		 	\\
+#### 			fi ;						\\
+#### 			break ;						\\
+#### 		fi ; 							\\
+#### 	done ; 								\\
+#### 	if [ ! -f SRC ] ; 						\\
+#### 	then 								\\
+#### 		echo "Cannot find source file SRC -- sorry." ;		\\
+#### 		exit 1 ; 						\\
+#### 	fi
+#### 
+#### 						set local I = [ I + 1 ]
+#### 						set local SRC = [ XTRA_SRCS [ I ]
+#### 					end while
+#### 
+#### end pattern interface

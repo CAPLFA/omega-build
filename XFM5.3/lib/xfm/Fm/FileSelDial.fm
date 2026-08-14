@@ -1,0 +1,25 @@
+widget XmDialogShell {
+    flag {
+        popup
+    }
+    resources {
+        x = 405
+        y = 250
+        width = 261
+        height = 307
+        allowShellResize = true
+    }
+    children {
+        widget XmFileSelectionBox {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 261
+                height = 307
+            }
+        } FileSelectionBox
+    }
+} MyFileSelectDialog

@@ -1,0 +1,9 @@
+widget XmRowColumn {
+    flag {
+        autosize
+        autopos
+    }
+    resources {
+        numColumns = 1
+    }
+} XmRowColumn0

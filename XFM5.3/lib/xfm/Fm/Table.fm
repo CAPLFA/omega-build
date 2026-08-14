@@ -1,0 +1,357 @@
+widget XmForm {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = _FmTable
+        set = list = self.scroller.list;\
+FmTableParse (list,String ($));\
+self.itemLabel:labelString = XmString (self.itemLabel:userData);\
+self.item:value = "";\
+FmAttachRightWidget (self.item,self,0);\
+list:userData = Pointer (0);\
+XtSetSensitive (self.replace,False);\
+XtSetSensitive (self.delete,False);\
+XtSetSensitive (self.clear,list:itemCount > 0);
+    }
+    activevalue {
+        name = FmTableItemType
+        set = \
+if (@ != 0 && strcmp (@,"String") != 0) {
+	s = self.item:userData;
+	if (s != 0)
+		free (String(s));
+	self.item:userData = Pointer(XtNewString (@));
+	show (self.dots);
+	FmAttachRightWidget (self.item,self.dots,2);\
+	hide(self.item); show(self.item);\
+} else {
+	hide (self.dots);
+	FmAttachRightWidget (self.item,self,0);\
+	hide(self.item); show(self.item);\
+}
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = XmProcessTraversal (self.scroller.list,XmTRAVERSE_CURRENT);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = s = FmTableMake (self.scroller.list);\
+if(s){\
+	strcpy ($,s);\
+	free (s);\
+} else {\
+	strcpy ($,"");\
+}
+    }
+    activevalue {
+        name = _FmResourceEditUnmanage
+        set = function void _FmHideTableItem (Widget top) {
+	w = Widget (top.dots:userData);
+	if (w != 0) {
+		if (XtIsManaged (w)) {
+			hide (Widget (top.dots:userData));
+			hide (top.ignore);
+			XtSetSensitive (top.delete,XtIsSensitive (top.replace));
+			XtSetSensitive (top.clear,True);
+			form = XtParent (top);
+			XtSetSensitive (form.ok,True);
+			XtSetSensitive (form.apply,True);
+			XtSetSensitive (form.applyset,True);
+			XtSetSensitive (form.set,True);
+			XtSetSensitive (form.reset,True);
+		}
+	}\
+}\
+_FmHideTableItem (self);
+    }
+    resources {
+    }
+    children {
+        widget XmPushButton {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                labelString = %MSG%150%953 Add
+                marginHeight = 1
+                marginWidth = 3
+                bottomAttachment = attach_form
+                leftAttachment = attach_form
+                activateCallback = function String _FmGetTableItem () {
+	if (XtIsManaged (parent.ignore)) {
+		_FmHideTableItem (parent);
+		FmGetActiveValue (Widget (parent.dots:userData),"_FmResourceReturnValue");
+		s = XtNewString ($_FmResourceReturnValue);
+		parent.item:value = s;
+	} else
+		s = parent.item:value;
+	return(s);\
+};\
+list = parent.scroller.list;\
+n = Int (list:userData) + 1;\
+s = _FmGetTableItem();\
+xms = FmCreateXmString (s);\
+free (s);\
+XmListAddItemUnselected (list,xms,n);\
+XmStringFree (xms);\
+XmListSelectPos (parent.scroller.list,n,True);\
+XtSetSensitive (parent.replace,True);\
+XtSetSensitive (parent.delete,True);\
+XtSetSensitive (parent.clear,True);\
+parent.item:value = "";\
+_FmResourceWindowSetModified (toplevel);
+            }
+        } add
+        widget XmPushButton {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                labelString = %MSG%150%954 Replace
+                marginHeight = 1
+                marginWidth = 3
+                leftAttachment = attach_widget
+                leftOffset = 2
+                leftWidget = add
+                topAttachment = attach_opposite_widget
+                topWidget = add
+                activateCallback = list = parent.scroller.list;\
+n = Int (list:userData);\
+s = _FmGetTableItem();\
+xms = CreateXmString (s);\
+free (s);\
+XmListDeletePos (list,n);\
+XmListAddItemUnselected (list,xms,n);\
+XmStringFree (xms);\
+XmListSelectPos (list,n,False);\
+_FmResourceWindowSetModified (toplevel);
+            }
+        } replace
+        widget XmPushButton {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                labelString = %MSG%150%955 Delete
+                marginHeight = 1
+                marginWidth = 3
+                leftAttachment = attach_widget
+                leftOffset = 2
+                leftWidget = replace
+                topAttachment = attach_opposite_widget
+                topWidget = add
+                activateCallback = list = parent.scroller.list;\
+n = Int (list:userData);\
+if (n > 0) {
+	s = FmListGetNthItem (list,n);
+	if (s != 0) {
+		parent.item:value = s;
+		free (s);
+	}
+	XmListDeletePos (list,n);
+	list:userData = Pointer(0);
+	XtSetSensitive (parent.replace,False);
+	XtSetSensitive (parent.delete,False);\
+	_FmResourceWindowSetModified (toplevel);\
+}\
+if (parent.scroller.list:itemCount == 0)
+	XtSetSensitive (parent.clear,False);
+            }
+        } delete
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+            }
+            createproc {
+                self:rightOffset = -(self:width / 2);
+            }
+            resources {
+                labelString = %MSG%150%956 Cancel
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_opposite_widget
+                topWidget = add
+                rightAttachment = attach_position
+                rightPosition = 50
+                activateCallback = _FmHideTableItem (parent);
+            }
+        } ignore
+        widget XmPushButton {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                labelString = %MSG%150%957 Clear
+                marginHeight = 1
+                marginWidth = 3
+                topAttachment = attach_opposite_widget
+                topWidget = add
+                rightAttachment = attach_form
+                activateCallback = if (Alert (True,"dialog_question",Internationalize("%MSG%150%958 Do you really want to delete\nall items?") )) {
+	list = parent.scroller.list;
+	XmListDeleteAllItems (list);
+	list:userData = Pointer(0);
+	XtSetSensitive (parent.replace,False);
+	XtSetSensitive (parent.delete,False);
+	XtSetSensitive (self,False);\
+}
+            }
+        } clear
+        widget XmPushButton {
+            flag {
+                autosize
+                autopos
+            }
+            resources {
+                rightAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomWidget = clear
+                labelString = ...
+                marginHeight = 1
+                marginWidth = 3
+                bottomOffset = 2
+                activateCallback = function void _FmEditTableItem (Widget form) {
+	t = String (form.item:userData);
+	if (t == 0)
+		t = "String";
+	w = _FmLoadResourceGroup (form,String(0),t);
+	s = form.item:value;
+	if (strlen (s) == 0) {
+		list = form.scroller.list;
+		n = Int(list:userData);
+		if (n > 0) {
+			free (s);
+			s = FmListGetNthItem (list,n);
+		}
+	}
+	if(XtParent(w) == root){ 	/* old-style box */
+		s = FmEditResourceValue(t, s);
+		if(s)
+			form.item:value = s;
+		return();
+	}
+	self:userData = Pointer (w);
+	if(strcmp(t, "String") == 0)
+		_FmSetResourceGroupAv (w, "String", "FmDefaultString", s);
+	else
+		_FmSetResourceGroupAv (w, t, String(0), s);
+	free (s);
+	FmAttachTopWidget (w,form,0);
+	FmAttachLeftWidget (w,form,0);
+	FmAttachRightWidget (w,form,0);
+	FmAttachBottomWidget (w,form.add,3);
+	show (w);
+	FmRaiseWidget (w);
+	show (form.ignore);
+	XtSetSensitive (form.delete,False);
+	XtSetSensitive (form.clear,False);
+	form = XtParent (form);
+	XtSetSensitive (form.ok,False);\
+	XtSetSensitive (form.apply,False);
+	XtSetSensitive (form.applyset,False);
+	XtSetSensitive (form.set,False);\
+	XtSetSensitive (form.reset,False);\
+}\
+_FmEditTableItem (parent);
+            }
+        } dots
+        widget XmTextField {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                rightAttachment = attach_form
+                leftAttachment = attach_form
+                leftOffset = 0
+                marginHeight = 1
+                marginWidth = 1
+                bottomAttachment = attach_widget
+                bottomWidget = clear
+                bottomOffset = 2
+                activateCallback = if (XmTextFieldGetLastPosition (self) > 0)
+	XtCallCallbacks (parent.add,"activateCallback",0);
+            }
+        } item
+        widget XmLabel {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            createproc {
+                self:userData = Pointer (self:labelString);
+            }
+            resources {
+                leftAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomWidget = item
+                labelString = %MSG%150%959 item
+                marginHeight = 0
+                marginWidth = 0
+                leftOffset = 2
+            }
+        } itemLabel
+        widget XmScrolledWindow {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                bottomAttachment = attach_widget
+                bottomWidget = itemLabel
+                bottomOffset = 3
+                leftOffset = 2
+                rightOffset = 2
+            }
+            children {
+                widget XmList {
+                    flag {
+                        mapped
+                        autopos
+                        autosize
+                    }
+                    resources {
+                        listSizePolicy = constant
+                        browseSelectionCallback = XmListCallback cb;\
+cb = $;\
+nsel = self:selectedItemCount;\
+if (self:selectedItemCount > 0) {
+	self:userData = Pointer(cb->item_position);
+	s = FmGetString (cb->item);
+	w = parent.parent.item;
+	w:value = s;
+	XmTextFieldSetInsertionPosition (w,XmTextFieldGetLastPosition (w));
+	free (s);\
+} else {
+	self:userData = 0;\
+}\
+XtSetSensitive (parent.parent.replace,nsel > 0);\
+XtSetSensitive (parent.parent.delete,nsel > 0);
+                        defaultActionCallback = global _FmTableCurrentPos;\
+if (_FmTableCurrentPos != 0 && IsManaged (parent.parent.edit))
+	_FmEditTableItem (parent.parent);
+                    }
+                } list
+            }
+        } scroller
+    }
+} Table

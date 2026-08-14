@@ -1,0 +1,323 @@
+widget XmBulletinBoard {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_W
+        get = script get_MFCSelectionDialog_MFC_W:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self.form, "width"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+        default_type = String
+        default_value = 298
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCSelectionDialog_MFC_H:
+		FacePragma("ignore");
+		@ = atoi(_FmGetWidgetResourceValue(self.form, "height"));
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+        default_type = String
+        default_value = 286
+    }
+    activevalue {
+        name = command
+        get = @ = XmStringCreateSimple(self.form.text:value);
+        set = self.form.text:value = FmGetString(@);
+        type = XmString
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = historyItems
+        get = @ = self.form.sw.list:items;
+        set = self.form.sw.list:items = @;
+        type = XmStringTable
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = historyItemCount
+        get = @ = self.form.sw.list:itemCount;
+        set = self.form.sw.list:itemCount = @;
+        type = int
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = promptString
+        get = @ = form.prompt:labelString;
+        set = form.prompt:labelString = @;
+        type = XmString
+        storage = object
+        automatic = true
+        usage = face
+    }
+    activevalue {
+        name = MFC_R_commandChangedCallback
+        get = script get_MFCSelectionDialog_MFC_R_commandChangedCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "commandChangedCallback")){
+			@ = "commandChangedCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_commandEnteredCallback
+        get = script get_MFCSelectionDialog_MFC_R_commandEnteredCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "commandEnteredCallback")){
+			@ = "commandEnteredCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = GetChild
+        set = 
+		struct GetChildArgs {
+			Widget ret;
+			Int id;
+		};
+		GetChildArgs a = @;
+		if(a->id == XmDIALOG_HISTORY_LIST)
+			a->ret = self.form.sw.list;
+		else
+		if(a->id == XmDIALOG_COMMAND_TEXT)
+			a->ret = self.form.text;
+		else
+		if(a->id == XmDIALOG_PROMPT_LABEL)
+			a->ret = self.form.prompt;
+		else
+			a->ret = Widget(0);
+        type = GetChildArgs
+        storage = none
+        automatic = true
+        usage = face
+    }
+    templates {
+        MFCCommon = -Fm/MFCCommon.fm
+    }
+    resources {
+        x = 0
+        y = 0
+        width = 331
+        height = 337
+    }
+    children {
+        widget XmForm {
+            flag {
+                mapped
+            }
+            activevalue {
+                name = MFC_A_topAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_A_bottomAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_A_leftAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            activevalue {
+                name = MFC_A_rightAttachment
+                type = String
+                storage = object
+                automatic = true
+                genvalue = true
+                default_type = String
+                default_value = XmATTACH_FORM
+            }
+            templates {
+                MFCCommon = -Fm/MFCCommon.fm
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 312
+                height = 353
+                horizontalSpacing = 10
+                verticalSpacing = 10
+            }
+            children {
+                widget XmText {
+                    flag {
+                        mapped
+                    }
+                    templates {
+                        MFCEdit = -Fm/MFCEdit.fm
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			XmString xmstr = parent.parent:command;
+			String s = FmGetString(xmstr);
+			if(strcmp(s, "") != 0)
+				self:value = s;
+			XmStringFree(xmstr);
+			XtFree(s);
+                    }
+                    resources {
+                        x = 10
+                        y = 311
+                        width = 292
+                        height = 32
+                        leftAttachment = attach_form
+                        bottomAttachment = attach_form
+                        rightAttachment = attach_form
+                        activateCallback = String s = self:value;\
+if(strcmp(s, "") == 0){\
+	XtFree(s);\
+	return();\
+}\
+XmString xms = XmStringCreateSimple(s);\
+\
+XmListAddItem(parent.sw.list, xms, 0);\
+self:value = "";\
+\
+XmCommandCallback cbs = new_struct(XmCommandCallback);\
+cbs->reason = XmCR_COMMAND_ENTERED;\
+cbs->event = Any(0);\
+cbs->value = xms;\
+cbs->length = strlen(s);\
+\
+XtCallCallbacks(parent.parent, "commandEnteredCallback", Pointer(cbs));\
+\
+XtFree(s);\
+XmStringFree(xms);\
+XtFree(String(cbs));
+                        valueChangedCallback = String s = self:value;\
+if(strcmp(s, "") == 0){\
+	XtFree(s);\
+	return();\
+}\
+XmString xms = XmStringCreateSimple(s);\
+\
+XmCommandCallback cbs = new_struct(XmCommandCallback);\
+cbs->reason = XmCR_COMMAND_CHANGED;\
+cbs->event = Any(0);\
+cbs->value = xms;\
+cbs->length = strlen(s);\
+\
+XtCallCallbacks(parent.parent, "commandChangedCallback", Pointer(cbs));\
+\
+XtFree(s);\
+XmStringFree(xms);\
+XtFree(String(cbs));
+                    }
+                } text
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    templates {
+                        MFCStatic = -Fm/MFCStatic.fm
+                    }
+                    createproc {
+                        FacePragma("ignore");
+			XmString xmstr = parent.parent:promptString;
+			String s = FmGetString(xmstr);
+			if(strcmp(s, ">") != 0)
+				self:labelString = xmstr;
+			XmStringFree(xmstr);
+			XtFree(s);
+                    }
+                    resources {
+                        x = 10
+                        y = 293
+                        width = 292
+                        height = 18
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = text
+                        labelString = >
+                        alignment = alignment_beginning
+                        bottomOffset = 0
+                    }
+                } prompt
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                    }
+                    templates {
+                        MFCScrolledWindow = -Fm/MFCScrolledWindow.fm
+                    }
+                    resources {
+                        x = 10
+                        y = 10
+                        width = 292
+                        height = 273
+                        leftAttachment = attach_form
+                        topAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomWidget = parent.prompt
+                    }
+                    children {
+                        widget XmList {
+                            flag {
+                                mapped
+                            }
+                            templates {
+                                MFCListBox = -Fm/MFCListBox.fm
+                            }
+                            createproc {
+                                FacePragma("ignore");
+				Int num = parent.parent.parent:historyItemCount;
+				if (num > 0){
+					FaceSetValues(self, 2, "items", parent.parent.parent:historyItems, "itemCount", num);
+				}
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                width = 292
+                                height = 273
+                                browseSelectionCallback = XmListCallback cbs = $;\
+String s = FmGetString(cbs->item);\
+parent.parent.text:value = s;\
+XtFree(s);
+                                defaultActionCallback = XtCallCallbacks(parent.parent.text, "activateCallback", 0);
+                            }
+                        } list
+                    }
+                } sw
+            }
+        } form
+    }
+} command

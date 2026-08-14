@@ -1,0 +1,19 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- SGI IRIX 6.5 configuration.
+#
+
+    SYS_LIBS = -lgen 
+
+#  SYS_CFLAGS = -Dirix_6_5 -multigot -n32 -mips3 -r10000 -D__INLINE_INTRINSICS -DSYSV -DSVR4
+   SYS_CFLAGS = -Dirix_6_5 -Wl,-multigot -n32 -mips3 -r10000 -D__INLINE_INTRINSICS -DSYSV -DSVR4
+
+  XT_LIBNAME = -lXt -lSM -lICE
+
+      HAS_SHLIBS = true		# replace with true if shared libs are supported.
+    SHLIB_SUFFIX = .so.3.5	# replace with appropriate suffix
+  SHLIB_LD_FLAGS = -shared -all	-nostdlib # replace with appropriate ld flag(s) for building a shared object
+   SHLIB_C_FLAGS = 		# replace with compiler flags for producing PIC code if any
+  SHLIB_DEP_LIBS = false	# replace with false if shared libs dont require dep. libs
+SHLIB_EXTRA_LIBS = -lc		# add additional libs for making shared objets if any

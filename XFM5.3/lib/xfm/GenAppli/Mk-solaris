@@ -1,0 +1,34 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- Generic configuration: do not redefine anything.
+#
+
+ MOTIF_DIR_23 = /opt/SUNWmotif
+ MOTIF_DIR_24 = /usr/dt
+  OPENWIN_DIR = /usr/openwin
+
+MOTIF_INCPATH = -I$(MOTIF_DIR_23)/include -I$(MOTIF_DIR_24)/include
+MOTIF_LIBPATH = -L$(MOTIF_DIR_23)/lib -L$(MOTIF_DIR_24)/lib
+
+   XT_INCPATH = -I$(OPENWIN_DIR)/include
+   XT_LIBPATH = -L$(OPENWIN_DIR)/lib
+
+ XLIB_INCPATH = -I$(OPENWIN_DIR)/include
+ XLIB_LIBPATH = -L$(OPENWIN_DIR)/lib
+
+ XEXT_INCPATH = -I$(OPENWIN_DIR)/include
+ XEXT_LIBPATH = -L$(OPENWIN_DIR)/lib
+
+     SYS_LIBS = -lnsl -lsocket -lgen -lw
+
+   SYS_CFLAGS = -Xc -Dsun -DSYSV -DSVR4
+
+  SYS_LDFLAGS = -R$(MOTIF_DIR_23)/lib:$(MOTIF_DIR_24)/lib:$(OPENWIN_DIR)/lib
+
+      HAS_SHLIBS = true		# replace with true if shared libs are supported.
+    SHLIB_SUFFIX = .so.3.5	# replace with appropriate suffix
+  SHLIB_LD_FLAGS = -z text -G 	# replace with appropriate ld flag(s) for building a shared object
+   SHLIB_C_FLAGS = -K PIC	# replace with compiler flags for producing PIC code if any
+  SHLIB_DEP_LIBS = false	# replace with false if shared libs dont require dep. libs
+SHLIB_EXTRA_LIBS = -lc		# add additional libs for making shared objets if any

@@ -1,0 +1,55 @@
+widget XmLabel {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_FONT_FAMILY
+        get = script get_MFCFont_MFC_FONT_FAMILY:
+		FacePragma("ignore");
+		@ = _FmGetFontProperty(self, self:fontList, "FAMILY_NAME", True);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_SIZE
+        get = script get_MFCFont_MFC_FONT_SIZE:
+		FacePragma("ignore");
+		@ = _FmGetFontProperty(self, self:fontList, "PIXEL_SIZE", False);
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_WEIGHT
+        get = script get_MFCFont_MFC_FONT_WEIGHT:
+		FacePragma("ignore");
+		@ = _FmGetFontProperty(self, self:fontList, "WEIGHT_NAME", True);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_ITALIC
+        get = script get_MFCFont_MFC_FONT_ITALIC:
+		FacePragma("ignore");
+		String slant = _FmGetFontProperty(self, self:fontList, "SLANT", True);
+		if(slant
+		&& (strcmp(slant, "O") == 0
+		 || strcmp(slant, "I") == 0))
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+} font

@@ -1,0 +1,14 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- SunOS configuration.
+#
+
+RANLIB = ranlib
+
+      HAS_SHLIBS = true		# replace with true if shared libs are supported.
+    SHLIB_SUFFIX = .so.3.5 	# replace with appropriate suffix
+  SHLIB_LD_FLAGS = -assert pure-text 	# replace with appropriate ld flag(s) for building a shared object
+   SHLIB_C_FLAGS = -PIC		# replace with compiler flags for producing PIC code if any
+  SHLIB_DEP_LIBS = false	# replace with false if shared libs dont require dep. libs
+SHLIB_EXTRA_LIBS = -lc		# add additional libs for making shared objets if any

@@ -1,0 +1,111 @@
+widget XmForm {
+    flag {
+        autosize
+        autopos
+    }
+    activevalue {
+        name = Boolean
+        type = Boolean
+        set = v = Boolean(@);\
+self.frame.form.rc.True:set  = unset;\
+self.frame.form.rc.False:set = unset;\
+if (v)\
+        w = self.frame.form.rc.True;\
+else\
+        w = self.frame.form.rc.False;\
+w:set = set;\
+XmProcessTraversal (w, XmTRAVERSE_CURRENT);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = if (Boolean(self.frame.form.rc.True:set))
+	strcpy($,"true");\
+else
+	strcpy($,"false");
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = rc = self.frame.form.rc;\
+rc:topOffset = -(rc:height / 2);\
+rc:leftOffset = -(rc:width / 2);\
+if (Boolean(@Boolean))\
+	w = rc.True;\
+else
+	w = rc.False;\
+XmProcessTraversal(w, XmTRAVERSE_CURRENT);
+    }
+    children {
+        widget XmFrame {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                topAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                bottomAttachment = attach_form
+            }
+            children {
+                widget XmForm {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                orientation = horizontal
+                                packing = pack_tight
+                                radioBehavior = true
+                                topAttachment = attach_position
+                                topPosition = 50
+                                leftAttachment = attach_position
+                                leftPosition = 50
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%908 True
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 2
+                                        disarmCallback = XmToggleButtonGadgetSetState(self, True, True); /* GROS BUG de non selection si on le clique ! */
+                                    }
+                                } True
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = %MSG%150%909 False
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        spacing = 2
+                                        disarmCallback = XmToggleButtonGadgetSetState(self, True, True); /* GROS BUG de non selection si on le clique ! */
+                                    }
+                                } False
+                            }
+                        } rc
+                    }
+                } form
+            }
+        } frame
+    }
+} Boolean

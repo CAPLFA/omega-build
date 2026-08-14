@@ -1,0 +1,279 @@
+widget XmList {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_CLASS
+        type = String
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = CListBox
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_LBS_DISABLENOSCROLL
+        get = script get_MFCListBox_MFC_S_LBS_DISABLENOSCROLL:
+		FacePragma("ignore");
+		if(self:scrollBarDisplayPolicy == XmSTATIC)
+			@ = True;
+		else
+			@ = False;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_LBS_EXTENDEDSEL
+        get = script get_MFCListBox_MFC_S_LBS_EXTENDEDSEL:
+		FacePragma("ignore");
+		if(self:selectionPolicy == XmEXTENDED_SELECT)
+			@ = True;
+		else
+			@ = False;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_LBS_HASSTRINGS
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_LBS_MULTIPLESEL
+        get = script get_MFCListBox_MFC_S_LBS_MULTIPLESEL:
+		FacePragma("ignore");
+		if(self:selectionPolicy == XmMULTIPLE_SELECT)
+			@ = True;
+		else
+			@ = False;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_LBS_NOINTEGRALHEIGHT
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_LBS_NOTIFY
+        type = Boolean
+        storage = object
+        automatic = true
+        default_type = String
+        default_value = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_BORDER
+        get = script get_MFCListBox_MFC_S_WS_BORDER:
+		FacePragma("ignore");
+		@ = "true";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_LBN_DBLCLK
+        get = script get_MFCListBox_MFC_N_LBN_DBLCLK:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "defaultActionCallback"))
+			@ = "$XmListCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_DEFAULT_ACTION); call_data = (XtPointer)&cbs;$defaultActionCallback";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_N_LBN_SELCHANGE
+        get = script get_MFCListBox_MFC_N_LBN_SELCHANGE:
+		FacePragma("ignore");
+		if(self:selectionPolicy == XmEXTENDED_SELECT
+		&& _FmHasCallback(self, "extendedSelectionCallback"))
+			@ = "$XmListCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_EXTENDED_SELECT); call_data = (XtPointer)&cbs;$extendedSelectionCallback";
+		else
+		if(self:selectionPolicy == XmMULTIPLE_SELECT
+		&& _FmHasCallback(self, "multipleSelectionCallback"))
+			@ = "$XmListCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_MULTIPLE_SELECT); call_data = (XtPointer)&cbs;$multipleSelectionCallback";
+		else
+		if(self:selectionPolicy == XmSINGLE_SELECT
+		&& _FmHasCallback(self, "singleSelectionCallback"))
+			@ = "$XmListCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_SINGLE_SELECT); call_data = (XtPointer)&cbs;$singleSelectionCallback";
+		else
+		if(self:selectionPolicy == XmBROWSE_SELECT
+		&& _FmHasCallback(self, "browseSelectionCallback"))
+			@ = "$XmListCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_BROWSE_SELECT); call_data = (XtPointer)&cbs;$browseSelectionCallback";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_defaultActionCallback
+        get = script get_MFCListBox_MFC_R_defaultActionCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "defaultActionCallback")){
+			@ = "defaultActionCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_singleSelectionCallback
+        get = script get_MFCListBox_MFC_R_singleSelectionCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "singleSelectionCallback")){
+			@ = "singleSelectionCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_multipleSelectionCallback
+        get = script get_MFCListBox_MFC_R_multipleSelectionCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "multipleSelectionCallback")){
+			@ = "multipleSelectionCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_browseSelectionCallback
+        get = script get_MFCListBox_MFC_R_browseSelectionCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "browseSelectionCallback")){
+			@ = "browseSelectionCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_extendedSelectionCallback
+        get = script get_MFCListBox_MFC_R_extendedSelectionCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "extendedSelectionCallback")){
+			@ = "extendedSelectionCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_VSCROLL
+        get = script get_MFCListBox_MFC_S_WS_VSCROLL:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmScrolledWindow")){
+			@ = True;
+		} else {
+			@ = False;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_WS_HSCROLL
+        get = script get_MFCListBox_MFC_S_WS_HSCROLL:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmScrolledWindow")
+		&& self:listSizePolicy != XmVARIABLE){
+			@ = True;
+		} else {
+			@ = False;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_items
+        get = script get_MFCListBox_MFC_R_items:
+		FacePragma("ignore");
+		Int n = self:itemCount;
+		if(n <= 0){
+			return();
+		}
+		XmString items[Int] = new_c_array(Pointer(self:items), n);
+		String strings[Int] = new_array();
+		Int sz = 1;
+		for(Int i = 0; i < n; i = i+1){
+			String s = FmGetString(items[i]);
+			sz = sz + strlen(s) + 1;
+			strings[i] = s;
+		}
+		String itemstring = XtMalloc(sz);
+		strcpy(itemstring, "");
+		for(Int i = 0; i < n; i = i+1){
+			String s = strings[i];
+			strcat(itemstring, s);
+			if(i < n-1){
+				strcat(itemstring, ",");
+			}
+			XtFree(s);
+		}
+		@ = _FmWinQuoteString(itemstring);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_topItemPosition
+        get = script get_MFCListBox_MFC_R_topItemPosition:
+		FacePragma("ignore");
+		Int n = Int(self:topItemPosition);
+		if (n > 0)
+			@ = itoa(n);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    resources {
+    }
+    templates {
+        MFCScrolled = Fm/MFCScrolled.fm
+        MFCFont = Fm/MFCFont.fm
+        MFCTraversal = Fm/MFCTraversal.fm
+    }
+} listBox

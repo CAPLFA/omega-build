@@ -1,0 +1,1186 @@
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    resources {
+        x = 356
+        y = 339
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                dialogStyle = dialog_full_application_modal
+                mapCallback = global resource_name;\
+if (resource_name != 0) {
+	xms = CreateXmString (String (resource_name));
+	self.resourceName:labelString = xms;
+	StringFree (xms);\
+}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)
+	Return (self,String (0));\
+else
+	resource_returning = False;
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        marginWidth = 5
+                        labelString = %MSG%1% OK
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                        activateCallback = global resource_returning;\
+global _Xrt3dAnchorValue;\
+resource_returning = True;\
+hide (parent);\
+Return (self,String (_Xrt3dAnchorValue));
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        marginWidth = 5
+                        labelString = %MSG%1% Cancel
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+hide (parent);\
+Return (self,String(0));
+                    }
+                } cancel
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 10
+                        bottomWidget = ok
+                    }
+                } sep
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        fontList = *helvetica-bold-r-*-12-*
+                        labelString = \ 
+                        topAttachment = attach_form
+                        topOffset = 8
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } resourceName
+                widget XmFrame {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = resourceName
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                        bottomAttachment = attach_widget
+                        bottomOffset = 8
+                        bottomWidget = sep
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                marginHeight = 0
+                                marginWidth = 0
+                                packing = pack_column
+                                numColumns = 3
+                                radioBehavior = true
+                                isHomogeneous = false
+                            }
+                            children {
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue:\
+if (@ == self:userData)
+	ToggleButtonGadgetSetState (self,True,True);
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_NORTHWEST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Northwest
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName:\
+if (self:set) {
+	global _Xrt3dAnchorValue;
+	_Xrt3dAnchorValue = Name(self);\
+}
+                                    }
+                                } anchornorthwest
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_WEST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% West
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchorwest
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_SOUTHWEST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Southwest
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchorsouthwest
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_NORTH);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% North
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchornorth
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        visibleWhenOff = false
+                                        labelString = \ 
+                                        sensitive = false
+                                        fontList = *helvetica-bold-r-*-12-*
+                                    }
+                                } dummy
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_SOUTH);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% South
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchorsouth
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_NORTHEAST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Northeast
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchornortheast
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_EAST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% East
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchoreast
+                                widget XmToggleButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    activevalue {
+                                        name = _Xrt3dAnchor
+                                        set = script Xrt3dAnchorSetValue;
+                                    }
+                                    createproc {
+                                        SetValues (self,1,userData,XRT3D_ANCHOR_SOUTHEAST);
+                                    }
+                                    resources {
+                                        labelString = %MSG%1% Southeast
+                                        fontList = *helvetica-bold-r-*-12-*
+                                        valueChangedCallback = script _Xrt3dSetAnchorName;
+                                    }
+                                } anchorsoutheast
+                            }
+                        } rc
+                    }
+                } frame
+            }
+        } form
+    }
+} Xrt3dAnchor
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    createproc {
+        remote None _XnslAttachXrtRemoteAvs;
+    }
+    resources {
+        x = 440
+        y = 198
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            activevalue {
+                name = _Xrt3dValueLabel
+                set = _XnslSetXrt3dLabel (self,"Xrt3dValueLabels",String ($));
+            }
+            createproc {
+                _XnslAttachXrt3dAvs();
+		_XnslAttachXrt3dRemoteAvs();
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                dialogStyle = dialog_full_application_modal
+                buttonFontList = *helvetica-bold-r-*-12-*
+                labelFontList = *helvetica-bold-r-*-12-*
+                textFontList = *courier-medium-r-*-12-*
+                mapCallback = local Boolean already;\
+if (!already) {
+	already = True;
+	parent:minWidth = self:width;
+	parent:minHeight = self:height;
+	parent:maxHeight = self:height;\
+}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)\
+        Return (self,String (0));\
+else\
+        resource_returning = False;
+                mapCallback = global resource_name;\
+if (resource_name != 0) {\
+        xms = CreateXmString (String (resource_name));\
+        self.resource:labelString = xms;\
+        StringFree (xms);\
+}
+
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% OK
+                        marginHeight = 3
+                        marginWidth = 5
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+hide (parent);\
+Return (self,_XnslGetXrt3dLabel());
+                        topAttachment = attach_none
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% Cancel
+                        marginHeight = 3
+                        marginWidth = 5
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+hide (parent);\
+Return (self,String (0));
+                        topAttachment = attach_opposite_widget
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        leftAttachment = attach_none
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                    }
+                } cancel
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_form
+                        topOffset = 8
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } resource
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% Value:
+                        alignment = alignment_beginning
+                        topAttachment = attach_widget
+                        topOffset = 20
+                        topWidget = resource
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } valueLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _Xrt3dValue
+                        set = script _Xrt3dLabelSetTextValue:\
+self:value = String(@);\
+TextFieldSetInsertionPosition (self,TextFieldGetLastPosition (self));
+                        get = script _Xrt3dLabelGetTextValue:\
+@ = self:value;
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 13
+                        topWidget = resource
+                        leftAttachment = attach_widget
+                        leftWidget = valueLabel
+                        leftOffset = 3
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                    }
+                } value
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%1% Label:
+                        alignment = alignment_beginning
+                        topAttachment = attach_widget
+                        topOffset = 10
+                        topWidget = value
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                    }
+                } labelLabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _Xrt3dLabel
+                        set = script _Xrt3dLabelSetTextValue;
+                        get = script _Xrt3dLabelGetTextValue;
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 3
+                        topWidget = value
+                        leftAttachment = attach_widget
+                        leftWidget = valueLabel
+                        leftOffset = 3
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                    }
+                } label
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topOffset = 8
+                        topWidget = label
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                        bottomAttachment = attach_widget
+                        bottomOffset = 8
+                        bottomWidget = ok
+                    }
+                } sep
+            }
+        } form
+    }
+} Xrt3dLabel
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    createproc {
+        remote None _XnslAttachXrt3dRemoteAvs;
+	remote None _XnslSetXrt3dXYColor;
+	remote String _XnslGetXrt3dXYColor;
+	remote String _XnslGetXrt3dGridLines;
+	remote Int @_Xrt3dXYColorX;
+	remote Int @_Xrt3dXYColorY;
+	remote String @_Xrt3dXYColorName;
+	remote Int @_Xrt3dXYGridlines;
+    }
+    resources {
+        x = 95
+        y = 307
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            activevalue {
+                name = _Xrt3dXYColor
+                set = _XnslSetXrt3dXYColor (String ($));
+            }
+            createproc {
+                _XnslAttachXrt3dAvs();\
+		_XnslAttachXrt3dRemoteAvs();\
+w = self.xlabel:width;\
+n = self.colorlabel:width;\
+if (w < n)
+	w = n;\
+self.xlabel:width = w;\
+self.colorlabel:width = w;\
+n = self.color:height;\
+self.colorsample:height = n - 6;\
+self.colorsample:width = n - 6;
+
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                dialogStyle = dialog_full_application_modal
+                buttonFontList = *helvetica-bold-r-*-12-*
+                labelFontList = *helvetica-bold-r-*-12-*
+                textFontList = *courier-medium-r-*-12-*
+                mapCallback = local Boolean already;\
+if (!already) {
+	already = True;
+	parent:minWidth = self:width;
+	parent:minHeight = self:height;
+	parent:maxHeight = self:height;\
+}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)\
+        Return (self,String (0));\
+else\
+        resource_returning = False;
+            }
+            children {
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        marginWidth = 0
+                        labelString = X index:
+                        topAttachment = attach_form
+                        topOffset = 12
+                        leftAttachment = attach_form
+                        leftOffset = 10
+                    }
+                } xlabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _Xrt3dXYColorX
+                        get = \
+s = self:value;\
+@ = atoi (s);\
+XtFree (s);
+                        set = \
+if (@ > 0) {
+	s = itoa(@);
+	self:value = s;
+	XtFree (s);\
+} else
+	self:value = "";
+XmTextFieldSetInsertionPosition (self,XmTextFieldGetLastPosition (self));
+                    }
+                            createproc {
+                                function void _Xrt3dDataStyleSetTextFieldValue (Widget w,String s) {
+	w:value = s;
+	TextFieldSetInsertionPosition (w,TextFieldGetLastPosition (w));\
+}
+                            }
+                    resources {
+                        marginHeight = 1
+                        marginWidth = 1
+                        columns = 5
+                        topAttachment = attach_opposite_widget
+                        topWidget = xlabel
+                        topOffset = -5
+                        leftAttachment = attach_widget
+                        leftWidget = xlabel
+                        leftOffset = 5
+                    }
+                } xindex
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_opposite_widget
+                        topWidget = xindex
+                        leftAttachment = attach_widget
+                        leftWidget = xindex
+                        activateCallback = function void _XnslColorAdjustIndex (Widget w,Int incr) {
+	s = w:value;
+	i = atoi (s);
+	XtFree (s);
+	i = i + incr;
+	if (i < 1)
+		i = 1;
+	w:value = itoa (i);
+	XmTextFieldSetInsertionPosition (w,XmTextFieldGetLastPosition(w));\
+}\
+_XnslColorAdjustIndex (parent.xindex,1);
+                    }
+                } xup
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        arrowDirection = arrow_down
+                        topAttachment = attach_opposite_widget
+                        topWidget = xindex
+                        leftAttachment = attach_widget
+                        leftWidget = xup
+                        activateCallback = _XnslColorAdjustIndex (parent.xindex,-1);
+                    }
+                } xdown
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        marginWidth = 0
+                        labelString = Y index:
+                        topAttachment = attach_opposite_widget
+                        topWidget = xlabel
+                        leftAttachment = attach_widget
+                        leftOffset = 10
+                        leftWidget = xdown
+                    }
+                } ylabel
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _Xrt3dXYColorY
+                        get = \
+s = self:value;\
+@ = atoi (s);\
+XtFree (s);
+                        set = \
+if (@ > 0) {
+	s = itoa(@);
+	self:value = s;
+	XtFree (s);\
+} else
+	self:value = "";
+XmTextFieldSetInsertionPosition (self,XmTextFieldGetLastPosition (self));
+                    }
+                    resources {
+                        marginHeight = 1
+                        marginWidth = 1
+                        columns = 5
+                        topAttachment = attach_opposite_widget
+                        topWidget = xlabel
+                        topOffset = -5
+                        leftAttachment = attach_widget
+                        leftWidget = ylabel
+                        leftOffset = 5
+                    }
+                } yindex
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_opposite_widget
+                        topWidget = xindex
+                        leftAttachment = attach_widget
+                        leftWidget = yindex
+                        activateCallback = _XnslColorAdjustIndex (parent.yindex,1);
+                    }
+                } yup
+                widget XmArrowButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        arrowDirection = arrow_down
+                        topAttachment = attach_opposite_widget
+                        topWidget = xindex
+                        leftAttachment = attach_widget
+                        leftWidget = yup
+                        activateCallback = _XnslColorAdjustIndex (parent.yindex,-1);
+                    }
+                } ydown
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        separatorType = no_line
+                        topAttachment = attach_opposite_widget
+                        topWidget = xlabel
+                        leftAttachment = attach_widget
+                        leftWidget = ydown
+                        rightAttachment = attach_form
+                        rightOffset = 6
+                    }
+                } space
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        alignment = alignment_beginning
+                        marginHeight = 0
+                        marginWidth = 0
+                        labelString = Color:
+                        topAttachment = attach_widget
+                        topOffset = 8
+                        topWidget = xindex
+                        leftAttachment = attach_form
+                        leftOffset = 10
+                    }
+                } colorlabel
+                widget XmLabel {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _Xrt3dXYColorName
+                        set = if (@ != 0)
+	if (strcmp (@,"") != 0)
+		self:background = String (@);
+                    }
+                    resources {
+                        labelType = pixmap
+                        borderWidth = 1
+                        topAttachment = attach_opposite_widget
+                        topWidget = colorlabel
+                        topOffset = -3
+                        leftAttachment = attach_widget
+                        leftOffset = 3
+                        leftWidget = colorlabel
+                    }
+                } colorsample
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = Select ...
+                        marginWidth = 3
+                        marginHeight = 1
+                        topAttachment = attach_opposite_widget
+                        topWidget = colorlabel
+                        topOffset = -5
+                        rightAttachment = attach_form
+                        rightOffset = 10
+                        activateCallback = old = parent.color:value;\
+s = FmCallResourceBox("Pixel", old, "ColorSelectionBox", "_FmColorSelectionPixel");\
+XtFree (old);\
+if (s != 0 && strlen(s) > 0) {
+	_Xrt3dDataStyleSetTextFieldValue (parent.color,s);
+	parent.colorsample:background = ConvertString (parent.colorsample,s,"Pixel");\
+}
+                    }
+                } colorselect
+                widget XmTextField {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    activevalue {
+                        name = _Xrt3dXYColorName
+                        get = @ = self:value;
+                        set = self:value = @;\
+XmTextFieldSetInsertionPosition (self,XmTextFieldGetLastPosition (self));
+                    }
+                    resources {
+                        marginHeight = 1
+                        marginWidth = 1
+                        topAttachment = attach_opposite_widget
+                        topWidget = colorlabel
+                        topOffset = -5
+                        leftAttachment = attach_widget
+                        leftWidget = colorsample
+                        leftOffset = 5
+                        rightAttachment = attach_widget
+                        rightOffset = 2
+                        rightWidget = colorselect
+                    }
+                } color
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = color
+                        topOffset = 15
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                } line
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        marginHeight = 3
+                        marginWidth = 5
+                        labelString = OK
+                        topAttachment = attach_widget
+                        topOffset = 10
+                        topWidget = line
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+FmHideWidget (parent);\
+Return (self,_XnslGetXrt3dXYColor());
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        marginHeight = 3
+                        marginWidth = 5
+                        labelString = Cancel
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+FmHideWidget (parent);\
+Return (self,String (0));
+                    }
+                } cancel
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        separatorType = no_line
+                        topAttachment = attach_widget
+                        topWidget = ok
+                        leftAttachment = attach_opposite_widget
+                        leftWidget = ok
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                    }
+                } bottom
+            }
+        } form
+    }
+} Xrt3dXYColor
+widget XmDialogShell {
+    flag {
+        popup
+        autosize
+    }
+    createproc {
+        remote None _XnslAttachXrt3dRemoteAvs;
+    }
+    resources {
+        x = 95
+        y = 307
+    }
+    children {
+        widget XmForm {
+            flag {
+                autosize
+                autopos
+            }
+            createproc {
+                _XnslAttachXrt3dAvs();
+		_XnslAttachXrt3dRemoteAvs();
+            }
+            resources {
+                autoUnmanage = false
+                defaultPosition = false
+                dialogStyle = dialog_full_application_modal
+                buttonFontList = *helvetica-bold-r-*-12-*
+                labelFontList = *helvetica-bold-r-*-12-*
+                textFontList = *courier-medium-r-*-12-*
+                mapCallback = local Boolean already;\
+if (!already) {
+	already = True;
+	parent:minWidth = self:width;
+	parent:minHeight = self:height;
+	parent:maxHeight = self:height;\
+}
+                unmapCallback = global resource_returning;\
+if (!resource_returning)\
+        Return (self,String (0));\
+else\
+        resource_returning = False;
+            }
+            children {
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _Xrt3dGridLines
+                        set = self:set = ((@ / XRT3D_XY_PLANE / 2 * 2) != (@ / XRT3D_XY_PLANE));
+                    }
+                    resources {
+                        labelString = X-Y plane
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_form
+                        topOffset = 8
+                        leftAttachment = attach_form
+                        leftOffset = 25
+                    }
+                } xy
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _Xrt3dGridLines
+                        set = self:set = ((@ / XRT3D_XZ_PLANE / 2 * 2) != (@ / XRT3D_XZ_PLANE));
+                    }
+                    resources {
+                        labelString = X-Z plane
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topWidget = xy
+                        leftAttachment = attach_opposite_widget
+                        leftWidget = xy
+                    }
+                } xz
+                widget XmToggleButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    activevalue {
+                        name = _Xrt3dGridLines
+                        set = self:set = ((@ / XRT3D_YZ_PLANE / 2 * 2) != (@ / XRT3D_YZ_PLANE));
+                    }
+                    resources {
+                        labelString = Y-Z plane
+                        marginWidth = 0
+                        marginHeight = 0
+                        topAttachment = attach_widget
+                        topWidget = xz
+                        leftAttachment = attach_opposite_widget
+                        leftWidget = xy
+                    }
+                } yz
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        topAttachment = attach_widget
+                        topWidget = yz
+                        topOffset = 10
+                        leftAttachment = attach_form
+                        rightAttachment = attach_form
+                    }
+                } line
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        marginHeight = 3
+                        marginWidth = 5
+                        labelString = OK
+                        topAttachment = attach_widget
+                        topOffset = 10
+                        topWidget = line
+                        leftAttachment = attach_form
+                        leftOffset = 8
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+FmHideWidget (parent);\
+n = 0;\
+if (parent.xy:set)
+	n = n + XRT3D_XY_PLANE;\
+if (parent.xz:set)
+	n = n + XRT3D_XZ_PLANE;\
+if (parent.yz:set)
+	n = n + XRT3D_YZ_PLANE;\
+Return (self,_XnslGetXrt3dGridLines (n));
+                    }
+                } ok
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        marginHeight = 3
+                        marginWidth = 5
+                        labelString = Cancel
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        rightAttachment = attach_form
+                        rightOffset = 8
+                        activateCallback = global resource_returning;\
+resource_returning = True;\
+FmHideWidget (parent);\
+Return (self,String (0));
+                    }
+                } cancel
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        separatorType = no_line
+                        topAttachment = attach_widget
+                        topWidget = ok
+                        leftAttachment = attach_opposite_widget
+                        leftWidget = ok
+                        bottomAttachment = attach_form
+                        bottomOffset = 8
+                    }
+                } bottom
+                widget XmSeparator {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        separatorType = no_line
+                        topAttachment = attach_opposite_widget
+                        topWidget = ok
+                        leftAttachment = attach_widget
+                        leftOffset = 10
+                        leftWidget = ok
+                        rightAttachment = attach_widget
+                        rightOffset = 10
+                        rightWidget = cancel
+                    }
+                } tween
+            }
+        } form
+    }
+} Xrt3dGridLines

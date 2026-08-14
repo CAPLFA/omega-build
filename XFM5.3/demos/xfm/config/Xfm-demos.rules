@@ -1,0 +1,102 @@
+###############################################################################
+###############################################################################
+##
+##
+##                             General Makefile rules
+##
+##
+###############################################################################
+###############################################################################
+
+###############################################################################
+###############################################################################
+##
+##    when nothing specified, build with "make all", but whine a little
+##
+##
+noTargetSpecified: noTargetWhining all
+
+noTargetWhining:
+	@echo "usage: make [all] [clean]"
+	@echo "Humm .. ok, making all"
+	@echo 
+
+###############################################################################
+###############################################################################
+##
+##           known suffixes
+##
+##	     .fm    XFaceMaker file
+##        App.c     C Application source generated from .fm by xfm
+##        App.h     H Application include generated from .fm by xfm
+##       Main.c     C Main source generated from .fm by xfm
+##        .Make     xfm Makefile used to build an executable
+##         .Exe     pseudo-extension used to generate executable
+
+.SUFFIXES: .fmp .fm Main.c App.c App.h .c Make Class .exe .editor
+
+################################################################################
+###############################################################################
+##
+##            New variables
+
+               LN = ln -s
+               RM = rm -f
+               MV = mv
+              XFM = $(NSLHOME)/bin/xfm
+          MAKEEXT = Make
+
+###############################################################################
+###############################################################################
+##
+##            New rules
+
+.fmApp.c:
+	$(XFM) -preserve -force -applifiles App.c -genappli $?
+
+.fmApp.h:
+	$(XFM) -preserve -force -applifiles App.h -genappli $?
+
+.fmMain.c:
+	$(XFM) -preserve -force -applifiles Main.c -genappli $?
+
+.fmpMain.c:
+	$(XFM) -preserve -force -applifiles Main.c -genappli $?
+
+.fmMake:
+	$(XFM) -applifiles Make -genappli $?
+	$(RM) $*.Make 
+	$(LN) $*Make $*.Make 
+
+.fmpMake:
+	$(XFM)                  -applifiles Make  -genappli $?
+	$(XFM) -preserve -force -applifiles App.c -genappli $?
+	$(XFM) -preserve -force -applifiles App.h -genappli $?
+	$(RM) $*.Make 
+	$(LN) $*Make $*.Make 
+
+.fmClass:
+	@if [ ! -f $*ExampleApp.c ] || [ ! -f $*ExampleApp.h ] || [ ! -f $*ExampleMain.c ]; then \
+	  echo $(XFM) -cprefix Xnsl -classes Xnsl$*:$*.fm $*Example.fm -genappli ;               \
+	  $(XFM) -cprefix Xnsl -classes Xnsl$*:$*.fm $*Example.fm -genappli ;                    \
+	  echo $(RM) $*Example.Make ;                                                            \
+	  $(RM) $*Example.Make ;                                                                 \
+	  echo $(LN) $*ExampleMake $*Example.Make ;                                              \
+	  $(LN) $*ExampleMake $*Example.Make ;                                                   \
+	fi
+.fm.exe:
+	$(MAKE) $(MFLAGS) -f $*.Make
+
+.fm.editor:
+	$(MAKE) $(MFLAGS) -f $*.Make editor
+
+clean::
+	@for target in `ls *.Make 2>/dev/null`; do           \
+	   $(MAKE) -f $${target} cleanall ;                  \
+	 done;                                               \
+
+	@ $(RM) *.CKP *.ln *.BAK *.bak *.o *.lo *.cat core   \
+		errs ,* *~ *.a .emacs_* make.log *Make       \
+		MakeOut so_locations .wi_[0-9]* tags \#*     \
+		${GENERATED_FILES}
+

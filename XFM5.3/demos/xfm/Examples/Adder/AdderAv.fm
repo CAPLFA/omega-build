@@ -1,0 +1,131 @@
+widget ApplicationShell {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    resources {
+        title = AdderAv
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+                autopos
+            }
+            resources {
+                height = 249
+                width = 361
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 260
+                        y = 160
+                        width = 60
+                        height = 60
+                        activateCallback = \
+function None PAdd();\
+PAdd();
+                    }
+                } Add
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 150
+                        y = 160
+                        width = 60
+                        height = 60
+                        activateCallback = \
+	function None PStart();\
+	 PStart();
+                    }
+                } Start
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 40
+                        y = 40
+                        width = 52
+                        height = 17
+                        labelString = Sum
+                    }
+                } Label_Sum
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 40
+                        y = 90
+                        width = 52
+                        height = 17
+                        labelString = Number
+                    }
+                } Label_Number
+                widget XmLabel {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = PSum
+                        get = str = FmGetString(self:labelString);\
+	@ = atoi(str);
+	XtFree(str);
+                        set = self:labelString = itoa(@);
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                    }
+                    resources {
+                        x = 150
+                        y = 40
+                        width = 170
+                        height = 20
+                        labelString = 0
+                    }
+                } Sum
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 40
+                        y = 160
+                        width = 60
+                        height = 60
+                        activateCallback = Quit(0);
+                    }
+                } Quit
+                widget XmTextField {
+                    flag {
+                        mapped
+                    }
+                    activevalue {
+                        name = PNumber
+                        get = str=self:value;
+	@ = atoi(str);
+	XtFree(str);
+                        set = self:value=itoa(@);
+                        type = Int
+                        automatic = TRUE
+                        usage = face
+                    }
+                    resources {
+                        x = 150
+                        y = 90
+                        width = 170
+                        height = 30
+                    }
+                } Number
+            }
+        } BB
+    }
+} AS

@@ -1,0 +1,26 @@
+MOTIF_DIR = $(MOTIFHOME)
+X_DIR = /usr/X11R6
+
+SYS_CFLAGS= -Dibm -Drs6000 -DSYSV -DAIXV3 -DAIXV4 -D_ALL_SOURCE
+#SYS_LDFLAGS=
+#SYS_LIBS=
+
+MOTIF_INCPATH = -I$(MOTIF_DIR)/include -I$(X_DIR)/include
+MOTIF_LIBPATH = -L$(MOTIF_DIR)/lib -L$(X_DIR)/lib
+
+XT_INCPATH = -I$(X_DIR)/include
+XT_LIBPATH = -L$(X_DIR)/lib
+
+XLIB_INCPATH = -I$(X_DIR)/include
+XLIB_LIBPATH = -L$(X_DIR)/lib
+
+XEXT_INCPATH = -I$(X_DIR)/include
+XEXT_LIBPATH = -L$(X_DIR)/lib
+
+#XT_LIBNAME = -lXt -lSM -lICE
+#RANLIB = ranlib
+#HAS_SHLIBS = true         # replace with true if shared libs are supported.
+#SHLIB_SUFFIX = .so.3.5      # replace with appropriate suffix
+#SHLIB_C_FLAGS =   -fPIC -DSHAREDCODE
+#SHLIB_LD_FLAGS = -shared #-Wl,-soname,$@
+#SHLIB_DEP_LIBS = false

@@ -1,0 +1,159 @@
+widget XmFrame {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_GROUPLABEL
+        get = script get_MFCGroupBox_MFC_GROUPLABEL:
+		FacePragma("ignore");
+		define XmFRAME_TITLE_CHILD 2;
+		Int n = self:numChildren;
+		if(n > 0){
+			Widget children[Int] = new_c_array(Pointer(self:children), n);
+			String title;
+			for(Int i = 0; i < n; i = i+1){
+				Widget w = children[i];
+				if(w:childType == XmFRAME_TITLE_CHILD){
+					@ = w;
+					i = n; /* break; */
+				}
+			}
+		}
+        type = Widget
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FRAMECHILD
+        get = script get_MFCGroupBox_MFC_FRAMECHILD:
+		FacePragma("ignore");
+		define XmFRAME_WORKAREA_CHILD 1;
+		Int n = self:numChildren;
+		Widget child = Widget(0);
+		if(n > 0){
+			Widget children[Int] = new_c_array(Pointer(self:children), n);
+			String title;
+			for(Int i = 0; i < n; i = i+1){
+				Widget w = children[i];
+				if(w:childType == XmFRAME_WORKAREA_CHILD){
+					child = w;
+					i = n; /* break; */
+				}
+			}
+		}
+		if(child){
+			child:@MFC_A_leftAttachment = "XmATTACH_FORM";
+			child:@MFC_A_topAttachment = "XmATTACH_FORM";
+			child:@MFC_A_rightAttachment = "XmATTACH_FORM";
+			child:@MFC_A_bottomAttachment = "XmATTACH_FORM";
+			child:@MFC_A_leftOffset = itoa(child:@MFC_X);
+			child:@MFC_A_topOffset = itoa(child:@MFC_Y);
+			child:@MFC_A_rightOffset = itoa(self:@MFC_W - child:@MFC_X - child:@MFC_W);
+			child:@MFC_A_bottomOffset = itoa(self:@MFC_H - child:@MFC_Y - child:@MFC_H);
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_FAMILY
+        get = script get_MFCGroupBox_MFC_FONT_FAMILY:
+		FacePragma("ignore");
+		w = self:@MFC_GROUPLABEL;
+		if(w)
+			@ = w:@MFC_FONT_FAMILY;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_SIZE
+        get = script get_MFCGroupBox_MFC_FONT_SIZE:
+		FacePragma("ignore");
+		w = self:@MFC_GROUPLABEL;
+		if(w)
+			@ = w:@MFC_FONT_SIZE;
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_WEIGHT
+        get = script get_MFCGroupBox_MFC_FONT_WEIGHT:
+		FacePragma("ignore");
+		w = self:@MFC_GROUPLABEL;
+		if(w)
+			@ = w:@MFC_FONT_WEIGHT;
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_FONT_ITALIC
+        get = script get_MFCGroupBox_MFC_FONT_ITALIC:
+		FacePragma("ignore");
+		w = self:@MFC_GROUPLABEL;
+		if(w)
+			@ = w:@MFC_FONT_ITALIC;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CAPTION
+        get = script get_MFCGroupBox_MFC_CAPTION:
+		FacePragma("ignore");
+		Widget w = self:@MFC_GROUPLABEL;
+		if(w){
+			@ = FmGetString(w:labelString);
+			if(!@ || strcmp(@, "") == 0)
+				@ = "_xfm_win_empty_caption_";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_S_BS_GROUPBOX
+        get = script get_MFCGroupBox_MFC_S_BS_GROUPBOX:
+		FacePragma("ignore");
+		if(self:@MFC_GROUPLABEL)
+			@ = True;
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_CLASS
+        get = script get_MFCGroupBox_MFC_CLASS:
+		FacePragma("ignore");
+		if(self:@MFC_GROUPLABEL)
+			@ = "CButton";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} button

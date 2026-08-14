@@ -1,0 +1,170 @@
+widget XmDrawnButton {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    resources {
+        activateCallback = NewTemplateWidget('TemplateName');
+        labelType = pixmap
+        labelPixmap = TemplateIconFile
+        translations = #override
+	<Enter> : eval("parent.parent.parent.name:labelString = 'TemplateName (TemplateMode)';")
+	<Leave>: eval("script leave_tk_icon: parent.parent.parent.name:labelString = ' ';")
+	<Btn3Down>:	eval("script popup_tmpl_menu: global _fm_tmpl_name_; _fm_tmpl_name_ = 'TemplateName'; popup=NameToWidget(self, '*PopupMenu6');MenuPosition(popup, $);ManageChild(popup);")
+    }
+    children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+                menu_popup
+            }
+            resources {
+                mapCallback =
+			global _fm_tmpl_name_;
+			if(_FmIsCompositeTemplate(_fm_tmpl_name_)){
+				parent.apply_menu.subtree:sensitive = false;
+				parent.apply_menu.sameclass:sensitive = false;
+				parent.unapply_menu.subtree:sensitive = false;
+				parent.unapply_menu.sameclass:sensitive = false;
+			}
+            }
+            children {
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+                menu_pulldown
+            }
+            resources {
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%968 To Selected Object
+                        activateCallback = 
+				global _fm_tmpl_name_;
+				ApplyTemplateToSelection(_fm_tmpl_name_, False, False, False, 2);
+                    }
+                } object
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%969 To Whole Subtree
+                        activateCallback = 
+				global _fm_tmpl_name_;
+				ApplyTemplateToSelection(_fm_tmpl_name_, True, False, False, 2);
+                    }
+                } subtree
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%970 To Widgets Of Same Class
+                        activateCallback =
+				global _fm_tmpl_name_;
+				ApplyTemplateToSelection(_fm_tmpl_name_, True, True, False, 2);
+                    }
+                } sameclass
+            }
+        } apply_menu 
+        widget XmCascadeButton {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%971 Apply
+                subMenuId = parent.parent.apply_menu
+            }
+        } apply
+        widget XmRowColumn {
+            flag {
+                mapped
+                autosize
+                autopos
+                menu_pulldown
+            }
+            resources {
+            }
+            children {
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%972 To Selected Object
+                        activateCallback = 
+				global _fm_tmpl_name_;
+				ApplyTemplateToSelection(_fm_tmpl_name_, False, False, True, False);
+                    }
+                } object
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%973 To Whole Subtree
+                        activateCallback = 
+				global _fm_tmpl_name_;
+				ApplyTemplateToSelection(_fm_tmpl_name_, True, False, True, False);
+                    }
+                } subtree
+                widget XmPushButton {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                        gadget
+                    }
+                    resources {
+                        labelString = %MSG%150%974 To Widgets Of Same Class
+                        activateCallback =
+				global _fm_tmpl_name_;
+				ApplyTemplateToSelection(_fm_tmpl_name_, True, True, True, False);
+                    }
+                } sameclass
+            }
+        } unapply_menu
+        widget XmCascadeButton {
+            flag {
+                mapped
+                autosize
+                autopos
+                gadget
+            }
+            resources {
+                labelString = %MSG%150%975 Un-Apply
+                subMenuId = parent.parent.unapply_menu
+            }
+        } unapply
+	}
+        } PopupMenu6
+    }
+} TemplateIcon

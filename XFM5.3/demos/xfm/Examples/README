@@ -1,0 +1,84 @@
+You can find in the following directories several examples that were implemented with
+XFaceMaker. The examples cover a wide range of difficulty: some are very simple, others
+are sophisticated. You are welcome to look for ideas in these directories.
+
+To build these examples, set the  NSLHOME environment variable to the
+directory where the products have been installed, add $NSLHOME/bin to your PATH
+variable so you can access xfm. If your system supports shared libraries, add
+$NSLHOME/lib to your LD_LIBRARY_PATH or LIBPATH variable.
+In directory $NSLHOME/demos/xfm, execute the following commands
+
+	make Makefile
+	make Makefiles
+
+This builds the Makefile for each directory.
+
+You are now ready to build the applications you want to run.
+cd to the directory whose application you want to build, and execute the command
+	make
+
+
+Directory name		Contents
+
+Adder			A small application that creates an adding machine. It exists
+			in 3 versions: 
+			adder: interface and application communicate through function calls
+			adderAv: Active values are used for interface and application communication
+			adderInt: Internationalized version of Adder
+Age			A small application that prints the value of a scale.
+			Example of defining and using active values to share data between
+			the application and the interface.
+Alloc			An application to monitor memory allocation for graphical rectangles.
+			You can specify the size of the rectangle and click Alloc, or allocate
+			data randomly. You can select an allocated rectangle and free it,
+			pack the allocated memory, etc.
+			This example uses active values for application to interface communication.
+Bounce			Game with a bouncing bitmap. When the bitmap reaches the bottom line,
+			it bounces if it hit the slider. Otherwise, you have lost, the
+			bitmap stops. You can adjust speed with the 'dx' and 'dy' scrollbars
+			and the speed with the 'interval' scrollbar. 
+			This example uses active values for application to interface communication.
+CapXfm			Illustrates the use of FmAddWidgetClass to add widget classes
+			to XFaceMaker without using the FACE extensions. 
+			See the README in the directory for further detail.
+Classes			Examples of widget classes built with XFaceMaker. Some of these
+			are mentionned in the User Guide. The classes are: AlertLabel, NumField
+			and TextValidate. The directory includes small applications that use
+			these classes, and an XFaceMaker executable that includes the classes but
+			does not define a class icon for the classes in the toolkit.
+Color			Example of an interface made with a group, where the application 
+			instantiates the group dynamically.
+Cross			Simple example of an interface built with XFaceMaker, where the expose
+			callback in a drawing area calls an application function, passing it
+			parameters.
+CxxClass		Example of C++ class generation. This example  is commented in 
+			the XFaceMaker User Guide, in the chapter on C++ class generation.
+			You have to run XFaceMaker to generate the C++ class files from the
+			Counter.fm file.
+DragDrop		Example of defining and using Drag and Drop with active values.
+			A drag source and a drop site are defined on two widgets, along 
+			with icons that change with the type of data dragged.
+Find			Example of a graphic interface implementation for the Unix command
+			'find' in which active 	values are used to share data between the 
+			application and the interface.
+Interfaces		Several interface files built with XFaceMaker. To view them, launch
+			XFaceMaker and load them. One of them, Articles, is a good illustration
+			of how to do attachments in a Form.
+Makeit			Example of a graphic interface implementation for the 'make' command
+			in which an active value is used to share data between the application 
+			and the interface.
+MultiDisplay		Example of displaying an interface on several displays. This shows how
+			to open several displays, modify the mainloop to handle events from
+			any display. This shows how to use the function FmSetToplevel.
+NewAvs			This example shows how to use per-widget and per-call active values.
+			See the README in the directory for further detail.
+NewXfm			Simple skeleton main program you could use to build a new XFaceMaker
+			executable with a new widget class, without using the XFaceMaker extensions capability.
+Pulldown		Simple example of a menubar and some pulldown menus built with XFaceMaker.
+Skeleton		An example with two widgets, an applicationShell and an XmLabel.
+			Use this only to identify problems you may encounter when building
+			applications. The executable just shows a Hello world label.
+World			Example of an animation. This is a Motif application example that was
+			adapted for use with XFaceMaker. This application illustrates the use
+			or work procedures in the main loop.
+

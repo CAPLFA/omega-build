@@ -1,0 +1,206 @@
+widget XmText {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_IS_SCROLLED
+        get = script get_MFCScrolled_MFC_IS_SCROLLED:
+		FacePragma("ignore");
+		if(_FmIsOfSubClass(parent, "XmScrolledWindow")
+		&& parent:scrollingPolicy == XmAPPLICATION_DEFINED){
+			@ = True;
+		}
+        type = Boolean
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+   activevalue {
+        name = MFC_W
+        get = script get_MFCScrolled_MFC_W:
+		FacePragma("ignore");
+		if(self:@MFC_IS_SCROLLED){
+			@ = atoi(_FmGetWidgetResourceValue(parent, "width"));
+		} else {
+			@ = atoi(_FmGetWidgetResourceValue(self, "width"));
+		}
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_H
+        get = script get_MFCScrolled_MFC_H:
+		FacePragma("ignore");
+		if(self:@MFC_IS_SCROLLED){
+			@ = atoi(_FmGetWidgetResourceValue(parent, "height"));
+		} else {
+			@ = atoi(_FmGetWidgetResourceValue(self, "height"));
+		}
+        type = Int
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_topAttachment
+        get = script get_MFCScrolled_MFC_A_topAttachment:
+		FacePragma("ignore");
+		if(self:@MFC_IS_SCROLLED){
+			@ = "XmATTACH_FORM";
+			return();
+		}
+		if(!_FmIsOfSubClass(parent, "XmForm")){
+			return();
+		}
+		a = self:topAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_bottomAttachment
+        get = script get_MFCScrolled_MFC_A_bottomAttachment:
+		FacePragma("ignore");
+		if(self:@MFC_IS_SCROLLED){
+			@ = "XmATTACH_FORM";
+			return();
+		}
+		if(!_FmIsOfSubClass(parent, "XmForm")){
+			return();
+		}
+		a = self:bottomAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_leftAttachment
+        get = script get_MFCScrolled_MFC_A_leftAttachment:
+		FacePragma("ignore");
+		if(self:@MFC_IS_SCROLLED){
+			@ = "XmATTACH_FORM";
+			return();
+		}
+		if(!_FmIsOfSubClass(parent, "XmForm")){
+			return();
+		}
+		a = self:leftAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_A_rightAttachment
+        get = script get_MFCScrolled_MFC_A_rightAttachment:
+		FacePragma("ignore");
+		if(self:@MFC_IS_SCROLLED){
+			@ = "XmATTACH_FORM";
+			return();
+		}
+		if(!_FmIsOfSubClass(parent, "XmForm")){
+			return();
+		}
+		a = self:rightAttachment;
+		if(a == XmATTACH_NONE)
+			return();
+		else
+		if(a == XmATTACH_FORM)
+			@ = "XmATTACH_FORM";
+		else
+		if(a == XmATTACH_OPPOSITE_FORM)
+			@ = "XmATTACH_OPPOSITE_FORM";
+		else
+		if(a == XmATTACH_WIDGET)
+			@ = "XmATTACH_WIDGET";
+		else
+		if(a == XmATTACH_OPPOSITE_WIDGET)
+			@ = "XmATTACH_OPPOSITE_WIDGET";
+		else
+		if(a == XmATTACH_POSITION)
+			@ = "XmATTACH_POSITION";
+		else
+		if(a == XmATTACH_SELF)
+			@ = "XmATTACH_SELF";
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} edittext

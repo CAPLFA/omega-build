@@ -1,0 +1,68 @@
+Xfm*background:		seashell
+Xfm*foreground:		black
+Xfm*selectColor:	royalblue
+
+Xfm*xfmVersionBB.labelXFM.foreground:	royalblue
+
+Xfm.XmDialogShell*XmText.background:		white
+Xfm.TopLevelShell*XmText.background:		white
+Xfm.XmDialogShell*XmTextField.background:	white
+Xfm.TopLevelShell*XmTextField.background:	white
+
+
+Xfm*XmMainWindow.XmRowColumn*background:		lavenderblush
+Xfm*XmMainWindow*try.selectColor:			limegreen
+Xfm*XmMainWindow*listscroller.XmList*background:	cornsilk
+Xfm*XmMainWindow*listform.scroller.XmList*background:	cornsilk
+Xfm*XmMainWindow*listform.XmTextField*background:	white
+Xfm*XmMainWindow*treescroller.Tree*background:		honeydew
+Xfm*XmMainWindow*treescroller.Tree.XmTextField.background:	white
+Xfm*XmMainWindow*treescroller.ClipWindow*background: honeydew
+
+Xfm.Alert*background:		mistyrose
+
+Xfm.TopLevelShell*background:			cornsilk
+Xfm.TopLevelShell*parentName.background:	cornsilk
+Xfm.TopLevelShell*bb*background:		seashell
+Xfm.TopLevelShell*bb.XmTextField.background:	white
+Xfm.TopLevelShell*listScroller.ClipWindow*background: seashell
+Xfm.TopLevelShell*fastListScroller*background: seashell
+Xfm.TopLevelShell*listScroller.ClipWindow*XmText.background: white
+Xfm.TopLevelShell*selection.background:		moccasin
+Xfm.TopLevelShell*current.selectColor:		purple
+Xfm.TopLevelShell*curline.topShadowColor:	mediumpurple1
+Xfm.TopLevelShell*curline.bottomShadowColor:	mediumpurple4
+
+Xfm.activevalue*background:		ghostwhite
+Xfm.activevalue*XmText.background:	floralwhite
+Xfm.activevalue*XmTextField.background:	floralwhite
+Xfm.activevalue*selectColor:		orange
+
+Xfm.MenuEditor.form.name.background:	lavenderblush
+Xfm.MenuEditor*background:		lavenderblush
+Xfm.MenuEditor*XmText.background:	white
+Xfm.MenuEditor*XmTextField.background:	white
+
+Xfm.Environment*background:		honeydew
+Xfm.Environment*XmText.background:	white
+Xfm.Environment*XmTextField.background:	white
+
+Xfm.FaceDebugger*message_text.background:	seashell
+Xfm.FaceDebugger*widget_text.background:	seashell
+Xfm.FaceDebugger*script_text.background:	seashell
+Xfm.FaceDebugger*source_text.background:	seashell
+Xfm.FaceDebugger*output_text.background:	seashell
+
+Xfm.Fileselector*background:			snow
+Xfm.Fileselector*XmText.background:		white
+Xfm.Fileselector*XmTextField.background:	white
+
+Xfm.Help*background:		aliceblue
+Xfm.Functions*background:	aliceblue
+Xfm.iconhelp*background:	aliceblue
+
+Xfm.coptions*command.background:	seashell
+Xfm.rdboptions*command.background:	seashell
+Xfm.msgoptions*command.background:	seashell
+Xfm.uiloptions*command.background:	seashell
+Xfm.printoptions*command.background:	seashell

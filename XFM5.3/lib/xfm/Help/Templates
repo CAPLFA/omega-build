@@ -1,0 +1,202 @@
+Introduction
+	XFaceMaker provides a powerful way of defining re-usable modules
+	by means of templates. Templates are a kind of model or pattern
+	that can be instanciated. A template instance is similar to a	
+	copy of the pattern, but when the definition of the pattern is
+	changed, all its instances are changed automatically. Template
+	instances inherit resources, active values and create callbacks
+	from their template. Templates can also be composite object: in
+	that case, the children of the template are created automatically
+	when an instance is created.
+	
+	Templates can be defined in default mode, in which case the inherited
+	attributes can be changed after instanciation, or in override mode,
+	in which case inherited attributes cannot be changed.
+	
+	Templates can also be applied to existing widgets, thus allowing
+	you to define style sheets to enforce particular resources homogeously
+	in a project.
+	
+	Several templates can be applied to a single widget, and templates
+	can `nest', i.e. a template can be defined using another template.
+	
+Creating or Loading a Template
+	To create a template, you must first define the object which will
+	be used the model of the template. The model object is created like
+	any ordinary interface object. The model can be a single widget,
+	or a composite widget with sub-widgets.
+	
+	Once the model object is defined, you must select it and call the
+	command `Modules/Templates/Save As' in the main menu bar of XFaceMaker.
+	This will pop up a special purpose file selector in which you must
+	specify:
+	
+	- the name of the template (the name will be used to associate the
+	template to its instances),
+	
+	- the template mode (default or override),
+	
+	- the .fm file where the template definition will be saved.
+	
+	When you click `OK', the selected object is saved in the specified .fm
+	file, and the template definition is recorded by XFaceMaker with the
+	specified name and mode. An icon is created in the toolkit area of
+	the main window, in the `Templates' section: to see it, use the Toolkit
+	pulldown menu and select `Templates'.
+	
+	You can also load a template that was defined previously. To do this,
+	use the command `Modules/Templates/Load'. The template selector pops
+	up and lets you choose the template name, mode and file. Note that the
+	template mode is not saved in the .fm file, so you may load a template
+	with a different mode than when it was saved. You may also re-load
+	a template with a different mode.
+	
+	Note that the `File/Save Prefs' command records the templates that
+	you have saved or loaded, so you don't have to load them again when
+	you restart XFaceMaker. Loaded templates are also recorded in project
+	files.
+	
+Creating a Template Instance
+	To create an instance of a template:
+	
+	- select the `Templates' button in the Toolkit menu,
+	
+	- click on the icon of the template you want to instanciate,
+	
+	- place the object as usual in your interface; if you do not
+	specify a size for the instance using the rubber-band, the
+	instance takes the size of the model object of the template.
+	
+	The instance looks like a copy of the template model. When you
+	select the instance to edit its resources, you will see in the
+	resource list that attributes inherited from the template are
+	marked with the `template' icon or the [T] letter (if the
+	template was in default mode), or are listed as restricted
+	resources (if the template was in override mode).
+	
+	You can modify the resources inherited by the instance of
+	a default mode template. In that case, the resource becomes
+	marked as `set' (letter [S]). If you modify the resource again
+	and enter the original template value, the resource state goes
+	back to `template'.
+	
+	In the textual resource editor (i.e. the text field displayed
+	by the `Edit' button of the resource window), inherited resources
+	are marked with a `*' (default) or `**' (override) prefix.
+	
+	Note: When you load an interface containing instances of a
+	template that is not already loaded, the template is
+	automatically loaded by XFaceMaker.
+	
+Applying and Un-Applying Templates
+	A template can be applied to an existing object. You can apply
+	templates in three ways:
+	
+	1. Call one of the commands `Edit/Apply Template/...'.
+	These commands pop up a prompt box where you must choose the name
+	of the template you want to apply. Choose a template and click
+	`OK'. The template will be applied, depending on the command used:
+	
+	- to the selected object (`To Selected Object' command),
+	
+	- to the selected object and all its sub-widgets (`To Whole Subtree'
+	command),
+	
+	- to the selected object and all its sub-widgets which are of
+	the same class as the template model (`To Widgets Of Same Class'
+	command).
+	
+	2. Select `Templates' in the Toolkit menu and click the right mouse
+	button on icon of the template you want to apply. A menu appears, with
+	the same commands as in the main menu. Here, you do not need to enter
+	the template name.
+	
+	3. Edit the `Templates' text field in the resource window. You can
+	add one or several templates separated by commas. Then click on the
+	Rebuild button.
+	
+	When applying a template, the resources and other attributes of the
+	template are applied to
+	the object, and the object is rebuilt. Applying a single template
+	to an object of the same class as the template model is equivalent
+	to creating an instance of the template as explained before.
+	
+	The Apply commands, though, make it possible to do more than a simple
+	instanciation:
+	
+	- You can apply several templates to the same object (this is known
+	in object-oriented languages as multiple inheritance). In that case,
+	if several templates define the same attributes with different values,
+	the last template applied takes precedence. The list of templates of
+	an object are displayed in the `Templates' text field in the resource
+	window.
+	
+	- You can un-apply templates using the `Un-apply' menus. When you
+	un-apply a template, the attributes inherited from the template
+	(and that have not been modified in the instance) are removed.
+	
+Inherited Attributes
+	An instance of a template inherits the following attributes from
+	its template:
+	
+	- all the resources set in the template model, except the x, y
+	resources if the model had the `autopos' flag set, and except
+	the width, height resources if the model had the `autosize' flag
+	set (see also `Composite Templates);
+	
+	- all the active values of the template model;
+	
+	- the create callback of the template model;
+	
+	- the `popup' and `gadget' flags and, for sub-templates, the
+	`mapped', `autosize' and `autopos' flags (see also `Composite
+	Templates).
+	
+	The template flag values (popup, etc.) always override the flags of
+	the instance (event of the template is in default mode): they
+	cannot be modified, and are not restored if the template is
+	un-applied.
+	
+Editing a Template
+	A template can be edited even after it is instancianted. To
+	edit a template, call the command `Modules/Templates/Edit',
+	which will prompt you for a template name. The template model
+	is loaded and displayed in a toplevel shell of its own. If
+	the template is already in edition, XFaceMaker displays a
+	warning box.
+	
+	Once you are done editing the template, you must select the
+	toplevel widget of the model and call the command
+	`Modules/Templates/Save'. The template will be re-defined with
+	the modified model object. If instances of the template exist
+	in the interface you are editing, they will be rebuilt to
+	take the new definition into account.
+	
+Composite Templates
+	Template models can be composite objects with sub-objects. When
+	you instanciate a composite template, the children of the model
+	object are created automatically as children of the instance. These
+	automatic children are marked with the `**' prefix in the Widget
+	Tree or the Widget List.
+	
+	You cannot destroy a child inherited from a template. More exactly,
+	you can destroy it but it will be re-created automatically the
+	next time you rebuild the template instance.
+	
+	When a composite template is created, XFaceMaker creates automatically
+	a template for all of its sub-widgets. Every child created automatically
+	in the instance is an instance of the corresponding sub-template.
+	
+	For children of composite templates, the `mapped', `autopos' and
+	`autosize' flags are copied from the template model (whereas they
+	are not copied for the toplevel template).
+	
+Nested Templates
+	Templates can nest: you can create an instance of template T1, edit
+	it, then save it as template T2. This can be repeated at any depth.
+	XFaceMaker checks that you do not create an infinite loop of
+	templates (i.e. T1 is an instance of T2 ... which is an instance of
+	T1).
+	
+	When a nested template is instanciated, the `deepest' templates are
+	applied first.

@@ -1,0 +1,149 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    createproc {
+        function None picture_error(Widget w){\
+printf ("Widget '%s' got data not matching XmNpicture\n", XtName(w));\
+};\
+\
+function None validate_data(Widget w, XmDataFieldCallbackStruct call ){
+	printf ("Widget '%s' got data %s\n", XtName(w),call->text);\
+}
+    }
+    resources {
+        x = 452
+        y = 73
+        width = 294
+        height = 301
+        allowShellResize = true
+    }
+    children {
+        widget XmPanedWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 294
+                height = 301
+            }
+            children {
+                widget XmColumn {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 288
+                        height = 249
+                    }
+                    children {
+                        widget XmTextField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 10
+                                width = 138
+                                height = 31
+                            }
+                        } name
+                        widget XmTextField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 43
+                                width = 198
+                                height = 31
+                            }
+                        } address1
+                        widget XmTextField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 76
+                                width = 198
+                                height = 31
+                            }
+                        } address2
+                        widget XmTextField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 109
+                                width = 138
+                                height = 31
+                            }
+                        } city
+                        widget XmDataField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 142
+                                width = 138
+                                height = 31
+                                pictureErrorCallback = picture_error(self);
+                                validateCallback = XmDataFieldCallbackStruct cbs=@;\
+validate_data(self,cbs);
+                            }
+                        } state
+                        widget XmDataField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 175
+                                width = 138
+                                height = 31
+                                pictureErrorCallback = picture_error(self);
+                                validateCallback = XmDataFieldCallbackStruct cbs=@;\
+validate_data(self,cbs);
+                            }
+                        } zip
+                        widget XmDataField {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 80
+                                y = 208
+                                width = 138
+                                height = 31
+                                entryLabelType = pixmap
+                                entryLabelPixmap = phone.bm
+                                validateCallback = XmDataFieldCallbackStruct cbs=@;\
+validate_data(self,cbs);
+                                pictureErrorCallback = picture_error(self);
+                            }
+                        } phone
+                    }
+                } column
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 260
+                        width = 288
+                        height = 38
+                        activateCallback = exit(0);
+                    }
+                } quit
+            }
+        } pane
+    }
+} applicationShell0

@@ -1,0 +1,420 @@
+widget ApplicationShell {
+    flag {
+    }
+    resources {
+        x = 861
+        y = 667
+        width = 354
+        height = 179
+    }
+    children {
+        widget XmMainWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 354
+                height = 179
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    createproc {
+                        /* DO NOT EDIT THIS LINE */ self:menuHelpWidget = self.help;
+
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 354
+                        height = 34
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = New
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = N
+                                    }
+                                } new
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Open...
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = O
+                                    }
+                                } open
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Save
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = S
+                                    }
+                                } save
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Save As...
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = A
+                                    }
+                                } saveAs
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Print
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = P
+                                    }
+                                } print
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        separatorType = shadow_etched_in
+                                    }
+                                } line
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Exit
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = x
+                                    }
+                                } exit
+                            }
+                        } filePulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = File
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = F
+                                subMenuId = parent.filePulldown
+                            }
+                        } file
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Undo
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        accelerator = Ctrl<KeyPress>BackSpace
+                                        acceleratorText = Ctrl+Backspace
+                                        mnemonic = U
+                                    }
+                                } undo
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        separatorType = shadow_etched_in
+                                    }
+                                } sep1
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Cut
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        accelerator = Ctrl<KeyPress>BackSpace
+                                        acceleratorText = Ctrl+Backspace
+                                        mnemonic = t
+                                    }
+                                } cut
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Cut
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        accelerator = Shift<KeyPress>BackSpace
+                                        acceleratorText = Shift+BackSpace
+                                        mnemonic = t
+                                    }
+                                } cut_2
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Paste
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        accelerator = Shift<KeyPress>Insert
+                                        acceleratorText = Shift+Insert
+                                        mnemonic = P
+                                    }
+                                } paste
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        separatorType = shadow_etched_in
+                                    }
+                                } sep2
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Clear
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = e
+                                    }
+                                } clear
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Delete
+                                        fontList = *adobe-helvetica-bold-r-*-12-*
+                                        mnemonic = D
+                                    }
+                                } delete
+                            }
+                        } editPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Edit
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = E
+                                subMenuId = parent.editPulldown
+                            }
+                        } edit
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                        } viewPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = View
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = V
+                                subMenuId = parent.viewPulldown
+                            }
+                        } view
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                        } optionsPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Options
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = O
+                                subMenuId = parent.optionsPulldown
+                            }
+                        } options
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = On Context
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = C
+                                    }
+                                } onContext
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = On Window
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = W
+                                    }
+                                } onWindow
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = On Keys
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = K
+                                    }
+                                } onKeys
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Index
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = I
+                                    }
+                                } index
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = On Help
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = H
+                                    }
+                                } onHelp
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = Tutorial
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = T
+                                    }
+                                } tutorial
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        labelString = On Version
+                                        fontList = *adobe-helvetica-bold-r-*-14-*
+                                        mnemonic = V
+                                    }
+                                } onVersion
+                            }
+                        } helpPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                labelString = Help
+                                fontList = *adobe-helvetica-bold-r-*-14-*
+                                mnemonic = H
+                                subMenuId = parent.helpPulldown
+                            }
+                        } help
+                    }
+                } menuBar0
+            }
+        } xmMainWindow0
+    }
+} applicationShell0

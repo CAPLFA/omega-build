@@ -1,0 +1,1021 @@
+widget SessionShell {
+    flag {
+        mapped
+    }
+    createproc {
+        Widget tree_init = self.xmPanedWindow0.xmPanedWindow1.tree_widget;\
+\
+self*HNSpaceScale:value = tree_init:horizontalNodeSpace;\
+self*VNSpaceScale:value = tree_init:verticalNodeSpace;\
+self*VDeltaScale:value = tree_init:verticalDelta;\
+self*HDeltaScale:value = tree_init:horizontalDelta;\
+\
+if(tree_init:compressStyle == XmTreeCompressNone)\
+self*compressStyleOM:menuHistory = self*none;\
+elsef if(tree_init:compressStyle == XmTreeCompressLeaves)\
+self*compressStyleOM:menuHistory = self*leaves;\
+else\
+self*compressStyleOM:menuHistory = self*all;\
+\
+if(tree_init:connectStyle == XmTreeDirect)\
+self*connectStyleOM:menuHistory = self*direct;\
+else\
+self*connectStyleOM:menuHistory = self*ladder;\
+\
+if(tree_init:orientation == XmHORIZONTAL)\
+self*orientationOM:menuHistory = self*horizontal;\
+else\
+self*orientationOM:menuHistory = self*vertical;
+    }
+    resources {
+        x = 8
+        y = 151
+        width = 1203
+        height = 597
+        title = Tree Demo
+        allowShellResize = true
+    }
+    children {
+        widget XmPanedWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 1203
+                height = 597
+            }
+            children {
+                widget XmPanedWindow {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 3
+                        width = 1197
+                        height = 554
+                        orientation = horizontal
+                    }
+                    children {
+                        widget XmFrame {
+                            flag {
+                                mapped
+                            }
+                            resources {
+                                x = 3
+                                y = 3
+                                width = 587
+                                height = 548
+                            }
+                            children {
+                                widget XmPanedWindow {
+                                    flag {
+                                        mapped
+                                    }
+                                    resources {
+                                        x = 2
+                                        y = 2
+                                        width = 583
+                                        height = 544
+                                    }
+                                    children {
+                                        widget XmForm {
+                                            flag {
+                                                mapped
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 3
+                                                width = 577
+                                                height = 449
+                                                allowResize = true
+                                                skipAdjust = true
+                                            }
+                                            children {
+                                                widget XmColumn {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 0
+                                                        width = 230
+                                                        height = 129
+                                                    }
+                                                    children {
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_pulldown
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                width = 48
+                                                                height = 46
+                                                            }
+                                                            children {
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 2
+                                                                        width = 44
+                                                                        height = 21
+                                                                        activateCallback = change_connect_style();
+                                                                    }
+                                                                } ladder
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 23
+                                                                        width = 44
+                                                                        height = 21
+                                                                        activateCallback = change_connect_style();
+                                                                    }
+                                                                } direct
+                                                            }
+                                                        } connectStylePM
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_option
+                                                            }
+                                                            resources {
+                                                                x = 110
+                                                                y = 10
+                                                                width = 86
+                                                                height = 35
+                                                                subMenuId = parent.connectStylePM
+                                                                entryLabelString = Connect Style:
+                                                            }
+                                                        } connectStyleOM
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_pulldown
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                width = 48
+                                                                height = 67
+                                                            }
+                                                            children {
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 2
+                                                                        width = 44
+                                                                        height = 21
+                                                                        activateCallback = change_compress_style();
+                                                                    }
+                                                                } leaves
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 23
+                                                                        width = 44
+                                                                        height = 21
+                                                                        activateCallback = change_compress_style();
+                                                                    }
+                                                                } all
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 44
+                                                                        width = 44
+                                                                        height = 21
+                                                                        activateCallback = change_compress_style();
+                                                                    }
+                                                                } none
+                                                            }
+                                                        } compressstylePM
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_option
+                                                            }
+                                                            resources {
+                                                                x = 110
+                                                                y = 47
+                                                                width = 86
+                                                                height = 35
+                                                                subMenuId = parent.compressstylePM
+                                                                entryLabelString = Compress Style:
+                                                            }
+                                                        } compressstyleOM
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_pulldown
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                width = 72
+                                                                height = 46
+                                                            }
+                                                            children {
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 2
+                                                                        width = 68
+                                                                        height = 21
+                                                                        activateCallback = change_orientation();
+                                                                    }
+                                                                } horizontal
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 23
+                                                                        width = 68
+                                                                        height = 21
+                                                                        activateCallback = change_orientation();
+                                                                    }
+                                                                } vertical
+                                                            }
+                                                        } OrientationPM
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_option
+                                                            }
+                                                            resources {
+                                                                x = 110
+                                                                y = 84
+                                                                width = 110
+                                                                height = 35
+                                                                subMenuId = parent.OrientationPM
+                                                                entryLabelString = Orientation:
+                                                            }
+                                                        } orientationOM
+                                                    }
+                                                } xmColumn0
+                                                widget XmFrame {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 129
+                                                        width = 577
+                                                        height = 113
+                                                        topAttachment = attach_widget
+                                                        topWidget = parent.xmColumn0
+                                                        shadowType = shadow_etched_out
+                                                        rightAttachment = attach_widget
+                                                        leftAttachment = attach_form
+                                                    }
+                                                    children {
+                                                        widget XmForm {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 2
+                                                                width = 573
+                                                                height = 109
+                                                            }
+                                                            children {
+                                                                widget XmLabel {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 0
+                                                                        y = 0
+                                                                        width = 65
+                                                                        height = 17
+                                                                        topAttachment = attach_form
+                                                                        leftAttachment = attach_form
+                                                                        labelString = \ Node Space:
+                                                                    }
+                                                                } NodeSpaceLabel
+                                                                widget XmColumn {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 0
+                                                                        y = 17
+                                                                        bottomAttachment = attach_form
+                                                                        leftAttachment = attach_form
+                                                                        rightAttachment = attach_form
+                                                                        topAttachment = attach_widget
+                                                                        topWidget = NodeSpaceLabel
+                                                                    }
+                                                                    children {
+                                                                        widget XmScale {
+                                                                            flag {
+                                                                                mapped
+                                                                            }
+                                                                            resources {
+                                                                                x = 86
+                                                                                y = 10
+                                                                                width = 477
+                                                                                height = 37
+                                                                                orientation = horizontal
+                                                                                entryLabelString = Horizontal:
+                                                                                showValue = near_slider
+                                                                                valueChangedCallback = parent.parent.parent.parent.parent.parent.parent.tree_widget:horizontalNodeSpace=self:value;
+                                                                                fillStyle = fill_flush
+                                                                            }
+                                                                        } HNSpaceScale
+                                                                        widget XmScale {
+                                                                            flag {
+                                                                                mapped
+                                                                            }
+                                                                            resources {
+                                                                                x = 86
+                                                                                y = 48
+                                                                                width = 477
+                                                                                height = 35
+                                                                                orientation = horizontal
+                                                                                entryLabelString = Vertical:
+                                                                                showValue = near_slider
+                                                                                valueChangedCallback = parent.parent.parent.parent.parent.parent.parent.tree_widget:verticalNodeSpace=self:value;
+                                                                                fillStyle = fill_flush
+                                                                            }
+                                                                        } VNSpaceScale
+                                                                    }
+                                                                } xmColumn0
+                                                            }
+                                                        } xmForm0
+                                                    }
+                                                } nodeSpaceframe
+                                                widget XmFrame {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 242
+                                                        width = 577
+                                                        height = 113
+                                                        shadowType = shadow_etched_out
+                                                        topAttachment = attach_widget
+                                                        topWidget = parent.nodeSpaceframe
+                                                        leftAttachment = attach_opposite_widget
+                                                        leftWidget = parent.nodeSpaceframe
+                                                        rightAttachment = attach_opposite_widget
+                                                        rightWidget = parent.nodeSpaceframe
+                                                    }
+                                                    children {
+                                                        widget XmForm {
+                                                            flag {
+                                                                mapped
+                                                            }
+                                                            resources {
+                                                                x = 2
+                                                                y = 2
+                                                                width = 573
+                                                                height = 109
+                                                            }
+                                                            children {
+                                                                widget XmLabel {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 0
+                                                                        y = 0
+                                                                        width = 52
+                                                                        height = 17
+                                                                        topAttachment = attach_form
+                                                                        leftAttachment = attach_form
+                                                                        labelString = Delta:
+                                                                    }
+                                                                } Delta
+                                                                widget XmColumn {
+                                                                    flag {
+                                                                        mapped
+                                                                        autosize
+                                                                    }
+                                                                    resources {
+                                                                        x = 0
+                                                                        y = 17
+                                                                        leftAttachment = attach_form
+                                                                        topAttachment = attach_widget
+                                                                        topWidget = Delta
+                                                                        rightAttachment = attach_form
+                                                                        bottomAttachment = attach_form
+                                                                    }
+                                                                    children {
+                                                                        widget XmScale {
+                                                                            flag {
+                                                                                mapped
+                                                                                autosize
+                                                                            }
+                                                                            resources {
+                                                                                x = 86
+                                                                                y = 10
+                                                                                orientation = horizontal
+                                                                                entryLabelString = Horizontal:
+                                                                                showValue = near_slider
+                                                                                valueChangedCallback = parent.parent.parent.parent.parent.parent.parent.tree_widget:horizontalDelta=self:value;
+                                                                                fillStyle = fill_flush
+                                                                            }
+                                                                        } HDeltaScale
+                                                                        widget XmScale {
+                                                                            flag {
+                                                                                mapped
+                                                                            }
+                                                                            resources {
+                                                                                x = 86
+                                                                                y = 47
+                                                                                width = 477
+                                                                                height = 35
+                                                                                orientation = horizontal
+                                                                                entryLabelString = Vertical:
+                                                                                showValue = near_slider
+                                                                                valueChangedCallback = parent.parent.parent.parent.parent.parent.parent.tree_widget:verticalDelta=self:value;
+                                                                                fillStyle = fill_flush
+                                                                            }
+                                                                        } VDeltaScale
+                                                                    }
+                                                                } xmColumn1
+                                                            }
+                                                        } xmForm1
+                                                    }
+                                                } deltaframe
+                                                widget XmColumn {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 355
+                                                        width = 577
+                                                        height = 47
+                                                        leftAttachment = attach_form
+                                                        rightAttachment = attach_form
+                                                        topAttachment = attach_widget
+                                                        topWidget = deltaframe
+                                                    }
+                                                    children {
+                                                        widget XmToggleButton {
+                                                            flag {
+                                                                mapped
+                                                                autosize
+                                                            }
+                                                            resources {
+                                                                x = 80
+                                                                y = 10
+                                                                entryLabelString = Node State
+                                                                valueChangedCallback = if(self:set == XmSET){\
+self:labelString = Show;\
+} else {\
+self:labelString = Hide;\
+}
+                                                                labelString = Hide
+                                                            }
+                                                        } NodeStateToggle
+                                                    }
+                                                } xmColumn2
+                                                widget XmToggleButton {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 402
+                                                        labelString = Auto Close
+                                                        valueChangedCallback = if(self:set == XmSET){\
+parent.parent.parent.parent.tree_widget:autoClose=true;\
+} \
+else {\
+parent.parent.parent.parent.tree_widget:autoClose=false;\
+}
+                                                        leftAttachment = attach_form
+                                                        topAttachment = attach_widget
+                                                        topWidget = xmColumn2
+                                                        rightAttachment = attach_none
+                                                    }
+                                                } autoclose
+                                            }
+                                        } xmForm0
+                                        widget XmForm {
+                                            flag {
+                                                mapped
+                                            }
+                                            createproc {
+                                                global Widget widget_current;\
+global Widget widget_label;\
+global Widget group;\
+group = self;\
+widget_label = self.Node_Widget;\
+\
+function None get_widget_current(){\
+widget_current = self;\
+widget_label:labelString = Name(self);\
+if(self:parentNode){\
+show(group.xmColumn4);\
+}else{\
+hide(group.xmColumn4);\
+}\
+\
+if(widget_current:lineStyle == LineSolid)\
+group.xmColumn4.linestyleOM:menuHistory=group.xmColumn4.popup_linestylePM.linestylePM.solid;\
+else if(widget_current:lineStyle == LineOnOffDash)\
+group.xmColumn4.linestyleOM:menuHistory=group.xmColumn4.popup_linestylePM.linestylePM.onoffdash;\
+else\
+group.xmColumn4.linestyleOM:menuHistory=group.xmColumn4.popup_linestylePM.linestylePM.doubledash;\
+\
+};\
+\
+function None change_line_style(){\
+widget_current:lineStyle = Name(self);\
+};
+                                            }
+                                            resources {
+                                                x = 3
+                                                y = 460
+                                                width = 577
+                                                height = 81
+                                                skipAdjust = true
+                                                allowResize = true
+                                            }
+                                            children {
+                                                widget XmLabel {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 0
+                                                        leftAttachment = attach_form
+                                                        rightAttachment = attach_form
+                                                        topAttachment = attach_form
+                                                        labelString = Composant
+                                                    }
+                                                } Node_Widget
+                                                widget XmColumn {
+                                                    flag {
+                                                        mapped
+                                                    }
+                                                    resources {
+                                                        x = 0
+                                                        y = 17
+                                                        width = 577
+                                                        height = 57
+                                                        leftAttachment = attach_form
+                                                        rightAttachment = attach_form
+                                                        topAttachment = attach_widget
+                                                        topWidget = Node_Widget
+                                                    }
+                                                    children {
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_pulldown
+                                                            }
+                                                            resources {
+                                                                x = 0
+                                                                y = 0
+                                                                width = 72
+                                                                height = 67
+                                                            }
+                                                            children {
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 2
+                                                                        width = 68
+                                                                        height = 21
+                                                                        activateCallback = change_line_style();
+                                                                    }
+                                                                } solid
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 23
+                                                                        width = 68
+                                                                        height = 21
+                                                                        activateCallback = change_line_style();
+                                                                    }
+                                                                } onoffdash
+                                                                widget XmPushButton {
+                                                                    flag {
+                                                                        mapped
+                                                                    }
+                                                                    resources {
+                                                                        x = 2
+                                                                        y = 44
+                                                                        width = 68
+                                                                        height = 21
+                                                                        activateCallback = change_line_style();
+                                                                    }
+                                                                } doubledash
+                                                            }
+                                                        } linestylePM
+                                                        widget XmRowColumn {
+                                                            flag {
+                                                                mapped
+                                                                menu_option
+                                                            }
+                                                            resources {
+                                                                x = 86
+                                                                y = 10
+                                                                width = 110
+                                                                height = 35
+                                                                subMenuId = parent.linestylePM
+                                                                entryLabelString = Line Style:
+                                                            }
+                                                        } linestyleOM
+                                                    }
+                                                } xmColumn4
+                                            }
+                                        } xmForm3
+                                    }
+                                } xmPanedWindow0
+                            }
+                        } xmFrame0
+                        widget XmTree {
+                            flag {
+                                mapped
+                            }
+                            createproc {
+                                global Widget xmtree;\
+xmtree = self;\
+\
+function None change_connect_style(){\
+xmtree:connectStyle = Name(self);\
+};\
+\
+function None change_compress_style(){\
+xmtree:compressStyle = Name(self);\
+};\
+\
+function None change_orientation(){\
+xmtree:orientation = Name(self);\
+};
+                            }
+                            resources {
+                                x = 598
+                                y = 3
+                                width = 596
+                                height = 548
+                                background = floralwhite
+                                nodeStateCallback = if(parent.xmFrame0.xmPanedWindow0.xmForm0.xmColumn2.NodeStateToggle:set==XmSET){\
+XmHierarchyNodeStateData data= $;\
+String str;\
+String buf;\
+buf = XtMalloc(100);\
+Widget w;\
+w = data->widget;\
+str = GetString(w:labelString);\
+\
+if(data->state == XmOpen)\
+        sprintf(buf, "%s has switched to the XmOpen state.", str);\
+else if (data->state == XmClosed)\
+        sprintf(buf, "%s has switched to the XmClosed state.", str);\
+else if (data->state == XmAlwaysOpen)\
+        sprintf(buf, "%s has switched to the XmAlwaysOpen state.", str);\
+else if (data->state == XmHidden)\
+        sprintf(buf, "%s has switched to the XmHidden state.", str);\
+else\
+        sprintf(buf, "%s has switched node state.", str);\
+\
+self.xmDialogShell0.nodechange:messageString = buf;\
+show(self.xmDialogShell0.nodechange);\
+}
+                                allowResize = true
+                                skipAdjust = true
+                            }
+                            children {
+                                widget XmDialogShell {
+                                    flag {
+                                        popup
+                                    }
+                                    resources {
+                                        x = 357
+                                        y = 331
+                                        width = 388
+                                        height = 190
+                                    }
+                                    children {
+                                        widget XmMessageBox {
+                                            flag {
+                                            }
+                                            createproc {
+                                                temp = XmMessageBoxGetChild(self, XmDIALOG_CANCEL_BUTTON);\
+UnmanageChild(temp);\
+temp = XmMessageBoxGetChild(self, XmDIALOG_HELP_BUTTON);\
+UnmanageChild(temp);
+                                            }
+                                            resources {
+                                                x = 0
+                                                y = 0
+                                                width = 388
+                                                height = 190
+                                                dialogType = dialog_information
+                                            }
+                                        } nodechange
+                                    }
+                                } xmDialogShell0
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 26
+                                        y = 261
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Core
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 106
+                                        y = 99
+                                        parentNode = parent.Core
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Primitive
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 106
+                                        y = 288
+                                        parentNode = parent.Core
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Composite
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 192
+                                        y = 86
+                                        parentNode = parent.Primitive
+                                        labelString = Icon Button
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Icon_Button
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 192
+                                        y = 113
+                                        parentNode = parent.Primitive
+                                        labelString = Data Field
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Data_Field
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 216
+                                        y = 288
+                                        parentNode = parent.Composite
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Constraint
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 332
+                                        y = 288
+                                        parentNode = parent.Constraint
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Manager
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 140
+                                        parentNode = parent.Manager
+                                        labelString = Button Box
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Button_Box
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 167
+                                        parentNode = parent.Manager
+                                        labelString = Color Selector
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Color_Selector
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 194
+                                        parentNode = parent.Manager
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Column
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 221
+                                        parentNode = parent.Manager
+                                        labelString = Combinaition Box
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Combinaition_Box
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 248
+                                        parentNode = parent.Manager
+                                        labelString = Dialog Box
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Dialog_Box
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 430
+                                        y = 288
+                                        parentNode = parent.Manager
+                                        labelString = Font Selector
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Font_Selector
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 329
+                                        parentNode = parent.Manager
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Hierarchy
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 356
+                                        parentNode = parent.Manager
+                                        labelString = Icon Box
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Icon_Box
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 540
+                                        y = 275
+                                        parentNode = parent.Font_Selector
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Tree
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 540
+                                        y = 302
+                                        parentNode = parent.Font_Selector
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Outline
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 383
+                                        parentNode = parent.Manager
+                                        labelString = Extended List
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Extended_List
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 410
+                                        parentNode = parent.Manager
+                                        labelString = Pixmap Editor
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Pixmap_Editor
+                                widget PBnodeC {
+                                    flag {
+                                        mapped
+                                        autosize
+                                    }
+                                    resources {
+                                        x = 406
+                                        y = 437
+                                        parentNode = parent.Manager
+                                        labelString = Stretch Widget
+                                        nodeState = AlwaysOpen
+                                    }
+                                } Stretch_Widget
+                            }
+                        } tree_widget
+                    }
+                } xmPanedWindow1
+                widget XmPushButton {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 3
+                        y = 565
+                        width = 1197
+                        height = 29
+                        skipAdjust = true
+                        labelString = Quit
+                        activateCallback = exit(0);
+                    }
+                } quit
+            }
+        } xmPanedWindow0
+    }
+} Treedemo

@@ -1,0 +1,51 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    resources {
+        x = 322
+        y = 290
+        width = 357
+        height = 155
+    }
+    children {
+        widget XmBulletinBoard {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 357
+                height = 155
+            }
+            children {
+                widget XnslNumField {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 32
+                        y = 44
+                        valueChangedCallback = parent.scrollbar:value = self:value;
+                    }
+                } numfield
+                widget XmScrollBar {
+                    flag {
+                        mapped
+                        autosize
+                    }
+                    resources {
+                        x = 289
+                        y = 18
+                        valueChangedCallback = parent.numfield:value = self:value;
+                        dragCallback = parent.numfield:value = self:value;
+                        maximum = 110
+                        sliderSize = 10
+                    }
+                } scrollbar
+            }
+        } XmBulletinBoard0
+    }
+} ApplicationShell2

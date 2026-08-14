@@ -1,0 +1,115 @@
+#
+# 	XFaceMaker 5-3 Application Makefile.
+#
+
+#### 					begin pattern interface
+#### 						set global XTRA_DIRS =
+#### 						set global XTRA_LIBS = `'
+#### 						set global XTRA_E_LIBS = `'
+#### 						set global XTRA_INCPATH = `-I$(NSLHOME)/include '
+#### 						set global XTRA_LIBPATH = `-L$(NSLHOME)/lib '
+#### 					end pattern interface
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_DIR) == _XFM_EXT_BUILD_DIR ]
+#### 						begin if [ ! (VALUE { XTRA_DIRS) ]
+#### 							set global XTRA_DIRS = XTRA_DIRS`VALUE'
+#### 						end if
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_INCLUDE_PATH) == _XFM_EXT_BUILD_INCLUDE_PATH ]
+#### 						set global XTRA_INCPATH = XTRA_INCPATH` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_LIBRARY_PATH) == _XFM_EXT_BUILD_LIBRARY_PATH ]
+#### 						set global XTRA_LIBPATH = XTRA_LIBPATH` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_LIBRARIES) == _XFM_EXT_BUILD_LIBRARIES ]
+#### 						set global XTRA_LIBS = XTRA_LIBS` 'VALUE
+#### 					end pattern define
+
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_E_LIBRARIES) == _XFM_EXT_BUILD_E_LIBRARIES ]
+#### 						set global XTRA_E_LIBS = XTRA_E_LIBS` 'VALUE
+#### 					end pattern define
+      LIBTOOL = libtool
+      LIBTOOL_COMPILE = $(LIBTOOL) --mode=compile
+      LIBTOOL_LINK    = $(LIBTOOL) --mode=link
+      LIBTOOL_EXEC    = $(LIBTOOL) --mode=execute
+      LIBTOOL_CLEAN   = $(LIBTOOL) --mode=clean
+      LIBTOOL_INSTALL = $(LIBTOOL) --mode=install
+
+MOTIF_INCPATH = -I/usr/include
+MOTIF_LIBPATH = -L/usr/lib
+MOTIF_LIBNAME = -lXm
+
+   XT_INCPATH = 
+   XT_LIBPATH = 
+   XT_LIBNAME = -lXt  -lSM -lICE
+
+ XLIB_INCPATH = 
+ XLIB_LIBPATH = 
+ XLIB_LIBNAME = -lX11 
+
+ XEXT_INCPATH = 
+ XEXT_LIBPATH = 
+ XEXT_LIBNAME = -lXext
+
+XFM_E_LIBNAME = -lFm_e
+
+   XFM_E_LIBS = $(XFM_E_LIBNAME)
+
+#### 					begin pattern interface
+#### EXTRA_INCPATH = ##-I`XTRA_DIRS'# # $(LOC_INCPATH) XTRA_INCPATH 
+#### EXTRA_LIBPATH = ##-L`XTRA_DIRS'# # $(LOC_LIBPATH) XTRA_LIBPATH 
+####  EXTRA_E_LIBS = XTRA_E_LIBS XTRA_LIBS
+#### 					end pattern interface
+
+   XM_INCPATH = $(MRM_INCPATH) $(MOTIF_INCPATH) $(XT_INCPATH) $(XEXT_INCPATH) $(XLIB_INCPATH)
+
+      INCPATH = -I. $(EXTRA_INCPATH) $(XM_INCPATH) $(XFM_INCPATH)
+       X_LIBS =  $(XT_LIBPATH) $(XT_LIBNAME) $(XEXT_LIBPATH) $(XEXT_LIBNAME) $(XLIB_LIBPATH) $(XLIB_LIBNAME)
+   MOTIF_LIBS =  $(MRM_LIBPATH) $(MRM_LIBNAME) $(MOTIF_LIBPATH) $(MOTIF_LIBNAME) $(X_LIBS)
+
+     SYS_LIBS =
+
+   SYS_CFLAGS =  -DMOTIF_1_2 -DMOTIF_2_1 -DMOTIF_2_2 -D__GLIBC_2_3_2__ -DHAS_GLS -DINTERNATIONALIZATION
+  SYS_LDFLAGS =
+  CDEBUGFLAGS =
+
+     STD_LIBS = $(MOTIF_LIBS) -lm $(SYS_LIBS)
+
+      LIBPATH = -L. $(EXTRA_LIBPATH) $(XFM_LIBPATH)
+
+       CFLAGS = $(INCPATH) $(SYS_CFLAGS) $(CDEBUGFLAGS)
+
+      LDFLAGS = $(LIBPATH) $(SYS_LDFLAGS) $(CDEBUGFLAGS)
+
+           RM = rm -f
+           CP = cp
+           LN = ln -s
+
+#### begin pattern interface
+#### 	begin if [ "TARGETMACH" != "" && "TARGETMACHFILE" != "" ]
+#### 		set local MAKEINCLPATH = [ TARGETMACHFILE left (length TARGETMACHFILE - length TARGETMACH) ]
+#### XFM_TARGET_OS = `TARGETMACH'
+#### XFM_TARGET_MK = `MAKEINCLPATH'$(XFM_TARGET_OS)
+#### include $(XFM_TARGET_MK)
+#### 	end if
+#### 
+#### all: `LCNAME'
+#### 
+#### `NAME'XfmMain.lo: `NAME'XfmMain.c
+#### 	$(LIBTOOL_COMPILE) $(CC) $(CFLAGS) -c `NAME'XfmMain.c
+#### 
+#### `LCNAME': `NAME'XfmMain.lo
+#### 	$(LIBTOOL_LINK) $(CC) $(LDFLAGS) -o `LCNAME' `NAME'XfmMain.lo $(EXTRA_E_LIBS) $(XFM_E_LIBS) $(STD_LIBS)
+#### end pattern interface
+#### 					begin pattern define [ VARNAME left (length _XFM_EXT_BUILD_COMMAND) == _XFM_EXT_BUILD_COMMAND ]
+#### 	-VALUE
+#### 					end pattern define
+#### begin pattern interface
+#### 	
+#### clean:
+#### 	$(RM) core emergency.fm
+#### 	$(LIBTOOL) --mode=clean $(RM) *.lo `LCNAME' 
+#### end pattern interface

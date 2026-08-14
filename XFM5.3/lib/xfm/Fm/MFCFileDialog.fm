@@ -1,0 +1,88 @@
+widget XmFileSelectionBox {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = MFC_ON_OK
+        get = script get_MFCFileDialog_MFC_ON_OK:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "okCallback")){
+			@ = "#void ::OnFileDialogOK()#$XmFileSelectionBoxCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_OK); call_data = (XtPointer)&cbs;$okCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_ON_CANCEL
+        get = script get_MFCFileDialog_MFC_ON_CANCEL:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "cancelCallback")){
+			@ = "#void ::OnFileDialogCancel()#$XmFileSelectionBoxCallbackStruct cbs(%self, GetCurrentMessage(), XmCR_CANCEL); call_data = (XtPointer)&cbs;$cancelCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_okCallback
+        get = script get_MFCFileDialog_MFC_R_okCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "okCallback")){
+			@ = "okCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_cancelCallback
+        get = script get_MFCFileDialog_MFC_R_cancelCallback:
+		FacePragma("ignore");
+		if(_FmHasCallback(self, "cancelCallback")){
+			@ = "cancelCallback";
+		}
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    activevalue {
+        name = MFC_R_directory
+        get = script get_MFCFileDialog_MFC_R_directory:
+		FacePragma("ignore");
+		String dir_mask = _FmGetNonDefaultResourceValue(self, "dirMask");
+		if(dir_mask && strcmp(dir_mask, "") != 0){
+			XmString xmstr = self:directory;
+			String str = FmGetString(xmstr);
+			@ = _FmWinQuoteString(str);
+			XmStringFree(xmstr);
+			XtFree(str);
+		}else{
+			String directory = _FmGetNonDefaultResourceValue(self, "directory");
+			if(directory && strcmp(directory, "") != 0)
+				@ = _FmWinQuoteString(directory);
+			if (directory)
+				XtFree(directory);
+		}
+		if (dir_mask)
+			XtFree(dir_mask);
+        type = String
+        storage = object
+        automatic = true
+        autoget = true
+        genvalue = true
+    }
+    resources {
+    }
+    templates {
+        MFCCommon = Fm/MFCCommon.fm
+    }
+} filesel

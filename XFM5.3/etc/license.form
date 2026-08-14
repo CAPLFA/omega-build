@@ -1,0 +1,20 @@
+# NSL Licensing Information
+
+list	XFaceMaker,XFaceMaker/EL,XFaceMaker/IDT,XFaceMaker/Win
+list	Wx,XDrawMaker,XFaceMaker/WF
+list	XTree
+list	DrawLib
+list	VistaPoint
+
+alias	XFaceMaker	xfm3,wx2
+alias	XFaceMaker/EL	xfm3/el,wx2
+alias	XFaceMaker/IDT	xfm3/idt,wx2
+alias	Wx		wx2
+alias	XDrawMaker	xdm2,wx2
+alias	XFaceMaker/WF	xfm3,xdm2,wx2,draw2,xfm-draw2
+alias	XTree		tree,xfm-tree
+alias	XFaceMaker/Win	xfm3/win
+alias	DrawLib		draw2,xfm-draw2
+alias	VistaPoint	html,xfm-html
+
+

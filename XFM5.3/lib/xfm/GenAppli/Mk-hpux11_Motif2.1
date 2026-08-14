@@ -1,0 +1,11 @@
+# Platform-specific configuration file
+# included in XFaceMaker-generated Makefiles.
+#
+# -- HP-UX 11 configuration. Motif 2.1 32 bits
+#
+
+   XT_LIBNAME = -lXt -lSM -lICE
+
+     SYS_LIBS = -lPW
+   SYS_CFLAGS = +DAportable -Aa -D_HPUX_SOURCE -Dhpux
+  SYS_LDFLAGS = +DAportable -Wl,-a,shared_archive

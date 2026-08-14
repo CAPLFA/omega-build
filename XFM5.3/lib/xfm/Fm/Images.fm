@@ -1,0 +1,288 @@
+widget XmForm {
+    flag {
+        mapped
+        autosize
+        autopos
+    }
+    activevalue {
+        name = Image
+        set = w = self*sample;\
+if (strcmp ($,"") == 0)
+	pixmap = FmGetPixmap (self,"background");\
+else
+	pixmap = FmGetPixmap (self,$);\
+w:backgroundPixmap = XmBackgroundPixmap (pixmap);\
+w = self*FileSelection*Text;\
+w:editable = False;\
+w:value = $;\
+XmTextFieldSetInsertionPosition (w, XmTextFieldGetLastPosition (w));\
+w:userData = Pointer (0);\
+w:editable = True;\
+_FmSetImageSize (self,pixmap);
+    }
+    activevalue {
+        name = _FmImageWidth
+        set = s = itoa (@);\
+self*Width:value = s;\
+free (s);
+    }
+    activevalue {
+        name = _FmImageHeight
+        set = s = itoa (@);\
+self*Height:value = s;\
+free (s);
+    }
+    activevalue {
+        name = _FmResourceEditManage
+        set = XmProcessTraversal (self*FileSelection*Text, XmTRAVERSE_CURRENT);
+    }
+    activevalue {
+        name = _FmResourceReturnValue
+        get = s = self*FileSelection*Text:value;\
+strcpy ($,s);\
+free (s);
+    }
+    children {
+        widget XmFrame {
+            flag {
+                mapped
+                autosize
+                autopos
+            }
+            resources {
+                bottomAttachment = attach_form
+                leftAttachment = attach_form
+                rightAttachment = attach_form
+                topAttachment = attach_form
+            }
+            children {
+                widget XmPanedWindow {
+                    flag {
+                        mapped
+                        autosize
+                        autopos
+                    }
+                    resources {
+                        orientation = horizontal
+                        shadowThickness = 2
+                    }
+                    children {
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                paneMaximum = 200
+                                paneMinimum = 100
+                            }
+                            children {
+                                widget XmRowColumn {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        bottomAttachment = attach_form
+                                        leftAttachment = attach_form
+                                        rightAttachment = attach_form
+                                        topAttachment = attach_none
+                                        packing = pack_tight
+                                        marginHeight = 2
+                                    }
+                                    children {
+                                        widget XmLabel {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                labelString = %MSG%150%938 Size:
+                                                marginHeight = 0
+                                                marginWidth = 0
+                                            }
+                                        } SizeLabel
+                                        widget XmForm {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            createproc {
+                                                w = self.WidthLabel:width;\
+n = self.HeightLabel:width;\
+if (w < n)
+	w = n;\
+self.WidthLabel:width = w;\
+self.HeightLabel:width = w;
+                                            }
+                                            resources {
+                                                marginHeight = 3
+                                            }
+                                            children {
+                                                widget XmLabel {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        labelString = %MSG%150%939 width = 
+                                                        marginHeight = 0
+                                                        marginWidth = 0
+                                                        leftAttachment = attach_form
+                                                        topAttachment = attach_form
+                                                    }
+                                                } WidthLabel
+                                                widget XmTextField {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 1
+                                                        columns = 5
+                                                        editable = false
+                                                        leftAttachment = attach_widget
+                                                        leftWidget = WidthLabel
+                                                        topAttachment = attach_opposite_widget
+                                                        topWidget = WidthLabel
+                                                        topOffset = -3
+                                                    }
+                                                } Width
+                                                widget XmLabel {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        marginHeight = 0
+                                                        marginWidth = 0
+                                                        labelString = %MSG%150%940 height = 
+                                                        leftAttachment = attach_form
+                                                        topAttachment = attach_widget
+                                                        topWidget = Width
+                                                    }
+                                                } HeightLabel
+                                                widget XmTextField {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        marginHeight = 1
+                                                        marginWidth = 1
+                                                        columns = 5
+                                                        editable = false
+                                                        leftAttachment = attach_opposite_widget
+                                                        leftWidget = Width
+                                                        topAttachment = attach_opposite_widget
+                                                        topWidget = HeightLabel
+                                                        topOffset = -3
+                                                    }
+                                                } Height
+                                            }
+                                        } SizeForm
+                                    }
+                                } SizeRow
+                                widget XmForm {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    resources {
+                                        bottomAttachment = attach_widget
+                                        bottomWidget = SizeRow
+                                        topAttachment = attach_form
+                                    }
+                                    children {
+                                        widget XmScrolledWindow {
+                                            flag {
+                                                mapped
+                                                autosize
+                                                autopos
+                                            }
+                                            resources {
+                                                topAttachment = attach_form
+                                                leftAttachment = attach_form
+                                                rightAttachment = attach_form
+                                                bottomAttachment = attach_form
+                                                scrollingPolicy = automatic
+                                                shadowThickness = 0
+                                            }
+                                            children {
+                                                widget XmLabel {
+                                                    flag {
+                                                        mapped
+                                                        autosize
+                                                        autopos
+                                                    }
+                                                    resources {
+                                                        labelType = pixmap
+                                                        recomputeSize = false
+                                                    }
+                                                } sample
+                                            }
+                                        } samplescroller
+                                    }
+                                } SampleForm
+                            }
+                        } LeftForm
+                        widget XmForm {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                            }
+                            resources {
+                                paneMinimum = 150
+                            }
+                            children {
+                                widget XmFileSelectionBox {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                    }
+                                    createproc {
+                                        XtUnmanageChild(self*Help);\
+XtUnmanageChild(self*Cancel);\
+XtUnmanageChild(self*Separator);
+                                    }
+                                    resources {
+                                        okLabelString = View
+                                        bottomAttachment = attach_form
+                                        leftAttachment = attach_form
+                                        rightAttachment = attach_form
+                                        topAttachment = attach_form
+                                        marginHeight = 0
+                                        marginWidth = 0
+                                        okCallback = file = self*Text:value;\
+if (file) {
+	_file = XtNewString(file);\
+	_FmSelectImage(parent.parent.parent.parent,_file);\
+	XtFree(_file);\
+        width  =  parent.parent.parent.parent*Width:value;\
+        height =  parent.parent.parent.parent*Height:value;\
+        w = parent.parent.parent.parent*sample;\
+        w:width = width;\
+        w:height = height;\
+}
+                                    }
+                                } FileSelection
+                            }
+                        } SelForm
+                    }
+                } HorizPane
+            }
+        } MainFrame
+    }
+} Images

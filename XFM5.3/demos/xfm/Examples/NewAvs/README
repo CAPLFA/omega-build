@@ -1,0 +1,124 @@
+This XFaceMaker 3.0 example implements a very simple text editor.
+
+*** To load the interface in XFaceMaker, open Edit.fmp.
+
+The example shows how per-widget and per-call active values are
+used to define pseudo-resources and methods, and build easy-to-use
+interface modules.
+
+There is one main window containing a menu and a text widget.
+There are also three modules: a file selector module, an alert box
+module, and a help box module. This file explains how the file selector
+module is made. The other modules are similar.
+
+The  file selection module consists of a Motif file selection box to
+which active values have been added to make it very easy to use in
+an interface. It is contained in the file `FileSel.fm'.
+
+There a 3 active values defined: fsFile, fsFinished and GetFileName.
+
+*** You can examine the active values in XFaceMaker by selecting the
+    widget `fsbox' and opening the Active Values box.
+
+The `fsFile' active value is used to pass a default file name to the
+file selector, and to get back the file name selected by the user.
+It is defined as follows:
+
+*** Select the active value `fsFile', make the av box big enough to
+    see the scripts.
+
+The type of the active value is String.
+
+It is a `per-widget' active value because there may be more than one
+instance of the file selector module in the application, so every file
+selector must have its own storage for the file name.
+
+The `Allocate automatically' toggle is set: the storage for this active
+value will not be allocated by the application, but is provided by
+XFaceMaker. This means that the file selector is a completely
+independent and self-contained module which does not need anything from
+the application side and can be re-used as is in another interface.
+
+The `Immediate' toggle is not set: the active value will be accessed
+in FACE scripts using the @ keyword, which in this case will designate
+a String pointer allocated automatically by XFaceMaker.
+
+The `Get' script will be called when the active value is read. It
+will handle all the interactions needed to let the user choose a
+file name:
+	- manage the file selection box (if the file selector is inside
+	  a Motif DialogShell, this will also pop the dialog shell),
+	- wait until the user is done selecting a file name: the script
+	  enters a local event loop by repeatedly calling the Fm library
+	  function `FmDoEvent' (which dispatches one X event to the toolkit)
+	  until the auxiliary active value `fsFinished' is set, indicating
+	  that the user pressed the `OK' or `Cancel' button,
+	- store the selected file name (or 0 if the suer pressed `Cancel')
+	  in the active value's storage @.
+
+The `Set' script is used to initialize the default file name: it
+displays the file name by copying it to the Motif file selection boxe's
+`dirSpec' resource.
+
+The `fsFinished' active value is an auxiliary value used to record the
+state of the file selector during interaction. It is of type Int, it has
+also a `per-widget' storage, it is allocated automatically, and it defines
+no side-effects in its `Get' or `Set' scripts. It is set by the `okCallback'
+and `cancelCallback' of the Motif file selection box as follows:
+
+*** You can look at the callbacks in XFaceMaker by opening a Resource Window
+    (Windows/New Resource Window) and scrolling the resource list.
+
+With these two active values, the file selection module is ready to use.
+For example, one could use the following in a FACE script to pop the
+file selector and obtain the selected file name:
+
+	/---------------------------------------\
+	| root*fsbox:@fsFile = "unnamed";	|
+	| String filename = root*fsbox:@fsFile;	|
+	| if(filename)				|
+	|	LoadFile(filename);		|
+	|	...				|
+	\---------------------------------------/
+
+The `GetFileName' makes it even easier to use the file selector.
+It is a `per-call' active value, which means that it is called like a
+function. The difference between a per-call active value and a function
+is that an active value is associated to a widget, thus several per-call
+active values with the same name can be defined for different objects
+with different side-effects.
+
+The type of the active value is `GetFileNameArgs'. It is the name of a
+structure, defined in the `Set' script, which holds the arguments of the
+active value and its return value. Here, the return value `ret' (the
+name can be arbitrary, the return value is always the first field of
+the structure) is of type String, and the arguments are `current'
+(or type String) which will be the default file name and `pattern' (of
+type String) which will be the filtering pattern.
+
+When the active value is called, the arguments are stored in
+a temporary GetFileNameArgs structure, and the address of the structure
+is passed to the Set script as its @ argument. The Set script then fetches
+the arguments by initializing a variable of type GetFileNameArgs with the
+@ value (see NOTE below), and accessing the structure fields. Here, the `pattern'
+argument is copied into the Motif file selection boxe's `pattern' resource, and
+the `current' argument is copied into the `fsFile' active value. Finally,
+the `fsFile' is read to pop the file selector and get the selected file
+name, which is returned by storing it into the `ret' field of the
+structure.
+
+The `GetFileName' active value is called, for example, from the activateCallback
+of the `open' menu item:
+
+ /----------------------------------------------------------------------\
+ | String filename = root*fsbox:GetFileName(root:@CurrentFile, "*");	|
+ | ...									|
+ \----------------------------------------------------------------------/
+
+(The `CurrentFile' active value is a global active value. The expression
+root:@CurrentFile can be used also for global active values).
+
+NOTE: The argument structure is contained in @ if the `Immediate'
+toggle is not set. If the `Immediate' toggle is set, the argument structure
+is in $. There is no other difference between immediate and non-immediate
+per-call active values.

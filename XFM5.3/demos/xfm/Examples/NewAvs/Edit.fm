@@ -1,0 +1,270 @@
+widget ApplicationShell {
+    flag {
+        mapped
+    }
+    activevalue {
+        name = CurrentFile
+        get = if(!@ || equal(@, "")){
+	@ = "unnamed";\
+}
+        set = if(!@ || equal(@, "")){
+	self:title = "Edit: unnamed";
+	return();\
+}\
+String buf = XtMalloc(512);\
+sprintf(buf, "Edit: %s", @);\
+self:title = buf;
+        type = String
+        automatic = TRUE
+    }
+    resources {
+        x = 559
+        y = 79
+        width = 433
+        height = 292
+        title = Edit
+    }
+    children {
+        widget XmMainWindow {
+            flag {
+                mapped
+            }
+            resources {
+                x = 0
+                y = 0
+                width = 433
+                height = 292
+            }
+            children {
+                widget XmRowColumn {
+                    flag {
+                        mapped
+                        menu_bar
+                    }
+                    createproc {
+                        /* DO NOT EDIT THIS LINE */ self:menuHelpWidget = self.help;
+                    }
+                    resources {
+                        x = 0
+                        y = 0
+                        width = 433
+                        height = 31
+                    }
+                    children {
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = Open...
+                                        activateCallback = function String LoadFile(String filename);\
+\
+String filename = root*fsbox:GetFileName(root:@CurrentFile, "*");\
+if(!filename)
+	return();\
+String text = LoadFile(filename);\
+if(!text){
+	root*alert_box:Error("Cannot load file");
+	XtFree(text);\
+} else {
+	root*text:@text = text;
+	XtFree(text);
+	root:@CurrentFile = filename;\
+}
+                                    }
+                                } open
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = Save
+                                        activateCallback = function Int SaveFile(String filename, String text);\
+\
+String filename = root:@CurrentFile;\
+\
+if(!filename)
+	return();\
+\
+String text = root*text:@text;\
+Int status = SaveFile(filename, text);\
+XtFree(text);\
+if(status == 0){
+	root*alert_box:Error("Cannot save file");\
+}
+                                    }
+                                } save
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = Save As...
+                                        activateCallback = function Int SaveFile(String filename, String text);\
+\
+String filename = root*fsbox:GetFileName(root:@CurrentFile, "*");\
+if(!filename)
+	return();\
+\
+String text = root*text:@text;\
+Int status = SaveFile(filename, text);\
+XtFree(text);\
+if(status == 0){
+	root*alert_box:Error("Cannot save file");\
+} else {
+	root:@CurrentFile = filename;\
+}
+                                    }
+                                } saveas
+                                widget XmSeparator {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                    }
+                                } sep
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = Quit
+                                        activateCallback = if(root*text:@textModified){
+	sure = root*alert_box:Question("Text has been modified\
+Quit anyway ?");
+	if(!sure)
+		return();\
+}\
+Exit(0);
+                                    }
+                                } quit
+                            }
+                        } filePulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = File
+                                subMenuId = parent.filePulldown
+                            }
+                        } file
+                        widget XmRowColumn {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                menu_pulldown
+                            }
+                            resources {
+                            }
+                            children {
+                                widget XmPushButton {
+                                    flag {
+                                        mapped
+                                        autosize
+                                        autopos
+                                        gadget
+                                    }
+                                    resources {
+                                        labelString = On This Demo...
+                                        activateCallback = function String LoadFile(String);\
+String help_text = LoadFile("README");\
+if(!help_text){
+	root*alert_box:Error("Cannot load help file");
+	return();\
+}\
+root*help_box:Help("This Demo", help_text);\
+XtFree(help_text);
+                                    }
+                                } ondemo
+                            }
+                        } helpPulldown
+                        widget XmCascadeButton {
+                            flag {
+                                mapped
+                                autosize
+                                autopos
+                                gadget
+                            }
+                            resources {
+                                labelString = Help
+                                subMenuId = parent.helpPulldown
+                            }
+                        } help
+                    }
+                } menubar
+                widget XmScrolledWindow {
+                    flag {
+                        mapped
+                    }
+                    resources {
+                        x = 0
+                        y = 31
+                        width = 433
+                        height = 261
+                    }
+                    children {
+                        widget XmText {
+                            flag {
+                                mapped
+                            }
+                            activevalue {
+                                name = text
+                                get = @ = self:value;
+                                set = self:value = @;\
+self:@textModified = 0;
+                                type = String
+                                storage = object
+                                automatic = TRUE
+                            }
+                            activevalue {
+                                name = textModified
+                                type = Int
+                                storage = object
+                                automatic = TRUE
+                            }
+                            resources {
+                                x = 0
+                                y = 0
+                                width = 414
+                                height = 242
+                                scrollVertical = true
+                                editMode = multi_line_edit
+                                valueChangedCallback = self:@textModified = True;
+                            }
+                        } text
+                    }
+                } text_scroll
+            }
+        } mainwin
+    }
+} test

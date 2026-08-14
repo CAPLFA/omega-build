@@ -1,0 +1,15 @@
+widget XmDrawnButton {
+        flag {
+                mapped
+                autosize
+                autopos
+        }
+        resources {
+                activateCallback = NewGroupWidget('GroupName');
+                labelType = pixmap
+                labelPixmap = GroupIconFile
+                translations = #override\
+<Enter> : eval("parent.parent.parent.name:labelString = 'GroupName';")\
+<Leave>: eval("script leave_tk_icon: parent.parent.parent.name:labelString = ' ';")
+        }
+} GroupIcon
