@@ -1,0 +1,169 @@
+//*****************************************************************************
+/*!
+ * \file        EMstatut
+ * Application  EMMA
+ * \author      Erwan Demairy
+ *
+ * Déclare la structure EMstatus, qui définit les codes retournés
+ * par les fonctions d'EMMA. La déclaration s'effectue dans l'espace de nommage
+ * emma.
+ */
+/*****************************************************************************
+ *  3.3.0.0    14/06/2016  PFE   FFT 15/MIVS/0044-i3 : ajout du statut
+ *                               EMS_SERVICE_DEJA_DESACTIVE
+ *****************************************************************************/
+ 
+#ifndef __EMMA__EMSTATUT
+#define __EMMA__EMSTATUT
+
+namespace emma 
+{
+	// ------------------------------------------------------------------------
+	/*! \class   EMstatus
+	 *  \brief   Code retournés par les méthodes EMMA.
+	 *  \author  Erwan Demairy
+	 *  \date    9 août 2005
+	 */
+	enum EMstatut
+	{
+		//! L'opération s'est déroulée comme prévu.
+		EMS_OK,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_LMAP_REFUSED,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_LMAP_NOT_REGISTERED,
+
+		//! Le processus du service de nommage n'est pas joignable.
+		EMS_LMAP_ERROR,
+		EMS_ANNUAIRE_INACCESSIBLE = EMS_LMAP_ERROR,
+
+		//! Le nom de l'application existe déjà dans l'annuaire.
+		EMS_REGISTER_ERROR,
+		EMS_NOM_DEJA_DEFINI = EMS_REGISTER_ERROR,
+
+		//! Une application a demandé une activation, alors que la connexion
+		// est déjà activée. 
+		EMS_ALREADY_CONNECTED,
+		EMS_DEJA_CONNECTE = EMS_ALREADY_CONNECTED,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_CANT_CONNECT,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_CANT_DUPLEX,
+
+		//! Le client n'est pas connecté au serveur.
+		EMS_NOT_CONNECTED,
+		EMS_NON_CONNECTE = EMS_NOT_CONNECTED,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_CALL_ERROR,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_REPLY_ERROR,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_RPC_ERROR,
+
+		//! Le fichier de configuration indiqué par $EMMA_CONFIG n'existe pas.
+		EMS_ABSENCE_CONF,
+
+		/*! Le fichier de configuration indiqué par $EMMA_CONFIG ne suit pas
+		 * la grammaire.
+		 */
+		EMS_MAUVAISE_CONF,
+
+		//! A compléter.
+		EMS_CONNEXION_IMPOSSIBLE,
+
+		//! Les niveaux du service compris par le client et par le service sont
+		//! incompatibles.
+		EMS_PROTOCOL_NOMATCH,
+		EMS_PROTOCOLE_INCOMPATIBLE = EMS_PROTOCOL_NOMATCH,
+
+		//! Utilisation d'un id inexistant.
+		EMS_CLIENT_ID_INVALIDE,
+
+		//! Le serveur indiqué n'existe pas.
+		EMS_SERVEUR_INEXISTANT,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_SERVEUR_NOT_BOUND,
+
+		/*! Impossible de construire le tupe (pipe) assurant la communication
+		 *  entre EMMA et l'application.
+		 */
+		EMS_PIPE_IMPOSSIBLE,
+
+		//! Erreur ILOG Broker : code obsolète.
+		EMS_SERVEUR_NON_CREE,
+
+		//! Echec de EMxxCliItf::Active(), voir EMxxClient::apresConnexion()
+		EMS_ECHEC_PING,
+
+		//! Une exception CORBA a été levée par l'ORB.
+		EMS_PAS_ILBLMAP_SERVEUR,
+		EMS_ERREUR_CORBA = EMS_PAS_ILBLMAP_SERVEUR,
+
+		//! Le service n'est pas activé.
+		EMS_SERVICE_NON_ACTIVE,
+
+		/*! Librairie non initialisée : l'appel EMcommunItf::initialise() a
+		 *  échoué ou n'a jamais eu lieu.
+		 */
+		EMS_NOT_INITIALIZED,
+		EMS_NOYAU_NON_INITIALISE = EMS_NOT_INITIALIZED,
+
+		//! Tout autre échec n'apparaissant pas dans cette liste.
+		EMS_NOK,
+		
+		//! Tentative d'activation alors que le noyau est déjà actif.
+		EMS_NOYAU_DEJA_INITIALISE,
+		
+		//! Une allocation de mémoire a échouée. 
+		EMS_ALLOCATION_MEMOIRE_IMPOSSIBLE,
+
+		//! Demande de lecture d'un champ nom initialisé d'un objet métier.
+		EMS_CHAMP_NON_INITIALISE,
+
+		/*! Tentative d'accès à un champ disponible uniquement en version X, alors
+		 *  que l'objet est en version Y.
+		 */
+		EMS_CHAMP_ACCES_INVALIDE,
+	
+		//! Tentative d'accès à un index incorrect du tableau.
+		EMS_TABLEAU_INDEX_INVALIDE,
+
+		//! Ajout d'éléments au delà de la capacité du tableau.
+		EMS_TABLEAU_DEBORDEMENT,
+
+		//! Au moins un des paramètres passé à une méthode est invalide.
+		EMS_PARAMETRE_INVALIDE,
+
+		/*! Demande d'activation alors que le client est encore en attente
+		 *  de la réponse d'une activation précédente.
+		 */
+		 EMS_ACTIVATION_EN_COURS,
+		 
+		 //! Tentative d'activer un service qui l'est déjà.
+		 EMS_SERVICE_DEJA_ACTIVE,
+		
+       //! Tentative de désactiver un service qui l'est déjà.
+       EMS_SERVICE_DEJA_DESACTIVE,
+
+		/*! Ceci n'est pas un code d'erreur : cela permet de connaître le nombre
+		 *  de code de retour. 
+		 *  DOIT TOUJOURS ÊTRE LE DERNIER ELEMENT DE EMSTATUT.
+		 */
+		EMS_NB_ELEMENTS_STATUT
+		
+	};
+
+	//! Pour conserver la compatibilité avec EMMA 1.
+	typedef enum EMstatut EMstatus;
+	
+} // namespace emma
+
+#endif /* __EMMA__EMSTATUT */
