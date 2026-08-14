@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_PI_Server
+Description: TAO PI Server Library
+Requires: TAO_PortableServer, TAO_PI, TAO_CodecFactory, TAO_AnyTypeCode, TAO
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_PI_Server
+Cflags: -I${includedir}

@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_FT_ClientORB
+Description: TAO Fault Tolerant Client ORB Library
+Requires: TAO_FTORB_Utils, TAO_Messaging, TAO_PortableGroup
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_FT_ClientORB
+Cflags: -I${includedir}

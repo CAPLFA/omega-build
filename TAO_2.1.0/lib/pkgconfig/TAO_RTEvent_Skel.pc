@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_RTEvent_Skel
+Description: TAO RTEvent Skeleton Library
+Requires: TAO_RTEvent, TAO_PortableServer
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_RTEvent_Skel
+Cflags: -I${includedir}

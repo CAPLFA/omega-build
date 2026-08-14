@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_ETCL
+Description: TAO Extended Trading Constraint Language Library
+Requires: ACE_ETCL
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_ETCL
+Cflags: -I${includedir}

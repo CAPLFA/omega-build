@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_CosConcurrency_Serv
+Description: TAO CosConcurrency Service Library
+Requires: TAO_CosConcurrency_Skel
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_CosConcurrency_Serv
+Cflags: -I${includedir}

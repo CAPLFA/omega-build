@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_CosLoadBalancing
+Description: TAO CosLoadBalancing Library
+Requires: TAO_CosNaming, TAO_IORManip, TAO_PortableGroup, TAO
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_CosLoadBalancing
+Cflags: -I${includedir}

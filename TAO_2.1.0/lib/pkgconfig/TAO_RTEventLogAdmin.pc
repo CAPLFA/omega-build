@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_RTEventLogAdmin
+Description: TAO RTEvent Logging Service Stub Library
+Requires: TAO, TAO_DsLogAdmin, TAO_RTEvent
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_RTEventLogAdmin
+Cflags: -I${includedir}

@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_DsLogAdmin_Skel
+Description: TAO Basic Logging Service Skeleton Library
+Requires: TAO_DsLogAdmin, TAO_PortableServer
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_DsLogAdmin_Skel
+Cflags: -I${includedir}

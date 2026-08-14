@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_CosTrading_Serv
+Description: TAO CosTrading Service Library
+Requires: TAO_CosTrading_Skel, TAO_Svc_Utils, TAO_DynamicAny
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_CosTrading_Serv
+Cflags: -I${includedir}

@@ -1,0 +1,7 @@
+// -*- MPC -*-
+// $Id: rlecompressor.mpb 95551 2012-02-23 12:31:29Z johnnyw $
+
+project : ace_rlecompressionlib, taolib, compression {
+  after   += RLECompressor
+  libs    += TAO_RLECompressor
+}

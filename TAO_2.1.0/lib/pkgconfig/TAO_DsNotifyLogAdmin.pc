@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_DsNotifyLogAdmin
+Description: TAO Notify Logging Service Stub Library
+Requires: TAO_DsEventLogAdmin, TAO_DsLogAdmin, TAO_CosNotification, TAO_CosEvent, TAO
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_DsNotifyLogAdmin
+Cflags: -I${includedir}

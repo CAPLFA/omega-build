@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_DsEventLogAdmin_Skel
+Description: TAO Event Logging Service Skeleton Library
+Requires: TAO_DsEventLogAdmin, TAO_DsLogAdmin_Skel, TAO_CosEvent_Skel, TAO_PortableServer
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_DsEventLogAdmin_Skel
+Cflags: -I${includedir}

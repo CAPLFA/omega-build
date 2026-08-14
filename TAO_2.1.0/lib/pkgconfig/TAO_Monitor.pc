@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: TAO_Monitor
+Description: TAO Monitor Library
+Requires: TAO_PortableServer, TAO_ETCL_Parser, ACE_MonitorControl
+Version: 2.1.0
+Libs: -L${libdir} -lTAO_Monitor
+Cflags: -I${includedir}

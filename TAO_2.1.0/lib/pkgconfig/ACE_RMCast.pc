@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: ACE_RMCast
+Description: ACE Reliable Multicast Library
+Requires: ACE
+Version: 6.1.0
+Libs: -L${libdir} -lACE_RMCast
+Cflags: -I${includedir}

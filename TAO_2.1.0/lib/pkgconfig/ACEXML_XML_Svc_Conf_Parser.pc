@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: ACEXML_XML_Svc_Conf_Parser
+Description: ACE XML Service Configurator Parser
+Requires: ACEXML_Parser
+Version: 6.1.0
+Libs: -L${libdir} -lACEXML_XML_Svc_Conf_Parser
+Cflags: -I${includedir}

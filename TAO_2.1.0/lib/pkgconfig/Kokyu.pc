@@ -1,0 +1,11 @@
+prefix=/opt/TAO_2.1.0
+exec_prefix=/opt/TAO_2.1.0
+libdir=/opt/TAO_2.1.0/lib
+includedir=/opt/TAO_2.1.0/include
+
+Name: Kokyu
+Description: Kokyu Scheduling Framework
+Requires: ACE
+Version: 6.1.0
+Libs: -L${libdir} -lKokyu
+Cflags: -I${includedir}

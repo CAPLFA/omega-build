@@ -1,0 +1,5 @@
+// -*- MPC -*-
+// $Id: taoidldefaults.mpb 95441 2012-01-17 05:21:32Z jonesc $
+
+project: taobaseidldefaults, corba_e_compact, corba_e_micro, minimum_corba, optimize_collocated_invocations, ace_idl_dependencies {
+}
