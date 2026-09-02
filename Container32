@@ -1,7 +1,7 @@
 FROM almalinux:8.10
 
 # Définir les variables d'environnement
-ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/home/devuser/omega-build/scripts:/opt/NSL/XFM5.3/bin"
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/home/devuser/omega-build/script:/opt/NSL/XFM5.3/bin"
 
 ENV NSLHOME="/opt/NSL/XFM5.3"
 
@@ -51,6 +51,39 @@ RUN dnf -y update && \
       /tmp/imake-1.0.7-11.el8.x86_64.rpm && \
     rm -f /tmp/imake-1.0.7-11.el8.x86_64.rpm && \
     dnf clean all
+
+# GEDEON
+RUN mkdir -p /omega/prod/gedeon/5.2.0.1
+COPY gedeon/include /omega/prod/gedeon/5.2.0.1/include
+COPY gedeon/lib /omega/prod/gedeon/5.2.0.1/lib
+
+# EMMA
+RUN mkdir -p /omega/liv/linux/emma/emma_3_7_0_1
+COPY emma/inc /omega/liv/linux/emma/emma_3_7_0_1/inc
+COPY emma/lib /omega/liv/linux/emma/emma_3_7_0_1/lib
+
+# XFM
+RUN mkdir -p /opt/NSL
+COPY XFM5.3 /opt/NSL/XFM5.3
+
+# log4cpp
+COPY log4cpp32 /opt/log4cpp32
+
+# TAO
+COPY TAO_2.1.0 /opt/TAO_2.1.0
+
+
+COPY libfip /home/devuser/omega-build/libfip
+COPY liboutil /home/devuser/omega-build/liboutil
+COPY xsalgos /home/devuser/omega-build/xsalgos
+COPY strict /home/devuser/omega-build/strict
+COPY strap /home/devuser/omega-build/strap
+COPY olga /home/devuser/omega-build/olga
+COPY isa /home/devuser/omega-build/isa
+COPY discus /home/devuser/omega-build/discus
+COPY bureau /home/devuser/omega-build/bureau
+COPY script /home/devuser/omega-build/script
+
 
 WORKDIR /home/devuser/omega-build
 
